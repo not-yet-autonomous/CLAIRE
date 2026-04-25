@@ -1,0 +1,80 @@
+{
+  "_description": "CLAIRE pipeline configuration. Locked decisions from design phase. Change here propagates to all layers.",
+
+  "pipeline": {
+    "version": "0.1.0",
+    "run_schedule": "weekly",
+    "run_day": "sunday"
+  },
+
+  "ingestion": {
+    "subreddits_native": [
+      "ClaudeAI",
+      "Anthropic"
+    ],
+    "subreddits_comparative": [
+      "ChatGPT",
+      "Gemini",
+      "perplexity_ai",
+      "LocalLLaMA"
+    ],
+    "posts_per_subreddit_hot": 100,
+    "posts_per_subreddit_top_week": 50,
+    "comments_per_post": 10,
+    "keyword_searches": [
+      "Claude frustrating",
+      "Claude broken",
+      "Claude wish",
+      "Claude better",
+      "Claude refuses",
+      "Claude inconsistent",
+      "Claude formatting",
+      "Claude memory",
+      "Claude instructions"
+    ]
+  },
+
+  "triage": {
+    "model": "claude-haiku-4-5-20251001",
+    "batch_size": 20,
+    "noise_prefilter": {
+      "min_score": 5,
+      "min_comments": 2,
+      "logic": "AND"
+    }
+  },
+
+  "cross_reference_gate": {
+    "developer_persona_action": "filter_out",
+    "confidence_routing": {
+      "HIGH": "synthesis_queue",
+      "MEDIUM": "synthesis_queue",
+      "LOW": "archive",
+      "IGNORE": "discard"
+    },
+    "friction_log_path": "data/friction_log.txt"
+  },
+
+  "synthesis": {
+    "model": "claude-sonnet-4-6",
+    "evidence_threshold": 3,
+    "config_injection_depth": "partial",
+    "hypothesis_authorship": "human",
+    "locked_profile_sections": [
+      "core voice",
+      "humor",
+      "unhinged footnote",
+      "mode triggers",
+      "mode syntax"
+    ],
+    "profile_intent_summary_path": "prompts/profile_intent_summary.txt",
+    "memory_edit_list_path": "data/memory_edits_snapshot.txt"
+  },
+
+  "output": {
+    "digest_path": "output/",
+    "skill_drafts_path": "skill_drafts/",
+    "archive_path": "archive/",
+    "change_log_path": "data/change_log.json"
+  }
+}

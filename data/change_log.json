@@ -1,0 +1,21 @@
+{
+  "_schema_version": "1.0",
+  "_description": "CLAIRE change log. Every applied config change gets an entry. Human-maintained. Never auto-written by the pipeline.",
+  "_hypothesis_instructions": "Before applying any candidate: write one sentence. What behavior do you expect to change, in what context, observable how? If you cannot write this sentence, do not apply the change.",
+  "_eval_instructions": "Quarterly: feed this file to Claude with your session notes. Ask for eval report. Changes with consistent positive eval_notes stay. Neutral changes get reviewed. Changes with friction get reverted and source signal gets flagged low-quality.",
+  "_change_types": ["memory_edit", "skill_install", "profile_change", "technique_test"],
+  "_confidence_values": ["HIGH", "MEDIUM"],
+  "_eval_note_format": "DATE | SESSION_CONTEXT | DID_HYPOTHESIS_HOLD: yes/partial/no | NOTES",
+
+  "changes": [
+
+  ],
+
+  "reverted": [
+
+  ],
+
+  "quarterly_evals": [
+
+  ]
+}

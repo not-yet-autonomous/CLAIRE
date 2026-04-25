@@ -1,0 +1,28 @@
+# CLAIRE Friction Log
+# Updated: weekly, Sunday evening — 5 minutes max
+# Format: DATE | CONTEXT | WHAT HAPPENED
+# Purpose: Ground truth layer for cross-reference gate (Layer 3)
+#          A Reddit signal that matches a friction log entry scores HIGH
+#          A Reddit signal with no friction log data scores MEDIUM
+#          A Reddit signal that contradicts your experience scores LOW
+#
+# Keep entries specific. "Claude was weird" is useless.
+# "Claude reverted to bullet points mid-document after 3 pages" is signal.
+# Aim for 2-4 entries per week. Blank weeks are fine — write "none".
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# EXAMPLE ENTRIES (delete before first real use):
+#
+# 2026-04-20 | exec briefing docx | Reverted to default font mid-document
+#             after a section paste — lost Century Gothic on body text
+#
+# 2026-04-20 | long governance doc | Lost track of established section
+#             numbering convention after context window got long
+#
+# 2026-04-18 | vendor analysis | Defaulted to bullet points in a section
+#             I had explicitly asked to be prose — happened twice same session
+# ─────────────────────────────────────────────────────────────────────────────
+
+# WEEK OF: [DATE]
+# none
+
