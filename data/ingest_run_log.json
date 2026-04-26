@@ -28,5 +28,15 @@
     "total_posts": 641,
     "reddit_new": 39,
     "hn_new": 0
+  },
+  {
+    "run_at": "2026-04-26T20:35:59.650707+00:00",
+    "source": "both",
+    "dry_run": false,
+    "existing_posts": 641,
+    "new_posts": 1,
+    "total_posts": 642,
+    "reddit_new": 1,
+    "hn_new": 0
   }
 ]

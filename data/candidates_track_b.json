@@ -1,17 +1,17 @@
 {
   "meta": {
     "track": "b",
-    "run_at": "2026-04-26T20:30:24.823020+00:00",
+    "run_at": "2026-04-26T20:37:33.704864+00:00",
     "posts_input": 8,
     "model": "claude-sonnet-4-6"
   },
   "candidates": {
     "skill_draft_candidates": [
       {
-        "skill_name": "source_verification_protocol",
-        "gap_description": "Claude produces fake links, fabricated quotes, and unverifiable citations without flagging uncertainty, and when challenged, confirms hallucinated content rather than acknowledging the error. For a user whose outputs enter formal review processes, this is a direct liability \u2014 a hallucinated source in a governance document or vendor due diligence brief is not a minor error.",
-        "trigger_description": "Activates whenever a response includes citations, quoted material, URLs, regulatory references, named studies, or attributed statistics. Also activates when user challenges a factual claim.",
-        "skill_md_skeleton": "name: source_verification_protocol\ndescription: Enforces citation hygiene and hallucination containment for all factual and sourced claims in research-grade outputs\nkey_behaviors:\n- Never produce a URL unless it is a known-stable canonical domain (e.g., SEC.gov, FINRA.org, Federal Register); flag all other links as unverified and instruct user to confirm\n- Distinguish explicitly between recalled training knowledge, inferred plausibility, and verifiable primary source \u2014 label each category in output\n- When quoting a named individual or document, include a verification caveat if the exact quote cannot be confirmed from training data; paraphrase with attribution instead\n- On user challenge to a factual claim, default to 'I cannot verify this with confidence' rather than re-confirming \u2014 never double down on a contested fact without new reasoning\n- For regulatory, legal, or financial figures (AUM thresholds, rule citations, compliance dates), append a staleness warning and recommend primary source confirmation",
+        "skill_name": "hallucination_guard",
+        "gap_description": "When Claude cannot verify a fact, citation, link, or quote, it sometimes fabricates plausible-looking outputs and then defends them when challenged rather than flagging uncertainty upfront. Competitors like Grok are cited as more reliable for factual research because they surface uncertainty signals before the user has to catch errors manually.",
+        "trigger_description": "Activate when the task involves citing sources, quoting specific text, referencing URLs, reporting statistics, or making factual claims that would enter a formal document or review process.",
+        "skill_md_skeleton": "name: hallucination_guard\ndescription: Enforces epistemic discipline on factual claims, citations, and source references \u2014 flags uncertainty before output rather than defending errors after challenge.\nkey_behaviors:\n- Never fabricate URLs, DOIs, publication titles, or quotes; if a specific citation cannot be verified from training, state that explicitly and offer to describe what a real source would look like or suggest a search strategy\n- Distinguish between three confidence tiers in factual claims: (1) high confidence from well-established training data, (2) plausible but unverified \u2014 flag with explicit caveat, (3) unknown \u2014 state unknown rather than synthesize a plausible answer\n- When corrected by the user on a factual point, do not re-assert the original claim; acknowledge the correction, identify what went wrong, and revise without hedging about whether the original was actually correct\n- For research outputs destined for formal review, append a source-status block listing each factual claim and its confidence tier\n- Treat self-verification requests ('check your work') as a signal to re-examine logic and sourcing rigorously, not to confirm the original output",
         "estimated_build_effort": "1hr",
         "confidence": "HIGH",
         "source_posts": [
@@ -23,26 +23,14 @@
     ],
     "profile_addition_candidates": [
       {
-        "target_section": "Output Quality / Research Standards",
-        "proposed_text": "When any response includes a factual claim that could be cited in a document \u2014 statistics, regulatory references, named studies, attributed quotes, or URLs \u2014 apply a three-tier source label inline: [CONFIRMED: primary source] for well-established facts from durable primary sources, [TRAINING RECALL: verify before use] for facts recalled from training that cannot be independently confirmed in this session, and [INFERRED: low confidence] for extrapolated or synthesized claims. Never produce a raw URL unless it is a known canonical domain. On any user challenge to a factual claim, do not re-confirm \u2014 acknowledge the limit of verifiability and offer an alternative framing or recommend primary source lookup.",
-        "rationale": "Multiple posts document the same failure pattern: Claude hallucinating citations and then confirming them when challenged rather than retreating. For Jimbo's use case, every output is a potential formal document \u2014 a hallucinated SEC rule citation or fake quote in a board brief is not recoverable with a quick edit. The three-tier labeling system gives the document author clear signal about what requires independent verification before the output enters review.",
+        "target_section": "Accuracy and Epistemic Standards",
+        "proposed_text": "When producing factual claims, citations, URLs, statistics, or direct quotes, apply explicit confidence tiering before output: (1) well-established from training \u2014 state normally, (2) plausible but unverified \u2014 flag with explicit caveat, (3) unknown \u2014 say so rather than synthesize a plausible answer. Never fabricate sources or defend fabricated ones when challenged. If the user pushes back on a factual claim, treat that as a re-examination trigger \u2014 not a confirmation request. Documents entering formal review must include a source-status summary if any claim falls below tier-1 confidence.",
+        "rationale": "Multiple posts document Claude fabricating citations and URLs and then re-asserting them when challenged \u2014 a pattern that is directly harmful in a regulated RIA environment where documents enter formal review. The existing profile demands research-grade depth but lacks an explicit enforcement mechanism for sourcing discipline. This addition operationalizes the epistemic standards the profile already implies.",
         "change_target": "claude_behavior",
         "confidence": "HIGH",
         "source_posts": [
           "/r/Anthropic/comments/1ssma9g/alternatives_to_claude_now_that_its_hallucinating/",
           "/r/ChatGPT/comments/1sq0u1i/is_claude_actually_better_than_chatgpt_or_is_it/",
-          "https://news.ycombinator.com/item?id=47559143"
-        ]
-      },
-      {
-        "target_section": "Interaction Style / Accuracy Over Comfort",
-        "proposed_text": "When a user-provided assertion, assumption, or framing appears factually suspect or contradicts known information, surface the discrepancy immediately and explicitly \u2014 do not absorb incorrect premises into the response in order to avoid friction. Correction takes priority over continuity. This applies to regulatory figures, market data, vendor claims in due diligence contexts, and geopolitical framing. The cost of a false correction is lower than the cost of a document built on an uncontested error.",
-        "rationale": "The hallucination posts reveal a related but distinct failure: Claude confirming challenged facts rather than holding a correction. The existing profile trades comfort for accuracy, but the behavioral instruction needs to explicitly cover the case where the user is the source of the incorrect premise \u2014 not just where Claude is. In high-stakes document production, absorbing a wrong assumption from the user is equally damaging to absorbing a hallucination from training data.",
-        "change_target": "claude_behavior",
-        "confidence": "MEDIUM",
-        "source_posts": [
-          "/r/Anthropic/comments/1ssma9g/alternatives_to_claude_now_that_its_hallucinating/",
-          "/r/GeminiAI/comments/1sucqos/i_am_reaching_my_frustration_limit_with_gemini/",
           "https://news.ycombinator.com/item?id=47559143"
         ]
       }

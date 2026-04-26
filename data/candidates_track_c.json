@@ -1,7 +1,7 @@
 {
   "meta": {
     "track": "c",
-    "run_at": "2026-04-26T20:30:21.953028+00:00",
+    "run_at": "2026-04-26T20:37:34.413018+00:00",
     "posts_input": 10,
     "model": "claude-sonnet-4-6"
   },
@@ -9,8 +9,8 @@
     "technique_candidates": [
       {
         "technique_name": "Framework Request Instead of Answer Request",
-        "description": "Instead of asking an AI for a direct answer or decision, explicitly ask it to provide a framework, set of questions, or decision criteria you can use to arrive at the answer yourself. The user phrases this as 'don't give me an answer, give me the framework I should use to find the answer myself.' This shifts the AI from prescriptive output to generative scaffolding, which users report produces more durable and personally relevant results.",
-        "test_suggestion": "On your next complex decision or analysis task, open with 'Don't give me an answer \u2014 give me the framework or questions I should use to think through this' and compare the usefulness to a direct-answer prompt.",
+        "description": "Instead of asking an AI for a direct answer or decision, explicitly ask it to provide a framework, set of questions, or structured approach you can use to find the answer yourself. This shifts the AI from answer-generator to thinking-scaffold, producing more durable and personalized outputs.",
+        "test_suggestion": "On your next complex decision or problem, open with 'Don't give me an answer \u2014 give me the framework I should use to find the answer myself' and compare the usefulness to a standard direct question.",
         "change_target": "user_behavior",
         "confidence": "HIGH",
         "source_posts": [
@@ -20,33 +20,21 @@
         ]
       },
       {
-        "technique_name": "Portable Context File (profile.md / SKILL.md)",
-        "description": "Users maintain a structured Markdown file containing their preferences, background, project context, or reusable instruction modules, then manually paste or attach this file at the start of each new session across any AI tool. This creates a lightweight cross-platform memory layer that is model-agnostic. Variations include a single profile.md for personal context and separate SKILL.md files for task-specific behavioral instructions.",
-        "test_suggestion": "Create a single profile.md with 200\u2013400 words covering your role, preferences, and recurring task context, then paste it at the top of new sessions in two different AI tools and observe how much re-explanation you need to do.",
+        "technique_name": "Portable Context Profile File",
+        "description": "Maintain a personal profile or context document (e.g., profile.md or a memory export) that you manually paste into new chats across different AI tools. This compensates for the lack of cross-platform memory by giving any model immediate relevant context about your preferences, projects, and background.",
+        "test_suggestion": "Create a short profile.md summarizing your key context, goals, and preferences, then paste it at the start of a new session in a different AI tool and observe whether response quality improves versus a cold start.",
         "change_target": "user_behavior",
         "confidence": "HIGH",
         "source_posts": [
-          "/r/ArtificialInteligence/comments/1sslxr7/is_there_a_way_to_sync_memory_across_chatgpt/",
           "/r/AIToolBench/comments/1ssly2l/is_there_a_way_to_sync_memory_across_chatgpt/",
+          "/r/ArtificialInteligence/comments/1sslxr7/is_there_a_way_to_sync_memory_across_chatgpt/",
           "/r/artificial/comments/1stphh6/can_claudes_skills_custom_skillmd_instruction/"
         ]
       },
       {
-        "technique_name": "Task-Tiered Multi-Model Routing",
-        "description": "Users deliberately route different task types to different AI models based on the specific strengths of each \u2014 for example, using a lighter/faster model for routine drafting and a more capable model only for complex reasoning or heavy lifting. This reduces token consumption on premium tiers and extends effective usage limits while matching task complexity to model capability.",
-        "test_suggestion": "For one week, categorize your prompts before sending as 'routine' or 'complex' and consciously route routine tasks to a lighter model or lower-capability setting, reserving your primary model for tasks that genuinely require it.",
-        "change_target": "user_behavior",
-        "confidence": "HIGH",
-        "source_posts": [
-          "/r/ClaudeAI/comments/1sv5v48/only_claude_is_not_enough/",
-          "/r/ClaudeAI/comments/1svj63k/is_pro_really_worth_it/",
-          "/r/SunoAI/comments/1sw1mil/how_i_build_concept_albums_with_no_musical/"
-        ]
-      },
-      {
-        "technique_name": "Modular Instruction Files for Cross-Tool Portability",
-        "description": "Users structure their AI instructions as discrete, self-contained Markdown modules (one file per skill or behavior), each with a name, trigger condition, and instructions. Because these are plain text with no proprietary formatting, they can be copied into any AI tool's system prompt or context window. Users report this is more portable than tool-native memory systems and survives switching between providers.",
-        "test_suggestion": "Take one recurring instruction set you use frequently (e.g., a writing style guide or code review checklist) and rewrite it as a standalone Markdown block with a clear trigger condition, then test pasting it verbatim into two different AI tools.",
+        "technique_name": "Markdown Instruction Modules (Skill Files)",
+        "description": "Write reusable instruction sets as structured Markdown files with a name, description, trigger condition, and behavioral instructions. These act as portable system-prompt modules that can be loaded into different AI tools, reducing the need to re-explain context or behavior repeatedly.",
+        "test_suggestion": "Write a single SKILL.md-style Markdown file for a task you do repeatedly (e.g., code review style, writing tone), paste it as a system or context prompt in two different AI tools, and assess consistency of behavior.",
         "change_target": "user_behavior",
         "confidence": "MEDIUM",
         "source_posts": [
@@ -56,14 +44,26 @@
         ]
       },
       {
-        "technique_name": "Socratic Questioning Mode for Learning",
-        "description": "Rather than asking an AI to explain a topic, users prompt it to ask them questions about the topic in sequence, following their curiosity rather than delivering a pre-structured explanation. This mirrors Socratic dialogue and is reported to produce better retention and deeper understanding than passive explanation. It also works for brainstorming, where the AI's questions surface relevant concepts the user hadn't considered.",
-        "test_suggestion": "Pick a topic you want to understand better and prompt the AI with 'Don't explain this to me \u2014 ask me questions about it one at a time and follow my curiosity' and run the exchange for 10 turns.",
+        "technique_name": "Task-Matched Model Routing",
+        "description": "Deliberately split work across multiple AI models based on their relative strengths for different task types \u2014 for example, using one model for heavy reasoning and another for faster iterative work \u2014 rather than routing all tasks through a single tool.",
+        "test_suggestion": "Identify two distinct task categories in your current workflow, assign each to a different AI model for one week, and compare output quality and session limit impact versus using a single model for everything.",
+        "change_target": "user_behavior",
+        "confidence": "HIGH",
+        "source_posts": [
+          "/r/ClaudeAI/comments/1sv5v48/only_claude_is_not_enough/",
+          "/r/ClaudeAI/comments/1svj63k/is_pro_really_worth_it/",
+          "/r/SunoAI/comments/1sw1mil/how_i_build_concept_albums_with_no_musical/"
+        ]
+      },
+      {
+        "technique_name": "Context Bloat Pruning Before Limit Hits",
+        "description": "Proactively review and trim conversation context, memory files, or project documents to remove outdated or redundant information before hitting token or usage limits, rather than waiting until a session degrades. This extends effective session length and reduces unnecessary token consumption.",
+        "test_suggestion": "At the midpoint of your next long session, pause and remove any instructions, summaries, or context entries that are no longer relevant, then continue and note whether you reach limits later than usual.",
         "change_target": "user_behavior",
         "confidence": "MEDIUM",
         "source_posts": [
-          "https://news.ycombinator.com/item?id=45362416",
-          "/r/ChatGPTPromptGenius/comments/1sts5gv/i_stopped_asking_claude_for_answers_i_started/",
+          "/r/ClaudeAI/comments/1sv5v48/only_claude_is_not_enough/",
+          "/r/ClaudeAI/comments/1svj63k/is_pro_really_worth_it/",
           "/r/ArtificialInteligence/comments/1sslxr7/is_there_a_way_to_sync_memory_across_chatgpt/"
         ]
       }

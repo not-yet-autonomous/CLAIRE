@@ -85,6 +85,13 @@ HN_SEARCH_TERMS      = CONFIG["ingestion"]["hn_search_terms"]
 HN_RESULTS_PER_QUERY = CONFIG["ingestion"]["hn_results_per_query"]
 HN_MIN_POINTS        = CONFIG["ingestion"]["hn_min_points"]
 
+# dev.to practitioner articles
+DEVTO_BASE_URL   = "https://dev.to/api"
+DEVTO_TAGS       = ["anthropic", "claudeai", "claude"]
+DEVTO_PER_PAGE   = 30   # articles per tag fetch
+DEVTO_PAGES      = 2    # pages per tag (30 x 2 = 60 candidates per tag)
+DEVTO_MIN_REACTIONS = 2  # skip articles with no engagement
+
 # Noise prefilter thresholds (applied before triage — saves Haiku calls)
 MIN_SCORE    = CONFIG["triage"]["noise_prefilter"]["min_score"]
 MIN_COMMENTS = CONFIG["triage"]["noise_prefilter"]["min_comments"]
@@ -520,6 +527,117 @@ def ingest_hackernews(existing_cache: dict, dry_run: bool) -> dict:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# DEV.TO PRACTITIONER ARTICLES
+# ─────────────────────────────────────────────────────────────────────────────
+
+def fetch_devto_tag(tag: str, page: int = 1) -> list:
+    """Fetch articles for a tag from dev.to public API.
+
+    GET https://dev.to/api/articles?tag={tag}&per_page=30&page=N
+    No auth required. Returns list of article dicts.
+    """
+    url    = f"{DEVTO_BASE_URL}/articles"
+    params = {"tag": tag, "per_page": DEVTO_PER_PAGE, "page": page}
+    headers = {
+        "User-Agent":  "CLAIRE-ingest/1.0",
+        "Accept":      "application/json",
+    }
+    resp = safe_get(url, headers=headers, params=params, delay=2.0)
+    if resp is None:
+        return []
+    if isinstance(resp, list):
+        log.info(f"dev.to tag={tag} page={page}: {len(resp)} articles")
+        return resp
+    log.warning(f"dev.to tag={tag} page={page}: unexpected response type {type(resp)}")
+    return []
+
+
+def normalize_devto_article(article: dict) -> dict | None:
+    """Convert dev.to article dict to CLAIRE normalized format."""
+    article_id    = article.get("id")
+    title         = (article.get("title") or "").strip()
+    body          = (article.get("description") or "").strip()
+    reactions     = article.get("positive_reactions_count", 0)
+    comments      = article.get("comments_count", 0)
+    published_at  = article.get("published_at", "")
+    url           = article.get("url") or article.get("canonical_url") or ""
+    tag_list      = article.get("tag_list") or []
+
+    if not article_id or not title:
+        return None
+
+    if reactions < DEVTO_MIN_REACTIONS:
+        return None
+
+    # Parse created_utc
+    try:
+        created_utc = int(datetime.fromisoformat(
+            published_at.replace("Z", "+00:00")).timestamp()) if published_at else 0
+    except Exception:
+        created_utc = 0
+
+    return {
+        "post_id":            f"devto_{article_id}",
+        "source_platform":    "devto",
+        "source_type":        "practitioner_article",
+        "subreddit_category": "native",
+        "subreddit":          "devto_anthropic",
+        "title":              title[:500],
+        "body":               body[:2000],
+        "score":              reactions,
+        "comment_count":      comments,
+        "url":                url,
+        "permalink":          url,
+        "author_flair":       ", ".join(tag_list[:5]),
+        "created_utc":        created_utc,
+        "fetched_at":         datetime.now(timezone.utc).isoformat(),
+        "comments":           [],   # comment fetch not implemented — body+description sufficient
+        "triage":             {},
+    }
+
+
+def ingest_devto(existing_cache: dict, dry_run: bool) -> dict:
+    """Full dev.to practitioner article ingestion pass."""
+    new_posts = {}
+    stats     = {"fetched": 0, "prefiltered": 0, "deduplicated": 0, "new": 0}
+    seen_ids  = set()
+
+    for tag in DEVTO_TAGS:
+        for page in range(1, DEVTO_PAGES + 1):
+            articles = fetch_devto_tag(tag, page=page)
+            if not articles:
+                break
+
+            for article in articles:
+                article_id = article.get("id")
+                stats["fetched"] += 1
+
+                if article_id in seen_ids:
+                    stats["deduplicated"] += 1
+                    continue
+                seen_ids.add(article_id)
+
+                pid = f"devto_{article_id}"
+                if pid in existing_cache:
+                    stats["deduplicated"] += 1
+                    continue
+
+                post = normalize_devto_article(article)
+                if post is None:
+                    stats["prefiltered"] += 1
+                    continue
+
+                new_posts[pid] = post
+                stats["new"]  += 1
+
+            time.sleep(1.5)  # polite delay between pages
+
+    log.info(f"dev.to stats: {stats}")
+    log.info(f"dev.to: {stats['new']} new posts")
+    return new_posts
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # RUN LOG
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -546,7 +664,7 @@ def append_run_log(meta: dict):
 def main():
     parser = argparse.ArgumentParser(description="CLAIRE ingestion layer")
     parser.add_argument("--dry-run",  action="store_true", help="Fetch metadata only, skip comments, no write")
-    parser.add_argument("--source",   choices=["reddit", "hackernews", "both"], default="both")
+    parser.add_argument("--source",   choices=["reddit", "hackernews", "forum", "both", "all"], default="all")
     args = parser.parse_args()
 
     _acquire_lock()
@@ -565,15 +683,20 @@ def _main(args):
 
     all_new = {}
 
-    if args.source in ("reddit", "both"):
+    if args.source in ("reddit", "both", "all"):
         reddit_posts = ingest_reddit(existing_cache, args.dry_run)
         all_new.update(reddit_posts)
         log.info(f"Reddit: {len(reddit_posts)} new posts")
 
-    if args.source in ("hackernews", "both"):
+    if args.source in ("hackernews", "both", "all"):
         hn_posts = ingest_hackernews(existing_cache, args.dry_run)
         all_new.update(hn_posts)
         log.info(f"HackerNews: {len(hn_posts)} new posts")
+
+    if args.source in ("forum", "all"):
+        forum_posts = ingest_devto(existing_cache, args.dry_run)
+        all_new.update(forum_posts)
+        log.info(f"dev.to: {len(forum_posts)} new posts")
 
     # Merge new posts into existing cache
     merged = {**existing_cache, **all_new}
@@ -587,6 +710,7 @@ def _main(args):
         "total_posts":    len(merged),
         "reddit_new":     len([p for p in all_new.values() if p["source_platform"] == "reddit"]),
         "hn_new":         len([p for p in all_new.values() if p["source_platform"] == "hackernews"]),
+        "forum_new":      len([p for p in all_new.values() if p["source_platform"] == "devto"]),
     }
 
     if not args.dry_run:

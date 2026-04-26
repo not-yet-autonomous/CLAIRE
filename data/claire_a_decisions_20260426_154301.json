@@ -1,0 +1,463 @@
+{
+  "_meta": {
+    "generated_at": "2026-04-26T20:43:01.481135+00:00",
+    "session_id": "6a3868cd-55d2-4025-a3d2-b1358ac91060",
+    "model": "claude-opus-4-5",
+    "input_tokens": 12188,
+    "output_tokens": 11310,
+    "parse_success": true
+  },
+  "decision_record": {
+    "session_id": "6a3868cd-55d2-4025-a3d2-b1358ac91060",
+    "engine_version": "1.0.0",
+    "model": "claude-opus-4-5",
+    "evaluated_at": "2026-04-26T20:45:00.000000+00:00",
+    "memory_snapshot_hash": "8e333b5a30a22c668bf50d83b7ece1750ef38e60fddd16780a3ba3f69be6510a",
+    "input_candidate_count": 15,
+    "decisions": [
+      {
+        "candidate_id": "1e0aff3f-5730-4679-9168-9dd7fa09e5a3",
+        "fingerprint": "bb3a266a6763d4f5",
+        "candidate_summary": "Add memory entry to flag single-vendor dependency risks in analyses when user monitors Anthropic platform reliability.",
+        "decision": "skip",
+        "confidence": 0.85,
+        "reasoning": {
+          "signal_assessment": "Genuine signal from multiple documented incidents (org bans, degradations, billing anomalies). Not pipeline noise. However, the signal has already been actioned.",
+          "memory_consistency": "Functionally duplicates existing entry 2046ed2f: 'Claude will proactively surface vendor concentration risk during due diligence without prompting.' Same behavior, different words.",
+          "eval_alignment": "No eval data. Base entry applied same day, unvalidated. Cannot assess whether existing entry is sufficient.",
+          "risk_assessment": "Low risk either way. Applying creates redundancy; skipping relies on existing entry. Prefer minimal memory footprint until eval validates current state."
+        },
+        "hypothesis": {
+          "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+          "prediction": "Skipping this candidate will not reduce vendor risk flagging behavior because existing entry 2046ed2f already provides the same instruction.",
+          "metric": "vendor_risk_flag_rate",
+          "expected_direction": "no_change",
+          "expected_magnitude": "0% change from baseline",
+          "eval_window_days": 14,
+          "falsification_condition": "If vendor risk is not surfaced in due diligence contexts where it is material, and user feedback indicates the existing entry is insufficient, this skip was wrong.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [
+          "ALREADY_APPLIED"
+        ],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "790c6552-d14a-458e-9cd9-f365b6371eeb",
+        "fingerprint": "508c91b3ef8f3651",
+        "candidate_summary": "Default to flagging which model version produced a response when version matters for quality.",
+        "decision": "skip",
+        "confidence": 0.78,
+        "reasoning": {
+          "signal_assessment": "Real signal about Opus 4.6 vs 4.7 quality divergence. Users document significant differences in hallucination, verbosity, instruction-following.",
+          "memory_consistency": "Covered by combination of entries b6da3b03 (name model version when quality degrades) and e5fb8d38 (surface model and reasoning mode on complex high-stakes sessions). This candidate adds marginal specificity.",
+          "eval_alignment": "No eval data on model version awareness behavior from existing entries.",
+          "risk_assessment": "Low. Instruction creep risk — adding a third overlapping entry. Prefer to validate existing entries first."
+        },
+        "hypothesis": {
+          "id": "b2c3d4e5-f6a7-8901-bcde-f23456789012",
+          "prediction": "Existing entries b6da3b03 and e5fb8d38 will produce sufficient model version awareness without this additional instruction.",
+          "metric": "model_version_disclosure_rate",
+          "expected_direction": "no_change",
+          "expected_magnitude": "0% incremental improvement vs applying this candidate",
+          "eval_window_days": 14,
+          "falsification_condition": "If users are surprised by model version switches affecting output quality despite existing entries, the skip was wrong.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [
+          "ALREADY_APPLIED"
+        ],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "74dfffa3-056d-4723-9bdd-104a974f1a85",
+        "fingerprint": "b47505727888b176",
+        "candidate_summary": "Add Anthropic-specific vendor risk factors (degradations, subscription changes, suspensions, Mythos) to due diligence framework.",
+        "decision": "defer",
+        "confidence": 0.62,
+        "reasoning": {
+          "signal_assessment": "Strong signal. Documented patterns are real and multiple. The proposal to create an Anthropic-specific risk library is grounded in evidence.",
+          "memory_consistency": "Extends existing entry 2046ed2f (vendor concentration risk). Not a contradiction — an elaboration. However, encoding vendor-specific failure catalogs is a different category than general capability instructions.",
+          "eval_alignment": "No eval data on whether general vendor-risk entry surfaces Anthropic-specific concerns when material.",
+          "risk_assessment": "Medium. Anthropic critiquing Anthropic in user documents creates maintenance burden and potential awkwardness. More durable to let general framework handle specific cases."
+        },
+        "hypothesis": {
+          "id": "c3d4e5f6-a7b8-9012-cdef-345678901234",
+          "prediction": "The general vendor concentration risk entry (2046ed2f) will surface Anthropic-specific concerns when they are material to due diligence, making this explicit catalog unnecessary.",
+          "metric": "anthropic_risk_coverage_rate",
+          "expected_direction": "no_change",
+          "expected_magnitude": "General entry sufficient for 80%+ of cases",
+          "eval_window_days": 21,
+          "falsification_condition": "If user conducts Anthropic vendor assessment and general entry fails to surface documented risk factors, apply this candidate.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": "Apply if eval shows general vendor-risk entry doesn't surface Anthropic-specific concerns when material, OR if user explicitly requests this specificity.",
+        "defer_until": "2026-05-17T00:00:00+00:00"
+      },
+      {
+        "candidate_id": "91f71c76-369a-4b89-9ea3-c7f548ffe764",
+        "fingerprint": "b88bb1387130fe23",
+        "candidate_summary": "Proactively surface data residency, compliance posture, and audit trail gaps in AI vendor documentation.",
+        "decision": "skip",
+        "confidence": 0.88,
+        "reasoning": {
+          "signal_assessment": "Valid signal from HN about regulated-industry AI evaluation struggles. The gap is real.",
+          "memory_consistency": "Directly duplicates existing entry 8ea8cce2: 'Claude will include compliance and data residency as default first-order criteria in vendor evaluations without prompting.' Same behavior.",
+          "eval_alignment": "No eval data. Entry applied same day.",
+          "risk_assessment": "Low. Pure redundancy if applied."
+        },
+        "hypothesis": {
+          "id": "d4e5f6a7-b8c9-0123-def0-456789012345",
+          "prediction": "Skipping creates no behavior gap; existing entry 8ea8cce2 provides identical functionality.",
+          "metric": "compliance_criteria_presence_rate",
+          "expected_direction": "no_change",
+          "expected_magnitude": "0% change",
+          "eval_window_days": 14,
+          "falsification_condition": "If compliance and data residency are not surfaced in vendor evaluations despite entry 8ea8cce2, revisit.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [
+          "ALREADY_APPLIED"
+        ],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "6e0b44bb-8bdb-4e44-9926-987e644fb24c",
+        "fingerprint": "993e10529720f2e2",
+        "candidate_summary": "Apply same competing-frameworks standard to self-referential AI vendor assessments; include candid Anthropic reliability acknowledgment.",
+        "decision": "defer",
+        "confidence": 0.58,
+        "reasoning": {
+          "signal_assessment": "Valid concern about provider sycophancy in self-referential contexts. The principle is sound.",
+          "memory_consistency": "Philosophically consistent with profile's research-grade depth and competing frameworks. The specific instruction (explicit Anthropic critique) is an implementation that could overcorrect.",
+          "eval_alignment": "No data on self-referential vendor analysis quality. No baseline for sycophancy detection.",
+          "risk_assessment": "Medium. Explicit instruction to critique own provider could produce forced negativity. Prefer to observe natural behavior first."
+        },
+        "hypothesis": {
+          "id": "e5f6a7b8-c9d0-1234-ef01-567890123456",
+          "prediction": "Existing research-grade depth instructions will produce balanced self-referential analysis without special-case handling for Anthropic.",
+          "metric": "self_referential_balance_score",
+          "expected_direction": "no_change",
+          "expected_magnitude": "Balanced analysis without explicit instruction",
+          "eval_window_days": 21,
+          "falsification_condition": "If Claude systematically avoids Anthropic criticism in vendor contexts despite documented issues, apply this candidate.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": "Apply if user observes Claude systematically avoiding Anthropic criticism in vendor contexts despite documented issues.",
+        "defer_until": "2026-05-17T00:00:00+00:00"
+      },
+      {
+        "candidate_id": "d1e92267-5ed3-4f0f-b4d6-ba33541ed6b7",
+        "fingerprint": "23c93a2ee8bdcdce",
+        "candidate_summary": "Excel/spreadsheet outputs should proactively flag formula inconsistencies, methodology risks, and data integrity issues; default to adversarial audit posture.",
+        "decision": "apply",
+        "confidence": 0.82,
+        "reasoning": {
+          "signal_assessment": "Good signal documenting Claude's strength in catching formula errors. Failure mode identified: clean output without explaining what was wrong.",
+          "memory_consistency": "No existing entry covers spreadsheet-specific behavior. Philosophically consistent with profile's accuracy preference and OUTPUT VERIFICATION section.",
+          "eval_alignment": "No data on spreadsheet task quality, but profile's 'comfort for accuracy' trade supports this direction.",
+          "risk_assessment": "Low. Bounded capability instruction. Worst case: over-flagging minor issues, which is acceptable given profile's accuracy preference. Reversible."
+        },
+        "hypothesis": {
+          "id": "f6a7b8c9-d0e1-2345-f012-678901234567",
+          "prediction": "Adding this instruction will increase the rate at which Claude flags formula and data integrity issues in spreadsheet outputs, improving accuracy for documents entering formal review.",
+          "metric": "spreadsheet_issue_flag_rate",
+          "expected_direction": "increase",
+          "expected_magnitude": "+30% issue detection vs baseline",
+          "eval_window_days": 14,
+          "falsification_condition": "If spreadsheet outputs continue to present clean results without flagging issues that are later caught in review, the instruction is not producing the intended behavior.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "04be3609-1316-449c-be77-573efa67f294",
+        "fingerprint": "ead842b27b9124cd",
+        "candidate_summary": "Add adversarial self-audit mode/instruction for complex multi-step tasks; audit pass before returning output.",
+        "decision": "apply",
+        "confidence": 0.79,
+        "reasoning": {
+          "signal_assessment": "Good signal. Practitioners report explicit 'audit your work' instructions materially improve Opus 4.7 output on complex tasks.",
+          "memory_consistency": "Distinct from OUTPUT VERIFICATION (citation uncertainty) and DRIFT MODE (context saturation). This addresses error-catching in multi-step work. Extends existing mode infrastructure without redundancy.",
+          "eval_alignment": "No data on audit pass effectiveness, but the practitioner signal is consistent.",
+          "risk_assessment": "Low-medium. Could add token overhead for audits that don't catch errors. Profile already establishes mode infrastructure, so architectural fit is good."
+        },
+        "hypothesis": {
+          "id": "a7b8c9d0-e1f2-3456-0123-789012345678",
+          "prediction": "Adding adversarial self-audit mode will reduce plausible-looking errors in multi-step task outputs by catching them before delivery.",
+          "metric": "multi_step_error_rate",
+          "expected_direction": "decrease",
+          "expected_magnitude": "-20% error rate on complex multi-step tasks",
+          "eval_window_days": 14,
+          "falsification_condition": "If error rates on multi-step tasks do not decrease, or if audit overhead significantly increases session token usage without corresponding quality improvement, the instruction is not net positive.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "d672265e-e1fb-4b2f-bd92-c1765b5d2ea1",
+        "fingerprint": "448b7dfd59142059",
+        "candidate_summary": "Handle context degradation by surfacing proactive flag before next substantive output.",
+        "decision": "skip",
+        "confidence": 0.9,
+        "reasoning": {
+          "signal_assessment": "Good signal about silent mid-session degradation. Real problem.",
+          "memory_consistency": "Directly duplicates DRIFT MODE (entry 8cb7fffc): 'automatic context saturation detection with structured handoff note.' Same behavior with different phrasing.",
+          "eval_alignment": "No eval data. DRIFT MODE applied same day, unvalidated.",
+          "risk_assessment": "Low. Pure redundancy."
+        },
+        "hypothesis": {
+          "id": "b8c9d0e1-f2a3-4567-1234-890123456789",
+          "prediction": "DRIFT MODE already provides context degradation flagging; skipping this candidate creates no behavior gap.",
+          "metric": "context_degradation_flag_rate",
+          "expected_direction": "no_change",
+          "expected_magnitude": "0% change",
+          "eval_window_days": 14,
+          "falsification_condition": "If context degradation is not flagged proactively despite DRIFT MODE, revisit.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [
+          "ALREADY_APPLIED"
+        ],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "8fd3e143-02a8-4721-aad0-97c80472a585",
+        "fingerprint": "fb6f404f8b1ac5c1",
+        "candidate_summary": "hallucination_guard skill — epistemic discipline on factual claims with three confidence tiers, no fabrication rule, correction acknowledgment protocol.",
+        "decision": "apply",
+        "confidence": 0.81,
+        "reasoning": {
+          "signal_assessment": "Good signal about fabricated citations/URLs and defensive behavior when challenged. Skill skeleton is well-structured.",
+          "memory_consistency": "Extends OUTPUT VERIFICATION (hallucination self-audit with [verify] markers) into a comprehensive skill with concrete behaviors. Refinement, not contradiction.",
+          "eval_alignment": "No data on current hallucination rates, but OUTPUT VERIFICATION was applied same day on same concern.",
+          "risk_assessment": "Low-medium. Risk of over-cautious flagging. Profile's accuracy preference suggests acceptable trade. Skill format allows toggling if overcorrection occurs."
+        },
+        "hypothesis": {
+          "id": "c9d0e1f2-a3b4-5678-2345-901234567890",
+          "prediction": "hallucination_guard skill will reduce fabricated citations and defensive behavior when challenged, improving document accuracy for formal review.",
+          "metric": "citation_accuracy_rate",
+          "expected_direction": "increase",
+          "expected_magnitude": "+25% reduction in fabricated or unverifiable citations",
+          "eval_window_days": 14,
+          "falsification_condition": "If fabricated citations persist at baseline rate, or if over-flagging significantly reduces output utility, the skill is not producing net value.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "eb0f20e4-4a15-4b17-9532-ea47a794c4f6",
+        "fingerprint": "1b96fff462ccca94",
+        "candidate_summary": "Profile addition — explicit confidence tiering for factual claims, never fabricate sources, correction acknowledgment.",
+        "decision": "skip",
+        "confidence": 0.85,
+        "reasoning": {
+          "signal_assessment": "Same signal as hallucination_guard skill (candidate 9). Same source posts.",
+          "memory_consistency": "Overlaps with OUTPUT VERIFICATION and candidate 9 (hallucination_guard skill). If candidate 9 is applied, this is redundant.",
+          "eval_alignment": "N/A given dependency on candidate 9.",
+          "risk_assessment": "Low. Dependency relationship resolved by preferring skill format."
+        },
+        "hypothesis": {
+          "id": "d0e1f2a3-b4c5-6789-3456-012345678901",
+          "prediction": "hallucination_guard skill (candidate 9) will provide the same behavior as this profile addition; applying both is redundant.",
+          "metric": "citation_accuracy_rate",
+          "expected_direction": "no_change",
+          "expected_magnitude": "0% incremental benefit vs skill alone",
+          "eval_window_days": 14,
+          "falsification_condition": "If hallucination_guard skill does not produce expected behavior and this profile addition would have, the skip was wrong.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [
+          "DEPENDENCY_UNRESOLVED"
+        ],
+        "dependencies": [
+          "8fd3e143-02a8-4721-aad0-97c80472a585"
+        ],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "3d9be0c7-17df-4d2a-9dd5-46bc344f189e",
+        "fingerprint": "61f8bf1f19fce7fb",
+        "candidate_summary": "Technique — ask for framework instead of direct answer to shift AI from answer-generator to thinking-scaffold.",
+        "decision": "apply",
+        "confidence": 0.84,
+        "reasoning": {
+          "signal_assessment": "Good signal from practitioner posts. The technique is sound: framework requests produce more durable outputs.",
+          "memory_consistency": "User-behavior technique, not Claude configuration. No conflict with memory state.",
+          "eval_alignment": "N/A for user-behavior techniques.",
+          "risk_assessment": "Very low. Advisory content for user. Worst case: technique doesn't help user's specific workflow."
+        },
+        "hypothesis": {
+          "id": "e1f2a3b4-c5d6-7890-4567-123456789012",
+          "prediction": "Surfacing this technique will give user a new prompting strategy that produces more useful outputs on complex decisions.",
+          "metric": "user_technique_adoption",
+          "expected_direction": "increase",
+          "expected_magnitude": "User tries technique at least once",
+          "eval_window_days": 30,
+          "falsification_condition": "If user reports the technique produced worse outputs than direct questions, the recommendation was unhelpful.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "59ae4713-e366-42b4-a4f2-baf40cbee1cf",
+        "fingerprint": "1bbf39ad7fbcde8e",
+        "candidate_summary": "Technique — maintain portable context profile file to paste into new sessions across AI tools.",
+        "decision": "apply",
+        "confidence": 0.86,
+        "reasoning": {
+          "signal_assessment": "Good signal. Practical technique for cross-platform context continuity. Directly relevant given CLAIRE's context management approach.",
+          "memory_consistency": "User-behavior technique. No conflict.",
+          "eval_alignment": "N/A.",
+          "risk_assessment": "Very low. Advisory content."
+        },
+        "hypothesis": {
+          "id": "f2a3b4c5-d6e7-8901-5678-234567890123",
+          "prediction": "Surfacing this technique will help user maintain context continuity across multiple AI tools.",
+          "metric": "user_technique_adoption",
+          "expected_direction": "increase",
+          "expected_magnitude": "User creates or refines profile.md",
+          "eval_window_days": 30,
+          "falsification_condition": "If user reports the technique adds overhead without improving response quality across tools, recommendation was unhelpful.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "7bdbf13e-85c0-475c-94a3-65950cd87bde",
+        "fingerprint": "d418eef2f56bd2c1",
+        "candidate_summary": "Technique — route different task types to different AI models based on relative strengths.",
+        "decision": "apply",
+        "confidence": 0.83,
+        "reasoning": {
+          "signal_assessment": "Good signal. Practical workflow optimization for multi-tool users.",
+          "memory_consistency": "User-behavior technique. No conflict.",
+          "eval_alignment": "N/A.",
+          "risk_assessment": "Very low. Advisory content."
+        },
+        "hypothesis": {
+          "id": "a3b4c5d6-e7f8-9012-6789-345678901234",
+          "prediction": "Surfacing this technique will help user optimize task routing across multiple AI tools.",
+          "metric": "user_technique_adoption",
+          "expected_direction": "increase",
+          "expected_magnitude": "User explicitly routes task categories to different models",
+          "eval_window_days": 30,
+          "falsification_condition": "If user reports multi-model routing increases overhead without quality benefit, recommendation was unhelpful.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "5115d599-b970-42ca-8f3c-50506415f483",
+        "fingerprint": "bd16f672ab1e36c4",
+        "candidate_summary": "Flag model-version-related quality risks in analytical document metadata.",
+        "decision": "defer",
+        "confidence": 0.55,
+        "reasoning": {
+          "signal_assessment": "Medium signal (0.63). Documents Opus 4.7 regressions. The proposal to embed version risk flags in output documents is more invasive than awareness instructions.",
+          "memory_consistency": "Extends entries about model version awareness. Not a contradiction but a significant step further — putting caveats in user documents.",
+          "eval_alignment": "No data on whether current entries produce sufficient version awareness. Need baseline.",
+          "risk_assessment": "Medium. Document-level version disclaimers could be useful (transparency) or annoying (unnecessary caveats). Source confidence is MEDIUM."
+        },
+        "hypothesis": {
+          "id": "b4c5d6e7-f8a9-0123-7890-456789012345",
+          "prediction": "Existing model version awareness entries will surface version concerns conversationally; document-level flags add marginal value.",
+          "metric": "version_surprise_rate",
+          "expected_direction": "no_change",
+          "expected_magnitude": "Conversational flagging sufficient",
+          "eval_window_days": 21,
+          "falsification_condition": "If users are surprised by version-related quality issues in documents that should have been flagged, apply this candidate.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [
+          "LOW_SIGNAL"
+        ],
+        "dependencies": [],
+        "defer_condition": "Apply if eval shows users are surprised by version-related quality issues that weren't flagged, OR if user explicitly requests document-level version metadata.",
+        "defer_until": "2026-05-17T00:00:00+00:00"
+      },
+      {
+        "candidate_id": "0437f5b6-19ff-4d7f-b803-3df0fd5932c1",
+        "fingerprint": "dcaa9f7dce4910a0",
+        "candidate_summary": "Project files should use Markdown format; avoid large monolithic context blobs.",
+        "decision": "skip",
+        "confidence": 0.76,
+        "reasoning": {
+          "signal_assessment": "Medium signal (0.61). Posts suggest markdown outperforms PDF, chunked outperforms monolithic.",
+          "memory_consistency": "Existing entry 76b2a82b covers the core principle: 'recommend chunked structure over monolithic files.' This candidate adds Markdown format preference specifically.",
+          "eval_alignment": "No data. Base entry unvalidated.",
+          "risk_assessment": "Low. The Markdown preference is reasonable but more opinionated than existing entry. User may prefer other formats."
+        },
+        "hypothesis": {
+          "id": "c5d6e7f8-a9b0-1234-8901-567890123456",
+          "prediction": "Existing 'chunked over monolithic' entry covers the core principle; Markdown-specific preference is implementation detail that may not generalize.",
+          "metric": "project_structure_recommendation_quality",
+          "expected_direction": "no_change",
+          "expected_magnitude": "General principle sufficient",
+          "eval_window_days": 14,
+          "falsification_condition": "If user reports that Claude recommends monolithic or non-Markdown approaches when Markdown would have been clearly better, revisit.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [
+          "LOW_SIGNAL"
+        ],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      }
+    ],
+    "apply_count": 7,
+    "skip_count": 5,
+    "defer_count": 3,
+    "session_notes": "First decision cycle with no eval history — all confidence calibration is necessarily loose. High redundancy observed: 5 candidates duplicated same-day memory entries, suggesting digest pipeline needs stronger memory_state filtering. Three technique candidates (user-behavior) are categorically different from profile/memory changes and should route to separate output stream. Two candidates (b47505727888b176, 993e10529720f2e2) propose explicit Anthropic self-critique — deferred pending observation of whether existing entries produce sycophancy bias. Applied: spreadsheet audit posture (fills genuine gap), adversarial self-audit mode (extends existing mode infrastructure), hallucination_guard skill (operationalizes OUTPUT VERIFICATION philosophy), and three user-behavior techniques (low-cost, sound advice). Key dependency: hallucination_guard skill supersedes profile addition candidate with same intent. Recommend adding 'summary' field to change_log memory_edit entries per _meta note.",
+    "escalation_required": false,
+    "escalation_reason": null
+  },
+  "raw_response": null
+}
