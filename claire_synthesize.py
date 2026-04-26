@@ -15,11 +15,14 @@ Run:     python claire_synthesize.py
 import json
 import argparse
 import logging
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
 
 import anthropic
 from dotenv import load_dotenv
+
+from claire_utils import compute_cost, append_cost_log
 
 load_dotenv()
 
@@ -29,7 +32,7 @@ load_dotenv()
 
 BASE_DIR    = Path(__file__).parent
 DATA_DIR    = BASE_DIR / "data"
-PROMPTS_DIR = BASE_DIR / "logs"
+PROMPTS_DIR = BASE_DIR / "prompts"
 LOGS_DIR    = BASE_DIR / "logs"
 LOGS_DIR.mkdir(exist_ok=True)
 
@@ -124,7 +127,7 @@ def serialize_posts_for_synthesis(posts: list) -> str:
                 c["body"][:150] for c in post.get("comments", [])[:5]
             ],
         })
-    return json.dumps(condensed, indent=2)
+    return json.dumps(condensed, ensure_ascii=False, separators=(',', ':'))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -315,12 +318,15 @@ OUTPUT FORMAT — JSON only, no markdown fences.
 def run_synthesis(client: anthropic.Anthropic,
                   system_prompt: str,
                   posts: list,
-                  track: str) -> dict:
-    """Run a single Sonnet synthesis call for one track."""
+                  track: str) -> tuple:
+    """Run a single Sonnet synthesis call for one track.
+    Returns (candidates_dict, response.usage) on success,
+    ({}, None) on empty queue or error.
+    """
 
     if not posts:
         log.warning(f"Track {track.upper()}: empty queue — skipping synthesis call")
-        return {}
+        return {}, None
 
     user_message = (
         f"Analyze the following {len(posts)} Reddit posts and generate "
@@ -349,15 +355,15 @@ def run_synthesis(client: anthropic.Anthropic,
 
         result = json.loads(raw)
         log.info(f"Track {track.upper()}: synthesis complete")
-        return result
+        return result, response.usage
 
     except json.JSONDecodeError as e:
         log.error(f"Track {track.upper()}: JSON parse error — {e}")
         log.error(f"Raw response preview: {raw[:300]}")
-        return {}
+        return {}, None
     except anthropic.APIError as e:
         log.error(f"Track {track.upper()}: API error — {e}")
-        return {}
+        return {}, None
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -376,6 +382,37 @@ def count_candidates(result: dict, track: str) -> dict:
     elif track == "c":
         counts["technique_candidates"] = len(result.get("technique_candidates", []))
     return counts
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# PARALLEL SYNTHESIS HELPERS
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Module-level handles populated by main() before thread dispatch
+_client:  anthropic.Anthropic | None = None
+_prompts: dict[str, str] = {}
+
+
+def save_candidates(track: str, candidates: dict, posts_input: int) -> None:
+    output = {
+        "meta": {
+            "track":       track,
+            "run_at":      datetime.now(timezone.utc).isoformat(),
+            "posts_input": posts_input,
+            "model":       SYNTHESIS_MODEL,
+        },
+        "candidates": candidates,
+    }
+    with open(CANDIDATE_PATHS[track], "w", encoding="utf-8") as f:
+        json.dump(output, f, indent=2)
+    log.info(f"Wrote candidates → {CANDIDATE_PATHS[track].name}")
+
+
+def run_track(track: str) -> tuple[str, dict, object]:
+    posts = load_queue(track)
+    candidates, usage = run_synthesis(_client, _prompts[track], posts, track)
+    save_candidates(track, candidates, len(posts))
+    return track, candidates, usage
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -426,36 +463,64 @@ def main():
     client = anthropic.Anthropic()
 
     # Run synthesis per track
-    all_results = {}
-    for track in tracks:
-        posts = load_queue(track)
-        result = run_synthesis(client, prompts[track], posts, track)
+    all_results             = {}
+    synthesis_track_usage   = {}
+    synthesis_total_cost    = 0.0
+    total_posts_synthesized = 0
 
-        if result:
-            counts = count_candidates(result, track)
-            log.info(f"Track {track.upper()} candidates: {counts}")
-        else:
-            log.warning(f"Track {track.upper()}: no candidates generated")
+    # Pre-compute total posts for cost log (run_track reloads queues internally)
+    total_posts_synthesized = sum(len(load_queue(t)) for t in tracks)
 
-        all_results[track] = result
+    # Share client and prompts with thread workers
+    global _client, _prompts
+    _client  = client
+    _prompts = prompts
 
-        # Write candidate file
-        output = {
-            "meta": {
-                "track":       track,
-                "run_at":      run_start.isoformat(),
-                "posts_input": len(load_queue(track)),
-                "model":       SYNTHESIS_MODEL,
-            },
-            "candidates": result,
-        }
+    with ThreadPoolExecutor(max_workers=len(tracks)) as executor:
+        futures = {executor.submit(run_track, track): track for track in tracks}
+        for future in as_completed(futures):
+            track = futures[future]
+            try:
+                trk, candidates, usage = future.result()
+                all_results[trk] = candidates
 
-        with open(CANDIDATE_PATHS[track], "w", encoding="utf-8") as f:
-            json.dump(output, f, indent=2)
-        log.info(f"Wrote candidates → {CANDIDATE_PATHS[track].name}")
+                if candidates:
+                    counts = count_candidates(candidates, trk)
+                    log.info(f"Track {trk.upper()} candidates: {counts}")
+                else:
+                    log.warning(f"Track {trk.upper()}: no candidates generated")
+
+                if usage is not None:
+                    track_cost = compute_cost(
+                        SYNTHESIS_MODEL, usage.input_tokens, usage.output_tokens
+                    )
+                    synthesis_track_usage[trk] = {
+                        "input_tokens":  usage.input_tokens,
+                        "output_tokens": usage.output_tokens,
+                        "cost_usd":      track_cost,
+                    }
+                    synthesis_total_cost = round(synthesis_total_cost + track_cost, 4)
+                    log.info(
+                        f"Track {trk.upper()} usage — "
+                        f"input: {usage.input_tokens:,} | "
+                        f"output: {usage.output_tokens:,} | "
+                        f"cost: ${track_cost:.4f}"
+                    )
+                else:
+                    synthesis_track_usage[trk] = {
+                        "input_tokens": 0, "output_tokens": 0, "cost_usd": 0.0
+                    }
+
+            except Exception as e:
+                log.error(f"Track {track.upper()}: failed — {e}")
+                synthesis_track_usage[track] = {
+                    "input_tokens": 0, "output_tokens": 0, "cost_usd": 0.0
+                }
+                all_results[track] = {}
 
     # Summary
     log.info("═" * 60)
+    log.info(f"Synthesis total cost: ${synthesis_total_cost:.4f}")
     log.info("CLAIRE synthesis complete.")
     for track, result in all_results.items():
         if result:
@@ -464,6 +529,18 @@ def main():
         else:
             log.info(f"  Track {track.upper()}: empty")
     log.info("Next step: python claire_output.py")
+
+    run_id = run_start.strftime("%Y%m%d_%H%M%S")
+    append_cost_log(
+        run_id=run_id,
+        triage_data={},
+        synthesis_data={
+            "model":          SYNTHESIS_MODEL,
+            "tracks":         synthesis_track_usage,
+            "total_cost_usd": synthesis_total_cost,
+        },
+        posts_processed=total_posts_synthesized,
+    )
 
 
 if __name__ == "__main__":
