@@ -131,6 +131,7 @@ Build 4 complete. CLAIRE is in weekly steady state.
 Open items:
 - Cost log merge (two entries per run — design decision pending)
 - Opus filter log line (cosmetic fix — reports full corpus count not new posts)
+- Memory edits: 5 applied from cycle 1 digest. Hypotheses logged in change_log.json. Eval due next cycle.
 
 Run manually in order:
 
