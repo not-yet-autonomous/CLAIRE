@@ -38,7 +38,7 @@ If deps fail: `python -m pip install -r requirements.txt`
 
 ```
 CLAIRE\
-├── claire_ingest.py          ✅ Build 1 — ingestion
+├── claire_ingest.py          ✅ Build 7 — dev.to practitioner feed added (Reddit + HN + dev.to)
 ├── claire_triage.py          ✅ Build 2 — triage complete
 ├── claire_synthesize.py      ✅ Build 5 — fingerprints + change_target field added
 ├── claire_output.py          ✅ Build 3 — digest generation
@@ -109,6 +109,8 @@ CLAIRE\
 | 6 | `claire_a_assembler.py` | ✅ Complete | Full prior_appearances from session history |
 | 6 | `claire_output.py` | ✅ Complete | Section 6 added — CLAIRE-A decisions in digest |
 | 6 | `claire_weekly.ps1` | ✅ Complete | Scheduled wrapper with per-script exit checks |
+| 7 | `claire_ingest.py` | ✅ Complete | dev.to feed added — tags: anthropic, claudeai, claude |
+| 7 | `claire_weekly.ps1` | ✅ Complete | --source all flag added |
 
 ---
 
@@ -136,6 +138,10 @@ CLAIRE\
 | Signal strength | Source-post-weighted within confidence tier (HIGH: 0.80–0.90, MEDIUM: 0.55–0.65) |
 | Hypothesis authorship | Decision engine (Opus) — all three decision types require one |
 | Eval window | 14d (format/behavior changes), 21d (behavioral/memory changes) |
+| Ingest sources | Reddit (native + search) + HackerNews + dev.to (--source all) |
+| dev.to tags | anthropic, claudeai, claude |
+| dev.to min reactions | 5 (raise from 2 after Build 7 validation) |
+| dev.to pages per tag | 2 (60 candidates per tag before dedup) |
 
 ---
 
@@ -149,7 +155,7 @@ CLAIRE\
 
 ## Current Session Task
 
-Build 6 complete. CLAIRE + CLAIRE-A fully operational. Weekly schedule active.
+Build 7 complete. Three ingest sources live: Reddit, HackerNews, dev.to.
 
 **Everything runs via scheduled task (claire_weekly.ps1). Manual override:**
 ```powershell
@@ -176,6 +182,8 @@ python claire_a_scorer.py --force --notes "your session observations here"
 - change_log.json: add `summary` field to memory_edit entries (hypothesis used as proxy currently)
 - First eval cycle: 8 apply decisions from Build 5 run. Hypotheses open. Run scorer after 14-21 days of session observation.
 - psutil: install in venv if claire_ingest.py errors (`python -m pip install psutil`)
+- dev.to DEVTO_MIN_REACTIONS: change from 2 to 5 in claire_ingest.py (one-line edit, not yet committed)
+- Build 8 candidates: X/Twitter API feed, Substack RSS
 
 ---
 
@@ -217,4 +225,4 @@ Examples:
 - `CLAIRE Build 2 complete — synthesis queues written`
 
 ---
-*Last updated: 2026-04-26 — Build 6 closed. CLAIRE + CLAIRE-A fully operational. Weekly schedule active. Next action: first eval cycle in 14-21 days.*
+*Last updated: 2026-04-26 — Build 7 closed. Three ingest sources live. Next action: first eval cycle in 14-21 days. Build 8: X/Twitter + Substack RSS.*
