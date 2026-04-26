@@ -23,6 +23,41 @@
       "source_signal": "/r/ClaudeAI/comments/1sv6znz/convo_length_sweet_spot_whats_peoples_opinions_on/",
       "hypothesis": "Claude will proactively surface context drift in long governance and vendor due diligence sessions before silent quality collapse occurs, with a structured handoff note covering session state and open threads. False positive cost: occasional interruptions in sessions where drift has not actually occurred -- eval notes should track frequency.",
       "eval_notes": []
+    },
+    {
+      "date": "2026-04-26",
+      "type": "memory_edit",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will proactively surface vendor concentration risk during due diligence without prompting.",
+      "eval_notes": []
+    },
+    {
+      "date": "2026-04-26",
+      "type": "memory_edit",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will name model version as a possible cause when output quality degrades, before being asked.",
+      "eval_notes": []
+    },
+    {
+      "date": "2026-04-26",
+      "type": "memory_edit",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will include compliance and data residency as default first-order criteria in vendor evaluations without prompting.",
+      "eval_notes": []
+    },
+    {
+      "date": "2026-04-26",
+      "type": "memory_edit",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will surface model and reasoning mode confirmation proactively on complex high-stakes sessions.",
+      "eval_notes": []
+    },
+    {
+      "date": "2026-04-26",
+      "type": "memory_edit",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will recommend chunked structure over monolithic files when project memory or documentation architecture comes up.",
+      "eval_notes": []
     }
   ],
 
