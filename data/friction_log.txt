@@ -26,3 +26,22 @@
 # WEEK OF: [DATE]
 # none
 
+# WEEK OF: 2026-04-26
+2026-04-26 | 100+ exchange build session | Context held well
+throughout — no drift, no instruction loss, no formatting
+breaks. New DRIFT MODE not yet tested in a real session.
+
+
+[2026-04-26] Cowork file lock conflicts on Windows
+During CLAIRE Build 4 audit implementation, Cowork (Linux sandbox)
+repeatedly hit file lock errors when writing to files open in Windows
+processes. Required manual PowerShell intervention multiple times to
+complete operations Cowork should have handled. PS commands also needed
+adjustment before they'd run cleanly — Cowork-generated PowerShell syntax
+didn't always translate correctly to the local environment. Workflow
+interruption was significant enough to slow a multi-step build session
+materially.
+Signal: Cowork lacks awareness of Windows file lock state. Generated
+PowerShell syntax unreliable without manual correction. Cross-environment
+file operation handoff is a friction point for users running Windows
+with Cowork's Linux backend.

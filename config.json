@@ -107,6 +107,7 @@
   "synthesis": {
     "model": "claude-sonnet-4-6",
     "evidence_threshold": 3,
+    "track_a_max_batch": 50,
     "config_injection_depth": "partial",
     "hypothesis_authorship": "human",
     "locked_profile_sections": [

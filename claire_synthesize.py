@@ -15,6 +15,8 @@ Run:     python claire_synthesize.py
 import json
 import argparse
 import logging
+import types
+from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
@@ -58,6 +60,7 @@ with open(BASE_DIR / "config.json") as f:
 SYNTHESIS_MODEL      = CONFIG["synthesis"]["model"]
 EVIDENCE_THRESHOLD   = CONFIG["synthesis"]["evidence_threshold"]
 LOCKED_SECTIONS      = CONFIG["synthesis"]["locked_profile_sections"]
+TRACK_A_MAX_BATCH    = CONFIG["synthesis"]["track_a_max_batch"]
 
 # ─────────────────────────────────────────────────────────────────────────────
 # LOGGING
@@ -408,9 +411,96 @@ def save_candidates(track: str, candidates: dict, posts_input: int) -> None:
     log.info(f"Wrote candidates → {CANDIDATE_PATHS[track].name}")
 
 
+def cluster_posts_by_signal(posts: list, max_batch: int) -> list:
+    """Groups posts by signal_type field, splits clusters exceeding max_batch.
+    Returns flat list of batches (each batch is a list of posts)."""
+    clusters = defaultdict(list)
+    for post in posts:
+        signal_type = post.get("triage", {}).get("signal_type", "unknown")
+        clusters[signal_type].append(post)
+
+    batches = []
+    for signal_type, cluster_posts in clusters.items():
+        for i in range(0, len(cluster_posts), max_batch):
+            batches.append(cluster_posts[i:i + max_batch])
+    return batches
+
+
+def merge_candidates(all_candidates: list) -> dict:
+    """Takes list of Track A candidate dicts (one per batch).
+    Deduplicates on (signal_type, title[:60]) tuple.
+    Returns flat deduplicated dict with same schema as a single Track A result."""
+    # Maps category name → primary text field used as dedup key
+    CATEGORY_KEY = {
+        "memory_edit_candidates":    "control",
+        "profile_diff_candidates":   "proposed_change",
+        "behavior_watch":            "pattern",
+    }
+
+    merged = {cat: [] for cat in CATEGORY_KEY}
+    seen: set = set()
+
+    for batch_result in all_candidates:
+        for cat, text_field in CATEGORY_KEY.items():
+            for candidate in batch_result.get(cat, []):
+                signal_type = cat
+                title = candidate.get(text_field, "")[:60]
+                key = (signal_type, title)
+                if key not in seen:
+                    seen.add(key)
+                    merged[cat].append(candidate)
+
+    return merged
+
+
+def run_track_a_batched(posts: list, max_batch: int) -> tuple:
+    """Clusters Track A posts by signal_type, runs synthesis per batch sequentially,
+    accumulates token usage, merges and deduplicates candidates.
+    Returns (merged_candidates, total_usage_dict)."""
+    batches = cluster_posts_by_signal(posts, max_batch)
+    log.info(f"Track A: {len(batches)} batch(es) from {len(posts)} posts "
+             f"(max_batch={max_batch})")
+
+    all_batch_candidates = []
+    total_input_tokens   = 0
+    total_output_tokens  = 0
+
+    for i, batch in enumerate(batches):
+        signal_types = sorted({p.get("triage", {}).get("signal_type", "unknown")
+                                for p in batch})
+        signal_label = ", ".join(signal_types)
+        log.info(f"Track A batch {i + 1}/{len(batches)}: "
+                 f"{len(batch)} posts — signal: {signal_label}")
+
+        candidates, usage = run_synthesis(_client, _prompts["a"], batch, "a")
+        all_batch_candidates.append(candidates if candidates else {})
+
+        if usage is not None:
+            total_input_tokens  += usage.input_tokens
+            total_output_tokens += usage.output_tokens
+
+    merged = merge_candidates(all_batch_candidates)
+    total_candidates = sum(len(v) for v in merged.values())
+    log.info(f"Track A merge complete: {len(batches)} batch(es) → "
+             f"{total_candidates} deduplicated candidates")
+
+    total_usage = {
+        "input_tokens":  total_input_tokens,
+        "output_tokens": total_output_tokens,
+    }
+    return merged, total_usage
+
+
 def run_track(track: str) -> tuple[str, dict, object]:
     posts = load_queue(track)
-    candidates, usage = run_synthesis(_client, _prompts[track], posts, track)
+    if track == "a":
+        candidates, usage_dict = run_track_a_batched(posts, TRACK_A_MAX_BATCH)
+        usage = types.SimpleNamespace(
+            input_tokens=usage_dict["input_tokens"],
+            output_tokens=usage_dict["output_tokens"],
+        ) if (usage_dict["input_tokens"] or usage_dict["output_tokens"]) else None
+    else:
+        candidates, usage = run_synthesis(_client, _prompts[track], posts, track)
     save_candidates(track, candidates, len(posts))
     return track, candidates, usage
 

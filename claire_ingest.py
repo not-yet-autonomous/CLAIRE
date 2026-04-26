@@ -602,24 +602,3 @@ def _main(args):
 
 if __name__ == "__main__":
     main()
-        args.dry_run,
-        "existing_posts": len(existing_cache),
-        "new_posts":      len(all_new),
-        "total_posts":    len(merged),
-        "reddit_new":     len([p for p in all_new.values() if p["source_platform"] == "reddit"]),
-        "hn_new":         len([p for p in all_new.values() if p["source_platform"] == "hackernews"]),
-    }
-
-    if not args.dry_run:
-        save_cache(merged, run_meta)
-        append_run_log(run_meta)
-    else:
-        log.info(f"DRY RUN -- would write {len(merged)} posts. No files written.")
-        log.info(json.dumps(run_meta, indent=2))
-
-    log.info("CLAIRE ingest complete.")
-    log.info(f"Run summary: {run_meta}")
-
-
-if __name__ == "__main__":
-    main()

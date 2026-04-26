@@ -1,27 +1,27 @@
 {
   "meta": {
     "track": "c",
-    "run_at": "2026-04-26T01:18:08.354329+00:00",
-    "posts_input": 8,
+    "run_at": "2026-04-26T16:55:01.996257+00:00",
+    "posts_input": 10,
     "model": "claude-sonnet-4-6"
   },
   "candidates": {
     "technique_candidates": [
       {
         "technique_name": "Framework Request Instead of Answer Request",
-        "description": "Instead of asking the AI for a direct answer or decision, explicitly ask it to provide the framework, mental model, or set of questions you should use to find the answer yourself. This shifts the AI from prescriptive output to structured thinking scaffolding, which users report feels more reliable and actionable across decision-making and analysis tasks.",
-        "test_suggestion": "When stuck on a recurring problem, open with 'Don't give me an answer\u2014give me the framework I should use to find the answer myself' and compare the usefulness of the output to your usual approach.",
+        "description": "Instead of asking an AI for a direct answer or decision, explicitly ask it to provide a framework, set of criteria, or decision structure you can use to arrive at the answer yourself. The user phrases it as 'don't give me an answer, give me the framework I should use to find the answer myself.' This shifts the AI from output-giver to thinking-scaffold builder.",
+        "test_suggestion": "On your next complex decision or analysis task, open with 'Don't give me an answer \u2014 give me the framework I should use to evaluate this' and compare the usefulness of the output versus asking directly.",
         "confidence": "HIGH",
         "source_posts": [
           "/r/ChatGPTPromptGenius/comments/1sts5gv/i_stopped_asking_claude_for_answers_i_started/",
-          "/r/ArtificialInteligence/comments/1sslxr7/is_there_a_way_to_sync_memory_across_chatgpt/",
-          "https://news.ycombinator.com/item?id=45362416"
+          "https://news.ycombinator.com/item?id=45362416",
+          "/r/ChatGPTPromptGenius/comments/1sts5gv/i_stopped_asking_claude_for_answers_i_started/"
         ]
       },
       {
-        "technique_name": "Portable Context File (profile.md / SKILL.md)",
-        "description": "Maintain a single plain-text or Markdown file containing your preferences, background, project context, or behavioral instructions. Paste or upload this file at the start of each session across different AI tools to approximate persistent memory without relying on any platform's native memory feature. Users report this reduces drift and re-explanation overhead when switching between Claude, ChatGPT, and others.",
-        "test_suggestion": "Create a profile.md with your key context (role, goals, preferred output style, recurring constraints) and paste it at the top of your next session in a tool you don't normally use, then assess how much re-prompting you save.",
+        "technique_name": "Portable Markdown Context File (profile.md / SKILL.md)",
+        "description": "Users maintain persistent context as plain Markdown files (e.g., profile.md, SKILL.md) that can be pasted or uploaded at the start of any new session across any AI tool. The files contain preferences, background, instructions, or reusable behavioral modules. Because they are plain text, they are not locked to any one platform, though users note some drift occurs between models interpreting the same instructions.",
+        "test_suggestion": "Create a single profile.md with your background, preferences, and common task instructions, then paste it at the top of your next new session in two different AI tools and note whether behavior converges.",
         "confidence": "HIGH",
         "source_posts": [
           "/r/ArtificialInteligence/comments/1sslxr7/is_there_a_way_to_sync_memory_across_chatgpt/",
@@ -30,9 +30,20 @@
         ]
       },
       {
-        "technique_name": "Modular Instruction Files (Skill Nodes)",
-        "description": "Structure system-level instructions as separate, named Markdown modules\u2014each with a trigger condition and self-contained behavioral rules\u2014rather than one monolithic prompt. Users describe porting these across tools by treating each module as a structured system prompt chunk. This makes instruction sets easier to test, swap, and maintain across AI platforms.",
-        "test_suggestion": "Break your current system prompt into 2\u20133 named sections with explicit trigger conditions (e.g., 'When asked to write code, do X'), paste them as a structured block at session start, and check whether the model routes behavior correctly without additional nudging.",
+        "technique_name": "Task-Based Model Routing",
+        "description": "Rather than using a single AI model for all tasks, users deliberately split their workload by task type across models \u2014 e.g., using a faster/cheaper model for routine work and a more capable model only for complex reasoning or 'heavy lifting.' This extends effective usage limits and matches model capability to task demand.",
+        "test_suggestion": "For your next multi-step project, explicitly assign lightweight subtasks (drafting, formatting, summarizing) to a less capable or quota-light model and reserve your primary model only for tasks requiring deep reasoning or synthesis.",
+        "confidence": "HIGH",
+        "source_posts": [
+          "/r/ClaudeAI/comments/1sv5v48/only_claude_is_not_enough/",
+          "/r/ClaudeAI/comments/1svj63k/is_pro_really_worth_it/",
+          "/r/artificial/comments/1stphh6/can_claudes_skills_custom_skillmd_instruction/"
+        ]
+      },
+      {
+        "technique_name": "Structured Instruction Modules with Trigger Conditions",
+        "description": "Users write reusable instruction blocks (analogous to SKILL.md files) that each contain a name, description, trigger condition, and detailed behavioral instructions. These modules are composed together and referenced by name within a session prompt. Because the underlying format is plain Markdown with structured fields, the pattern is portable to any model that handles long system prompts well, though character limits on some platforms may require trimming.",
+        "test_suggestion": "Write one instruction module in plain Markdown with explicit fields for 'name,' 'trigger,' and 'instructions,' paste it into your system prompt or project context, then test whether invoking it by name reliably activates the described behavior.",
         "confidence": "MEDIUM",
         "source_posts": [
           "/r/artificial/comments/1stphh6/can_claudes_skills_custom_skillmd_instruction/",
@@ -41,25 +52,14 @@
         ]
       },
       {
-        "technique_name": "Task-Based Model Routing",
-        "description": "Deliberately assign different AI tools or model tiers to different task types based on their observed strengths rather than using one model for everything. Users describe splitting work\u2014e.g., lighter iterative tasks to faster/cheaper models and complex synthesis to more capable ones\u2014to avoid rate limits and get better per-task output quality.",
-        "test_suggestion": "List your three most common AI task types, assign each to a different model or tier based on complexity, and run a week of work that way to measure whether quality or limit friction improves.",
+        "technique_name": "Multi-Model Creative Pipeline with Role Specialization",
+        "description": "For creative or multi-stage production workflows, users assign different AI tools to specific roles based on their strengths \u2014 for example, using one model for conceptual development and narrative structure, another for generation, and a third for refinement or critique. Outputs from one stage are fed as structured inputs to the next. The technique is described in the context of music production but the pattern generalizes to any multi-stage creative task.",
+        "test_suggestion": "Pick a creative project with at least three distinct phases (e.g., concept, draft, refine) and deliberately route each phase to a different AI tool based on what each does best, passing the output of each as the explicit input to the next.",
         "confidence": "MEDIUM",
         "source_posts": [
-          "/r/ClaudeAI/comments/1sv5v48/only_claude_is_not_enough/",
-          "/r/ClaudeAI/comments/1svj63k/is_pro_really_worth_it/",
-          "/r/ArtificialInteligence/comments/1sslxr7/is_there_a_way_to_sync_memory_across_chatgpt/"
-        ]
-      },
-      {
-        "technique_name": "Socratic Questioning Mode",
-        "description": "Prompt the AI to respond with questions rather than explanations, guiding you to develop understanding or refine your own thinking through dialogue. Users report this works well for brainstorming, learning unfamiliar topics, and pressure-testing ideas\u2014with the AI surfacing relevant concepts through inquiry rather than instruction.",
-        "test_suggestion": "Start a session on a topic you want to understand better with 'Ask me questions to help me develop my own understanding of this\u2014don't explain it to me directly' and note whether your resulting grasp feels deeper than after a standard explanation.",
-        "confidence": "MEDIUM",
-        "source_posts": [
-          "https://news.ycombinator.com/item?id=45362416",
-          "/r/ChatGPTPromptGenius/comments/1sts5gv/i_stopped_asking_claude_for_answers_i_started/",
-          "/r/ArtificialInteligence/comments/1sslxr7/is_there_a_way_to_sync_memory_across_chatgpt/"
+          "/r/SunoAI/comments/1sw1mil/how_i_build_concept_albums_with_no_musical/",
+          "/r/ClaudeAI/comments/1sw1pt8/how_i_build_concept_albums_with_no_musical/",
+          "/r/ClaudeAI/comments/1sv5v48/only_claude_is_not_enough/"
         ]
       }
     ]
