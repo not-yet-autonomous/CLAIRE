@@ -1,0 +1,351 @@
+CLAIRE-A Reasoning Scratchpad
+Session: 3bf096b0-07b3-4f48-9bbf-c21e9fa53c36
+Generated: 2026-04-26T19:48:15.161897+00:00
+========================================================================
+
+## Session Overview
+- 15 candidates to evaluate
+- 4 memory_edit candidates (Track A)
+- 9 profile_diff candidates (Track A)
+- 1 profile_addition candidate (Track B)
+- 1 technique candidate (Track C)
+- Memory state shows 7 entries, all established 2026-04-26 (same day)
+- Change log shows 7 entries, all from same day, none with measured outcomes yet
+- Eval history is empty — no prior metric data to draw inferences from
+- All candidates have signal_strength 0.85, source_reliability_score 0.5 (default), prior_appearances 0
+
+This is effectively a first-cycle batch with no eval feedback. I must be careful about over-applying without outcome data.
+
+---
+
+## Candidate-by-Candidate Analysis
+
+### 1. 48474d415f60dbcf — Single-vendor AI dependency as institutional risk
+**Memory Edit Candidate**
+
+**Signal Assessment:**
+The proposed memory edit states user treats single-vendor AI dependency as institutional risk. Three Reddit posts about Anthropic bans, capability removals, pricing changes. Signal is real — these are documented platform risks. However, signal_strength 0.85 feels high for Reddit complaints. The posts are about Anthropic specifically, not about the user's actual stated position.
+
+**Memory Consistency:**
+Memory entry `aaffaa0b` already states: "Claude will proactively surface vendor concentration risk during due diligence without prompting." This candidate is a near-duplicate. The existing memory already captures the behavioral commitment. This candidate adds framing ("treats as institutional risk") but doesn't change actionable behavior.
+
+**Eval Alignment:**
+No eval history. The existing memory entry was applied same-day and has no outcome measurement. Adding a duplicate before measuring the first one compounds unmeasured changes.
+
+**Risk Assessment:**
+Low risk if skipped — the memory already exists in functionally equivalent form. Low risk if applied — it reinforces existing stance. But applying duplicates inflates memory without adding signal.
+
+**Decision: SKIP**
+Risk flags: ALREADY_APPLIED (functionally equivalent memory exists)
+
+---
+
+### 2. 46fba588afd485b8 — Claude 4.7 quality regressions vs 4.6
+**Memory Edit Candidate**
+
+**Signal Assessment:**
+Signal is strong — multiple posts document specific regressions (hallucination, verbosity, instruction-following). This is well-documented community observation. The proposed behavior (flag model version when it affects output reliability) is actionable.
+
+**Memory Consistency:**
+Memory entry `a6ac372a` already states: "Claude will name model version as a possible cause when output quality degrades, before being asked." This candidate is essentially identical. It adds "4.7 vs 4.6" specificity but the behavioral commitment is already established.
+
+**Eval Alignment:**
+No eval history on the existing entry.
+
+**Risk Assessment:**
+Version-specific claims (4.7 vs 4.6) will become stale as models change. The existing memory is version-agnostic, which is more durable. Adding version-specific detail might actually degrade memory quality over time.
+
+**Decision: SKIP**
+Risk flags: ALREADY_APPLIED, SOURCE_NEW
+
+---
+
+### 3. b398204042f33170 — SEC-registered RIA compliance concerns
+**Memory Edit Candidate**
+
+**Signal Assessment:**
+Signal proposes adding a factual claim about user's operating context (SEC-registered RIA). Source posts are HN discussions about regulated industries generally, not about this specific user. The digest pipeline appears to have inferred this from the user's profile context, not from the source posts themselves. This is a significant inferential leap.
+
+**Memory Consistency:**
+Memory entry `59df7c4b` already establishes compliance/data residency as first-order criteria. This candidate would add a claimed fact about user's regulatory status rather than a behavioral instruction.
+
+**Eval Alignment:**
+No eval history.
+
+**Risk Assessment:**
+If the user is not actually in an SEC-registered RIA, this memory would be factually wrong. The source posts don't substantiate this specific claim — they're general regulated-industry discussions. This feels like the digest pipeline over-inferring from profile context. Factual claims about user context should come from user statements, not from community posts.
+
+**Decision: SKIP**
+Risk flags: SOURCE_NEW, HIGH_VARIANCE (claim specificity vs evidence generality)
+
+---
+
+### 4. 51c6b59508af5358 — Explicit confirmation of model and reasoning mode
+**Memory Edit Candidate**
+
+**Signal Assessment:**
+Signal documents users unknowingly operating on degraded effort or wrong models. Proposed behavior: explicit confirmation of model and reasoning mode before proceeding on ambiguous tasks. This is actionable and addresses a real failure mode.
+
+**Memory Consistency:**
+Memory entry `04820478` already states: "Claude will surface model and reasoning mode confirmation proactively on complex high-stakes sessions." This is functionally identical.
+
+**Eval Alignment:**
+No eval history on existing entry.
+
+**Risk Assessment:**
+Duplicate application.
+
+**Decision: SKIP**
+Risk flags: ALREADY_APPLIED
+
+---
+
+### 5. 1f2da3ccbbeab36f — Vendor stability/concentration risk section in due diligence
+**Profile Diff Candidate**
+
+**Signal Assessment:**
+Proposes adding a standing instruction for vendor due diligence outputs to include a vendor stability section covering capability changes, suspension practices, pricing opacity, and lock-in exposure. Signal is grounded in documented Anthropic behaviors. This is a structural profile change, not just a memory edit.
+
+**Memory Consistency:**
+Memory `aaffaa0b` establishes the behavioral commitment to surface vendor concentration risk. This candidate operationalizes it as a specific deliverable section structure. It extends rather than duplicates.
+
+**Eval Alignment:**
+No eval history, but this is a reasonable extension of applied memory.
+
+**Risk Assessment:**
+Adding structured deliverable requirements risks over-specifying output format. The user may not want every vendor assessment to have the same four-point structure. However, the profile already specifies research-grade defaults, so structure is not foreign to this context.
+
+Moderate confidence this extends memory appropriately. But without eval data on whether the prior memory entry is even firing correctly, adding structural complexity on top feels premature.
+
+**Decision: DEFER**
+Defer condition: Apply after eval confirms memory entry `aaffaa0b` is producing expected behavior in vendor due diligence tasks.
+
+---
+
+### 6. 8d4ea72022ad0762 — Surface uncertainty about model-version regression vs analytical limitation
+**Profile Diff Candidate**
+
+**Signal Assessment:**
+Proposes Claude should explicitly say when it's uncertain whether degraded output reflects analytical limitation vs model regression. This is a meta-cognitive self-audit instruction. The signal about 4.7 regressions is well-documented.
+
+**Memory Consistency:**
+Memory `a6ac372a` establishes proactive model version flagging. Change log entry `0eab9eaa` establishes OUTPUT VERIFICATION section with [verify] markers. This candidate sits at the intersection — it's about flagging when Claude can't distinguish internal limitation from platform regression.
+
+This is not a duplicate but a refinement. However, it introduces a complex conditional ("when Claude is uncertain whether...") that may be difficult to operationalize.
+
+**Eval Alignment:**
+No eval history.
+
+**Risk Assessment:**
+The instruction asks Claude to self-diagnose uncertainty about its own model version. This is epistemically fraught — Claude generally cannot know its own model version or whether a regression is occurring. The instruction may produce false flags or confused metacommentary.
+
+**Decision: SKIP**
+Rationale: Claude cannot reliably self-diagnose model-version regression in real time. This instruction may produce noise rather than signal.
+
+---
+
+### 7. d463d8704c7ab245 — Surface reasoning model and effort level at top of compliance docs
+**Profile Diff Candidate**
+
+**Signal Assessment:**
+Proposes Claude should surface reasoning model and effort level at top of compliance-relevant outputs, and flag instruction drift mid-task. Source posts document silent degradation patterns.
+
+**Memory Consistency:**
+Memory `04820478` already establishes proactive model/mode confirmation on complex sessions. Change log `66930a3c` establishes DRIFT MODE for context saturation detection. This candidate overlaps significantly with both.
+
+**Eval Alignment:**
+No eval history.
+
+**Risk Assessment:**
+The "surface at top of response" format requirement may conflict with existing document production norms. Adding metadata headers to compliance documents could be awkward or inappropriate for external audiences.
+
+**Decision: SKIP**
+Risk flags: ALREADY_APPLIED (functionality covered by existing memory + DRIFT MODE)
+
+---
+
+### 8. 38450fd28a8d3ea8 — Compliance certification gaps as first-order criteria in AI vendor due diligence
+**Profile Diff Candidate**
+
+**Signal Assessment:**
+Proposes surfacing SOC2, HIPAA BAA, FedRAMP, data residency, audit trails as first-order criteria before feature evaluation in AI tool assessments. Signal from HN about regulated teams discovering blockers late.
+
+**Memory Consistency:**
+Memory `59df7c4b` already states: "Claude will include compliance and data residency as default first-order criteria in vendor evaluations without prompting." This candidate specifies the same behavior with more detail (SOC2, HIPAA, FedRAMP).
+
+**Eval Alignment:**
+No eval history on existing entry.
+
+**Risk Assessment:**
+This is incremental specification of existing memory. Adding certification names (SOC2, HIPAA, FedRAMP) may be helpful or may become stale if regulatory landscape shifts. The general principle is already captured.
+
+**Decision: SKIP**
+Risk flags: ALREADY_APPLIED (specific certification names don't add significant value over existing general instruction)
+
+---
+
+### 9. 21c43fb5b5ddeac0 — Checkpoint instruction fidelity on multi-step tasks
+**Profile Diff Candidate**
+
+**Signal Assessment:**
+Proposes Claude should checkpoint its own instruction fidelity at each major stage of multi-step tasks and surface competing interpretations before committing. Source posts document context collapse and drift patterns.
+
+**Memory Consistency:**
+Change log `66930a3c` establishes DRIFT MODE with structured handoff. This candidate proposes active checkpointing within tasks rather than session-level drift detection. It's adjacent but distinct.
+
+**Eval Alignment:**
+No eval history.
+
+**Risk Assessment:**
+Active checkpointing on every multi-step task could be verbose and intrusive. The user's profile emphasizes conciseness and decision-quality outputs. Constant meta-commentary about instruction fidelity may conflict with those norms.
+
+However, the underlying concern (context drift in complex tasks) is legitimate and not fully addressed by session-level DRIFT MODE.
+
+**Decision: DEFER**
+Defer condition: Apply after DRIFT MODE (change log `66930a3c`) has been evaluated for effectiveness. If DRIFT MODE proves insufficient for multi-step task integrity, this candidate becomes more compelling.
+
+---
+
+### 10. 817d2caaf3a48799 — Scrub document metadata (Author, Comments) before delivery
+**Profile Diff Candidate**
+
+**Signal Assessment:**
+Proposes Claude should scrub or set document metadata to reflect user rather than AI-generated defaults. Source is a highly-upvoted comment about metadata fingerprints exposing AI authorship. This is a concrete, actionable production hygiene step.
+
+**Memory Consistency:**
+No existing memory or change log entry addresses document metadata hygiene. This is a genuine gap.
+
+**Eval Alignment:**
+No eval history, but this is a discrete, low-risk procedural addition.
+
+**Risk Assessment:**
+Low risk. Metadata scrubbing is a reversible, non-destructive action. The user's profile emphasizes formal documents entering review processes — metadata hygiene is directly relevant. This is a concrete operational improvement, not a philosophical stance.
+
+**Decision: APPLY**
+Confidence: 0.82
+This fills a genuine gap, is actionable, low-risk, and directly relevant to stated workflow.
+
+---
+
+### 11. f685826688f7a5d6 — Pre-flight checklist for unambiguous task framing
+**Profile Diff Candidate**
+
+**Signal Assessment:**
+Proposes adding a note that explicit, unambiguous task framing reduces drift and hedging. Suggests a "pre-flight checklist" confirming terminal deliverable is stated explicitly before invoking modes. Source posts confirm Opus 4.7 benefits from explicit framing.
+
+**Memory Consistency:**
+The profile already defines modes. This candidate proposes meta-documentation about when modes work best. It's process guidance rather than behavioral instruction.
+
+**Eval Alignment:**
+No eval history.
+
+**Risk Assessment:**
+Adding documentation about prompt hygiene is low-risk but may be low-value. It tells the user what to do rather than instructing Claude what to do. The effectiveness depends on user behavior, which Claude cannot control.
+
+This feels more appropriate as a tip or technique than a profile instruction.
+
+**Decision: SKIP**
+Rationale: This is user-side guidance, not Claude behavioral instruction. Better suited to technique candidates or user documentation than profile changes.
+
+---
+
+### 12. dd6ce84ee5675f23 — HTML artifacts not treated as deliverable outputs
+**Profile Diff Candidate**
+
+**Signal Assessment:**
+Proposes explicit note that HTML artifacts are not deliverable outputs for this workflow; default to PDF or DOCX via established routing. Source posts document HTML portability friction.
+
+**Memory Consistency:**
+Profile already specifies docx-env routing and formal document production norms. This candidate makes implicit assumption explicit.
+
+**Eval Alignment:**
+No eval history.
+
+**Risk Assessment:**
+Low risk. Making an implicit assumption explicit is unlikely to cause harm. The user's workflow clearly favors formal document formats over HTML artifacts.
+
+**Decision: APPLY**
+Confidence: 0.78
+This clarifies existing intent and prevents a predictable failure mode.
+
+---
+
+### 13. e7686abfe99b86d6 — Context window degradation signals and compact/reset discipline
+**Profile Diff Candidate**
+
+**Signal Assessment:**
+Proposes guidance on context degradation signals: conflating entities, re-summarizing closed decisions, compaction events burning context. Recommends checkpoint-and-reset discipline and selective file re-reads on compact.
+
+**Memory Consistency:**
+Change log `66930a3c` establishes DRIFT MODE for context saturation detection. This candidate provides more specific operational guidance on detection signals and reset discipline.
+
+**Eval Alignment:**
+No eval history on DRIFT MODE yet.
+
+**Risk Assessment:**
+This extends DRIFT MODE with specific operational detail. The detail is actionable (conflation, re-summarizing closed decisions as open). However, applying this before DRIFT MODE is evaluated adds unmeasured complexity.
+
+**Decision: DEFER**
+Defer condition: Apply after DRIFT MODE effectiveness is evaluated. If DRIFT MODE lacks specific detection criteria, this candidate provides them.
+
+---
+
+### 14. 435184358d199a85 — Flag uncertainty on verifiable claims
+**Profile Addition Candidate (Track B)**
+
+**Signal Assessment:**
+Proposes Claude should flag uncertainty explicitly on verifiable claims (citations, quotes, statistics, URLs, regulatory references) rather than presenting fabricated specifics with false confidence. Never confirm accuracy when challenged unless correction can be grounded.
+
+**Memory Consistency:**
+Change log `0eab9eaa` establishes OUTPUT VERIFICATION section with [verify] markers. This candidate reinforces and extends that instruction with specific guidance on never confirming fabricated facts when challenged.
+
+**Eval Alignment:**
+No eval history on OUTPUT VERIFICATION yet.
+
+**Risk Assessment:**
+This strengthens an already-applied change. The "never confirm accuracy when challenged" clause directly addresses a documented failure mode (Claude doubling down on hallucinations). This is high-value for governance document production.
+
+However, this overlaps significantly with existing OUTPUT VERIFICATION instruction. The marginal value is the specific clause about challenged confirmations.
+
+**Decision: APPLY**
+Confidence: 0.75
+The "never confirm when challenged" behavior is distinct from [verify] marking and addresses a documented high-severity failure mode.
+
+---
+
+### 15. 61f8bf1f19fce7fb — Framework Request Instead of Answer Request
+**Technique Candidate (Track C)**
+
+**Signal Assessment:**
+Proposes a prompt technique: ask for a framework/decision structure rather than direct answer. Source posts confirm this produces better outputs for complex decisions.
+
+**Memory Consistency:**
+This is a technique for user prompting, not a Claude behavioral instruction. It's orthogonal to existing memory.
+
+**Eval Alignment:**
+No eval history.
+
+**Risk Assessment:**
+Techniques are suggestions to the user, not changes to Claude's behavior. The value depends entirely on whether the user adopts and uses it. Low-risk to record; value uncertain.
+
+This is a reasonable technique to surface but doesn't require "apply" in the same sense as profile changes.
+
+**Decision: APPLY**
+Confidence: 0.72
+Technique candidates have different risk profiles — surfacing a useful technique has low downside even if user doesn't adopt it.
+
+---
+
+## Cross-Batch Observations
+
+1. **Heavy duplication with existing memory:** Candidates 1, 2, 3, 4, 7, 8 all propose changes that duplicate or minimally extend existing memory entries applied same-day. The digest pipeline appears to be re-proposing already-applied concepts.
+
+2. **No eval feedback yet:** All 7 existing memory/change entries are from today with no outcome measurement. Applying additional changes before any eval signal risks compounding unmeasured changes.
+
+3. **Version-specific claims:** Several candidates reference Claude 4.7 vs 4.6. These claims will become stale. Prefer version-agnostic formulations.
+
+4. **Deferred candidates share a dependency:** Candidates 5, 9, 13 all depend on evaluation of existing change log entries (DRIFT MODE, vendor concentration memory). They form a natural second-wave after eval data arrives.
+
+5. **Strong candidates:** Document metadata hygiene (10), HTML artifact clarification (12), and hallucination challenge behavior (14) fill genuine gaps with actionable, low-risk instructions.
+
+6. **Pipeline signal:** The uniform signal_strength (0.85) and source_reliability_score (0.5) across all candidates suggests these scores may be defaults rather than calibrated assessments. Future batches should show variance if scoring is functioning.

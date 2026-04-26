@@ -1,0 +1,567 @@
+{
+  "session_id": "3bf096b0-07b3-4f48-9bbf-c21e9fa53c36",
+  "run_at": "2026-04-26T18:29:06.196342+00:00",
+  "memory_snapshot_hash": "487a9734974eea1df753037eeffac7c85e2e206eaea18a68b7e2b9c965d446be",
+  "candidates": [
+    {
+      "id": "990554bd-3009-4bb2-8826-7c735442d92a",
+      "fingerprint": "48474d415f60dbcf",
+      "track": "a",
+      "category": "memory_edit_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "memory_edit",
+        "summary": "User treats single-vendor AI dependency as an institutional risk, not just a preference issue.",
+        "detail": {
+          "command": "add",
+          "control": "User treats single-vendor AI dependency as an institutional risk, not just a preference issue.",
+          "rationale": "Multiple posts surface sudden org-wide suspensions, silent capability removals, and pricing changes with no notice — exactly the supply chain risk that matters to a CIO/CTO in a regulated environment. This framing will cause Claude to proactively surface vendor concentration risk when relevant to infrastructure or vendor due diligence work without being asked.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1sspwz2/psa_anthropic_bans_organizations_without_warning/",
+            "/r/Anthropic/comments/1ssm6nr/anthropic_you_would_get_so_much_more_respect_from/",
+            "/r/Anthropic/comments/1stmbyd/unusable_after_token_usage_nerfs/"
+          ]
+        }
+      },
+      "signal_strength": 0.85,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-04-26T18:29:06.194568+00:00",
+      "prior_appearances": 0,
+      "posts_input": 163
+    },
+    {
+      "id": "dea13a24-f656-4231-a841-d4651b97104b",
+      "fingerprint": "46fba588afd485b8",
+      "track": "a",
+      "category": "memory_edit_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "memory_edit",
+        "summary": "User is aware Claude 4.7 has documented quality regressions vs 4.6; flag model version when it affects output reliabilit",
+        "detail": {
+          "command": "add",
+          "control": "User is aware Claude 4.7 has documented quality regressions vs 4.6; flag model version when it affects output reliability.",
+          "rationale": "Widespread, high-confidence signal across both subreddits confirms Opus 4.7 has measurable hallucination, verbosity, and instruction-following regressions relative to 4.6. For a user whose outputs enter formal review processes, silent model degradation is a direct workflow risk. This edit ensures Claude flags when model version may be affecting output quality rather than leaving the user to discover it post-review.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1ss8h1x/an_open_letter_to_anthropic/",
+            "/r/ClaudeAI/comments/1srgo7e/i_genuinely_hate_the_conversation_tone_of_opus_47/",
+            "/r/Anthropic/comments/1srqi3f/please_dont_take_opus_46_and_extended_thinking/",
+            "/r/Anthropic/comments/1spqtp8/claude_47_is_an_absolute_trash/"
+          ]
+        }
+      },
+      "signal_strength": 0.85,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-04-26T18:29:06.194586+00:00",
+      "prior_appearances": 0,
+      "posts_input": 163
+    },
+    {
+      "id": "badb790e-4e7d-498c-91c0-cf105ed2ce3d",
+      "fingerprint": "b398204042f33170",
+      "track": "a",
+      "category": "memory_edit_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "memory_edit",
+        "summary": "User operates in SEC-registered RIA; data privacy and third-party AI compliance are active governance concerns.",
+        "detail": {
+          "command": "add",
+          "control": "User operates in SEC-registered RIA; data privacy and third-party AI compliance are active governance concerns.",
+          "rationale": "Multiple HN posts surface regulated-industry teams flagging data residency, HIPAA/SOC2, and audit trail concerns when using cloud AI tools. Given the user's RIA environment, this is directly relevant to vendor due diligence and infrastructure governance work — not a general interest pattern.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "https://news.ycombinator.com/item?id=43933054",
+            "https://news.ycombinator.com/item?id=47043484",
+            "https://news.ycombinator.com/item?id=39793054"
+          ]
+        }
+      },
+      "signal_strength": 0.85,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-04-26T18:29:06.194592+00:00",
+      "prior_appearances": 0,
+      "posts_input": 163
+    },
+    {
+      "id": "b91662f2-b940-4dbd-8536-8436bf6780e2",
+      "fingerprint": "51c6b59508af5358",
+      "track": "a",
+      "category": "memory_edit_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "memory_edit",
+        "summary": "When Claude effort level or model version is ambiguous, user prefers explicit confirmation of active model and reasoning",
+        "detail": {
+          "command": "add",
+          "control": "When Claude effort level or model version is ambiguous, user prefers explicit confirmation of active model and reasoning mode before proceeding.",
+          "rationale": "Multiple posts document users unknowingly operating on degraded reasoning effort or wrong model versions with no signal from the interface. Given the user's high-stakes output requirements, silent model/effort degradation is an acute risk — explicit confirmation at session start or on complex tasks would be a meaningful safeguard.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/Anthropic/comments/1sqc29e/opus_47_refuses_to_think_even_while_doing_complex/",
+            "/r/LocalLLaMA/comments/1suef7t/anthropic_admits_to_have_made_hosted_models_more/",
+            "https://news.ycombinator.com/item?id=47778035"
+          ]
+        }
+      },
+      "signal_strength": 0.85,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-04-26T18:29:06.194596+00:00",
+      "prior_appearances": 0,
+      "posts_input": 163
+    },
+    {
+      "id": "7540eeda-5f07-4269-ad82-ae54412a007d",
+      "fingerprint": "1f2da3ccbbeab36f",
+      "track": "a",
+      "category": "profile_diff_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "profile_change",
+        "summary": "Add a standing instruction that when producing vendor due diligence, infrastructure selection, or AI tooling assessments",
+        "detail": {
+          "target_section": "Governance Documentation / Vendor Due Diligence",
+          "proposed_change": "Add a standing instruction that when producing vendor due diligence, infrastructure selection, or AI tooling assessments, Claude should include a vendor stability and concentration risk section covering: (1) history of unilateral capability changes or silent deprecations, (2) account suspension and support escalation practices, (3) pricing opacity or mid-cycle plan restructuring, and (4) single-vendor lock-in exposure. This should be surfaced as a default section in relevant deliverables, not triggered only by explicit request.",
+          "rationale": "The Reddit signal documents a sustained pattern of Anthropic making consequential unilateral changes — removing Claude Code from plans without notice, org-wide suspensions with no support path, silent token limit nerfs, and public postmortems that followed weeks of denial. These are exactly the vendor governance risks a CIO/CTO in a regulated RIA environment must evaluate. The profile already calls for primary-source, decision-quality analysis; this extends that posture to AI vendor diligence specifically.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1sspwz2/psa_anthropic_bans_organizations_without_warning/",
+            "/r/ClaudeAI/comments/1srzhd7/psa_claude_pro_no_longer_lists_claude_code_as_an/",
+            "/r/Anthropic/comments/1ssm6nr/anthropic_you_would_get_so_much_more_respect_from/",
+            "/r/ClaudeAI/comments/1stq98j/postmortem_on_recent_claude_code_quality_issues/"
+          ]
+        }
+      },
+      "signal_strength": 0.85,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-04-26T18:29:06.194604+00:00",
+      "prior_appearances": 0,
+      "posts_input": 163
+    },
+    {
+      "id": "2267f5f6-8493-4f41-8f2b-5038c031ba2f",
+      "fingerprint": "8d4ea72022ad0762",
+      "track": "a",
+      "category": "profile_diff_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "profile_change",
+        "summary": "Add an explicit instruction that when Claude is uncertain whether a degraded output reflects a genuine analytical limita",
+        "detail": {
+          "target_section": "Analytical Depth / Research-Grade Default",
+          "proposed_change": "Add an explicit instruction that when Claude is uncertain whether a degraded output reflects a genuine analytical limitation versus a known model-version regression, it should say so directly and recommend the user verify against a prior session or alternative model configuration. Claude should not silently absorb quality variance that could contaminate deliverables entering formal review.",
+          "rationale": "The 4.7 regression pattern — hallucination, instruction dropout, excessive verbosity — is well-documented and would be invisible to a user who assumes degraded output reflects their prompt rather than the model. For a configuration explicitly designed to trade comfort for accuracy, a silent quality regression is a direct threat to the profile's core intent. This addition makes Claude an active quality control participant rather than a passive output generator.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1ss8h1x/an_open_letter_to_anthropic/",
+            "/r/Anthropic/comments/1su3vgi/model_claudeopus46/",
+            "/r/Anthropic/comments/1suotwq/im_probably_scrapping_my_2_memberships_tbh/",
+            "/r/Anthropic/comments/1srqi3f/please_dont_take_opus_46_and_extended_thinking/"
+          ]
+        }
+      },
+      "signal_strength": 0.85,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-04-26T18:29:06.194607+00:00",
+      "prior_appearances": 0,
+      "posts_input": 163
+    },
+    {
+      "id": "3f238a30-b0de-46a6-a47c-6807a00a3ee1",
+      "fingerprint": "d463d8704c7ab245",
+      "track": "a",
+      "category": "profile_diff_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "profile_change",
+        "summary": "Add an explicit directive that when producing compliance-relevant or governance documents, Claude should surface the rea",
+        "detail": {
+          "target_section": "Output Layer / Document Production",
+          "proposed_change": "Add an explicit directive that when producing compliance-relevant or governance documents, Claude should surface the reasoning model and effort level it is operating under at the top of the response, and flag if it detects context collapse or instruction drift mid-task rather than silently continuing.",
+          "rationale": "The signal across multiple posts shows Claude silently operating at degraded effort, losing track of multi-step instructions, and continuing to produce output without flagging quality degradation. For a user whose documents enter formal review processes, silent drift is high-consequence — a self-reporting norm in long or complex tasks directly addresses this failure mode.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1sozmn5/claude_opus_47_gets_frustrated_easily_and_gives_up/",
+            "/r/claude/comments/1straqe/claude_opus_47_is_it_just_broken/",
+            "/r/LocalLLaMA/comments/1suef7t/anthropic_admits_to_have_made_hosted_models_more/"
+          ]
+        }
+      },
+      "signal_strength": 0.85,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-04-26T18:29:06.194611+00:00",
+      "prior_appearances": 0,
+      "posts_input": 163
+    },
+    {
+      "id": "071650d9-b778-4e66-b076-4db2868bbc20",
+      "fingerprint": "38450fd28a8d3ea8",
+      "track": "a",
+      "category": "profile_diff_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "profile_change",
+        "summary": "Add a standing analytical lens for AI vendor due diligence work: when evaluating AI tools for regulated-environment depl",
+        "detail": {
+          "target_section": "Vendor Due Diligence",
+          "proposed_change": "Add a standing analytical lens for AI vendor due diligence work: when evaluating AI tools for regulated-environment deployment, proactively surface compliance certification gaps (SOC2, HIPAA BAA, FedRAMP), data residency assumptions, and audit trail availability as first-order criteria before feature evaluation.",
+          "rationale": "The HN signal shows regulated-industry teams discovering compliance blockers late in the evaluation cycle for tools like Cursor and Claude Code — and the user's RIA context makes this pattern directly applicable. Surfacing this as a default analytical frame in vendor due diligence work would prevent the user from needing to prompt for it.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "https://news.ycombinator.com/item?id=47043484",
+            "https://news.ycombinator.com/item?id=43933054",
+            "https://news.ycombinator.com/item?id=39793054"
+          ]
+        }
+      },
+      "signal_strength": 0.85,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-04-26T18:29:06.194615+00:00",
+      "prior_appearances": 0,
+      "posts_input": 163
+    },
+    {
+      "id": "d54d90f4-c1b5-486f-9113-1936f9c47a43",
+      "fingerprint": "21c43fb5b5ddeac0",
+      "track": "a",
+      "category": "profile_diff_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "profile_change",
+        "summary": "Add a directive that when Claude is operating on multi-step planning or research tasks, it should explicitly checkpoint ",
+        "detail": {
+          "target_section": "Core Analytical Depth / Research-Grade Default",
+          "proposed_change": "Add a directive that when Claude is operating on multi-step planning or research tasks, it should explicitly checkpoint its own instruction fidelity at each major stage rather than allowing context drift to compound — and surface competing interpretations of the task framing before committing to a path.",
+          "rationale": "Multiple posts document Claude collapsing multi-step tasks by treating early failures as pattern confirmation, abandoning untested items, or drifting from original framing as context grows. The user's governance and business case work frequently involves complex multi-stage research where this failure mode would corrupt the output.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1sozmn5/claude_opus_47_gets_frustrated_easily_and_gives_up/",
+            "/r/claude/comments/1straqe/claude_opus_47_is_it_just_broken/",
+            "/r/Anthropic/comments/1sqc29e/opus_47_refuses_to_think_even_while_doing_complex/"
+          ]
+        }
+      },
+      "signal_strength": 0.85,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-04-26T18:29:06.194620+00:00",
+      "prior_appearances": 0,
+      "posts_input": 163
+    },
+    {
+      "id": "2be68ec9-3ca1-41cf-b916-52dc0a8ffcc2",
+      "fingerprint": "817d2caaf3a48799",
+      "track": "a",
+      "category": "profile_diff_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "profile_change",
+        "summary": "Add an explicit note that when producing Word or Excel outputs, Claude should scrub or set document metadata (Author, Co",
+        "detail": {
+          "target_section": "Output Layer / Document Production",
+          "proposed_change": "Add an explicit note that when producing Word or Excel outputs, Claude should scrub or set document metadata (Author, Comments fields) to reflect Jimbo rather than AI-generated defaults before delivery. Flag this as a formal-review hygiene step, not a cosmetic one.",
+          "rationale": "A highly-upvoted comment in the Word document thread explicitly called out that AI-generated files carry metadata fingerprints that expose AI authorship to reviewers — a direct risk in a regulated RIA environment where documents enter formal review processes. The current profile specifies the docx-env routing and Waterton brand system but is silent on metadata hygiene, which is a gap that could undermine document credibility in SEC or board-level contexts.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/PromptEngineering/comments/1spmwkg/i_didnt_realise_claude_could_build_actual_word/",
+            "/r/Accounting/comments/1ssdawn/am_i_crazy_or_is_claudes_own_plug_in_in_excel_just/",
+            "/r/PromptEngineering/comments/1ssdyf9/you_can_drop_a_messy_excel_file_into_claude_and/"
+          ]
+        }
+      },
+      "signal_strength": 0.85,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-04-26T18:29:06.194624+00:00",
+      "prior_appearances": 0,
+      "posts_input": 163
+    },
+    {
+      "id": "4fb6c5d7-ae93-4e1e-ae1d-27dbdacd19fa",
+      "fingerprint": "f685826688f7a5d6",
+      "track": "a",
+      "category": "profile_diff_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "profile_change",
+        "summary": "Add a note to the mode system documentation that unambiguous, direct task framing — stating exactly what output is expec",
+        "detail": {
+          "target_section": "Cognitive Toolkit / Mode Definitions",
+          "proposed_change": "Add a note to the mode system documentation that unambiguous, direct task framing — stating exactly what output is expected and what 'done' looks like — measurably reduces model drift and hedging behavior in Opus-tier models. This can be codified as a pre-flight checklist item before invoking any mode on a high-stakes output: confirm the terminal deliverable is stated explicitly in the prompt, not implied.",
+          "rationale": "Multiple posts converged on the finding that Opus 4.7 in particular requires explicit, unambiguous task framing to avoid hedge-everything responses and self-auditing loops — precisely the failure mode the existing modes are designed to counter. The current profile defines the modes well but doesn't articulate the upstream prompt hygiene that makes them maximally effective. Given that Jimbo's work involves high-stakes decisions where drift causes direct harm, adding this as an explicit operating note strengthens the toolkit without changing its structure.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/Anthropic/comments/1sst802/must_be_magic_or_something/",
+            "/r/ClaudeAI/comments/1sw6mv2/tell_claude_to_always_use_an_economy_of_words/",
+            "/r/ClaudeAI/comments/1sut1pz/guys_i_think_claude_is_improving/"
+          ]
+        }
+      },
+      "signal_strength": 0.85,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-04-26T18:29:06.194630+00:00",
+      "prior_appearances": 0,
+      "posts_input": 163
+    },
+    {
+      "id": "751746c0-0e36-41fa-a531-046e455f93c7",
+      "fingerprint": "dd6ce84ee5675f23",
+      "track": "a",
+      "category": "profile_diff_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "profile_change",
+        "summary": "Add an explicit note that HTML artifacts are not treated as deliverable outputs for this user's workflow. When interacti",
+        "detail": {
+          "target_section": "Output Layer / Document Production",
+          "proposed_change": "Add an explicit note that HTML artifacts are not treated as deliverable outputs for this user's workflow. When interactive or visual output is needed, default to PDF (reportlab) or DOCX (docx-env) via the established skill routing. If HTML is genuinely required, flag that it requires a deliberate export step to be shareable outside Claude.",
+          "rationale": "Multiple posts surface the same friction: HTML artifacts produced in Claude are not portable as files — recipients can't open them without special steps. Given the user's profile emphasizes formal documents entering review processes, silently producing HTML when a proper document format was expected would be directly counterproductive. Codifying this prevents the failure mode before it occurs.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1su5crl/anyone_else_frustrated_that_claude_artifacts_html/",
+            "/r/ClaudeAI/comments/1svkbjq/is_it_possible_is_anyone_using_claude_to_run/",
+            "/r/ClaudeAI/comments/1svfqzc/claude_to_manage_my_markdown_recipe_folder_remotely"
+          ]
+        }
+      },
+      "signal_strength": 0.85,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-04-26T18:29:06.194634+00:00",
+      "prior_appearances": 0,
+      "posts_input": 163
+    },
+    {
+      "id": "d89ff154-f5e1-4e2a-bcc6-8d5246b468d4",
+      "fingerprint": "e7686abfe99b86d6",
+      "track": "a",
+      "category": "profile_diff_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "profile_change",
+        "summary": "Add a guidance note on context window degradation signals and compact/reset discipline. Specifically: when Claude begins",
+        "detail": {
+          "target_section": "Cognitive Toolkit / Session and Context Management",
+          "proposed_change": "Add a guidance note on context window degradation signals and compact/reset discipline. Specifically: when Claude begins conflating entities established early in a session, or re-summarizes prior decisions as if they are open questions, treat this as a hard signal to checkpoint and reset rather than continue. When a compact or condense is triggered, instruct Claude to not re-read files not explicitly needed for the next task, to prevent context burn on recovery.",
+          "rationale": "At least four posts describe the same failure pattern: model quality degrades within long sessions (conflation, hallucination, loss of established facts), compaction events silently burn large context chunks by re-reading unreferenced files, and users have no reliable signal for when to reset. For a user whose sessions involve governance docs, architecture artifacts, and multi-step analytical work, undetected context degradation is a direct accuracy risk.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1sv6m1o/convo_length_sweet_spot_whats_peoples_opinions_on/",
+            "/r/ClaudeAI/comments/1sw7kzo/is_there_something_i_can_do_to_prevent_burning/",
+            "/r/Anthropic/comments/1ssyzui/opus_47_reminds_me_of_haiku_its_a_bit_of/",
+            "/r/claudexplorers/comments/1ssrjv7/mental_therapy_with_claude_was_better_than_my/"
+          ]
+        }
+      },
+      "signal_strength": 0.85,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-04-26T18:29:06.194637+00:00",
+      "prior_appearances": 0,
+      "posts_input": 163
+    },
+    {
+      "id": "837d5ed9-2219-46a7-9c27-dd8a1e07c83f",
+      "fingerprint": "435184358d199a85",
+      "track": "b",
+      "category": "profile_addition_candidates",
+      "source": "claire_synthesize:track_b",
+      "content": {
+        "type": "profile_addition",
+        "summary": "When producing any claim that could be verified — citations, quotes, statistics, named sources, URLs, regulatory referen",
+        "detail": {
+          "target_section": "Research & Analytical Standards",
+          "proposed_text": "When producing any claim that could be verified — citations, quotes, statistics, named sources, URLs, regulatory references, or attributed positions — flag uncertainty explicitly rather than presenting fabricated specifics with false confidence. If a source cannot be verified from training data, say so and describe what type of source would substantiate the claim instead of constructing a plausible-sounding substitute. Never confirm accuracy when challenged unless the correction can be grounded in specific reasoning.",
+          "rationale": "Multiple posts document Claude confidently re-confirming hallucinated facts when challenged rather than acknowledging uncertainty — a pattern directly dangerous in governance documentation and formal review processes where fabricated citations or regulatory references would survive unchallenged. The user's profile explicitly trades comfort for accuracy, making silent hallucination confirmation the highest-severity failure mode. This instruction codifies the behavior without requiring a full skill build.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/Anthropic/comments/1ssma9g/alternatives_to_claude_now_that_its_hallucinating/",
+            "/r/ChatGPT/comments/1sq0u1i/is_claude_actually_better_than_chatgpt_or_is_it/",
+            "https://news.ycombinator.com/item?id=47559143"
+          ]
+        }
+      },
+      "signal_strength": 0.85,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-04-26T18:29:06.195053+00:00",
+      "prior_appearances": 0,
+      "posts_input": 7
+    },
+    {
+      "id": "6b7fc7c0-416f-469a-9791-eef79eadae13",
+      "fingerprint": "61f8bf1f19fce7fb",
+      "track": "c",
+      "category": "technique_candidates",
+      "source": "claire_synthesize:track_c",
+      "content": {
+        "type": "technique",
+        "summary": "Framework Request Instead of Answer Request",
+        "detail": {
+          "technique_name": "Framework Request Instead of Answer Request",
+          "description": "Instead of asking an AI for a direct answer or decision, explicitly ask it to provide a framework, set of criteria, or decision structure you can use to arrive at the answer yourself. The user phrases it as 'don't give me an answer, give me the framework I should use to find the answer myself.' This shifts the AI from output-giver to thinking-scaffold builder.",
+          "test_suggestion": "On your next complex decision or analysis task, open with 'Don't give me an answer — give me the framework I should use to evaluate this' and compare the usefulness of the output versus asking directly.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ChatGPTPromptGenius/comments/1sts5gv/i_stopped_asking_claude_for_answers_i_started/",
+            "https://news.ycombinator.com/item?id=45362416",
+            "/r/ChatGPTPromptGenius/comments/1sts5gv/i_stopped_asking_claude_for_answers_i_started/"
+          ]
+        }
+      },
+      "signal_strength": 0.85,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-04-26T18:29:06.195573+00:00",
+      "prior_appearances": 0,
+      "posts_input": 10
+    }
+  ],
+  "memory_state": {
+    "snapshot_at": "2026-04-26T18:29:06.196334+00:00",
+    "snapshot_hash": "487a9734974eea1df753037eeffac7c85e2e206eaea18a68b7e2b9c965d446be",
+    "entries": [
+      {
+        "id": "0eab9eaa-b6e0-4d18-9547-06d495b6ce70",
+        "key": "profile_change:2026-04-26",
+        "value": "Added OUTPUT VERIFICATION section -- hallucination self-audit with [verify] inline marker and external audience consolidation rule",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "66930a3c-2cfe-437c-b66a-c10b73df32fd",
+        "key": "profile_change:2026-04-26",
+        "value": "Added DRIFT MODE to MODES section -- automatic context saturation detection with structured handoff note",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "aaffaa0b-7d4d-4b9f-8813-513c7f231f65",
+        "key": "memory_edit:2026-04-26",
+        "value": "Claude will proactively surface vendor concentration risk during due diligence without prompting.",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "a6ac372a-90d4-4bb4-8899-bf03f8167ad2",
+        "key": "memory_edit:2026-04-26",
+        "value": "Claude will name model version as a possible cause when output quality degrades, before being asked.",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "59df7c4b-2ae7-44f3-92a9-5f52080e82af",
+        "key": "memory_edit:2026-04-26",
+        "value": "Claude will include compliance and data residency as default first-order criteria in vendor evaluations without prompting.",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "04820478-c12a-4ab3-bb29-5ac0ccd83d20",
+        "key": "memory_edit:2026-04-26",
+        "value": "Claude will surface model and reasoning mode confirmation proactively on complex high-stakes sessions.",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "185a4db8-c319-46d9-bba1-3633dccff774",
+        "key": "memory_edit:2026-04-26",
+        "value": "Claude will recommend chunked structure over monolithic files when project memory or documentation architecture comes up.",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      }
+    ]
+  },
+  "change_log": [
+    {
+      "id": "0eab9eaa-b6e0-4d18-9547-06d495b6ce70",
+      "applied_at": "2026-04-26",
+      "type": "profile_change",
+      "summary": "Added OUTPUT VERIFICATION section -- hallucination self-audit with [verify] inline marker and external audience consolidation rule",
+      "source": "reddit_1ssma9g",
+      "hypothesis": "Claude will flag uncertain citations with [verify] rather than asserting fabricated confidence, reducing liability exposure in governance document review pipelines. External audience outputs will consolidate [verify] items into a review checklist rather than leaving markers inline.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "66930a3c-2cfe-437c-b66a-c10b73df32fd",
+      "applied_at": "2026-04-26",
+      "type": "profile_change",
+      "summary": "Added DRIFT MODE to MODES section -- automatic context saturation detection with structured handoff note",
+      "source": "/r/ClaudeAI/comments/1sv6znz/convo_length_sweet_spot_whats_peoples_opinions_on/",
+      "hypothesis": "Claude will proactively surface context drift in long governance and vendor due diligence sessions before silent quality collapse occurs, with a structured handoff note covering session state and open threads. False positive cost: occasional interruptions in sessions where drift has not actually occurred -- eval notes should track frequency.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "aaffaa0b-7d4d-4b9f-8813-513c7f231f65",
+      "applied_at": "2026-04-26",
+      "type": "memory_edit",
+      "summary": "Claude will proactively surface vendor concentration risk during due diligence without prompting.",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will proactively surface vendor concentration risk during due diligence without prompting.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "a6ac372a-90d4-4bb4-8899-bf03f8167ad2",
+      "applied_at": "2026-04-26",
+      "type": "memory_edit",
+      "summary": "Claude will name model version as a possible cause when output quality degrades, before being asked.",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will name model version as a possible cause when output quality degrades, before being asked.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "59df7c4b-2ae7-44f3-92a9-5f52080e82af",
+      "applied_at": "2026-04-26",
+      "type": "memory_edit",
+      "summary": "Claude will include compliance and data residency as default first-order criteria in vendor evaluations without prompting.",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will include compliance and data residency as default first-order criteria in vendor evaluations without prompting.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "04820478-c12a-4ab3-bb29-5ac0ccd83d20",
+      "applied_at": "2026-04-26",
+      "type": "memory_edit",
+      "summary": "Claude will surface model and reasoning mode confirmation proactively on complex high-stakes sessions.",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will surface model and reasoning mode confirmation proactively on complex high-stakes sessions.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "185a4db8-c319-46d9-bba1-3633dccff774",
+      "applied_at": "2026-04-26",
+      "type": "memory_edit",
+      "summary": "Claude will recommend chunked structure over monolithic files when project memory or documentation architecture comes up.",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will recommend chunked structure over monolithic files when project memory or documentation architecture comes up.",
+      "outcome_measured": false,
+      "eval_notes": []
+    }
+  ],
+  "eval_history": [],
+  "_meta": {
+    "assembler_version": "1.0.0",
+    "total_candidates_in": 25,
+    "candidates_selected": 15,
+    "candidates_deferred": 5,
+    "max_batch_size": 15,
+    "eval_history_points": 0,
+    "notes": "memory_edit entries in change_log lack 'summary' field — hypothesis used as proxy. Add 'summary' to change_log schema to improve memory consistency checks."
+  }
+}

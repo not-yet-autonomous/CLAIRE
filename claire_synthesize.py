@@ -259,6 +259,9 @@ CANDIDATE TYPES
 
 DO NOT generate candidates for developer/API use cases.
 DO NOT write hypotheses.
+For each profile_addition_candidate, set change_target to "claude_behavior" if the
+instruction directs Claude to do something, or "user_behavior" if it advises the
+user to change how they prompt or interact.
 
 OUTPUT FORMAT — JSON only, no markdown fences.
 
@@ -279,6 +282,7 @@ OUTPUT FORMAT — JSON only, no markdown fences.
       "target_section": "existing section name or NEW",
       "proposed_text": "the actual text to add",
       "rationale": "2-3 sentences",
+      "change_target": "claude_behavior|user_behavior",
       "confidence": "HIGH|MEDIUM",
       "source_posts": ["permalink1", "permalink2", "permalink3"]
     }}
@@ -298,6 +302,8 @@ These are candidates for the user to test manually before any configuration
 change is considered.
 
 DO NOT write hypotheses.
+Always set change_target to "user_behavior" for technique_candidates — these are
+prompting patterns for the user, not behavioral instructions for Claude.
 
 OUTPUT FORMAT — JSON only, no markdown fences.
 
@@ -307,6 +313,7 @@ OUTPUT FORMAT — JSON only, no markdown fences.
       "technique_name": "short label",
       "description": "what the technique is and how it works",
       "test_suggestion": "one sentence: how to try it in a session",
+      "change_target": "user_behavior",
       "confidence": "HIGH|MEDIUM",
       "source_posts": ["permalink1", "permalink2", "permalink3"]
     }}

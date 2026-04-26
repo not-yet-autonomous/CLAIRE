@@ -40,8 +40,11 @@ If deps fail: `python -m pip install -r requirements.txt`
 CLAIRE\
 ├── claire_ingest.py          ✅ Build 1 — ingestion
 ├── claire_triage.py          ✅ Build 2 — triage complete
-├── claire_synthesize.py      ✅ Build 4 — parallel synthesis (3 tracks concurrent)
-├── claire_output.py          🔄 Build 3 — digest generation (file pending)
+├── claire_synthesize.py      ✅ Build 5 — fingerprints + change_target field added
+├── claire_output.py          ✅ Build 3 — digest generation
+├── claire_a_assembler.py     ✅ Build 5 — CLAIRE-A input assembler
+├── claire_a_runner.py        ✅ Build 5 — decision engine runner (Opus)
+├── claire_a_scorer.py        ✅ Build 5/6 — eval scoring layer (Sonnet)
 ├── config.json               ✅ Pipeline config — locked decisions
 ├── requirements.txt          ✅ requests, anthropic, python-dotenv
 ├── .env                      ✅ ANTHROPIC_API_KEY (never touch)
@@ -58,7 +61,11 @@ CLAIRE\
 │   ├── synthesis_queue_track_a.json  ✅ Build 2 output — 148 posts
 │   ├── synthesis_queue_track_b.json  ✅ Build 2 output — 5 posts
 │   ├── synthesis_queue_track_c.json  ✅ Build 2 output — 8 posts
-│   └── archive.json          ✅ Build 2 output — Accumulates LOW-confidence posts across weekly runs. Empty = all Build 2 posts were HIGH/MEDIUM. Revisit size quarterly.
+│   ├── archive.json          ✅ Build 2 output — Accumulates LOW-confidence posts across weekly runs. Empty = all Build 2 posts were HIGH/MEDIUM. Revisit size quarterly.
+│   ├── claire_a_input_[timestamp].json     ✅ Build 5 — assembler output, engine input payload
+│   ├── claire_a_decisions_[timestamp].json ✅ Build 5 — shadow decision record (Opus output)
+│   ├── claire_a_reasoning_[timestamp].txt  ✅ Build 5 — auditable reasoning scratchpad
+│   └── claire_a_source_reliability.json    ⬜ Build 6 — rolling source reliability scores (created on first scorer run)
 ├── prompts\
 │   ├── triage_prompt.txt     ✅ Haiku system prompt
 │   ├── synthesis_prompts.py  ✅ Three Sonnet prompts
@@ -93,6 +100,11 @@ CLAIRE\
 | 4 | ThreadPoolExecutor | ✅ Complete | Synthesis tracks parallelized |
 | 4 | Keyword filter | ✅ Complete | Opus posts excluded at triage |
 | 4 | Track A batching | ✅ Complete | Signal cluster batching, max_batch=50 |
+| 5 | `claire_synthesize.py` | ✅ Complete | Fingerprint injection + change_target field |
+| 5 | `claire_a_assembler.py` | ✅ Complete | Reads candidates + change_log, builds engine payload |
+| 5 | `claire_a_runner.py` | ✅ Complete | Opus decision engine, shadow log writer |
+| 5 | `claire_a_scorer.py` | ✅ Complete | Sonnet eval scorer, reliability ledger |
+| 6 | Session history | ⬜ Next | cross-run prior_appearances tracking |
 
 ---
 
@@ -113,6 +125,13 @@ CLAIRE\
 | Shared utilities | claire_utils.py — home for all cross-script helpers |
 | Track A batching | Signal cluster by signal_type, max 50 posts per call |
 | track_a_max_batch | 50 — tunable in config.json under "synthesis" |
+| CLAIRE-A mode | Shadow only — reads everything, writes nothing to live config |
+| Decision engine model | claude-opus-4-5 |
+| Eval scoring model | claude-sonnet-4-6 |
+| Batch size ceiling | 15 candidates per decision engine run |
+| Signal strength | Source-post-weighted within confidence tier (HIGH: 0.80–0.90, MEDIUM: 0.55–0.65) |
+| Hypothesis authorship | Decision engine (Opus) — all three decision types require one |
+| Eval window | 14d (format/behavior changes), 21d (behavioral/memory changes) |
 
 ---
 
@@ -126,15 +145,9 @@ CLAIRE\
 
 ## Current Session Task
 
-Build 4 complete. CLAIRE is in weekly steady state.
+Build 5 complete. CLAIRE-A shadow pipeline operational.
 
-Open items:
-- Cost log merge (two entries per run — design decision pending)
-- Opus filter log line (cosmetic fix — reports full corpus count not new posts)
-- Memory edits: 5 applied from cycle 1 digest. Hypotheses logged in change_log.json. Eval due next cycle.
-
-Run manually in order:
-
+**CLAIRE run order (weekly):**
 ```powershell
 python claire_ingest.py
 python claire_triage.py
@@ -142,7 +155,25 @@ python claire_synthesize.py
 python claire_output.py
 ```
 
-Review digest: `output\CLAIRE_Weekly_Digest_[date].docx`
+**CLAIRE-A run order (after CLAIRE completes):**
+```powershell
+python claire_a_assembler.py
+python claire_a_runner.py
+```
+Review decisions: `data\claire_a_decisions_[timestamp].json`
+Review reasoning: `data\claire_a_reasoning_[timestamp].txt`
+
+**Eval scoring (weekly, after eval window elapses):**
+```powershell
+python claire_a_scorer.py --force --notes "your session observations here"
+```
+
+**Open items:**
+- Build 6: session history file for cross-run prior_appearances tracking (next)
+- Cost log merge (two entries per run — design decision pending)
+- Opus filter log line (cosmetic — reports full corpus count not new posts)
+- change_log.json: add `summary` field to memory_edit entries (hypothesis used as proxy currently)
+- First eval cycle: 8 apply decisions from Build 5 run. Hypotheses open. Scorer ready. Run with --force after observing behavior in sessions.
 
 ---
 
@@ -156,6 +187,8 @@ Review digest: `output\CLAIRE_Weekly_Digest_[date].docx`
 6. **Always use PowerShell syntax** not bash
 7. **Design decisions happen in browser Project** — execute only here
 8. **Update this file** at the end of every build
+9. **CLAIRE-A is shadow only** — never wire its output to live config without human review
+10. **Score hypotheses before applying deferred candidates** — eval data should inform the next batch
 
 ---
 
@@ -182,4 +215,4 @@ Examples:
 - `CLAIRE Build 2 complete — synthesis queues written`
 
 ---
-*Last updated: 2026-04-26 — Build 4 closed, Track A batching complete*
+*Last updated: 2026-04-26 — Build 5 closed, CLAIRE-A shadow pipeline operational. Build 6 next: session history + prior_appearances.*

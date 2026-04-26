@@ -1,0 +1,458 @@
+{
+  "_meta": {
+    "generated_at": "2026-04-26T20:00:05.725871+00:00",
+    "session_id": "3bf096b0-07b3-4f48-9bbf-c21e9fa53c36",
+    "model": "claude-opus-4-5",
+    "input_tokens": 11858,
+    "output_tokens": 11713,
+    "parse_success": true
+  },
+  "decision_record": {
+    "session_id": "3bf096b0-07b3-4f48-9bbf-c21e9fa53c36",
+    "engine_version": "1.0.0",
+    "model": "claude-opus-4-5",
+    "evaluated_at": "2026-04-26T18:45:00.000000+00:00",
+    "memory_snapshot_hash": "487a9734974eea1df753037eeffac7c85e2e206eaea18a68b7e2b9c965d446be",
+    "input_candidate_count": 15,
+    "decisions": [
+      {
+        "candidate_id": "990554bd-3009-4bb2-8826-7c735442d92a",
+        "fingerprint": "48474d415f60dbcf",
+        "candidate_summary": "Add memory that user treats single-vendor AI dependency as institutional risk, triggering proactive vendor concentration risk surfacing.",
+        "decision": "skip",
+        "confidence": 0.92,
+        "reasoning": {
+          "signal_assessment": "Signal is genuine — Reddit sources document real vendor risk incidents. However, this signal has already been processed and applied.",
+          "memory_consistency": "Direct semantic duplicate of memory entry aaffaa0b-7d4d-4b9f-8813-513c7f231f65 which encodes identical behavioral instruction about vendor concentration risk.",
+          "eval_alignment": "No eval history. The existing entry was applied today with no measured outcome.",
+          "risk_assessment": "No harm in skipping — the behavior is already encoded. Applying would create redundant memory entries, degrading signal-to-noise."
+        },
+        "hypothesis": {
+          "id": "a1b2c3d4-e5f6-4789-0abc-def012345601",
+          "prediction": "Skipping this candidate will have no negative effect on Claude's vendor risk surfacing behavior because the identical instruction already exists in memory.",
+          "metric": "vendor_risk_coverage",
+          "expected_direction": "no_change",
+          "expected_magnitude": "0.0 delta from current baseline",
+          "eval_window_days": 14,
+          "falsification_condition": "Claude fails to surface vendor concentration risk in a due diligence task AND user attributes this to missing memory instruction.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [
+          "ALREADY_APPLIED"
+        ],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "dea13a24-f656-4231-a841-d4651b97104b",
+        "fingerprint": "46fba588afd485b8",
+        "candidate_summary": "Add memory that user is aware of Claude 4.7 regressions, triggering model version flagging when output quality degrades.",
+        "decision": "skip",
+        "confidence": 0.92,
+        "reasoning": {
+          "signal_assessment": "Signal is strong and well-sourced across multiple subreddits documenting Opus 4.7 regressions.",
+          "memory_consistency": "Direct semantic duplicate of memory entry a6ac372a-90d4-4bb4-8899-bf03f8167ad2 which already instructs Claude to name model version as possible cause of quality degradation.",
+          "eval_alignment": "No eval history on existing entry.",
+          "risk_assessment": "Redundant application provides no benefit. The behavior is already encoded."
+        },
+        "hypothesis": {
+          "id": "a1b2c3d4-e5f6-4789-0abc-def012345602",
+          "prediction": "Skipping this candidate will have no negative effect because identical model-version-flagging instruction already exists.",
+          "metric": "model_version_flagging",
+          "expected_direction": "no_change",
+          "expected_magnitude": "0.0 delta",
+          "eval_window_days": 14,
+          "falsification_condition": "Claude fails to mention model version when output quality visibly degrades AND user determines this was due to missing instruction.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [
+          "ALREADY_APPLIED"
+        ],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "badb790e-4e7d-498c-91c0-cf105ed2ce3d",
+        "fingerprint": "b398204042f33170",
+        "candidate_summary": "Add memory asserting user operates in SEC-registered RIA with active data privacy and compliance governance concerns.",
+        "decision": "skip",
+        "confidence": 0.78,
+        "reasoning": {
+          "signal_assessment": "The signal sources (HN posts) discuss regulated industries in general, not this specific user. The pipeline has inferred a user-specific fact from community-wide signal — this is synthesis beyond the evidence.",
+          "memory_consistency": "The behavioral component (compliance-first evaluation) is already covered by memory entry 59df7c4b. The new element is a factual assertion about user's regulatory context that cannot be verified from the source material.",
+          "eval_alignment": "No eval history.",
+          "risk_assessment": "Asserting unverified facts about the user could cause inappropriate assumptions. If the user is NOT in an SEC-registered RIA, this memory would be misleading."
+        },
+        "hypothesis": {
+          "id": "a1b2c3d4-e5f6-4789-0abc-def012345603",
+          "prediction": "Skipping this candidate will not degrade compliance-aware behavior because the relevant behavioral instruction already exists. Avoiding unverified factual assertions about user context prevents potential mismatch.",
+          "metric": "compliance_coverage",
+          "expected_direction": "no_change",
+          "expected_magnitude": "0.0 delta",
+          "eval_window_days": 14,
+          "falsification_condition": "User explicitly confirms SEC-RIA context AND Claude's compliance surfacing is inadequate due to missing context memory.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [
+          "LOW_SIGNAL",
+          "SOURCE_NEW"
+        ],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "b91662f2-b940-4dbd-8536-8436bf6780e2",
+        "fingerprint": "51c6b59508af5358",
+        "candidate_summary": "Add memory that user prefers explicit confirmation of model and reasoning mode when ambiguous, before proceeding.",
+        "decision": "skip",
+        "confidence": 0.91,
+        "reasoning": {
+          "signal_assessment": "Signal is real — users unknowingly operating on wrong models or degraded effort.",
+          "memory_consistency": "Direct semantic duplicate of memory entry 04820478-c12a-4ab3-bb29-5ac0ccd83d20 which already instructs Claude to surface model and reasoning mode confirmation proactively.",
+          "eval_alignment": "No eval history.",
+          "risk_assessment": "Redundant. Behavior already encoded."
+        },
+        "hypothesis": {
+          "id": "a1b2c3d4-e5f6-4789-0abc-def012345604",
+          "prediction": "Skipping will have no negative effect; identical instruction exists.",
+          "metric": "model_mode_confirmation",
+          "expected_direction": "no_change",
+          "expected_magnitude": "0.0 delta",
+          "eval_window_days": 14,
+          "falsification_condition": "Claude fails to confirm model/mode on complex tasks AND this is traced to missing memory instruction.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [
+          "ALREADY_APPLIED"
+        ],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "7540eeda-5f07-4269-ad82-ae54412a007d",
+        "fingerprint": "1f2da3ccbbeab36f",
+        "candidate_summary": "Add profile instruction to include a four-part vendor stability and concentration risk section in due diligence deliverables by default.",
+        "decision": "apply",
+        "confidence": 0.75,
+        "reasoning": {
+          "signal_assessment": "Strong signal — Anthropic's pattern of unilateral changes is well-documented across multiple sources.",
+          "memory_consistency": "This EXTENDS existing memory (vendor concentration risk, compliance criteria) by operationalizing them into a specific deliverable structure. Not a duplicate — it's an implementation specification.",
+          "eval_alignment": "No eval history, but base behavioral instructions were just applied. This is refinement, not new direction.",
+          "risk_assessment": "Low risk. Worst case: structure is overly prescriptive and produces boilerplate. This is correctable and reversible."
+        },
+        "hypothesis": {
+          "id": "a1b2c3d4-e5f6-4789-0abc-def012345605",
+          "prediction": "Adding a structured four-part vendor risk section template will improve completeness of vendor due diligence outputs without requiring explicit prompting for each element.",
+          "metric": "vendor_dd_completeness",
+          "expected_direction": "increase",
+          "expected_magnitude": "+0.15 on vendor due diligence completeness score",
+          "eval_window_days": 21,
+          "falsification_condition": "Vendor due diligence outputs do not include the four specified elements, OR user finds the structure unnecessary/boilerplate and removes it.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "2267f5f6-8493-4f41-8f2b-5038c031ba2f",
+        "fingerprint": "8d4ea72022ad0762",
+        "candidate_summary": "Add profile instruction that when Claude is uncertain if degraded output is analytical limitation vs model regression, say so directly and recommend verification against prior session or alternative model.",
+        "decision": "apply",
+        "confidence": 0.72,
+        "reasoning": {
+          "signal_assessment": "Strong signal — 4.7 regression pattern is well-documented.",
+          "memory_consistency": "Extends existing memory entry a6ac372a (flag model version) with a specific action: recommend verification. This is behavioral refinement, not duplication.",
+          "eval_alignment": "No eval history.",
+          "risk_assessment": "Low risk. Defensive guidance. Worst case: Claude becomes overly cautious. Minor annoyance, not high-stakes failure."
+        },
+        "hypothesis": {
+          "id": "a1b2c3d4-e5f6-4789-0abc-def012345606",
+          "prediction": "Adding explicit verification recommendation will help user catch model-regression-caused quality issues before they enter formal review.",
+          "metric": "quality_issue_detection",
+          "expected_direction": "increase",
+          "expected_magnitude": "+0.10 on early quality issue detection",
+          "eval_window_days": 21,
+          "falsification_condition": "Claude does not recommend verification when quality degrades, OR user finds the recommendations excessive and removes instruction.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "3f238a30-b0de-46a6-a47c-6807a00a3ee1",
+        "fingerprint": "d463d8704c7ab245",
+        "candidate_summary": "Add profile instruction that for compliance/governance documents, Claude should surface reasoning model and effort level at top of response, and flag context collapse or instruction drift.",
+        "decision": "apply",
+        "confidence": 0.68,
+        "reasoning": {
+          "signal_assessment": "Real signal — posts document silent degraded effort and context drift.",
+          "memory_consistency": "Partial overlap with model/mode confirmation (04820478) and DRIFT MODE (66930a3c), but proposes specific output format: model/effort confirmation at TOP of compliance documents. This is a per-response format for specific document types, distinct from session-level DRIFT MODE.",
+          "eval_alignment": "No eval history.",
+          "risk_assessment": "Moderate. Could add unwanted boilerplate to every compliance document. However, for documents entering formal review, knowing model state at production time has audit value."
+        },
+        "hypothesis": {
+          "id": "a1b2c3d4-e5f6-4789-0abc-def012345607",
+          "prediction": "Adding model/effort header to compliance documents will improve auditability and help user detect quality issues tied to model state.",
+          "metric": "document_auditability",
+          "expected_direction": "increase",
+          "expected_magnitude": "+0.08 on auditability score",
+          "eval_window_days": 21,
+          "falsification_condition": "User finds the model/effort header unnecessary clutter and removes instruction, OR header is not consistently produced.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "071650d9-b778-4e66-b076-4db2868bbc20",
+        "fingerprint": "38450fd28a8d3ea8",
+        "candidate_summary": "Add profile instruction to surface compliance certification gaps (SOC2, HIPAA BAA, FedRAMP), data residency, and audit trail as first-order criteria in AI vendor evaluations.",
+        "decision": "skip",
+        "confidence": 0.82,
+        "reasoning": {
+          "signal_assessment": "Real signal — HN shows regulated teams discovering compliance blockers late.",
+          "memory_consistency": "Near duplicate of memory entry 59df7c4b which already instructs Claude to include compliance and data residency as default first-order criteria. The only additions are naming specific certifications and adding audit trail. Marginal value.",
+          "eval_alignment": "No eval history.",
+          "risk_assessment": "Low value addition. The general instruction already covers this. Adding specific certification names is incremental at best."
+        },
+        "hypothesis": {
+          "id": "a1b2c3d4-e5f6-4789-0abc-def012345608",
+          "prediction": "Skipping will not degrade vendor evaluation completeness because the general compliance-first instruction already captures this behavior.",
+          "metric": "vendor_compliance_coverage",
+          "expected_direction": "no_change",
+          "expected_magnitude": "0.0 delta",
+          "eval_window_days": 14,
+          "falsification_condition": "Claude fails to surface specific compliance certifications in vendor eval AND user determines naming specific certs would have helped.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [
+          "ALREADY_APPLIED"
+        ],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "d54d90f4-c1b5-486f-9113-1936f9c47a43",
+        "fingerprint": "21c43fb5b5ddeac0",
+        "candidate_summary": "Add profile instruction that on multi-step planning/research tasks, Claude should checkpoint instruction fidelity at each major stage and surface competing interpretations before committing.",
+        "decision": "apply",
+        "confidence": 0.7,
+        "reasoning": {
+          "signal_assessment": "Real signal — posts document Claude collapsing multi-step tasks, abandoning untested items, drifting from framing.",
+          "memory_consistency": "Partial overlap with DRIFT MODE (66930a3c) but different mechanism. DRIFT MODE is reactive (detect saturation → handoff). This is proactive (checkpoint during task execution). They're complementary.",
+          "eval_alignment": "No eval history.",
+          "risk_assessment": "Moderate. Could slow execution with meta-commentary. But for multi-stage research where drift corrupts output, self-audit has value."
+        },
+        "hypothesis": {
+          "id": "a1b2c3d4-e5f6-4789-0abc-def012345609",
+          "prediction": "Adding instruction fidelity checkpointing will reduce task drift and improve accuracy of multi-step analytical outputs.",
+          "metric": "multi_step_task_accuracy",
+          "expected_direction": "increase",
+          "expected_magnitude": "+0.12 on multi-step task completion accuracy",
+          "eval_window_days": 21,
+          "falsification_condition": "Multi-step tasks continue to show drift/abandonment at same rate, OR user finds checkpointing interruptions counterproductive.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "2be68ec9-3ca1-41cf-b916-52dc0a8ffcc2",
+        "fingerprint": "817d2caaf3a48799",
+        "candidate_summary": "Add profile instruction that Word/Excel outputs should have document metadata (Author, Comments) set to Jimbo rather than AI-generated defaults.",
+        "decision": "apply",
+        "confidence": 0.78,
+        "reasoning": {
+          "signal_assessment": "Real signal — highly-upvoted comment flagged metadata fingerprints exposing AI authorship.",
+          "memory_consistency": "No overlap with existing memory. Profile specifies docx-env routing but is silent on metadata hygiene. This is NET NEW.",
+          "eval_alignment": "No eval history.",
+          "risk_assessment": "Low risk. Bounded, specific, actionable. For documents entering SEC/board review, metadata hygiene is genuinely important."
+        },
+        "hypothesis": {
+          "id": "a1b2c3d4-e5f6-4789-0abc-def012345610",
+          "prediction": "Adding metadata hygiene instruction will prevent AI authorship exposure in formal document review contexts.",
+          "metric": "document_metadata_compliance",
+          "expected_direction": "increase",
+          "expected_magnitude": "+0.20 on metadata hygiene score",
+          "eval_window_days": 14,
+          "falsification_condition": "Documents continue to carry AI-generated metadata defaults, OR Claude cannot control metadata in current tooling.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "4fb6c5d7-ae93-4e1e-ae1d-27dbdacd19fa",
+        "fingerprint": "f685826688f7a5d6",
+        "candidate_summary": "Add note to mode system that unambiguous task framing reduces drift; codify as pre-flight checklist item before invoking modes.",
+        "decision": "defer",
+        "confidence": 0.55,
+        "reasoning": {
+          "signal_assessment": "Real signal — explicit task framing does reduce hedge-everything responses.",
+          "memory_consistency": "This is META-guidance about how to use modes, not a new mode or Claude behavior. It's prompting hygiene advice.",
+          "eval_alignment": "No eval history.",
+          "risk_assessment": "The concern: this encodes user behavior (how to prompt) rather than Claude behavior (how to respond). Profile changes should encode Claude behaviors. If reformulated as 'Claude should ask for clarification if terminal deliverable is ambiguous,' it would fit the profile model better."
+        },
+        "hypothesis": {
+          "id": "a1b2c3d4-e5f6-4789-0abc-def012345611",
+          "prediction": "Deferring allows reformulation to determine whether this is user-side advice (doesn't belong) or Claude-side behavior (can be encoded differently).",
+          "metric": "instruction_clarity",
+          "expected_direction": "no_change",
+          "expected_magnitude": "0.0 delta until reformulated",
+          "eval_window_days": 7,
+          "falsification_condition": "Reformulation review determines this should have been applied as-is.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": "Reformulate as Claude behavior (e.g., 'Claude should ask for clarification if terminal deliverable is unstated or ambiguous') and re-evaluate. If it's purely user-side prompting advice, skip.",
+        "defer_until": "2026-05-03T00:00:00+00:00"
+      },
+      {
+        "candidate_id": "751746c0-0e36-41fa-a531-046e455f93c7",
+        "fingerprint": "dd6ce84ee5675f23",
+        "candidate_summary": "Add note that HTML artifacts are not deliverable outputs; default to PDF or DOCX; flag if HTML is genuinely required.",
+        "decision": "apply",
+        "confidence": 0.75,
+        "reasoning": {
+          "signal_assessment": "Real signal — HTML artifacts are not portable as files.",
+          "memory_consistency": "No direct overlap. Profile specifies docx-env and reportlab but doesn't explicitly prohibit HTML. This is NET NEW constraint with escape hatch.",
+          "eval_alignment": "No eval history.",
+          "risk_assessment": "Low. Clear, bounded format preference. Includes escape hatch for legitimate HTML cases."
+        },
+        "hypothesis": {
+          "id": "a1b2c3d4-e5f6-4789-0abc-def012345612",
+          "prediction": "Adding HTML prohibition will prevent non-portable outputs from being produced when shareable documents were expected.",
+          "metric": "output_format_compliance",
+          "expected_direction": "increase",
+          "expected_magnitude": "+0.15 on format appropriateness",
+          "eval_window_days": 14,
+          "falsification_condition": "User finds legitimate HTML use cases are blocked inappropriately, OR Claude continues producing HTML for deliverable tasks.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "d89ff154-f5e1-4e2a-bcc6-8d5246b468d4",
+        "fingerprint": "e7686abfe99b86d6",
+        "candidate_summary": "Add guidance on context window degradation signals (entity conflation, re-summarizing closed decisions) and compact/reset discipline (don't re-read unneeded files).",
+        "decision": "apply",
+        "confidence": 0.65,
+        "reasoning": {
+          "signal_assessment": "Real signal — multiple posts describe context degradation and compaction problems.",
+          "memory_consistency": "Overlaps with DRIFT MODE (66930a3c) but adds: (1) specific degradation signals, (2) compaction discipline. The compaction guidance is genuinely new.",
+          "eval_alignment": "No eval history.",
+          "risk_assessment": "Moderate. Degradation signals are useful operationalization of DRIFT MODE. Compaction advice may not be within Claude's control — uncertain whether Claude can control file re-reading during compaction."
+        },
+        "hypothesis": {
+          "id": "a1b2c3d4-e5f6-4789-0abc-def012345613",
+          "prediction": "Adding specific degradation signals will improve early detection of context collapse. Compaction discipline may or may not be actionable depending on Claude's control.",
+          "metric": "context_degradation_detection",
+          "expected_direction": "increase",
+          "expected_magnitude": "+0.10 on early drift detection",
+          "eval_window_days": 21,
+          "falsification_condition": "Claude cannot implement compaction discipline (no control over file re-reading), OR degradation signals are not reliably detected.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "837d5ed9-2219-46a7-9c27-dd8a1e07c83f",
+        "fingerprint": "435184358d199a85",
+        "candidate_summary": "Add profile instruction to flag uncertainty on verifiable claims rather than fabricating specifics; never confirm accuracy when challenged unless grounded in specific reasoning.",
+        "decision": "apply",
+        "confidence": 0.72,
+        "reasoning": {
+          "signal_assessment": "Strong signal — posts document Claude re-confirming hallucinated facts when challenged.",
+          "memory_consistency": "Overlaps with OUTPUT VERIFICATION section (0eab9eaa) which uses [verify] markers. This candidate adds the challenge-response behavior: never confirm accuracy unless correction can be grounded. Distinct and complementary.",
+          "eval_alignment": "No eval history on OUTPUT VERIFICATION yet.",
+          "risk_assessment": "Low risk. Defensive instruction against high-severity failure mode. Even if partially redundant, challenge-response framing is valuable."
+        },
+        "hypothesis": {
+          "id": "a1b2c3d4-e5f6-4789-0abc-def012345614",
+          "prediction": "Adding explicit challenge-response instruction will reduce hallucination confirmation when user challenges Claude's claims.",
+          "metric": "hallucination_confirmation_rate",
+          "expected_direction": "decrease",
+          "expected_magnitude": "-0.15 on hallucination confirmation rate",
+          "eval_window_days": 21,
+          "falsification_condition": "Claude continues to confirm accuracy when challenged without grounding, OR user finds the uncertainty flagging excessive.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      },
+      {
+        "candidate_id": "6b7fc7c0-416f-469a-9791-eef79eadae13",
+        "fingerprint": "61f8bf1f19fce7fb",
+        "candidate_summary": "Technique: ask for decision framework instead of direct answer to shift Claude from output-giver to thinking-scaffold builder.",
+        "decision": "skip",
+        "confidence": 0.8,
+        "reasoning": {
+          "signal_assessment": "Real technique with documented effectiveness.",
+          "memory_consistency": "This is user prompting advice, not a Claude behavioral instruction. The source post describes the user changing their behavior ('I stopped asking Claude for answers').",
+          "eval_alignment": "No eval history.",
+          "risk_assessment": "If applied as 'Claude should offer frameworks instead of answers,' this would conflict with cases where user wants direct answers. The technique is better used selectively by user rather than encoded as Claude default."
+        },
+        "hypothesis": {
+          "id": "a1b2c3d4-e5f6-4789-0abc-def012345615",
+          "prediction": "Skipping will have no negative effect because this is user-side technique not appropriate for Claude behavioral encoding. User can invoke technique when appropriate.",
+          "metric": "framework_vs_answer_balance",
+          "expected_direction": "no_change",
+          "expected_magnitude": "0.0 delta",
+          "eval_window_days": 14,
+          "falsification_condition": "User finds Claude should have been offering frameworks unprompted and this was a miss.",
+          "outcome": null,
+          "outcome_recorded_at": null
+        },
+        "risk_flags": [],
+        "dependencies": [],
+        "defer_condition": null,
+        "defer_until": null
+      }
+    ],
+    "apply_count": 9,
+    "skip_count": 5,
+    "defer_count": 1,
+    "session_notes": "High duplication rate in this batch: 5 of 15 candidates (33%) are near-duplicates of memory entries applied today. The digest pipeline appears to lack strong deduplication against current memory_state. Additionally, all 15 candidates have identical signal_strength (0.85) and source_reliability_score (0.5), suggesting the pipeline is not differentiating signal quality — this decision engine is doing differentiation work the upstream pipeline should handle. Recommend adding (1) semantic deduplication against memory_state before candidate emission, and (2) signal strength variance to reflect actual evidence differences. Two candidates (f685826688f7a5d6 and 61f8bf1f19fce7fb) encode user-side advice rather than Claude behaviors — recommend adding a category filter to distinguish these. No eval history exists for this cycle; all decisions are based on priors and reasoning alone. Next cycle should have hypothesis-outcome data to calibrate.",
+    "escalation_required": false,
+    "escalation_reason": null
+  },
+  "raw_response": null
+}
