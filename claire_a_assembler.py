@@ -34,7 +34,8 @@ CANDIDATE_PATHS = {
     "b": DATA_DIR / "candidates_track_b.json",
     "c": DATA_DIR / "candidates_track_c.json",
 }
-CHANGE_LOG_PATH = DATA_DIR / "change_log.json"
+CHANGE_LOG_PATH      = DATA_DIR / "change_log.json"
+SESSION_HISTORY_PATH = DATA_DIR / "claire_a_session_history.json"
 
 # ---------------------------------------------------------------------------
 # LOGGING
@@ -278,27 +279,71 @@ def build_memory_snapshot(change_log_entries: list) -> dict:
     }
 
 # ---------------------------------------------------------------------------
-# PRIOR APPEARANCES (stub — requires session history to be meaningful)
+# SESSION HISTORY
+# ---------------------------------------------------------------------------
+
+def load_session_history() -> dict:
+    """Loads the cross-run session history.
+
+    Structure:
+    {
+      "fingerprint": {
+        "appearances": 3,
+        "first_seen": "ISO8601",
+        "last_seen": "ISO8601",
+        "last_decision": "apply|skip|defer|null",
+        "sessions": ["session_id_1", "session_id_2"]
+      }
+    }
+    """
+    if not SESSION_HISTORY_PATH.exists():
+        log.info("No session history found — starting fresh")
+        return {}
+    with open(SESSION_HISTORY_PATH, encoding="utf-8") as f:
+        return json.load(f)
+
+
+# ---------------------------------------------------------------------------
+# PRIOR APPEARANCES
 # ---------------------------------------------------------------------------
 
 def resolve_prior_appearances(candidates: list, change_log_entries: list) -> list:
-    """Checks each candidate's fingerprint against the change log.
+    """Resolves prior_appearances for each candidate from two sources:
 
-    If a fingerprint matches an applied change, that candidate has already
-    been actioned — mark it so the engine can weight accordingly.
+    1. Session history (claire_a_session_history.json) — cross-run tracking.
+       Written by the runner after each decision session.
+    2. Change log — candidates matching applied changes get prior_appearances=1
+       minimum, flagging them as already actioned.
 
-    NOTE: Full prior_appearances tracking (across CLAIRE-A shadow sessions)
-    requires a separate session history file written by the decision engine
-    runner. That file doesn't exist yet (Build 5). This stub handles the
-    change_log check only.
+    The two sources are additive: a candidate seen in 3 prior sessions AND
+    matching an applied change gets appearances=3, not 1.
     """
-    applied_summaries = {e["summary"][:60] for e in change_log_entries}
+    history = load_session_history()
 
+    # Source 1: session history fingerprint counts
+    for c in candidates:
+        fp = c["fingerprint"]
+        if fp in history:
+            entry = history[fp]
+            c["prior_appearances"] = entry.get("appearances", 0)
+            last_decision = entry.get("last_decision")
+            if last_decision:
+                log.debug(
+                    f"Fingerprint {fp}: {c['prior_appearances']} prior appearances, "
+                    f"last decision={last_decision}"
+                )
+
+    # Source 2: change log — mark already-applied candidates
+    applied_summaries = {e["summary"][:60] for e in change_log_entries}
     for c in candidates:
         summary_60 = c["content"]["summary"][:60]
         if summary_60 in applied_summaries:
-            c["prior_appearances"] = 1  # already applied — engine should skip or note
-            log.debug(f"Candidate {c['fingerprint']} matches an applied change — prior_appearances=1")
+            # Floor at 1 — don't zero out session history count
+            c["prior_appearances"] = max(c["prior_appearances"], 1)
+            log.debug(
+                f"Candidate {c['fingerprint']} matches applied change — "
+                f"prior_appearances floored at 1"
+            )
 
     return candidates
 

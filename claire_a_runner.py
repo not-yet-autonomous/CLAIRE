@@ -22,17 +22,15 @@ import argparse
 from datetime import datetime, timezone
 from pathlib import Path
 
-from dotenv import load_dotenv
-load_dotenv()
-
 import anthropic
 
 # ---------------------------------------------------------------------------
 # PATHS
 # ---------------------------------------------------------------------------
 
-BASE_DIR  = Path(__file__).parent
-DATA_DIR  = BASE_DIR / "data"
+BASE_DIR             = Path(__file__).parent
+DATA_DIR             = BASE_DIR / "data"
+SESSION_HISTORY_PATH = DATA_DIR / "claire_a_session_history.json"
 
 # ---------------------------------------------------------------------------
 # MODELS
@@ -326,6 +324,73 @@ def write_outputs(
 # RUNNER
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# SESSION HISTORY WRITER
+# ---------------------------------------------------------------------------
+
+def update_session_history(
+    session_id: str,
+    payload: dict,
+    decision_record: dict | None,
+) -> None:
+    """Writes fingerprint appearances and last decision to the session history.
+
+    Called after every successful run — even if the decision record parse
+    failed (in which case decisions are unknown but appearances still count).
+
+    The assembler reads this file on the next run to resolve prior_appearances.
+    """
+    # Load existing history
+    if SESSION_HISTORY_PATH.exists():
+        with open(SESSION_HISTORY_PATH, encoding="utf-8") as f:
+            history = json.load(f)
+    else:
+        history = {}
+
+    now = datetime.now(timezone.utc).isoformat()
+
+    # Build fingerprint -> decision map from this session
+    decision_map = {}
+    if decision_record:
+        for d in decision_record.get("decisions", []):
+            fp = d.get("fingerprint")
+            if fp:
+                decision_map[fp] = d.get("decision")
+
+    # Update history for every candidate that appeared in this session
+    for candidate in payload.get("candidates", []):
+        fp = candidate.get("fingerprint")
+        if not fp:
+            continue
+
+        if fp not in history:
+            history[fp] = {
+                "appearances":    0,
+                "first_seen":     now,
+                "last_seen":      now,
+                "last_decision":  None,
+                "sessions":       [],
+            }
+
+        entry = history[fp]
+        entry["appearances"] += 1
+        entry["last_seen"]    = now
+        entry["last_decision"] = decision_map.get(fp, entry["last_decision"])
+
+        if session_id not in entry["sessions"]:
+            entry["sessions"].append(session_id)
+
+    with open(SESSION_HISTORY_PATH, "w", encoding="utf-8") as f:
+        json.dump(history, f, indent=2, ensure_ascii=False)
+
+    total_fingerprints = len(history)
+    updated = len(payload.get("candidates", []))
+    log.info(
+        f"Session history updated — {updated} fingerprints this session, "
+        f"{total_fingerprints} total tracked"
+    )
+
+
 def run(input_path: Path, dry_run: bool = False) -> None:
     log.info("── CLAIRE-A Decision Engine Runner ──────────────────────")
     log.info(f"Input: {input_path.name}")
@@ -378,6 +443,9 @@ def run(input_path: Path, dry_run: bool = False) -> None:
     reasoning_path, decisions_path = write_outputs(
         session_id, reasoning, decision_record, raw_text, usage
     )
+
+    # Write session history — always, even on parse failure
+    update_session_history(session_id, payload, decision_record)
 
     log.info("─────────────────────────────────────────────────────────")
     log.info(f"Complete. Review: {decisions_path.name}")
