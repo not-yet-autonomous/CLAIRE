@@ -171,7 +171,7 @@ def build_batch_payload(posts: list) -> str:
                 c["body"][:200] for c in post.get("comments", [])[:5]
             ],
         })
-    return json.dumps(batch, indent=2)
+    return json.dumps(batch, ensure_ascii=False, separators=(',', ':'))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -445,5 +445,4 @@ def main():
     log.info("CLAIRE triage complete.")
 
 
-if __name__ == "__main__":
-    main()
+if __

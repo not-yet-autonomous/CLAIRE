@@ -124,7 +124,7 @@ def serialize_posts_for_synthesis(posts: list) -> str:
                 c["body"][:150] for c in post.get("comments", [])[:5]
             ],
         })
-    return json.dumps(condensed, indent=2)
+    return json.dumps(condensed, ensure_ascii=False, separators=(',', ':'))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -444,7 +444,7 @@ def main():
             "meta": {
                 "track":       track,
                 "run_at":      run_start.isoformat(),
-                "posts_input": len(load_queue(track)),
+                "posts_input": len(posts),
                 "model":       SYNTHESIS_MODEL,
             },
             "candidates": result,
@@ -466,5 +466,4 @@ def main():
     log.info("Next step: python claire_output.py")
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == "_
