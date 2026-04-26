@@ -92,6 +92,7 @@ CLAIRE\
 | 4 | Exception handling | ✅ Complete | All bare reads protected |
 | 4 | ThreadPoolExecutor | ✅ Complete | Synthesis tracks parallelized |
 | 4 | Keyword filter | ✅ Complete | Opus posts excluded at triage |
+| 4 | Track A batching | ✅ Complete | Signal cluster batching, max_batch=50 |
 
 ---
 
@@ -110,16 +111,26 @@ CLAIRE\
 | Cost log entries | Two per run (triage + synthesis separate) — merge TBD |
 | Opus exclusion | exclude_keywords in config.json — config-driven |
 | Shared utilities | claire_utils.py — home for all cross-script helpers |
+| Track A batching | Signal cluster by signal_type, max 50 posts per call |
+| track_a_max_batch | 50 — tunable in config.json under "synthesis" |
+
+---
+
+## Known Issues
+
+| Issue | Detail |
+|-------|--------|
+| Opus filter log count | Reports against full corpus not just new posts — misleading log line, triage behavior correct |
 
 ---
 
 ## Current Session Task
 
-CLAIRE is in weekly steady state. Build 4 audit complete.
+Build 4 complete. CLAIRE is in weekly steady state.
 
 Open items:
-- Track A batching (design in browser Project before implementing)
 - Cost log merge (two entries per run — design decision pending)
+- Opus filter log line (cosmetic fix — reports full corpus count not new posts)
 
 Run manually in order:
 
@@ -170,4 +181,4 @@ Examples:
 - `CLAIRE Build 2 complete — synthesis queues written`
 
 ---
-*Last updated: 2026-04-26 — Build 4 complete, audit closed, steady state*
+*Last updated: 2026-04-26 — Build 4 closed, Track A batching complete*
