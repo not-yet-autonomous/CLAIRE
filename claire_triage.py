@@ -283,6 +283,17 @@ def main():
     posts = raw_data.get("posts", [])
     log.info(f"Loaded {len(posts)} posts from raw_posts.json")
 
+    # Keyword exclusion filter
+    exclude = CONFIG["ingestion"].get("exclude_keywords", [])
+    if exclude:
+        before = len(posts)
+        posts = [p for p in posts if not any(
+            term in (p.get("title", "") + p.get("body", "")).lower()
+            for term in exclude
+        )]
+        logging.info(f"Keyword filter removed {before - len(posts)} posts "
+                     f"({', '.join(exclude)}). {len(posts)} remaining.")
+
     # Load already-tagged posts for deduplication
     tagged_cache = {}
     if TAGGED_POSTS_PATH.exists():
