@@ -664,16 +664,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-get("b", {}))
-    log.info(f"Skill drafts written: {skill_count}")
-
-    log.info("=" * 60)
-    log.info("CLAIRE output complete.")
-    log.info(f"Digest: {output_path}")
-    log.info(f"Skill drafts: {skill_count} files in skill_drafts/")
-    log.info("Review the digest. Apply candidates manually with hypotheses.")
-
-
-if __name__ == "__main__":
-    main()
-)

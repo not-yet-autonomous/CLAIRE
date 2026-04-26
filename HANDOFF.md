@@ -1,4 +1,4 @@
-# CLAIRE — Session Handoff
+ # CLAIRE — Session Handoff
 > Read this first. Every session. No exceptions.
 
 ---
@@ -7,7 +7,7 @@
 
 | Item | Value |
 |------|-------|
-| Project root | `C:\DEV\CLAIRE` |
+| Project root | `C:\Users\<redacted>\OneDrive\Claude Projects\CLAIRE` |
 | Python | `python` (via .venv) |
 | Pip | `python -m pip` |
 | Venv activate (PowerShell) | `.\.venv\Scripts\Activate.ps1` |
@@ -40,7 +40,7 @@ If deps fail: `python -m pip install -r requirements.txt`
 CLAIRE\
 ├── claire_ingest.py          ✅ Build 1 — ingestion
 ├── claire_triage.py          ✅ Build 2 — triage complete
-├── claire_synthesize.py      🔄 Build 3 — synthesis (file pending)
+├── claire_synthesize.py      ✅ Build 4 — parallel synthesis (3 tracks concurrent)
 ├── claire_output.py          🔄 Build 3 — digest generation (file pending)
 ├── config.json               ✅ Pipeline config — locked decisions
 ├── requirements.txt          ✅ requests, anthropic, python-dotenv
@@ -58,7 +58,7 @@ CLAIRE\
 │   ├── synthesis_queue_track_a.json  ✅ Build 2 output — 148 posts
 │   ├── synthesis_queue_track_b.json  ✅ Build 2 output — 5 posts
 │   ├── synthesis_queue_track_c.json  ✅ Build 2 output — 8 posts
-│   └── archive.json          ✅ Build 2 output
+│   └── archive.json          ✅ Build 2 output — Accumulates LOW-confidence posts across weekly runs. Empty = all Build 2 posts were HIGH/MEDIUM. Revisit size quarterly.
 ├── prompts\
 │   ├── triage_prompt.txt     ✅ Haiku system prompt
 │   ├── synthesis_prompts.py  ✅ Three Sonnet prompts
@@ -83,8 +83,15 @@ CLAIRE\
 | 0 | Infrastructure | ✅ Complete | Config, prompts, eval files |
 | 1 | `claire_ingest.py` | ✅ Complete | 520 post clean corpus in raw_posts.json |
 | 2 | `claire_triage.py` | ✅ Complete | 520 posts triaged — A:148 B:5 C:8 routed |
-| 3 | `claire_synthesize.py` | 🔄 In progress | Awaiting file from browser Project |
-| 3 | `claire_output.py` | 🔄 In progress | Awaiting file from browser Project |
+| 3 | `claire_synthesize.py` | ✅ Complete | File delivered; Build 4 parallelized tracks |
+| 4 | `claire_synthesize.py` | ✅ Complete | Parallel synthesis via ThreadPoolExecutor — commit c8a6272 |
+| 3 | `claire_output.py` | ✅ Complete | Digest generation — duplicate main block removed |
+| 4 | `claire_utils.py` | ✅ Complete | Shared compute_cost, append_cost_log |
+| 4 | `cost_log.json` | ✅ Complete | Cost tracking confirmed working |
+| 4 | config externalization | ✅ Complete | HN terms, signal map moved to config |
+| 4 | Exception handling | ✅ Complete | All bare reads protected |
+| 4 | ThreadPoolExecutor | ✅ Complete | Synthesis tracks parallelized |
+| 4 | Keyword filter | ✅ Complete | Opus posts excluded at triage |
 
 ---
 
@@ -100,22 +107,30 @@ CLAIRE\
 | Synthesis model | claude-sonnet-4-6 |
 | Noise prefilter | score < 5 AND comments < 2 → drop |
 | Scheduling | Windows Task Scheduler, weekly Sunday |
+| Cost log entries | Two per run (triage + synthesis separate) — merge TBD |
+| Opus exclusion | exclude_keywords in config.json — config-driven |
+| Shared utilities | claire_utils.py — home for all cross-script helpers |
 
 ---
 
 ## Current Session Task
 
-**Build 3 — Awaiting claire_synthesize.py from browser Project.**
+CLAIRE is in weekly steady state. Build 4 audit complete.
 
-Once the file is dropped into the project root:
+Open items:
+- Track A batching (design in browser Project before implementing)
+- Cost log merge (two entries per run — design decision pending)
+
+Run manually in order:
 
 ```powershell
-python claire_synthesize.py --dry-run
+python claire_ingest.py
+python claire_triage.py
+python claire_synthesize.py
+python claire_output.py
 ```
 
-Review synthesis candidates before running full synthesis.
-Do NOT run full synthesis until dry-run output is reviewed
-in the browser Project.
+Review digest: `output\CLAIRE_Weekly_Digest_[date].docx`
 
 ---
 
@@ -155,4 +170,4 @@ Examples:
 - `CLAIRE Build 2 complete — synthesis queues written`
 
 ---
-*Last updated: 2026-04-25 — Build 2 complete, Build 3 in progress*
+*Last updated: 2026-04-26 — Build 4 complete, audit closed, steady state*
