@@ -8,14 +8,25 @@
   "_eval_note_format": "DATE | SESSION_CONTEXT | DID_HYPOTHESIS_HOLD: yes/partial/no | NOTES",
 
   "changes": [
-
+    {
+      "date": "2026-04-26",
+      "type": "profile_change",
+      "summary": "Added OUTPUT VERIFICATION section -- hallucination self-audit with [verify] inline marker and external audience consolidation rule",
+      "source_signal": "reddit_1ssma9g",
+      "hypothesis": "Claude will flag uncertain citations with [verify] rather than asserting fabricated confidence, reducing liability exposure in governance document review pipelines. External audience outputs will consolidate [verify] items into a review checklist rather than leaving markers inline.",
+      "eval_notes": []
+    },
+    {
+      "date": "2026-04-26",
+      "type": "profile_change",
+      "summary": "Added DRIFT MODE to MODES section -- automatic context saturation detection with structured handoff note",
+      "source_signal": "/r/ClaudeAI/comments/1sv6znz/convo_length_sweet_spot_whats_peoples_opinions_on/",
+      "hypothesis": "Claude will proactively surface context drift in long governance and vendor due diligence sessions before silent quality collapse occurs, with a structured handoff note covering session state and open threads. False positive cost: occasional interruptions in sessions where drift has not actually occurred -- eval notes should track frequency.",
+      "eval_notes": []
+    }
   ],
 
-  "reverted": [
+  "reverted": [],
 
-  ],
-
-  "quarterly_evals": [
-
-  ]
+  "quarterly_evals": []
 }

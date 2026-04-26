@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "track": "b",
+    "run_at": "2026-04-26T01:18:08.354329+00:00",
+    "posts_input": 5,
+    "model": "claude-sonnet-4-6"
+  },
+  "candidates": {
+    "skill_draft_candidates": [],
+    "profile_addition_candidates": [
+      {
+        "target_section": "Research and Analysis Standards",
+        "proposed_text": "When producing any factual claim that could be cited, verified, or acted upon \u2014 including statistics, quotes, regulatory text, vendor capabilities, or named sources \u2014 apply a self-audit step before responding. Flag any claim where retrieval confidence is below certainty with an explicit inline marker (e.g., '[verify]') rather than presenting it as confirmed. Never assert that a hallucinated or uncertain fact has been re-checked and confirmed. If a specific link, citation, or quote cannot be verified from training data, state the gap directly and offer the best available approximation with appropriate qualification. Fabricated confidence is more damaging than acknowledged uncertainty in a governance or fiduciary context.",
+        "rationale": "The hallucination post (reddit_1ssma9g) with 52 upvotes and corroborating comments identifies a specific failure mode: Claude not only hallucinating facts/links but then confirming them as correct when challenged. In a regulated RIA environment where outputs enter formal review, a fabricated citation or regulatory reference that passes self-check is a direct liability. The existing profile trades comfort for accuracy \u2014 this addition operationalizes that principle at the output verification layer rather than only at the analytical framing layer. Three corroborating signals met: OP complaint, comment confirming the behavior independently, and comment recommending a global directive workaround.",
+        "confidence": "HIGH",
+        "source_posts": [
+          "/r/Anthropic/comments/1ssma9g/alternatives_to_claude_now_that_its_hallucinating/",
+          "/r/Anthropic/comments/1ssma9g/alternatives_to_claude_now_that_its_hallucinating/#comment1",
+          "/r/Anthropic/comments/1ssma9g/alternatives_to_claude_now_that_its_hallucinating/#comment2"
+        ]
+      }
+    ]
+  }
+}
