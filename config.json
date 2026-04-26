@@ -1,12 +1,10 @@
 {
   "_description": "CLAIRE pipeline configuration. Locked decisions from design phase. Change here propagates to all layers.",
-
   "pipeline": {
     "version": "0.1.0",
     "run_schedule": "weekly",
     "run_day": "sunday"
   },
-
   "ingestion": {
     "subreddits_native": [
       "ClaudeAI",
@@ -33,7 +31,6 @@
       "Claude instructions"
     ]
   },
-
   "triage": {
     "model": "claude-haiku-4-5-20251001",
     "batch_size": 20,
@@ -43,7 +40,6 @@
       "logic": "AND"
     }
   },
-
   "cross_reference_gate": {
     "developer_persona_action": "filter_out",
     "confidence_routing": {
@@ -54,7 +50,6 @@
     },
     "friction_log_path": "data/friction_log.txt"
   },
-
   "synthesis": {
     "model": "claude-sonnet-4-6",
     "evidence_threshold": 3,
@@ -70,7 +65,6 @@
     "profile_intent_summary_path": "prompts/profile_intent_summary.txt",
     "memory_edit_list_path": "data/memory_edits_snapshot.txt"
   },
-
   "output": {
     "digest_path": "output/",
     "skill_drafts_path": "skill_drafts/",
