@@ -20,6 +20,9 @@ from pathlib import Path
 
 import psutil
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # ─────────────────────────────────────────────────────────────────────────────
 # CONFIG
@@ -57,6 +60,9 @@ _REQUIRED_KEYS = [
     ("ingestion", "posts_per_subreddit_top_week"),
     ("ingestion", "comments_per_post"),
     ("ingestion", "keyword_searches"),
+    ("ingestion", "hn_search_terms"),
+    ("ingestion", "hn_results_per_query"),
+    ("ingestion", "hn_min_points"),
     ("triage", "noise_prefilter", "min_score"),
     ("triage", "noise_prefilter", "min_comments"),
 ]
@@ -75,14 +81,9 @@ COMMENTS_PER_POST   = CONFIG["ingestion"]["comments_per_post"]
 KEYWORD_SEARCHES    = CONFIG["ingestion"]["keyword_searches"]
 
 # HackerNews: search terms to query via Algolia API
-HN_SEARCH_TERMS = [
-    "Claude AI",
-    "Anthropic Claude",
-    "Claude assistant",
-    "Claude vs ChatGPT",
-    "Claude model",
-]
-HN_RESULTS_PER_QUERY = 30
+HN_SEARCH_TERMS      = CONFIG["ingestion"]["hn_search_terms"]
+HN_RESULTS_PER_QUERY = CONFIG["ingestion"]["hn_results_per_query"]
+HN_MIN_POINTS        = CONFIG["ingestion"]["hn_min_points"]
 
 # Noise prefilter thresholds (applied before triage — saves Haiku calls)
 MIN_SCORE    = CONFIG["triage"]["noise_prefilter"]["min_score"]
@@ -157,9 +158,19 @@ def _release_lock():
 def load_existing_cache():
     """Load existing raw_posts.json for deduplication. Returns dict keyed by post_id."""
     if RAW_POSTS_PATH.exists():
-        with open(RAW_POSTS_PATH) as f:
-            data = json.load(f)
-        return {p["post_id"]: p for p in data.get("posts", [])}
+        try:
+            with open(RAW_POSTS_PATH) as f:
+                data = json.load(f)
+            return {p["post_id"]: p for p in data.get("posts", [])}
+        except FileNotFoundError:
+            return {}
+        except json.JSONDecodeError:
+            corrupt_path = RAW_POSTS_PATH.with_name("raw_posts.json.corrupt")
+            RAW_POSTS_PATH.rename(corrupt_path)
+            log.warning(
+                f"raw_posts.json was corrupt — renamed to {corrupt_path.name}. Starting fresh."
+            )
+            return {}
     return {}
 
 
@@ -395,7 +406,7 @@ def fetch_hn_search(query: str, results: int = 30) -> list:
     params = {
         "query":       query,
         "tags":        "story",          # top-level posts only (no comments)
-        "numericFilters": "points>4",    # rough noise filter equivalent
+        "numericFilters": f"points>{HN_MIN_POINTS}",    # rough noise filter equivalent
         "hitsPerPage": results,
     }
     log.info(f"HackerNews search: '{query}'")
@@ -516,8 +527,11 @@ def append_run_log(meta: dict):
     """Append run summary to ingest_run_log.json for audit trail."""
     runs = []
     if RUN_LOG_PATH.exists():
-        with open(RUN_LOG_PATH) as f:
-            runs = json.load(f)
+        try:
+            with open(RUN_LOG_PATH) as f:
+                runs = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            runs = []
     runs.append(meta)
     # Keep last 52 runs (one year of weekly runs)
     runs = runs[-52:]
@@ -580,6 +594,27 @@ def _main(args):
         append_run_log(run_meta)
     else:
         log.info(f"DRY RUN — would write {len(merged)} posts. No files written.")
+        log.info(json.dumps(run_meta, indent=2))
+
+    log.info("CLAIRE ingest complete.")
+    log.info(f"Run summary: {run_meta}")
+
+
+if __name__ == "__main__":
+    main()
+        args.dry_run,
+        "existing_posts": len(existing_cache),
+        "new_posts":      len(all_new),
+        "total_posts":    len(merged),
+        "reddit_new":     len([p for p in all_new.values() if p["source_platform"] == "reddit"]),
+        "hn_new":         len([p for p in all_new.values() if p["source_platform"] == "hackernews"]),
+    }
+
+    if not args.dry_run:
+        save_cache(merged, run_meta)
+        append_run_log(run_meta)
+    else:
+        log.info(f"DRY RUN -- would write {len(merged)} posts. No files written.")
         log.info(json.dumps(run_meta, indent=2))
 
     log.info("CLAIRE ingest complete.")

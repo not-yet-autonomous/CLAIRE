@@ -9,6 +9,7 @@ Run:     python claire_output.py
 """
 
 import json
+import sys
 import argparse
 import logging
 from datetime import datetime, timezone
@@ -639,8 +640,16 @@ def main():
     # Save document
     filename = f"CLAIRE_Weekly_Digest_{date_str}.docx"
     output_path = OUTPUT_DIR / filename
-    doc.save(str(output_path))
-    log.info(f"Digest saved → {output_path}")
+    try:
+        doc.save(str(output_path))
+        log.info(f"Digest saved → {output_path}")
+    except PermissionError:
+        locked_path = OUTPUT_DIR / f"CLAIRE_Weekly_Digest_{date_str}_locked.docx"
+        doc.save(str(locked_path))
+        log.warning(f"Output file was locked — saved to fallback: {locked_path.name}")
+    except Exception as e:
+        log.error(f"Failed to save digest: {e}")
+        sys.exit(1)
 
     # Write skill drafts
     skill_count = write_skill_drafts(candidates.get("b", {}))
@@ -655,3 +664,16 @@ def main():
 
 if __name__ == "__main__":
     main()
+get("b", {}))
+    log.info(f"Skill drafts written: {skill_count}")
+
+    log.info("=" * 60)
+    log.info("CLAIRE output complete.")
+    log.info(f"Digest: {output_path}")
+    log.info(f"Skill drafts: {skill_count} files in skill_drafts/")
+    log.info("Review the digest. Apply candidates manually with hypotheses.")
+
+
+if __name__ == "__main__":
+    main()
+)

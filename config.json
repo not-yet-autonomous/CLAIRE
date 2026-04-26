@@ -29,7 +29,16 @@
       "Claude formatting",
       "Claude memory",
       "Claude instructions"
-    ]
+    ],
+    "hn_search_terms": [
+      "Claude AI",
+      "Anthropic Claude",
+      "Claude assistant",
+      "Claude vs ChatGPT",
+      "Claude model"
+    ],
+    "hn_results_per_query": 30,
+    "hn_min_points": 4
   },
   "triage": {
     "model": "claude-haiku-4-5-20251001",
@@ -48,7 +57,51 @@
       "LOW": "archive",
       "IGNORE": "discard"
     },
-    "friction_log_path": "data/friction_log.txt"
+    "friction_log_path": "data/friction_log.txt",
+    "signal_keyword_map": {
+      "workflow_gap": [
+        "gap",
+        "can't",
+        "doesn't",
+        "fails",
+        "missing",
+        "unable",
+        "broken",
+        "inconsistent"
+      ],
+      "behavior_complaint": [
+        "format",
+        "bullet",
+        "revert",
+        "ignored",
+        "sycophant",
+        "hedge",
+        "refuse",
+        "style",
+        "font",
+        "prose",
+        "section",
+        "numbering"
+      ],
+      "feature_praise": [
+        "praise",
+        "works",
+        "good",
+        "excellent"
+      ],
+      "competitor_gap": [
+        "chatgpt",
+        "gemini",
+        "gpt",
+        "openai"
+      ],
+      "cross_platform_workflow": [
+        "prompt",
+        "technique",
+        "pattern",
+        "workflow"
+      ]
+    }
   },
   "synthesis": {
     "model": "claude-sonnet-4-6",
@@ -70,5 +123,15 @@
     "skill_drafts_path": "skill_drafts/",
     "archive_path": "archive/",
     "change_log_path": "data/change_log.json"
+  },
+  "api_pricing": {
+    "claude-haiku-4-5-20251001": {
+      "input_per_mtok": 1.0,
+      "output_per_mtok": 5.0
+    },
+    "claude-sonnet-4-6": {
+      "input_per_mtok": 3.0,
+      "output_per_mtok": 15.0
+    }
   }
 }

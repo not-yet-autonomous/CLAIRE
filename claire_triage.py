@@ -13,6 +13,7 @@ Run:     python claire_triage.py
 """
 
 import json
+import sys
 import time
 import argparse
 import logging
@@ -21,6 +22,8 @@ from pathlib import Path
 
 import anthropic
 from dotenv import load_dotenv
+
+from claire_utils import compute_cost, append_cost_log
 
 load_dotenv()
 
@@ -54,6 +57,8 @@ TRIAGE_MODEL        = CONFIG["triage"]["model"]
 BATCH_SIZE          = CONFIG["triage"]["batch_size"]
 DEVELOPER_ACTION    = CONFIG["cross_reference_gate"]["developer_persona_action"]
 CONFIDENCE_ROUTING  = CONFIG["cross_reference_gate"]["confidence_routing"]
+
+triage_usage = {"input_tokens": 0, "output_tokens": 0, "batches": 0}
 
 # ─────────────────────────────────────────────────────────────────────────────
 # LOGGING
@@ -125,16 +130,7 @@ def score_against_friction_log(triage_result: dict, friction_log: str) -> str:
     friction_lower = friction_log.lower()
 
     # High-signal keywords that bridge triage tags to friction log language
-    SIGNAL_KEYWORD_MAP = {
-        "workflow_gap":        ["gap", "can't", "doesn't", "fails", "missing",
-                                "unable", "broken", "inconsistent"],
-        "behavior_complaint":  ["format", "bullet", "revert", "ignored",
-                                "sycophant", "hedge", "refuse", "style",
-                                "font", "prose", "section", "numbering"],
-        "feature_praise":      ["praise", "works", "good", "excellent"],
-        "competitor_gap":      ["chatgpt", "gemini", "gpt", "openai"],
-        "cross_platform_workflow": ["prompt", "technique", "pattern", "workflow"],
-    }
+    SIGNAL_KEYWORD_MAP = CONFIG["cross_reference_gate"]["signal_keyword_map"]
 
     signal_type = triage_result.get("signal_type", "")
     keywords = SIGNAL_KEYWORD_MAP.get(signal_type, [])
@@ -190,6 +186,7 @@ def classify_batch(client: anthropic.Anthropic,
         f"{build_batch_payload(posts)}"
     )
 
+    raw = ""
     try:
         response = client.messages.create(
             model=TRIAGE_MODEL,
@@ -198,6 +195,9 @@ def classify_batch(client: anthropic.Anthropic,
             messages=[{"role": "user", "content": user_message}],
         )
         raw = response.content[0].text.strip()
+        triage_usage["input_tokens"]  += response.usage.input_tokens
+        triage_usage["output_tokens"] += response.usage.output_tokens
+        triage_usage["batches"]       += 1
 
         # Strip markdown fences if model added them despite instructions
         if raw.startswith("```"):
@@ -264,11 +264,21 @@ def main():
 
     # Load raw posts
     if not RAW_POSTS_PATH.exists():
-        log.error("raw_posts.json not found. Run claire_ingest.py first.")
-        return
+        log.error("raw_posts.json not found — run claire_ingest.py first.")
+        sys.exit(1)
 
-    with open(RAW_POSTS_PATH, encoding="utf-8") as f:
-        raw_data = json.load(f)
+    try:
+        with open(RAW_POSTS_PATH, encoding="utf-8") as f:
+            raw_data = json.load(f)
+    except FileNotFoundError:
+        log.error("raw_posts.json not found — run claire_ingest.py first.")
+        sys.exit(1)
+    except json.JSONDecodeError as e:
+        log.error(
+            f"raw_posts.json is corrupt and cannot be parsed: {e}. "
+            "Delete or repair data/raw_posts.json and re-run claire_ingest.py."
+        )
+        sys.exit(1)
 
     posts = raw_data.get("posts", [])
     log.info(f"Loaded {len(posts)} posts from raw_posts.json")
@@ -373,6 +383,20 @@ def main():
     log.info(f"Persona breakdown: {triage_stats['by_persona']}")
     log.info(f"Source breakdown: {triage_stats['by_source']}")
 
+    # ── Compute and log triage cost ──────────────────────────────────────────
+    triage_cost = compute_cost(
+        TRIAGE_MODEL,
+        triage_usage["input_tokens"],
+        triage_usage["output_tokens"],
+    )
+    log.info(
+        f"Triage API usage — "
+        f"input: {triage_usage['input_tokens']:,} tokens | "
+        f"output: {triage_usage['output_tokens']:,} tokens | "
+        f"batches: {triage_usage['batches']} | "
+        f"cost: ${triage_cost:.4f}"
+    )
+
     if args.dry_run:
         log.info("DRY RUN — skipping gate routing and file writes")
         log.info(f"Triage stats: {json.dumps(triage_stats, indent=2)}")
@@ -442,7 +466,61 @@ def main():
         }, f, indent=2)
     log.info(f"Archive: {len(archive_data)} total posts → {ARCHIVE_PATH}")
 
+    run_id = run_start.strftime("%Y%m%d_%H%M%S")
+    append_cost_log(
+        run_id=run_id,
+        triage_data={
+            "model":         TRIAGE_MODEL,
+            "input_tokens":  triage_usage["input_tokens"],
+            "output_tokens": triage_usage["output_tokens"],
+            "batches":       triage_usage["batches"],
+            "cost_usd":      triage_cost,
+        },
+        synthesis_data={},
+        posts_processed=triage_stats.get("classified", 0),
+    )
+
     log.info("CLAIRE triage complete.")
 
 
-if __
+if __name__ == "__main__":
+    main()
+            }, f, indent=2)
+        log.info(f"Wrote {len(queues[track])} posts --> {path.name}")
+
+    # Archive
+    archive_data = []
+    if ARCHIVE_PATH.exists():
+        with open(ARCHIVE_PATH, encoding="utf-8") as f:
+            existing_archive = json.load(f)
+        archive_data = existing_archive.get("posts", [])
+
+    archive_data.extend(queues["archive"])
+    with open(ARCHIVE_PATH, "w", encoding="utf-8") as f:
+        json.dump({
+            "meta": {"last_updated": run_start.isoformat(),
+                     "total": len(archive_data)},
+            "posts": archive_data,
+        }, f, indent=2)
+    log.info(f"Archive: {len(archive_data)} total posts --> {ARCHIVE_PATH}")
+
+    run_id = run_start.strftime("%Y%m%d_%H%M%S")
+    append_cost_log(
+        run_id=run_id,
+        triage_data={
+            "model":         TRIAGE_MODEL,
+            "input_tokens":  triage_usage["input_tokens"],
+            "output_tokens": triage_usage["output_tokens"],
+            "batches":       triage_usage["batches"],
+            "cost_usd":      triage_cost,
+        },
+        synthesis_data={},
+        posts_processed=triage_stats.get("classified", 0),
+    )
+
+    log.info("CLAIRE triage complete.")
+
+
+if __name__ == "__main__":
+    main()
+)
