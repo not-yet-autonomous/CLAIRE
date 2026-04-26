@@ -32,7 +32,10 @@ load_dotenv()
 BASE_DIR        = Path(__file__).parent
 DATA_DIR        = BASE_DIR / "data"
 OUTPUT_DIR      = BASE_DIR / "output"
-SKILL_DRAFT_DIR = BASE_DIR / "skill_drafts"
+SKILL_DRAFT_DIR      = BASE_DIR / "skill_drafts"
+
+# CLAIRE-A shadow output paths
+CLAIRE_A_DATA_DIR    = BASE_DIR / "data"
 LOGS_DIR        = BASE_DIR / "logs"
 
 OUTPUT_DIR.mkdir(exist_ok=True)
@@ -599,6 +602,119 @@ source_signal: {', '.join(candidate.get('source_posts', [])[:3])}
 # MAIN
 # ─────────────────────────────────────────────────────────────────────────────
 
+def load_latest_claire_a_decisions() -> dict | None:
+    """Finds and loads the most recent CLAIRE-A decision record."""
+    files = sorted(CLAIRE_A_DATA_DIR.glob("claire_a_decisions_*.json"), reverse=True)
+    if not files:
+        return None
+    with open(files[0], encoding="utf-8") as f:
+        wrapper = json.load(f)
+    dr = wrapper.get("decision_record")
+    if not dr:
+        return None
+    log.info(f"CLAIRE-A decisions loaded from {files[0].name}")
+    return dr
+
+
+def build_claire_a_section(doc: "Document", decision_record: dict | None):
+    """Section 6 — CLAIRE-A Shadow Decisions."""
+    doc.add_heading("CLAIRE-A Shadow Decisions", level=1)
+
+    if decision_record is None:
+        doc.add_paragraph(
+            "No CLAIRE-A decision record found for this cycle. "
+            "Run claire_a_assembler.py and claire_a_runner.py after synthesis."
+        )
+        add_rule(doc)
+        return
+
+    # Summary line
+    apply_count  = decision_record.get("apply_count", 0)
+    skip_count   = decision_record.get("skip_count", 0)
+    defer_count  = decision_record.get("defer_count", 0)
+    total        = apply_count + skip_count + defer_count
+    escalation   = decision_record.get("escalation_required", False)
+    model        = decision_record.get("model", "unknown")
+
+    summary_para = doc.add_paragraph()
+    summary_para.paragraph_format.space_after = Pt(8)
+    run = summary_para.add_run(
+        f"Engine evaluated {total} candidates ({model}): "
+        f"{apply_count} apply  |  {skip_count} skip  |  {defer_count} defer"
+    )
+    run.font.name  = "Century Gothic"
+    run.font.size  = Pt(11)
+    run.font.color.rgb = NAVY
+
+    if escalation:
+        reason = decision_record.get("escalation_reason", "")
+        add_callout(doc, f"ESCALATION REQUIRED: {reason}")
+
+    # Decision table
+    decisions = decision_record.get("decisions", [])
+    if decisions:
+        doc.add_heading("Candidate Decisions", level=2)
+
+        table = doc.add_table(rows=1, cols=4)
+        table.style = "Table Grid"
+        table.alignment = WD_TABLE_ALIGNMENT.CENTER
+
+        headers = ["Decision", "Confidence", "Candidate", "Risk Flags"]
+        for i, h in enumerate(headers):
+            header_cell(table.rows[0].cells[i], h)
+
+        # Sort: apply first, then defer, then skip
+        order = {"apply": 0, "defer": 1, "skip": 2}
+        sorted_decisions = sorted(
+            decisions, key=lambda d: order.get(d.get("decision", "skip"), 2)
+        )
+
+        for row_idx, d in enumerate(sorted_decisions):
+            row      = table.add_row()
+            decision = d.get("decision", "")
+            conf     = d.get("confidence", 0.0)
+            summary  = d.get("candidate_summary", "")[:120]
+            flags    = ", ".join(d.get("risk_flags", [])) or "-"
+            even     = row_idx % 2 == 0
+
+            # Decision cell — colour-coded
+            decision_cell = row.cells[0]
+            body_cell(decision_cell, decision.upper(), even)
+            if decision == "apply":
+                decision_cell.paragraphs[0].runs[0].font.color.rgb = RGBColor(0x00, 0x70, 0x00)
+            elif decision == "skip":
+                decision_cell.paragraphs[0].runs[0].font.color.rgb = RGBColor(0x99, 0x00, 0x00)
+            elif decision == "defer":
+                decision_cell.paragraphs[0].runs[0].font.color.rgb = RGBColor(0xB8, 0x86, 0x00)
+
+            body_cell(row.cells[1], f"{conf:.0%}", even)
+            body_cell(row.cells[2], summary, even)
+            body_cell(row.cells[3], flags, even)
+
+        doc.add_paragraph()  # spacing after table
+
+    # Deferrals — expanded detail
+    deferrals = [d for d in decisions if d.get("decision") == "defer"]
+    if deferrals:
+        doc.add_heading("Deferred — Conditions for Resolution", level=2)
+        for d in deferrals:
+            para = doc.add_paragraph()
+            run  = para.add_run(d.get("candidate_summary", "")[:100])
+            run.font.bold      = True
+            run.font.name      = "Century Gothic"
+            run.font.color.rgb = NAVY
+            condition = d.get("defer_condition") or "No condition specified."
+            add_callout(doc, f"Resolve when: {condition}")
+
+    # Session notes — cross-batch observations
+    session_notes = decision_record.get("session_notes", "").strip()
+    if session_notes:
+        doc.add_heading("Engine Session Notes", level=2)
+        doc.add_paragraph(session_notes)
+
+    add_rule(doc)
+
+
 def main():
     parser = argparse.ArgumentParser(description="CLAIRE output layer")
     parser.add_argument("--date", help="Override digest date (YYYY-MM-DD)")
@@ -636,6 +752,10 @@ def main():
     build_track_b_section(doc, candidates.get("b", {}))
     build_track_c_section(doc, candidates.get("c", {}))
     build_eval_section(doc, date_str)
+
+    # CLAIRE-A shadow decisions
+    claire_a_dr = load_latest_claire_a_decisions()
+    build_claire_a_section(doc, claire_a_dr)
 
     # Save document
     filename = f"CLAIRE_Weekly_Digest_{date_str}.docx"

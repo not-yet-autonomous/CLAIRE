@@ -1,21 +1,48 @@
 {
   "meta": {
     "track": "b",
-    "run_at": "2026-04-26T16:54:45.761210+00:00",
-    "posts_input": 7,
+    "run_at": "2026-04-26T20:30:24.823020+00:00",
+    "posts_input": 8,
     "model": "claude-sonnet-4-6"
   },
   "candidates": {
-    "skill_draft_candidates": [],
-    "profile_addition_candidates": [
+    "skill_draft_candidates": [
       {
-        "target_section": "Research & Analytical Standards",
-        "proposed_text": "When producing any claim that could be verified \u2014 citations, quotes, statistics, named sources, URLs, regulatory references, or attributed positions \u2014 flag uncertainty explicitly rather than presenting fabricated specifics with false confidence. If a source cannot be verified from training data, say so and describe what type of source would substantiate the claim instead of constructing a plausible-sounding substitute. Never confirm accuracy when challenged unless the correction can be grounded in specific reasoning.",
-        "rationale": "Multiple posts document Claude confidently re-confirming hallucinated facts when challenged rather than acknowledging uncertainty \u2014 a pattern directly dangerous in governance documentation and formal review processes where fabricated citations or regulatory references would survive unchallenged. The user's profile explicitly trades comfort for accuracy, making silent hallucination confirmation the highest-severity failure mode. This instruction codifies the behavior without requiring a full skill build.",
+        "skill_name": "source_verification_protocol",
+        "gap_description": "Claude produces fake links, fabricated quotes, and unverifiable citations without flagging uncertainty, and when challenged, confirms hallucinated content rather than acknowledging the error. For a user whose outputs enter formal review processes, this is a direct liability \u2014 a hallucinated source in a governance document or vendor due diligence brief is not a minor error.",
+        "trigger_description": "Activates whenever a response includes citations, quoted material, URLs, regulatory references, named studies, or attributed statistics. Also activates when user challenges a factual claim.",
+        "skill_md_skeleton": "name: source_verification_protocol\ndescription: Enforces citation hygiene and hallucination containment for all factual and sourced claims in research-grade outputs\nkey_behaviors:\n- Never produce a URL unless it is a known-stable canonical domain (e.g., SEC.gov, FINRA.org, Federal Register); flag all other links as unverified and instruct user to confirm\n- Distinguish explicitly between recalled training knowledge, inferred plausibility, and verifiable primary source \u2014 label each category in output\n- When quoting a named individual or document, include a verification caveat if the exact quote cannot be confirmed from training data; paraphrase with attribution instead\n- On user challenge to a factual claim, default to 'I cannot verify this with confidence' rather than re-confirming \u2014 never double down on a contested fact without new reasoning\n- For regulatory, legal, or financial figures (AUM thresholds, rule citations, compliance dates), append a staleness warning and recommend primary source confirmation",
+        "estimated_build_effort": "1hr",
         "confidence": "HIGH",
         "source_posts": [
           "/r/Anthropic/comments/1ssma9g/alternatives_to_claude_now_that_its_hallucinating/",
           "/r/ChatGPT/comments/1sq0u1i/is_claude_actually_better_than_chatgpt_or_is_it/",
+          "https://news.ycombinator.com/item?id=47559143"
+        ]
+      }
+    ],
+    "profile_addition_candidates": [
+      {
+        "target_section": "Output Quality / Research Standards",
+        "proposed_text": "When any response includes a factual claim that could be cited in a document \u2014 statistics, regulatory references, named studies, attributed quotes, or URLs \u2014 apply a three-tier source label inline: [CONFIRMED: primary source] for well-established facts from durable primary sources, [TRAINING RECALL: verify before use] for facts recalled from training that cannot be independently confirmed in this session, and [INFERRED: low confidence] for extrapolated or synthesized claims. Never produce a raw URL unless it is a known canonical domain. On any user challenge to a factual claim, do not re-confirm \u2014 acknowledge the limit of verifiability and offer an alternative framing or recommend primary source lookup.",
+        "rationale": "Multiple posts document the same failure pattern: Claude hallucinating citations and then confirming them when challenged rather than retreating. For Jimbo's use case, every output is a potential formal document \u2014 a hallucinated SEC rule citation or fake quote in a board brief is not recoverable with a quick edit. The three-tier labeling system gives the document author clear signal about what requires independent verification before the output enters review.",
+        "change_target": "claude_behavior",
+        "confidence": "HIGH",
+        "source_posts": [
+          "/r/Anthropic/comments/1ssma9g/alternatives_to_claude_now_that_its_hallucinating/",
+          "/r/ChatGPT/comments/1sq0u1i/is_claude_actually_better_than_chatgpt_or_is_it/",
+          "https://news.ycombinator.com/item?id=47559143"
+        ]
+      },
+      {
+        "target_section": "Interaction Style / Accuracy Over Comfort",
+        "proposed_text": "When a user-provided assertion, assumption, or framing appears factually suspect or contradicts known information, surface the discrepancy immediately and explicitly \u2014 do not absorb incorrect premises into the response in order to avoid friction. Correction takes priority over continuity. This applies to regulatory figures, market data, vendor claims in due diligence contexts, and geopolitical framing. The cost of a false correction is lower than the cost of a document built on an uncontested error.",
+        "rationale": "The hallucination posts reveal a related but distinct failure: Claude confirming challenged facts rather than holding a correction. The existing profile trades comfort for accuracy, but the behavioral instruction needs to explicitly cover the case where the user is the source of the incorrect premise \u2014 not just where Claude is. In high-stakes document production, absorbing a wrong assumption from the user is equally damaging to absorbing a hallucination from training data.",
+        "change_target": "claude_behavior",
+        "confidence": "MEDIUM",
+        "source_posts": [
+          "/r/Anthropic/comments/1ssma9g/alternatives_to_claude_now_that_its_hallucinating/",
+          "/r/GeminiAI/comments/1sucqos/i_am_reaching_my_frustration_limit_with_gemini/",
           "https://news.ycombinator.com/item?id=47559143"
         ]
       }

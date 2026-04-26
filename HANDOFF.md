@@ -50,7 +50,7 @@ CLAIRE\
 ├── .env                      ✅ ANTHROPIC_API_KEY (never touch)
 ├── .gitignore                ✅ Secrets and data excluded
 ├── HANDOFF.md                ✅ This file
-├── .venv\                    ✅ Virtual environment
+├── claire_weekly.ps1         ✅ Build 6 — scheduled pipeline wrapper (CLAIRE + CLAIRE-A)
 ├── .git\                     ✅ Local git, no remote
 ├── data\
 │   ├── raw_posts.json        ✅ 520 posts — clean corpus
@@ -65,7 +65,8 @@ CLAIRE\
 │   ├── claire_a_input_[timestamp].json     ✅ Build 5 — assembler output, engine input payload
 │   ├── claire_a_decisions_[timestamp].json ✅ Build 5 — shadow decision record (Opus output)
 │   ├── claire_a_reasoning_[timestamp].txt  ✅ Build 5 — auditable reasoning scratchpad
-│   └── claire_a_source_reliability.json    ⬜ Build 6 — rolling source reliability scores (created on first scorer run)
+│   ├── claire_a_source_reliability.json    ✅ Build 6 — rolling source reliability scores (created on first scorer run)
+│   └── claire_a_session_history.json       ✅ Build 6 — cross-run fingerprint tracking for prior_appearances
 ├── prompts\
 │   ├── triage_prompt.txt     ✅ Haiku system prompt
 │   ├── synthesis_prompts.py  ✅ Three Sonnet prompts
@@ -73,8 +74,8 @@ CLAIRE\
 ├── logs\
 │   ├── ingest.log            ✅ Ingest run log (UTF-8, FileHandler)
 │   └── triage.log            ✅ Build 2 output
-├── output\                   ⬜ Build 3 — weekly digest .docx
-├── skill_drafts\             ⬜ Build 3 — SKILL.md skeletons
+├── output\                   ✅ Build 3 — weekly digest .docx (Section 6 = CLAIRE-A decisions)
+├── skill_drafts\             ✅ Build 3 — SKILL.md skeletons
 ├── archive\                  ⬜ Quarterly review artifacts
 └── docs\
     ├── claire_pipeline_flow.jsx   ✅ Decision flow diagram
@@ -104,7 +105,10 @@ CLAIRE\
 | 5 | `claire_a_assembler.py` | ✅ Complete | Reads candidates + change_log, builds engine payload |
 | 5 | `claire_a_runner.py` | ✅ Complete | Opus decision engine, shadow log writer |
 | 5 | `claire_a_scorer.py` | ✅ Complete | Sonnet eval scorer, reliability ledger |
-| 6 | Session history | ⬜ Next | cross-run prior_appearances tracking |
+| 6 | `claire_a_runner.py` | ✅ Complete | Session history writer added |
+| 6 | `claire_a_assembler.py` | ✅ Complete | Full prior_appearances from session history |
+| 6 | `claire_output.py` | ✅ Complete | Section 6 added — CLAIRE-A decisions in digest |
+| 6 | `claire_weekly.ps1` | ✅ Complete | Scheduled wrapper with per-script exit checks |
 
 ---
 
@@ -145,35 +149,33 @@ CLAIRE\
 
 ## Current Session Task
 
-Build 5 complete. CLAIRE-A shadow pipeline operational.
+Build 6 complete. CLAIRE + CLAIRE-A fully operational. Weekly schedule active.
 
-**CLAIRE run order (weekly):**
+**Everything runs via scheduled task (claire_weekly.ps1). Manual override:**
 ```powershell
-python claire_ingest.py
-python claire_triage.py
-python claire_synthesize.py
-python claire_output.py
+powershell -ExecutionPolicy Bypass -File "C:\Users\<redacted>\OneDrive\Claude Projects\CLAIRE\claire_weekly.ps1"
 ```
 
-**CLAIRE-A run order (after CLAIRE completes):**
-```powershell
-python claire_a_assembler.py
-python claire_a_runner.py
-```
-Review decisions: `data\claire_a_decisions_[timestamp].json`
-Review reasoning: `data\claire_a_reasoning_[timestamp].txt`
+**After each weekly run, review:**
+1. `output\CLAIRE_Weekly_Digest_[date].docx` — Section 6 contains CLAIRE-A shadow decisions
+2. `data\claire_a_reasoning_[timestamp].txt` — full per-candidate reasoning if needed
 
-**Eval scoring (weekly, after eval window elapses):**
+**Eval scoring (run after eval window elapses — 14-21 days):**
 ```powershell
 python claire_a_scorer.py --force --notes "your session observations here"
 ```
 
+**Graduation tracking (update quarterly_evals in change_log.json):**
+- Target: 80% agreement rate over 6 consecutive runs
+- Target: 10+ scored hypotheses in reliability ledger
+- Target: Zero escalations in last 3 runs
+
 **Open items:**
-- Build 6: session history file for cross-run prior_appearances tracking (next)
 - Cost log merge (two entries per run — design decision pending)
 - Opus filter log line (cosmetic — reports full corpus count not new posts)
 - change_log.json: add `summary` field to memory_edit entries (hypothesis used as proxy currently)
-- First eval cycle: 8 apply decisions from Build 5 run. Hypotheses open. Scorer ready. Run with --force after observing behavior in sessions.
+- First eval cycle: 8 apply decisions from Build 5 run. Hypotheses open. Run scorer after 14-21 days of session observation.
+- psutil: install in venv if claire_ingest.py errors (`python -m pip install psutil`)
 
 ---
 
@@ -215,4 +217,4 @@ Examples:
 - `CLAIRE Build 2 complete — synthesis queues written`
 
 ---
-*Last updated: 2026-04-26 — Build 5 closed, CLAIRE-A shadow pipeline operational. Build 6 next: session history + prior_appearances.*
+*Last updated: 2026-04-26 — Build 6 closed. CLAIRE + CLAIRE-A fully operational. Weekly schedule active. Next action: first eval cycle in 14-21 days.*
