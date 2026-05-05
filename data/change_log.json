@@ -58,6 +58,46 @@
       "source": "CLAIRE_Weekly_Digest_2026-04-26",
       "hypothesis": "Claude will recommend chunked structure over monolithic files when project memory or documentation architecture comes up.",
       "eval_notes": []
+    },
+    {
+      "date": "2026-05-05",
+      "type": "memory_edit",
+      "source": "CLAIRE_Weekly_Digest_2026-05-05",
+      "entry": "User requires Claude never use em dashes; use commas or hyphens instead.",
+      "hypothesis": "Zero em dashes across next three sessions without prompting.",
+      "eval_notes": []
+    },
+    {
+      "date": "2026-05-05",
+      "type": "memory_edit",
+      "source": "CLAIRE_Weekly_Digest_2026-05-05",
+      "entry": "User requires minimal verbosity; every token must earn its place — no yapping.",
+      "hypothesis": "Compressed direct responses, no filler, across next three sessions.",
+      "eval_notes": []
+    },
+    {
+      "date": "2026-05-05",
+      "type": "memory_edit",
+      "source": "CLAIRE_Weekly_Digest_2026-05-05",
+      "entry": "User is aware of context window drift; do not explain it unprompted.",
+      "hypothesis": "Zero unprompted context window commentary across next five sessions.",
+      "eval_notes": []
+    },
+    {
+      "date": "2026-05-05",
+      "type": "memory_edit",
+      "source": "CLAIRE_Weekly_Digest_2026-05-05",
+      "entry": "Platform reliability is a known risk; do not flag outages mid-task unless directly asked.",
+      "hypothesis": "No platform reliability commentary mid-task unless asked.",
+      "eval_notes": []
+    },
+    {
+      "date": "2026-05-05",
+      "type": "profile_addition",
+      "source": "CLAIRE_Weekly_Digest_2026-05-05",
+      "entry": "Audit mode added to AI Personality Profile — completion-gate quality check on output artifact.",
+      "hypothesis": "Audit: trigger produces numbered findings list covering requirement gaps, unsupported claims, and internal inconsistencies.",
+      "eval_notes": []
     }
   ],
 

@@ -155,35 +155,15 @@ CLAIRE\
 
 ## Current Session Task
 
-Build 7 complete. Three ingest sources live: Reddit, HackerNews, dev.to.
+Cycle 2 complete. 4 memory edits applied, Audit mode added to profile.
 
-**Everything runs via scheduled task (claire_weekly.ps1). Manual override:**
-```powershell
-powershell -ExecutionPolicy Bypass -File "C:\Users\<redacted>\OneDrive\Claude Projects\CLAIRE\claire_weekly.ps1"
-```
-
-**After each weekly run, review:**
-1. `output\CLAIRE_Weekly_Digest_[date].docx` — Section 6 contains CLAIRE-A shadow decisions
-2. `data\claire_a_reasoning_[timestamp].txt` — full per-candidate reasoning if needed
-
-**Eval scoring (run after eval window elapses — 14-21 days):**
-```powershell
-python claire_a_scorer.py --force --notes "your session observations here"
-```
-
-**Graduation tracking (update quarterly_evals in change_log.json):**
-- Target: 80% agreement rate over 6 consecutive runs
-- Target: 10+ scored hypotheses in reliability ledger
-- Target: Zero escalations in last 3 runs
-
-**Open items:**
-- Cost log merge (two entries per run — design decision pending)
-- Opus filter log line (cosmetic — reports full corpus count not new posts)
-- change_log.json: add `summary` field to memory_edit entries (hypothesis used as proxy currently)
-- First eval cycle: 8 apply decisions from Build 5 run. Hypotheses open. Run scorer after 14-21 days of session observation.
-- psutil: install in venv if claire_ingest.py errors (`python -m pip install psutil`)
-- dev.to DEVTO_MIN_REACTIONS: change from 2 to 5 in claire_ingest.py (one-line edit, not yet committed)
-- Build 8 candidates: X/Twitter API feed, Substack RSS
+Build 5 candidates (design in browser Project first):
+- Same-day memory filtering (CLAIRE-A flagged redundancy)
+- Technique candidates separate output stream in digest
+- Cost log merge (two entries per run)
+- change_log summary field addition
+- hallucination_guard skill (CLAIRE-A recommended over profile addition)
+- Track A cost trajectory monitoring (approaching $0.60-0.70/run)
 
 ---
 
@@ -225,4 +205,4 @@ Examples:
 - `CLAIRE Build 2 complete — synthesis queues written`
 
 ---
-*Last updated: 2026-04-26 — Build 7 closed. Three ingest sources live. Next action: first eval cycle in 14-21 days. Build 8: X/Twitter + Substack RSS.*
+*Last updated: 2026-05-05 — Cycle 2 complete, Build 5 candidates queued*
