@@ -38,5 +38,27 @@
     "total_posts": 642,
     "reddit_new": 1,
     "hn_new": 0
+  },
+  {
+    "run_at": "2026-05-05T13:20:01.066308+00:00",
+    "source": "all",
+    "dry_run": false,
+    "existing_posts": 642,
+    "new_posts": 354,
+    "total_posts": 996,
+    "reddit_new": 343,
+    "hn_new": 5,
+    "forum_new": 6
+  },
+  {
+    "run_at": "2026-05-10T19:36:53.964975+00:00",
+    "source": "all",
+    "dry_run": false,
+    "existing_posts": 996,
+    "new_posts": 323,
+    "total_posts": 1319,
+    "reddit_new": 318,
+    "hn_new": 1,
+    "forum_new": 4
   }
 ]

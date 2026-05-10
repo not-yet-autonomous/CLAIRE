@@ -155,15 +155,31 @@ CLAIRE\
 
 ## Current Session Task
 
-Cycle 2 complete. 4 memory edits applied, Audit mode added to profile.
+Cycle 3 complete (2026-05-10). 1 memory edit applied, hallucination-guard skill installed.
+change_log.json and friction_log.txt created (were missing — now initialized with full history).
 
-Build 5 candidates (design in browser Project first):
-- Same-day memory filtering (CLAIRE-A flagged redundancy)
+**Applied this cycle:**
+- Memory #18: sycophantic hallucination guard (don't defend before verifying)
+- Skill: hallucination-guard installed to skills/user/hallucination-guard/SKILL.md
+
+**Queued profile diffs (apply manually — see change_log.json):**
+- c3-prof-001: AUDIT mode enhancement (no observation gate — apply at next profile review)
+- c3-prof-002: Task-completion anti-collapse (observe 4.7 in live session first)
+- c3-prof-003: Effort transparency disclosure (observe 4.7 in live session first)
+
+**CLAIRE-A graduation criteria (cycle 1 of 6):**
+- Consecutive eval runs logged: 1 of 6 required
+- Reliability ledger hypotheses scored: 7 of 10 required
+- Escalations in last 3 runs: 0 (clean)
+- Next eval cycle: 2026-05-17
+
+**Build 8 candidates (design in browser Project first):**
+- Same-day memory filtering in triage (CLAIRE-A flagged redundancy — c3 friction log)
 - Technique candidates separate output stream in digest
 - Cost log merge (two entries per run)
-- change_log summary field addition
-- hallucination_guard skill (CLAIRE-A recommended over profile addition)
+- X/Twitter + Substack RSS ingest sources
 - Track A cost trajectory monitoring (approaching $0.60-0.70/run)
+- feature_praise signal utilization audit (c3 friction log)
 
 ---
 
@@ -205,4 +221,4 @@ Examples:
 - `CLAIRE Build 2 complete — synthesis queues written`
 
 ---
-*Last updated: 2026-05-05 — Cycle 2 complete, Build 5 candidates queued*
+*Last updated: 2026-05-10 — Cycle 3 complete, Build 8 candidates queued, change_log.json + friction_log.txt initialized*

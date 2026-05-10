@@ -1,0 +1,38 @@
+# CLAIRE — Friction Log
+# Human-maintained. Update weekly. 2-4 entries per cycle minimum.
+# Format: YYYY-MM-DD | [context] | [component] | [severity: LOW/MEDIUM/HIGH]
+# Severity: LOW = cosmetic/minor, MEDIUM = precision/quality impact, HIGH = correctness risk
+# Blank weeks score everything MEDIUM next cycle — cross-reference gate loses precision.
+# -----------------------------------------------------------------------
+
+# === CYCLE 1 (pipeline validation — no digest review session) ===
+# No friction entries. Cycle 1 was pipeline build validation only.
+# If behavioral friction was observed during Build 1-4 development, backfill here.
+
+# === CYCLE 2 (2026-05-05) ===
+
+2026-05-05 | digest review session | memory persistence | MEDIUM
+Em dash suppression added as memory edit after profile-level instruction alone proved insufficient. Community signal confirmed training weight overrides preference-level instructions for this pattern specifically. Added as factual memory edit per most effective community workaround. Holding to observe whether memory-level instruction holds across sessions before escalating to profile-level hard rule.
+
+2026-05-05 | digest review session | model version signaling | MEDIUM
+4.7 quality regression flagged as memory edit rather than profile diff because the failure mode is model-version-specific, not architectural. If 4.6 remains available and 4.7 regressions persist, may need to route specific task types away from 4.7 explicitly. Watching.
+
+2026-05-05 | digest review session | CLAIRE-A first run | MEDIUM
+CLAIRE-A completed first decision cycle but had no eval history to calibrate against. All confidence scores are first-cycle estimates with no reliability ledger backing. Applied candidates carry higher uncertainty than the confidence numbers suggest. Score hypotheses across next 5 cycles before treating CLAIRE-A confidence tiers as reliable signal.
+
+2026-05-05 | profile update | Audit mode scope | LOW
+Audit mode added as new named mode in profile. Scope defined as artifact-level completeness gate. Boundary with Frenemy and Steelman modes is clear in definition but may blur in practice — user may invoke wrong mode for hallucination-checking tasks. Monitor for mode confusion before next profile revision.
+
+# === CYCLE 3 (2026-05-10) ===
+
+2026-05-10 | digest review session | CLAIRE-A candidate redundancy | MEDIUM
+CLAIRE-A engine flagged its own redundancy: 5 of 15 candidates in this cycle duplicated same-day memory entries already applied or clearly present in memory state. Cross-reference gate is not currently filtering against live memory_state before generating candidates. Precision loss is real — engine deferred legitimate candidates and burned cycles on already-applied ones. Investigate memory_state injection into triage stage before Build 8.
+
+2026-05-10 | digest review session | technique candidate routing | LOW
+Three Track C technique candidates (framework-request, portable context file, tool specialization splitting) are categorically user-behavior advice, not profile or memory config changes. They routed through the same output stream as config candidates and required manual triage during review. CLAIRE-A noted this in engine session notes. Separate output stream or category tag warranted before signal volume increases in Build 8.
+
+2026-05-10 | hallucination-guard skill build | skill naming convention | LOW
+Packager requires kebab-case skill names. SKILL.md was initially drafted with underscore (hallucination_guard) matching CLAIRE-A's internal candidate reference. Caught at validation — minor delay. Add kebab-case naming convention to CLAIRE skill draft template and skill_drafts/ README to prevent repeat.
+
+2026-05-10 | digest review session | feature_praise signal utilization | MEDIUM
+74 feature_praise signals ingested this cycle, 0 candidates generated from that category. No visibility into whether praise signal feeds cross-reference gate weighting or is simply dropped after triage. If dropped, it represents ~15% of signal volume with zero pipeline value. Confirm whether praise category contributes to cross-reference scoring. If not, consider reducing ingest scope or repurposing the category as a baseline confidence modifier for behavior_complaint signals about the same features.

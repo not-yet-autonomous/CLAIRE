@@ -1,0 +1,147 @@
+{
+  "_meta": {
+    "schema_version": "1.1",
+    "notes": [
+      "Cycle 1 produced no applied changes — pipeline validation run only.",
+      "Cycle 2 entries reconstructed from HANDOFF.md (last updated 2026-05-05) and current memory state. Hypotheses marked [reconstructed] were not captured at time of application.",
+      "Cycle 3 entries are fully documented from session on 2026-05-10.",
+      "eval_status values: pending | held | partial | no | queued | n/a",
+      "add summary field to memory_edit entries — CLAIRE-A session note 2026-05-10"
+    ]
+  },
+  "changes": [
+    {
+      "id": "c2-mem-001",
+      "date": "2026-05-05",
+      "cycle": 2,
+      "type": "memory_edit",
+      "action": "add",
+      "target": "Memory — single-vendor AI dependency risk",
+      "summary": "User treats single-vendor AI dependency as an institutional risk requiring mitigation in architecture recommendations.",
+      "hypothesis": "[reconstructed] Single-vendor lock-in on AI infrastructure represents audit and continuity risk for an SEC-registered RIA. Architecture recommendations should surface this proactively rather than waiting to be asked. Relevant when evaluating any AI tooling or recommending infrastructure patterns.",
+      "source_signal": "Track A — Cycle 2 digest. Multiple posts documenting Anthropic account suspensions and silent capability changes.",
+      "eval_status": "pending",
+      "eval_notes": ""
+    },
+    {
+      "id": "c2-mem-002",
+      "date": "2026-05-05",
+      "cycle": 2,
+      "type": "memory_edit",
+      "action": "add",
+      "target": "Memory — Claude 4.7 quality regression flag",
+      "summary": "Claude 4.7 has documented quality regressions vs 4.6; flag model version when it affects output reliability.",
+      "hypothesis": "[reconstructed] Widespread community reports of Opus 4.7 hallucinating, ignoring multi-part instructions, and producing verbose low-signal responses. For outputs entering formal review, silent model quality regression is a direct accuracy risk. Model version should be surfaced when it is material to output quality.",
+      "source_signal": "Track A — Cycle 2 digest. Consistent reports across multiple posts on r/ClaudeAI and r/Anthropic.",
+      "eval_status": "pending",
+      "eval_notes": ""
+    },
+    {
+      "id": "c2-mem-003",
+      "date": "2026-05-05",
+      "cycle": 2,
+      "type": "memory_edit",
+      "action": "add",
+      "target": "Memory — em dash suppression",
+      "summary": "User requires Claude never use em dashes; use commas or hyphens instead.",
+      "hypothesis": "[reconstructed] Em dash persistence is high-signal in community signal batches. Memory-level instruction alone is insufficient based on documented workarounds. Adding as a factual memory edit mirrors the most effective community mitigation strategy. Document outputs enter formal review — em dash persistence is a quality control failure.",
+      "source_signal": "Track A — Cycle 2 digest. r/ClaudeAI posts on em dash suppression workarounds.",
+      "eval_status": "pending",
+      "eval_notes": ""
+    },
+    {
+      "id": "c2-mem-004",
+      "date": "2026-05-05",
+      "cycle": 2,
+      "type": "memory_edit",
+      "action": "add",
+      "target": "Memory — model/effort confirmation before proceeding",
+      "summary": "When Claude effort level or model version is ambiguous, user prefers explicit confirmation of active model and reasoning mode before proceeding.",
+      "hypothesis": "[reconstructed] Silent model switching and effort reduction produce outputs that appear research-grade but are not. For high-stakes analytical work, confirming which model and reasoning mode is active before a long session prevents downstream quality failures that are expensive to catch in review.",
+      "source_signal": "Track A — Cycle 2 digest. Posts documenting silent effort level reduction and model version ambiguity.",
+      "eval_status": "pending",
+      "eval_notes": ""
+    },
+    {
+      "id": "c2-prof-001",
+      "date": "2026-05-05",
+      "cycle": 2,
+      "type": "profile_diff",
+      "action": "add",
+      "target": "Profile — AUDIT mode",
+      "summary": "Added AUDIT mode (Audit: / Check this:): stop generating, review just-completed output for requirements coverage, unsupported claims or fabricated citations, and internal inconsistencies. Numbered list. Completion gate on artifact, not reasoning.",
+      "hypothesis": "[reconstructed] Existing modes (Frenemy, Steelman) address adversarial stress-testing and counter-argument generation but do not include a post-generation integrity check scoped to the artifact itself. AUDIT closes this gap with a narrowly scoped output review invokable on demand.",
+      "source_signal": "Track A — Cycle 2 digest. Community reports of hallucination without acknowledgment and scope drift during long tasks.",
+      "eval_status": "pending",
+      "eval_notes": ""
+    },
+    {
+      "id": "c3-mem-001",
+      "date": "2026-05-10",
+      "cycle": 3,
+      "type": "memory_edit",
+      "action": "add",
+      "target": "Memory #18 — sycophantic hallucination guard",
+      "summary": "When challenged on a factual claim, do not defend the original assertion before verifying it. If the basis cannot be reconstructed or confirmed via retrieval, retract explicitly and correct. Confident restatement of a potentially hallucinated claim is not acceptable.",
+      "hypothesis": "Closes the specific gap where the model defense reflex overrides the accuracy-over-comfort principle. Existing profile trades comfort for accuracy broadly, but does not explicitly prohibit opening-paragraph defense of a challenged claim before the claim's basis has been examined. Most harmful in formal review contexts where a confidently re-defended fabrication causes downstream damage before anyone catches it.",
+      "source_signal": "Track A memory candidate #3 (HIGH) — 2026-05-10 digest. Sources: r/ClaudeAI/1t3ggv8, r/ClaudeAI/1t3j6gl, r/ClaudeAI/1t9bvca. Also corroborated by Track A profile diff candidates #8 and #9 in same cycle.",
+      "eval_status": "pending",
+      "eval_notes": ""
+    },
+    {
+      "id": "c3-skill-001",
+      "date": "2026-05-10",
+      "cycle": 3,
+      "type": "skill_install",
+      "action": "add",
+      "target": "Skill — hallucination-guard",
+      "summary": "Epistemic discipline skill. Three behaviors: (1) confidence tiering on factual claims — VERIFIED (retrieved this session), training-derived, or [verify]; (2) challenge-response protocol prohibiting restatement of a challenged claim without producing its source; (3) trailing verification checklist on outputs destined for governance, vendor due diligence, regulatory, or executive review.",
+      "hypothesis": "Three independent paths in the 2026-05-10 digest cycle converged on the same mechanism: Track A profile diffs (candidates #1, #3, #8), Track B skill draft (source-integrity-enforcer), and CLAIRE-A shadow decisions (APPLY 81%, hallucination_guard). Convergence at that volume is the strongest signal the pipeline produces. Unified into one skill — hallucination-guard — rather than building source-integrity-enforcer separately and adding a redundant profile section. Install path: skills/user/hallucination-guard/SKILL.md.",
+      "source_signal": "Track B skill candidate #1 (HIGH) + Track B profile addition #1 (HIGH) + CLAIRE-A APPLY 81% — 2026-05-10 digest.",
+      "eval_status": "pending",
+      "eval_notes": ""
+    },
+    {
+      "id": "c3-prof-001",
+      "date": "2026-05-10",
+      "cycle": 3,
+      "type": "profile_diff",
+      "action": "queued",
+      "target": "Profile — AUDIT mode enhancement",
+      "summary": "Extend existing AUDIT mode to include: citation confidence tagging (distinguish training-derived from retrieval-verified claims) and challenge-response retraction check (if a prior claim was defended under challenge, evaluate whether original basis can be reconstructed; if not, retract). Triggers and syntax unchanged.",
+      "hypothesis": "Existing AUDIT mode covers output completeness and internal consistency but does not fire on the hallucination-defense failure pattern — the specific gap that c3-mem-001 addresses at the memory level. Extending AUDIT closes this at the mode level without adding a new invocation pattern. Additive and low-risk; no observation gate required before applying.",
+      "source_signal": "Track A profile diff candidate #5 (MEDIUM) + CLAIRE-A APPLY 79% (adversarial self-audit) — 2026-05-10 digest.",
+      "resolve_condition": "No observation gate. Apply at next profile review session.",
+      "eval_status": "queued",
+      "eval_notes": ""
+    },
+    {
+      "id": "c3-prof-002",
+      "date": "2026-05-10",
+      "cycle": 3,
+      "type": "profile_diff",
+      "action": "queued",
+      "target": "Profile — task-completion anti-collapse rule",
+      "summary": "When producing multi-step analytical plans or structured tasks spanning more than 4 sequential items: complete all planned steps before summarizing findings. Do not pre-judge untested items based on early results. Do not collapse a partially-completed task into a summary as if the full sequence ran. Quality control requirement, not a preference.",
+      "hypothesis": "Opus 4.7 documented pattern of abandoning multi-step tasks mid-sequence, marking untested items as rejected after early failures, and collapsing long planning tasks into confident-but-inaccurate summaries. For governance documentation and vendor due diligence with structured analytical steps, premature task collapse produces outputs requiring complete rework before entering any review process. Observation gate warranted because the failure pattern needs to be confirmed against existing profile instructions before adding more.",
+      "source_signal": "Track A profile diff candidate #3 (HIGH) — 2026-05-10 digest. Sources: r/ClaudeAI/1sozmn5, r/claude/1straqe, r/ClaudeAI/1su5air.",
+      "resolve_condition": "Apply if 4.7 observed overriding existing profile instructions on task completion in live session.",
+      "eval_status": "queued",
+      "eval_notes": ""
+    },
+    {
+      "id": "c3-prof-003",
+      "date": "2026-05-10",
+      "cycle": 3,
+      "type": "profile_diff",
+      "action": "queued",
+      "target": "Profile — effort transparency disclosure",
+      "summary": "If token constraints, context saturation, or reduced reasoning depth are affecting response quality, surface that explicitly before delivering output. Do not deliver a degraded executive briefing, governance document, or analytical output at medium effort without disclosure. All outputs treated as research-grade unless explicitly stated otherwise.",
+      "hypothesis": "Anthropic-confirmed silent effort reduction produces outputs that enter formal review at medium quality while appearing research-grade. This directly violates the accuracy-over-comfort principle — the harm is not degraded quality per se but undisclosed degraded quality, which is undetectable until review fails. Observation gate warranted to confirm the current profile's research-grade default is being overridden before adding explicit disclosure language.",
+      "source_signal": "Track A profile diff candidate #4 (HIGH) — 2026-05-10 digest. Sources: HN/47778035, HN/45282390, HN/44111298.",
+      "resolve_condition": "Apply if 4.7 observed delivering degraded output without disclosure in live session.",
+      "eval_status": "queued",
+      "eval_notes": ""
+    }
+  ]
+}

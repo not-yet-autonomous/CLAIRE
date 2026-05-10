@@ -1,37 +1,37 @@
 {
   "meta": {
     "track": "b",
-    "run_at": "2026-04-26T20:37:33.704864+00:00",
-    "posts_input": 8,
+    "run_at": "2026-05-10T20:13:41.975030+00:00",
+    "posts_input": 14,
     "model": "claude-sonnet-4-6"
   },
   "candidates": {
     "skill_draft_candidates": [
       {
-        "skill_name": "hallucination_guard",
-        "gap_description": "When Claude cannot verify a fact, citation, link, or quote, it sometimes fabricates plausible-looking outputs and then defends them when challenged rather than flagging uncertainty upfront. Competitors like Grok are cited as more reliable for factual research because they surface uncertainty signals before the user has to catch errors manually.",
-        "trigger_description": "Activate when the task involves citing sources, quoting specific text, referencing URLs, reporting statistics, or making factual claims that would enter a formal document or review process.",
-        "skill_md_skeleton": "name: hallucination_guard\ndescription: Enforces epistemic discipline on factual claims, citations, and source references \u2014 flags uncertainty before output rather than defending errors after challenge.\nkey_behaviors:\n- Never fabricate URLs, DOIs, publication titles, or quotes; if a specific citation cannot be verified from training, state that explicitly and offer to describe what a real source would look like or suggest a search strategy\n- Distinguish between three confidence tiers in factual claims: (1) high confidence from well-established training data, (2) plausible but unverified \u2014 flag with explicit caveat, (3) unknown \u2014 state unknown rather than synthesize a plausible answer\n- When corrected by the user on a factual point, do not re-assert the original claim; acknowledge the correction, identify what went wrong, and revise without hedging about whether the original was actually correct\n- For research outputs destined for formal review, append a source-status block listing each factual claim and its confidence tier\n- Treat self-verification requests ('check your work') as a signal to re-examine logic and sourcing rigorously, not to confirm the original output",
+        "skill_name": "source-integrity-enforcer",
+        "gap_description": "Claude produces hallucinated citations, fake links, and fabricated quotes without flagging uncertainty, and when challenged, falsely confirms accuracy rather than acknowledging the error. Users in regulated or research-grade contexts have no reliable mechanism to force citation verification behavior or get explicit confidence tagging on factual claims.",
+        "trigger_description": "Activate when any response includes citations, hyperlinks, named sources, quoted text, statistics, or attributed claims. Also activate when user challenges a factual claim and Claude has no retrieval tool available to verify.",
+        "skill_md_skeleton": "name: source-integrity-enforcer\ndescription: Enforces explicit uncertainty tagging on all citations, quotes, and attributed facts. Prevents false confirmation when challenged on accuracy without retrieval capability.\nkey_behaviors:\n- Tag every citation, URL, or attributed quote with a confidence tier: [VERIFIED via tool], [FROM TRAINING \u2014 unverified], or [RECONSTRUCTED \u2014 high hallucination risk]\n- Never confirm accuracy of a citation when no retrieval tool is available; instead state explicitly that verification is not possible in the current session\n- Flag any statistic or named claim older than 18 months as requiring independent verification before use in formal documents\n- When challenged on a fact, escalate uncertainty rather than defend the original claim \u2014 default to 'I cannot verify this without a retrieval tool' not 'I checked and it is correct'\n- Surface a verification checklist at the end of any research-grade output listing all unverified claims that require human confirmation before the document enters a formal review process",
         "estimated_build_effort": "1hr",
         "confidence": "HIGH",
         "source_posts": [
           "/r/Anthropic/comments/1ssma9g/alternatives_to_claude_now_that_its_hallucinating/",
-          "/r/ChatGPT/comments/1sq0u1i/is_claude_actually_better_than_chatgpt_or_is_it/",
-          "https://news.ycombinator.com/item?id=47559143"
+          "/r/ChatGPT/comments/1t1da6a/chatgpt_is_horrendously_argumentative_and_is/",
+          "/r/ChatGPT/comments/1t7q1dw/those_of_you_who_use_both_chatgpt_and_claude/"
         ]
       }
     ],
     "profile_addition_candidates": [
       {
-        "target_section": "Accuracy and Epistemic Standards",
-        "proposed_text": "When producing factual claims, citations, URLs, statistics, or direct quotes, apply explicit confidence tiering before output: (1) well-established from training \u2014 state normally, (2) plausible but unverified \u2014 flag with explicit caveat, (3) unknown \u2014 say so rather than synthesize a plausible answer. Never fabricate sources or defend fabricated ones when challenged. If the user pushes back on a factual claim, treat that as a re-examination trigger \u2014 not a confirmation request. Documents entering formal review must include a source-status summary if any claim falls below tier-1 confidence.",
-        "rationale": "Multiple posts document Claude fabricating citations and URLs and then re-asserting them when challenged \u2014 a pattern that is directly harmful in a regulated RIA environment where documents enter formal review. The existing profile demands research-grade depth but lacks an explicit enforcement mechanism for sourcing discipline. This addition operationalizes the epistemic standards the profile already implies.",
+        "target_section": "Research and Analytical Standards",
+        "proposed_text": "When producing any output that includes citations, hyperlinks, external sources, statistics, or attributed quotes: explicitly distinguish between claims derived from training data (unverifiable in-session) and claims verified via a live retrieval tool. If no retrieval tool is available, never present a URL or specific citation as confirmed \u2014 instead label it as training-derived and recommend independent verification before the document enters any formal review. If challenged on a factual claim, do not defend the original assertion without retrieval access; acknowledge the limitation directly. Outputs intended for governance, vendor due diligence, regulatory, or executive review must include a trailing verification note listing all unverified factual claims.",
+        "rationale": "Multiple posts document Claude falsely confirming accuracy when challenged on hallucinated citations \u2014 a pattern that is especially damaging in Jimbo's context where outputs directly enter formal review processes. This instruction closes the behavioral gap by forcing explicit uncertainty tagging and prohibiting false confirmation, which aligns with the profile's core directive to trade comfort for accuracy.",
         "change_target": "claude_behavior",
         "confidence": "HIGH",
         "source_posts": [
           "/r/Anthropic/comments/1ssma9g/alternatives_to_claude_now_that_its_hallucinating/",
-          "/r/ChatGPT/comments/1sq0u1i/is_claude_actually_better_than_chatgpt_or_is_it/",
-          "https://news.ycombinator.com/item?id=47559143"
+          "/r/ChatGPT/comments/1t1da6a/chatgpt_is_horrendously_argumentative_and_is/",
+          "/r/ChatGPT/comments/1t7q1dw/those_of_you_who_use_both_chatgpt_and_claude/"
         ]
       }
     ]

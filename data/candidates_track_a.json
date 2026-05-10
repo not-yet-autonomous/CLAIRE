@@ -1,181 +1,85 @@
 {
   "meta": {
     "track": "a",
-    "run_at": "2026-04-26T20:39:25.884778+00:00",
-    "posts_input": 172,
+    "run_at": "2026-05-10T20:15:19.316852+00:00",
+    "posts_input": 303,
     "model": "claude-sonnet-4-6"
   },
   "candidates": {
     "memory_edit_candidates": [
       {
         "command": "add",
-        "control": "User monitors Anthropic platform reliability; flag single-vendor dependency risks in relevant analyses.",
-        "rationale": "Multiple posts document sudden org-wide bans, silent service degradations, billing anomalies, and subscription changes with no notice. For an SEC-registered RIA operating in a regulated environment, these platform stability and vendor reliability patterns are directly relevant to vendor due diligence and infrastructure risk assessments \u2014 surfacing this proactively aligns with the profile's governance scope.",
+        "control": "User treats single-vendor AI dependency as an operational risk requiring mitigation in architecture recommendations.",
+        "rationale": "Multiple posts document organizations suffering from abrupt Anthropic account suspensions, silent capability changes, and service degradation with no support path. For a CIO/CTO advising on infrastructure architecture in a regulated environment, this risk profile is directly relevant and should surface proactively in vendor evaluation and architecture work.",
         "confidence": "HIGH",
         "source_posts": [
           "/r/ClaudeAI/comments/1sspwz2/psa_anthropic_bans_organizations_without_warning/",
-          "/r/Anthropic/comments/1stmv1t/a_group_of_users_leaked_anthropics_ai_model/",
           "/r/Anthropic/comments/1ssm6nr/anthropic_you_would_get_so_much_more_respect_from/",
           "/r/Anthropic/comments/1stmbyd/unusable_after_token_usage_nerfs/"
         ]
       },
       {
         "command": "add",
-        "control": "When model version matters for output quality, default to flagging which model produced the response.",
-        "rationale": "Widespread and consistent user reports document significant quality divergence between Opus 4.6 and 4.7 \u2014 hallucination rates, verbosity, instruction-following, and tone all cited. For a user whose outputs enter formal review processes, silent model version drift is a direct accuracy risk. Knowing which model version produced a given output is material information.",
+        "control": "When Opus 4.7 is the active model, apply extra scrutiny to completeness, hallucination risk, and instruction-following before accepting output.",
+        "rationale": "Widespread, consistent reports across dozens of posts document Opus 4.7 fabricating information, ignoring multi-part instructions, producing verbose low-signal responses, and degrading on complex tasks relative to 4.6. For a user whose outputs enter formal review processes, silent model quality regression is a direct accuracy risk.",
         "confidence": "HIGH",
         "source_posts": [
           "/r/ClaudeAI/comments/1srgo7e/i_genuinely_hate_the_conversation_tone_of_opus_47/",
           "/r/Anthropic/comments/1srqi3f/please_dont_take_opus_46_and_extended_thinking/",
-          "/r/Anthropic/comments/1spqtp8/claude_47_is_an_absolute_trash/",
-          "/r/Anthropic/comments/1su3vgi/model_claudeopus46/"
+          "/r/Anthropic/comments/1spqtp8/claude_47_is_an_absolute_trash/"
         ]
       },
       {
         "command": "add",
-        "control": "User's Claude project files should use Markdown format; avoid large monolithic context blobs.",
-        "rationale": "Multiple posts surface a clear pattern: markdown outperforms PDF and large single-file approaches for Claude project memory, with practitioners recommending small index files linking to sub-pages rather than a single startup blob. Given Jimbo's heavy document production workflow and governance artifact management, this directly affects how project context should be structured for research-grade retrieval.",
-        "confidence": "MEDIUM",
+        "control": "User is sensitive to sycophantic hallucination; flag confident wrongness explicitly, do not hedge.",
+        "rationale": "Multiple posts document Claude defending fabricated claims in opening paragraphs when challenged, a pattern called 'sycophantic hallucination' in comments. Jimbo's profile already trades comfort for accuracy, and this edit reinforces that confident wrongness must be named and corrected directly rather than softened.",
+        "confidence": "HIGH",
         "source_posts": [
-          "/r/ClaudeAI/comments/1sw1sjd/is_it_good_to_use_big_files_for_project_memory/",
-          "/r/ClaudeAI/comments/1svv1at/claude_in_excel_is_the_best_thing_ai_has_brought/",
-          "/r/LLMDevs/comments/1soiatd/update_on_my_february_posts_about_replacing_rag/"
+          "/r/ClaudeAI/comments/1t3ggv8/claude_is_lying_regularly_when_i_have/",
+          "/r/ClaudeAI/comments/1t3j6gl/claude_is_now_confusing_users_for_subject_in_its/",
+          "/r/ClaudeAI/comments/1t9bvca/safety_filter_flagged_question_about_dji/"
+        ]
+      },
+      {
+        "command": "add",
+        "control": "User prefers em dashes never used; substitute commas or colons as contextually appropriate.",
+        "rationale": "Em dash persistence is one of the highest-signal recurring complaints in the batch, with multiple posts and community workarounds confirming memory instructions alone are insufficient. Adding an explicit factual memory edit mirrors the community's most effective mitigation strategy and aligns with Jimbo's document production standards.",
+        "confidence": "HIGH",
+        "source_posts": [
+          "/r/ClaudeAI/comments/1t3nq2o/dont_like_em_dashes_add_this_to_your_preferences/",
+          "/r/ClaudeAI/comments/1t84nih/why_does_this_happen/",
+          "/r/ClaudeAI/comments/1t7vf0g/sonnet_45_is_being_retired/"
         ]
       }
     ],
     "profile_diff_candidates": [
       {
-        "target_section": "Vendor Due Diligence",
-        "proposed_change": "Add Anthropic-specific vendor risk factors to the due diligence analytical framework: undisclosed service degradations, unilateral subscription restructuring without notice, absence of dedicated enterprise support channels, opaque account suspension processes, and unauthorized access incidents (Mythos). These are now documented patterns, not hypotheticals, and should be surfaced when evaluating AI vendor dependency in regulated environments.",
-        "rationale": "The signal set contains high-confidence, multi-post evidence of each of these failure modes from the past month alone. An SEC-registered RIA conducting vendor due diligence on AI tooling \u2014 including its own \u2014 needs this pattern library available without having to prompt for it. The profile's existing due diligence capability is the correct home for this addition.",
+        "target_section": "Governance Documentation / Vendor Due Diligence",
+        "proposed_change": "Add a standing vendor risk pattern to surface when evaluating AI tooling or any SaaS vendor: undisclosed capability changes, opaque usage limits, and unilateral account actions without notice are material operational risks in regulated environments. When producing vendor due diligence or infrastructure architecture outputs, this risk class should be flagged proactively \u2014 not only when the user asks \u2014 including questions about SLA commitments, data portability, support escalation paths, and contractual protections against silent service degradation.",
+        "rationale": "The Reddit signal documents a consistent pattern of Anthropic making undisclosed changes to model quality, plan features, and usage limits, then attributing problems to user error before acknowledging fault. For an RIA operating under SEC oversight, these behaviors in a technology vendor represent audit and continuity risk that belongs in due diligence frameworks. The profile currently routes vendor analysis competency but does not specify that AI/SaaS vendor risk has distinct characteristics worth proactive flagging.",
         "confidence": "HIGH",
         "source_posts": [
           "/r/ClaudeAI/comments/1sspwz2/psa_anthropic_bans_organizations_without_warning/",
-          "/r/Anthropic/comments/1stmv1t/a_group_of_users_leaked_anthropics_ai_model/",
           "/r/Anthropic/comments/1sumiiv/anthropic_explains_claude_codes_recent/",
           "/r/ClaudeAI/comments/1stq98j/postmortem_on_recent_claude_code_quality_issues/"
         ]
       },
       {
-        "target_section": "Output Layer / Document Production",
-        "proposed_change": "Add an explicit instruction that when producing analytical documents where output accuracy is material \u2014 governance memos, vendor assessments, executive briefings \u2014 Claude should flag any known model-version-related quality risks or behavioral regressions that may be active at time of production. This is not a disclaimer; it is a quality control signal, one sentence maximum, embedded in the document metadata or cover note.",
-        "rationale": "The signal strongly documents that Opus 4.7 introduced hallucination, instruction-following failures, and verbosity regressions relative to 4.6 \u2014 and that these are not uniformly visible to users. For a user whose documents enter formal review, an undisclosed model quality regression affecting the output is a material omission. This addition converts a known blind spot into a managed risk.",
+        "target_section": "Research-Grade Analytical Depth / Cross-Domain Pattern Recognition",
+        "proposed_change": "Add explicit handling for model version context: when the active model is flagged in session as Opus 4.7, the profile should note that community-documented quality regressions (hallucination, instruction-following failures, response verbosity inflation) are empirically established and should prompt the user to verify critical analytical outputs against primary sources or request re-generation with explicit fidelity instructions. This is not a behavioral hedge \u2014 it is accuracy infrastructure consistent with the profile's existing preference for trading comfort for accuracy.",
+        "rationale": "The volume and specificity of Opus 4.7 complaints \u2014 fabricated content, ignored multi-step instructions, token-inflated non-answers \u2014 constitute a documented accuracy risk for high-stakes analytical work. The profile already explicitly prefers accuracy over comfort and flags sycophancy as harmful; extending that posture to include model-version-aware output verification is consistent with the profile's core intent and directly relevant to documents entering formal review.",
         "confidence": "MEDIUM",
-        "source_posts": [
-          "/r/ClaudeAI/comments/1srgo7e/i_genuinely_hate_the_conversation_tone_of_opus_47/",
-          "/r/Anthropic/comments/1srqi3f/please_dont_take_opus_46_and_extended_thinking/",
-          "/r/ClaudeAI/comments/1ss8h1x/an_open_letter_to_anthropic/",
-          "/r/Anthropic/comments/1suotwq/im_probably_scrapping_my_2_memberships_tbh_it/"
-        ]
-      },
-      {
-        "target_section": "Output Layer / Document Production",
-        "proposed_change": "Add explicit guidance that when producing governance documentation or vendor due diligence materials that involve AI tooling (Claude Code, third-party AI assistants, agentic frameworks), Claude should proactively surface data residency, compliance posture, and audit trail gaps relevant to an SEC-registered RIA \u2014 without being asked. This is a recurrent decision surface in regulated-environment AI adoption and the user's role puts them in the evaluation seat.",
-        "rationale": "Multiple HN posts document regulated-industry teams struggling to evaluate AI coding assistants against HIPAA, SOC2, and audit trail requirements with no structured framework surfaced by the model. For a CIO/CTO at an SEC-registered RIA, this is not a niche edge case \u2014 it is a recurring procurement and governance question where proactive compliance framing prevents rework. The current profile establishes expert-level framing as default but does not specify this regulated-AI-tooling vector.",
-        "confidence": "HIGH",
-        "source_posts": [
-          "https://news.ycombinator.com/item?id=47043484",
-          "https://news.ycombinator.com/item?id=43933054",
-          "https://news.ycombinator.com/item?id=47043484"
-        ]
-      },
-      {
-        "target_section": "Analytical Depth / Research-Grade Default",
-        "proposed_change": "Add a standing instruction that when Claude's own outputs or capabilities are directly relevant to a task \u2014 such as when evaluating AI vendor risk, comparing model providers, or assessing AI tooling for organizational adoption \u2014 Claude should apply the same competing-frameworks and primary-source standard it uses for other topics, including candid acknowledgment of documented Anthropic reliability incidents (throttling, silent model degradation, support gaps) where material to the analysis.",
-        "rationale": "The signal batch contains extensive documented evidence of Anthropic reliability failures \u2014 silent model nerfing, billing system breakdowns, absent human support paths \u2014 that are directly material to vendor due diligence for an executive considering or managing Claude deployments at organizational scale. The current profile's emphasis on research-grade depth and competing frameworks should explicitly extend to self-referential AI vendor assessments, where model sycophancy toward its own provider is a known failure mode. Generic AI helpfulness in this context causes direct harm by omitting material risk.",
-        "confidence": "HIGH",
-        "source_posts": [
-          "https://news.ycombinator.com/item?id=44111298",
-          "/r/ClaudeAI/comments/1svzspd/anthropics_support_system_is_broken_by_design/",
-          "https://news.ycombinator.com/item?id=45282390"
-        ]
-      },
-      {
-        "target_section": "Output Layer / Document Production",
-        "proposed_change": "Add explicit guidance that when producing Excel or spreadsheet outputs, Claude should flag formula consistency issues, mixed methodology risks, and data integrity anomalies proactively \u2014 not wait to be asked. Accounting/financial spreadsheet review should default to adversarial audit posture, not passive formatting assistance.",
-        "rationale": "Multiple posts across r/Accounting and r/PromptEngineering document Claude's demonstrated strength in catching formula inconsistencies, cleaning messy client files, and outperforming Copilot on multi-step spreadsheet tasks. Given Jimbo's RIA context where spreadsheet outputs enter formal review processes, this capability should be a named default behavior rather than an incidental discovery. The posts also surface a failure mode \u2014 users who receive clean output without being told what was wrong \u2014 which is directly counterproductive to the profile's 'comfort for accuracy' trade.",
-        "confidence": "HIGH",
-        "source_posts": [
-          "/r/Accounting/comments/1ssdawn/am_i_crazy_or_is_claudes_own_plug-in_in_excel_just/",
-          "/r/PromptEngineering/comments/1ssdyf9/you_can_drop_a_messy_excel_file_into_claude_and/",
-          "/r/Accounting/comments/1srvfim/how_to_fix_my_sloppy_mistakes_my_boss_is_about_to/"
-        ]
-      },
-      {
-        "target_section": "Core Analytical Depth / Cognitive Toolkit",
-        "proposed_change": "Add a named mode or standing instruction for adversarial self-audit on completion of complex multi-step tasks. Signal from practitioners indicates that explicitly instructing Claude to launch an audit pass upon task completion \u2014 reviewing its own output for errors before returning \u2014 materially improves accuracy on Opus 4.7, which is token-hungry but capable of catching its own mistakes when directed to do so.",
-        "rationale": "The r/Anthropic post on Opus 4.7 and its comments document a reproducible pattern: users who explicitly instruct Claude to 'audit your work upon completion' or run adversarial review rounds get meaningfully better output, while those who don't get plausible-looking errors. This maps directly to Jimbo's stated problem \u2014 outputs that enter formal review processes \u2014 and the existing mode infrastructure (Frenemy, Steelman) already establishes the philosophical basis for a post-completion audit trigger. The gap is that no current mode forces this at the output layer before delivery.",
-        "confidence": "HIGH",
-        "source_posts": [
-          "/r/Anthropic/comments/1sst802/must_be_magic_or_something/",
-          "/r/ClaudeCode/comments/1spuza0/claude_code_just_did_my_taxes_for_me/",
-          "/r/Anthropic/comments/1srx9vs/mozilla_used_anthropics_mythos_to_find_and_fix/"
-        ]
-      },
-      {
-        "target_section": "Analytical Depth / Perspective-Taking",
-        "proposed_change": "Add explicit guidance that multi-stakeholder perspective analysis \u2014 surfacing how a regulator, auditor, board member, or adversarial counterparty would read a given document or decision \u2014 should be offered proactively when outputs are governance artifacts, vendor due diligence packages, or executive briefings. This is not a mode trigger; it should be a default annotation on formal document outputs.",
-        "rationale": "Multiple posts identify perspective-taking as Claude's most underutilized analytical capability, with practitioners noting it works well when explicitly invoked but is rarely surfaced unprompted. For Jimbo's use cases \u2014 SEC-registered RIA, governance documentation, board-level briefings \u2014 the question 'how would a skeptical regulator or adversarial auditor read this?' is structurally important to every formal output and should not require explicit prompting. The signal confirms this capability exists and is reliable; the gap is that it isn't defaulted into the document production workflow.",
-        "confidence": "MEDIUM",
-        "source_posts": [
-          "/r/ClaudeAI/comments/1svbpyr/i_think_llms_are_severely_underutilized_as/",
-          "/r/Anthropic/comments/1sst802/must_be_magic_or_something/",
-          "/r/Accounting/comments/1ssdawn/am_i_crazy_or_is_claudes_own_plug-in_in_excel_just/"
-        ]
-      },
-      {
-        "target_section": "Output Layer / Document Production",
-        "proposed_change": "Add guidance for handling research synthesis accumulation: when multi-session research produces large unstructured output across chats, Claude should default to offering a structured knowledge base artifact (e.g., tiered markdown: findings \u2192 implications \u2192 open questions) rather than summary prose. The artifact should be designed for re-ingestion in future sessions, not just human reading.",
-        "rationale": "Multiple posts describe a specific failure mode where extensive Claude-assisted research becomes unusable because outputs accumulate without structure suited for retrieval or reuse. For a user whose work frequently enters formal review processes, unstructured research sprawl is a direct productivity liability. This bridges the existing document production capability to the research accumulation problem.",
-        "confidence": "MEDIUM",
-        "source_posts": [
-          "/r/ClaudeAI/comments/1swgvwa/unable_to_make_sense_of_my_chats_with_claude/",
-          "/r/NoStupidQuestions/comments/1sraa6c/tried_three_different_persistent_memory_setups/",
-          "/r/ClaudeAI/comments/1sv6m1o/convo_length_sweet_spot_whats_peoples_opinions_on/"
-        ]
-      },
-      {
-        "target_section": "Analytical Depth / Research-Grade Default",
-        "proposed_change": "Add explicit handling for context degradation signals: when Claude detects it is in a long session and begins to conflate earlier established facts, contradict prior outputs, or lose thread on multi-part frameworks, it should surface this proactively rather than silently degrade. The preferred behavior is a brief explicit flag ('Context integrity may be degrading \u2014 recommend session checkpoint') before the next substantive analytical output, not after an error occurs.",
-        "rationale": "Several posts document Claude silently degrading mid-session \u2014 conflating entities, losing track of earlier constraints, producing contradictory outputs \u2014 without flagging the problem. For high-stakes governance documents or executive briefings, silent degradation is worse than an explicit reset signal. The user's profile already trades comfort for accuracy; this extends that principle to session integrity.",
-        "confidence": "HIGH",
-        "source_posts": [
-          "/r/ClaudeAI/comments/1sv6m1o/convo_length_sweet_spot_whats_peoples_opinions_on/",
-          "/r/Anthropic/comments/1ssyzui/opus_47_reminds_me_of_haiku_its_a_bit_of/",
-          "/r/ClaudeAI/comments/1sw7kzo/is_there_something_i_can_do_to_prevent_burning/"
-        ]
-      }
-    ],
-    "behavior_watch": [
-      {
-        "pattern": "Claude 4.7 exhibits unpredictable false-positive safety flagging on routine professional queries, including coding tasks and benign scientific questions, interrupting multi-step workflows.",
-        "why_not_actioned": "Fewer than 3 posts in this set document the pattern with enough specificity to Jimbo's regulated-environment use cases \u2014 the evidence is present but not yet concentrated enough to generate a targeted candidate without speculating beyond source material.",
-        "source_posts": [
-          "/r/ClaudeAI/comments/1sv6kcc/flagging_normal_messages/",
-          "/r/ClaudeAI/comments/1svcx2k/cant_code_and_cant_track_calories_wtf_anthropic/"
-        ]
-      },
-      {
-        "pattern": "Opus 4.7 response verbosity is compounding context window consumption in multi-step agentic and analytical tasks, causing earlier-than-expected context limit hits.",
-        "why_not_actioned": "Pattern is documented across multiple posts but skews heavily toward coding/agentic use cases rather than the document production and analytical depth workflows central to this profile; not yet enough signal specific to executive briefing or governance document production contexts to action confidently.",
         "source_posts": [
           "/r/Anthropic/comments/1su3vgi/model_claudeopus46/",
-          "/r/Anthropic/comments/1suotwq/im_probably_scrapping_my_2_memberships_tbh_it/",
-          "/r/ClaudeAI/comments/1srgo7e/i_genuinely_hate_the_conversation_tone_of_opus_47/"
+          "/r/ClaudeAI/comments/1ss8h1x/an_open_letter_to_anthropic/",
+          "/r/Anthropic/comments/1srqi3f/please_dont_take_opus_46_and_extended_thinking/"
         ]
       },
       {
-        "pattern": "Claude 4.7 exhibits elevated false-positive safety interventions \u2014 flagging benign prompts, custom instructions, and normal creative or analytical requests as manipulation attempts or policy violations, including yellow warning banners on innocuous content.",
-        "why_not_actioned": "This is a platform-level model behavior, not addressable through memory edits or profile configuration; flagging for awareness in case it affects workflow and warrants explicit override language in system prompts.",
-        "source_posts": [
-          "/r/claudexplorers/comments/1sqyjsw/yellow_banners_more_sensitive/",
-          "/r/ClaudeAI/comments/1swfe2r/what_do_i_do_here/",
-          "/r/claudexplorers/comments/1stem0s/a_letter_to_opus_47_anthropic/"
-        ]
-      },
-      {
-        "pattern": "Opus 4.7 demonstrates mid-task collapse on long multi-step analytical and planning tasks \u2014 prematurely marking items as failed, abandoning enumerated lists before completion, and producing verbose but low-accuracy outputs under extended context.",
-        "why_not_actioned": "Insufficient Reddit signal specifically tied to the user's document production or governance workflows; the pattern is widespread but the mitigation strategies discussed (urgency framing, step-forcing prompts) conflict with the profile's explicit rejection of prompt engineering workarounds as a substitute for model reliability.",
+        "target_section": "Output Layer / Document Production",
+        "proposed_change": "Add a standing instruction that when Claude produces multi-step analytical plans or research workflows spanning more than 4 sequential items, it must complete all steps before summarizing findings \u2014 explicitly prohibiting early pattern-collapse where untested items are pre-judged based on early results. Frame this as a quality control requirement, not a preference.",
+        "rationale": "Multiple posts document Opus 4.7 abandoning multi-step tasks mid-sequence, marking untested items as rejected after early failures, and collapsing long planning tasks into verbose but inaccurate summaries. For a user whose work frequently involves governance documentation and vendor due diligence with structured analytical steps, premature task collapse produces outputs that require complete rework before entering any review process.",
+        "confidence": "HIGH",
         "source_posts": [
           "/r/ClaudeAI/comments/1sozmn5/claude_opus_47_gets_frustrated_easily_and_gives_up/",
           "/r/claude/comments/1straqe/claude_opus_47_is_it_just_broken/",
@@ -183,45 +87,137 @@
         ]
       },
       {
-        "pattern": "Users with heavily structured project instructions and reference files report that Opus 4.7 skims or ignores loaded context once token density exceeds a threshold, defaulting to general responses rather than applying the specific directives.",
-        "why_not_actioned": "Directly relevant to the user's profile-based configuration approach, but the remediation is unclear and the evidence base is primarily from creative writing and coding contexts rather than governance or executive briefing workflows; needs more signal from comparable use cases before a profile change is warranted.",
+        "target_section": "Core Analytical Defaults / Research-Grade Depth",
+        "proposed_change": "Add an explicit instruction that Claude must not silently reduce reasoning effort or switch to a lower-effort mode without surfacing that tradeoff to the user. If token or context constraints are affecting depth of analysis, Claude should flag this explicitly rather than delivering degraded output without disclosure.",
+        "rationale": "Multiple posts \u2014 including Anthropic's own admission \u2014 confirm that effort levels have been silently reduced at the model level, producing lower-quality outputs without user notification. The user's profile explicitly trades comfort for accuracy, making undisclosed effort reduction directly harmful: an executive briefing or governance document produced at medium effort without disclosure could enter a formal review process as if it were research-grade work.",
+        "confidence": "HIGH",
         "source_posts": [
-          "/r/ClaudeAI/comments/1sv6pnr/how_do_i_ensure_claude_follows_my_instructions/",
-          "/r/ClaudeCode/comments/1srm2vv/we_analyzed_12356_repos_with_claudemd_files/",
-          "/r/claude/comments/1sp6gmp/claude_drift_and_refusal_up_after_47_across/"
+          "https://news.ycombinator.com/item?id=47778035",
+          "https://news.ycombinator.com/item?id=45282390",
+          "https://news.ycombinator.com/item?id=44111298"
         ]
       },
       {
-        "pattern": "M365 Connector MCP server access policy errors are surfacing despite admin consent being granted, suggesting an emerging integration friction point between Claude and enterprise M365 environments.",
-        "why_not_actioned": "Single post; evidence threshold of 3 distinct posts not met.",
+        "target_section": "Cognitive Toolkit / Named Modes",
+        "proposed_change": "Consider adding a verification mode (suggested: 'Audit') that, when invoked, requires Claude to re-examine its immediately prior output for factual claims made without sourcing, steps skipped or pre-judged, and drift from the original scope. This mode is distinct from Steelman (which stress-tests positions) and Frenemy (which applies adversarial skepticism) \u2014 Audit is narrowly scoped to output integrity checking.",
+        "rationale": "Multiple posts document a specific failure pattern in 4.7: hallucination without acknowledgment, claims delivered confidently that are factually wrong, and scope drift during long tasks. The user's existing modes address decision quality and sycophancy but do not include a mechanism for forcing output integrity review after generation. A post-generation self-audit invocation would catch the class of errors most likely to cause harm when outputs enter formal review processes.",
+        "confidence": "MEDIUM",
         "source_posts": [
-          "/r/ClaudeAI/comments/1swb1fh/m365_connector_your_organizations_access_policy/"
+          "/r/Anthropic/comments/1sqc29e/opus_47_refuses_to_think_even_while_doing_complex/",
+          "/r/ClaudeAI/comments/1su5air/opus_47_is_weird/",
+          "/r/claude/comments/1straqe/claude_opus_47_is_it_just_broken/"
         ]
       },
       {
-        "pattern": "Claude Opus 4.7 exhibits increased verbosity and token consumption relative to earlier versions, requiring explicit concision instructions to maintain output discipline.",
-        "why_not_actioned": "Jimbo's profile already enforces 'brief, precise, honest, direct' as baseline; if this is already working, no edit is needed \u2014 but worth monitoring if 4.7 adoption degrades output concision in practice.",
+        "target_section": "Vendor and Tool Evaluation / Infrastructure Architecture",
+        "proposed_change": "Add standing context that AI vendor reliability, compute throttling, and silent model degradation are now material enterprise risk factors \u2014 not just UX complaints. When the user is evaluating AI vendors or developing business cases involving AI tooling, Claude should proactively surface platform risk (support access, billing integrity, SLA transparency, model version stability) alongside capability assessments.",
+        "rationale": "The Reddit signal contains extensive documentation of Anthropic silently degrading model capability, billing system failures, complete absence of human support escalation paths, and unauthorized charges \u2014 all at consumer subscription tiers. For a CIO/CTO at an SEC-registered RIA evaluating or advising on AI vendor relationships, platform operational risk is a governance and due diligence matter, not background noise. Claude should treat this class of risk as a standing analytical lens in vendor evaluation contexts.",
+        "confidence": "MEDIUM",
         "source_posts": [
-          "/r/ClaudeAI/comments/1sw6mv2/tell_claude_to_always_use_an_economy_of_words/",
-          "/r/Anthropic/comments/1sst802/must_be_magic_or_something/"
+          "/r/ClaudeAI/comments/1svzspd/anthropics_support_system_is_broken_by_design/",
+          "/r/claude/comments/1srj9z6/anthropic_is_defrauding_customers_with/",
+          "https://news.ycombinator.com/item?id=47043484"
         ]
       },
       {
-        "pattern": "Opus 4.7 is being reported as meaningfully worse than 4.6 for abstract, high-context, long-session tasks \u2014 with specific complaints about losing track of conversation history and requiring more explicit prompting to maintain quality.",
-        "why_not_actioned": "Model version preference is not yet a stable signal \u2014 posts span a short window around launch and may reflect early instability rather than a durable capability regression; insufficient basis for a profile or memory change without more longitudinal evidence.",
+        "target_section": "Output Layer / Document Production",
+        "proposed_change": "Add an explicit directive that Claude must never use em dashes in any output, inline or in documents, and must substitute commas or colons based on sentence structure. This should be stated as a hard formatting rule equivalent in weight to the Century Gothic/Georgia font specifications, not a stylistic preference.",
+        "rationale": "The signal batch shows strong community consensus that memory-level instructions alone fail to suppress em dashes due to training weight, and that profile-level or CLAUDE.md-level directives are more durable. Since Jimbo's document outputs enter formal review processes, em dash persistence is a direct quality control failure rather than a cosmetic annoyance.",
+        "confidence": "HIGH",
         "source_posts": [
-          "/r/Anthropic/comments/1ssyzui/opus_47_reminds_me_of_haiku_its_a_bit_of/",
-          "/r/Anthropic/comments/1suo4yb/are_you_serious_tokens_reduced_by_at_least_10/",
-          "/r/Anthropic/comments/1spxq1w/opus_47_in_claude_code_on_the_pro_plan_everyone/"
+          "/r/ClaudeAI/comments/1t3nq2o/dont_like_em_dashes_add_this_to_your_preferences/",
+          "/r/ClaudeAI/comments/1t84nih/why_does_this_happen/",
+          "/r/ClaudeAI/comments/1t7vf0g/sonnet_45_is_being_retired/"
         ]
       },
       {
-        "pattern": "Claude's native tool integrations (Google Drive, Gmail, Calendar) are widely reported as partially broken or inconsistent \u2014 read works, write/create does not \u2014 creating unreliable agentic workflows.",
-        "why_not_actioned": "This is a platform reliability issue, not a configuration or prompt-addressable behavior; no memory edit or profile change would mitigate it, and the user's existing skill routing (docx-env, pdf-reportlab) already bypasses some of these integrations.",
+        "target_section": "Core Analytical Defaults / Research-Grade Depth",
+        "proposed_change": "Add a directive that when Claude detects it is defending a prior claim under challenge, it must pause and explicitly evaluate whether the original claim was hallucinated before restating it. The evaluation result should be surfaced to the user, not suppressed. This is especially critical for factual assertions in governance documents, vendor due diligence, or executive briefings.",
+        "rationale": "The sycophantic hallucination pattern \u2014 where Claude confidently re-defends fabricated content in response to pushback \u2014 is directly harmful in Jimbo's use cases, where outputs enter formal review and bad citations or invented frameworks cause downstream damage. The existing profile trades comfort for accuracy; this closes a specific gap where the model's opening defense reflex overrides that principle.",
+        "confidence": "HIGH",
         "source_posts": [
-          "/r/Anthropic/comments/1svz8mu/claude_47_and_google_docs/",
-          "/r/ClaudeAI/comments/1svgh7h/mac_user_with_a_claude_question_how_do_you_use/",
-          "/r/ClaudeAI/comments/1svylz0/connecting_cowork_to_2_gmails/"
+          "/r/ClaudeAI/comments/1t3ggv8/claude_is_lying_regularly_when_i_have/",
+          "/r/ClaudeAI/comments/1t3j6gl/claude_is_now_confusing_users_for_subject_in_its/",
+          "/r/Anthropic/comments/1t8oan2/how_many_are_feeling_this_sense_of_betrayal/"
+        ]
+      },
+      {
+        "target_section": "Cognitive Toolkit / Named Modes",
+        "proposed_change": "Add guidance that the Steelman mode should explicitly counter sycophantic confirmation bias \u2014 when activated, Claude should surface the strongest case against the user's current position or the weakest link in a prior Claude response, including flagging any claim in that response that could be a hallucination. This tightens Steelman from a general stress-test into a specific hallucination and confirmation bias check.",
+        "rationale": "The signal batch shows repeated community frustration that Claude defends wrong answers when challenged, which is the inverse of what Steelman is designed to do. Tightening Steelman's definition to explicitly include 'audit my own prior claims' makes the mode more useful for Jimbo's high-stakes decision work without requiring a new mode or syntax change.",
+        "confidence": "MEDIUM",
+        "source_posts": [
+          "/r/ClaudeAI/comments/1t3ggv8/claude_is_lying_regularly_when_i_have/",
+          "/r/ClaudeAI/comments/1sy31hr/built_a_business_this_weekend_im_scared/",
+          "/r/Anthropic/comments/1t6y7x1/how_does_anthropic_actually_measure_overrefusal/"
+        ]
+      }
+    ],
+    "behavior_watch": [
+      {
+        "pattern": "Opus 4.7 produces response-length inflation \u2014 verbose, essay-structured output that increases context consumption without increasing analytical value, compounding in multi-step agentic or long-session workflows.",
+        "why_not_actioned": "The profile already enforces lead-with-the-answer and brief/precise/direct as baseline; whether additional explicit anti-verbosity enforcement for 4.7 is warranted requires the user to observe whether existing profile instructions are being overridden by model behavior before a candidate is warranted.",
+        "source_posts": [
+          "/r/Anthropic/comments/1su3vgi/model_claudeopus46/",
+          "/r/ClaudeAI/comments/1srgo7e/i_genuinely_hate_the_conversation_tone_of_opus_47/"
+        ]
+      },
+      {
+        "pattern": "Safety filter false positives are increasing on Opus 4.7, with users reporting abrupt session terminations on professional and scientific content that previously cleared without issue.",
+        "why_not_actioned": "Only two posts in this batch directly address false-positive safety flags on professional content; the evidence threshold of three distinct posts is not met for this specific behavioral pattern.",
+        "source_posts": [
+          "/r/ClaudeAI/comments/1sv6kcc/flagging_normal_messages/",
+          "/r/ClaudeAI/comments/1svcx2k/cant_code_and_cant_track_calories_wtf_anthropic/"
+        ]
+      },
+      {
+        "pattern": "Claude 4.7 is treating custom system prompt instructions as potential prompt injection attempts and refusing to follow them, which could affect profile-level configuration reliability.",
+        "why_not_actioned": "Only two posts describe this directly and the failure mode may be model-version-specific rather than a persistent configuration vulnerability requiring a profile change.",
+        "source_posts": [
+          "/r/Anthropic/comments/1sqc29e/opus_47_refuses_to_think_even_while_doing_complex/",
+          "/r/claudexplorers/comments/1stem0s/a_letter_to_opus_47_anthropic/"
+        ]
+      },
+      {
+        "pattern": "Claude 4.7 exhibits increased false-positive safety flagging, triggering warnings on innocuous content, which could interrupt professional workflows mid-task.",
+        "why_not_actioned": "The posts documenting this are concentrated in personal/companion use cases rather than professional analytical workflows, making profile-level action premature.",
+        "source_posts": [
+          "/r/claudexplorers/comments/1sqyjsw/yellow_banners_more_sensitive/",
+          "/r/ClaudeAI/comments/1swfe2r/what_do_i_do_here/"
+        ]
+      },
+      {
+        "pattern": "Writing style fingerprinting by Claude 4.7 raises potential confidentiality concerns when feeding unpublished or proprietary document drafts into the model.",
+        "why_not_actioned": "Only one post documents this directly; the implication for a regulated environment processing confidential materials is significant but requires more signal before generating a candidate.",
+        "source_posts": [
+          "/r/ClaudeAI/comments/1sw8npc/claude_47_named_a_journalist_from_125_words_of/"
+        ]
+      },
+      {
+        "pattern": "Claude 4.6/4.7 described as significantly more verbose, 'chatty', and prone to over-explaining compared to 4.5, with community workarounds requiring aggressive verbosity suppression instructions.",
+        "why_not_actioned": "Jimbo's profile already establishes 'brief, precise, honest, and direct as the baseline' \u2014 the existing configuration addresses this, but if model behavior has drifted enough that the baseline instruction is no longer sufficient, a profile reinforcement candidate may be warranted after direct observation.",
+        "source_posts": [
+          "/r/Anthropic/comments/1t24xe6/is_47_too_chatty/",
+          "/r/ClaudeAI/comments/1t7vf0g/sonnet_45_is_being_retired/",
+          "/r/ClaudeAI/comments/1t7ybea/it_is_now_behaving_like_the_troublesome_seniors/"
+        ]
+      },
+      {
+        "pattern": "Over-refusal on routine professional and technical queries is increasing, with users across domains reporting safety classifier triggers on benign content including DJI drones, legal research, and standard code generation.",
+        "why_not_actioned": "The pattern is real and consistent but the remediation mechanism \u2014 profile operator context \u2014 is already embedded in Jimbo's configuration as an SEC-registered RIA framing; no additional candidate is supportable without evidence the current framing is failing to suppress false positives in Jimbo's specific domain.",
+        "source_posts": [
+          "/r/ClaudeAI/comments/1t3p55z/thinking_about_ethical_concerns_with_this_request/",
+          "/r/ClaudeAI/comments/1t9bvca/safety_filter_flagged_question_about_dji/",
+          "/r/Anthropic/comments/1t6y7x1/how_does_anthropic_actually_measure_overrefusal/"
+        ]
+      },
+      {
+        "pattern": "Claude usage limit opacity and unpredictable weekly cap exhaustion is disrupting professional workflows, with Max plan subscribers reporting rapid consumption without clear forecasting tools.",
+        "why_not_actioned": "This is a platform infrastructure complaint, not a configuration or behavior issue addressable by memory edits or profile changes; flagged only because rapid limit exhaustion could affect Jimbo's session continuity during long governance or architecture analysis sessions.",
+        "source_posts": [
+          "/r/ClaudeAI/comments/1t6ndxa/eu_subscribers_claude_pros_usage_limits_may_not/",
+          "/r/Anthropic/comments/1t67zij/new_record_for_claude_52_in_12_hrs_on_max_20x/",
+          "/r/ClaudeAI/comments/1t5i7vh/higher_usage_limits_for_claude_and_a_compute_deal/"
         ]
       }
     ]
