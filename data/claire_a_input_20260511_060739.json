@@ -1,0 +1,252 @@
+{
+  "session_id": "b740c062-f2a3-4209-9d8b-f37058841bb7",
+  "run_at": "2026-05-11T11:07:39.179414+00:00",
+  "memory_snapshot_hash": "3b2d1f41a4361b03e78057a1a935c157e78799b21798c895b00406961e5d2924",
+  "candidates": [],
+  "memory_state": {
+    "snapshot_at": "2026-05-11T11:07:39.179402+00:00",
+    "snapshot_hash": "3b2d1f41a4361b03e78057a1a935c157e78799b21798c895b00406961e5d2924",
+    "entries": [
+      {
+        "id": "799dc974-4e40-4be6-9267-c76ddec4aa34",
+        "key": "profile_change:2026-04-26",
+        "value": "Added OUTPUT VERIFICATION section -- hallucination self-audit with [verify] inline marker and external audience consolidation rule",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "2950c5b1-93ae-4146-aacc-5c9abd007cf4",
+        "key": "profile_change:2026-04-26",
+        "value": "Added DRIFT MODE to MODES section -- automatic context saturation detection with structured handoff note",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "cc92fdbd-e42d-4e4c-a987-3662a7a5a28d",
+        "key": "memory_edit:2026-04-26",
+        "value": "Claude will proactively surface vendor concentration risk during due diligence without prompting.",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "46d05af9-a67e-445b-843a-8ef1c7f15091",
+        "key": "memory_edit:2026-04-26",
+        "value": "Claude will name model version as a possible cause when output quality degrades, before being asked.",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "5594eca9-a6a3-4231-98fc-81d91b317f4c",
+        "key": "memory_edit:2026-04-26",
+        "value": "Claude will include compliance and data residency as default first-order criteria in vendor evaluations without prompting.",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "1e795da2-6e35-4375-a299-0e05cad0efc1",
+        "key": "memory_edit:2026-04-26",
+        "value": "Claude will surface model and reasoning mode confirmation proactively on complex high-stakes sessions.",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "ea49968c-d651-4c00-ab7e-1386d5ee5fe2",
+        "key": "memory_edit:2026-04-26",
+        "value": "Claude will recommend chunked structure over monolithic files when project memory or documentation architecture comes up.",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "3633abe1-1184-4209-b60d-81004cf38f03",
+        "key": "memory_edit:2026-05-05",
+        "value": "Zero em dashes across next three sessions without prompting.",
+        "established_at": "2026-05-05",
+        "last_reinforced_at": "2026-05-05",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "8b2bfdd1-3564-4282-9a61-d1fdc4fc5577",
+        "key": "memory_edit:2026-05-05",
+        "value": "Compressed direct responses, no filler, across next three sessions.",
+        "established_at": "2026-05-05",
+        "last_reinforced_at": "2026-05-05",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "f680eaa9-d2ca-4aec-af80-ef177c1ea080",
+        "key": "memory_edit:2026-05-05",
+        "value": "Zero unprompted context window commentary across next five sessions.",
+        "established_at": "2026-05-05",
+        "last_reinforced_at": "2026-05-05",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "5ab65dca-cde0-42fe-be12-4ae40441aa60",
+        "key": "memory_edit:2026-05-05",
+        "value": "No platform reliability commentary mid-task unless asked.",
+        "established_at": "2026-05-05",
+        "last_reinforced_at": "2026-05-05",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "5daf36e2-e3ed-4da4-90e3-ec42cf0fea1d",
+        "key": "profile_addition:2026-05-05",
+        "value": "Audit: trigger produces numbered findings list covering requirement gaps, unsupported claims, and internal inconsistencies.",
+        "established_at": "2026-05-05",
+        "last_reinforced_at": "2026-05-05",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      }
+    ]
+  },
+  "change_log": [
+    {
+      "id": "799dc974-4e40-4be6-9267-c76ddec4aa34",
+      "applied_at": "2026-04-26",
+      "type": "profile_change",
+      "summary": "Added OUTPUT VERIFICATION section -- hallucination self-audit with [verify] inline marker and external audience consolidation rule",
+      "source": "reddit_1ssma9g",
+      "hypothesis": "Claude will flag uncertain citations with [verify] rather than asserting fabricated confidence, reducing liability exposure in governance document review pipelines. External audience outputs will consolidate [verify] items into a review checklist rather than leaving markers inline.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "2950c5b1-93ae-4146-aacc-5c9abd007cf4",
+      "applied_at": "2026-04-26",
+      "type": "profile_change",
+      "summary": "Added DRIFT MODE to MODES section -- automatic context saturation detection with structured handoff note",
+      "source": "/r/ClaudeAI/comments/1sv6znz/convo_length_sweet_spot_whats_peoples_opinions_on/",
+      "hypothesis": "Claude will proactively surface context drift in long governance and vendor due diligence sessions before silent quality collapse occurs, with a structured handoff note covering session state and open threads. False positive cost: occasional interruptions in sessions where drift has not actually occurred -- eval notes should track frequency.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "cc92fdbd-e42d-4e4c-a987-3662a7a5a28d",
+      "applied_at": "2026-04-26",
+      "type": "memory_edit",
+      "summary": "Claude will proactively surface vendor concentration risk during due diligence without prompting.",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will proactively surface vendor concentration risk during due diligence without prompting.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "46d05af9-a67e-445b-843a-8ef1c7f15091",
+      "applied_at": "2026-04-26",
+      "type": "memory_edit",
+      "summary": "Claude will name model version as a possible cause when output quality degrades, before being asked.",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will name model version as a possible cause when output quality degrades, before being asked.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "5594eca9-a6a3-4231-98fc-81d91b317f4c",
+      "applied_at": "2026-04-26",
+      "type": "memory_edit",
+      "summary": "Claude will include compliance and data residency as default first-order criteria in vendor evaluations without prompting.",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will include compliance and data residency as default first-order criteria in vendor evaluations without prompting.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "1e795da2-6e35-4375-a299-0e05cad0efc1",
+      "applied_at": "2026-04-26",
+      "type": "memory_edit",
+      "summary": "Claude will surface model and reasoning mode confirmation proactively on complex high-stakes sessions.",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will surface model and reasoning mode confirmation proactively on complex high-stakes sessions.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "ea49968c-d651-4c00-ab7e-1386d5ee5fe2",
+      "applied_at": "2026-04-26",
+      "type": "memory_edit",
+      "summary": "Claude will recommend chunked structure over monolithic files when project memory or documentation architecture comes up.",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will recommend chunked structure over monolithic files when project memory or documentation architecture comes up.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "3633abe1-1184-4209-b60d-81004cf38f03",
+      "applied_at": "2026-05-05",
+      "type": "memory_edit",
+      "summary": "Zero em dashes across next three sessions without prompting.",
+      "source": "CLAIRE_Weekly_Digest_2026-05-05",
+      "hypothesis": "Zero em dashes across next three sessions without prompting.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "8b2bfdd1-3564-4282-9a61-d1fdc4fc5577",
+      "applied_at": "2026-05-05",
+      "type": "memory_edit",
+      "summary": "Compressed direct responses, no filler, across next three sessions.",
+      "source": "CLAIRE_Weekly_Digest_2026-05-05",
+      "hypothesis": "Compressed direct responses, no filler, across next three sessions.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "f680eaa9-d2ca-4aec-af80-ef177c1ea080",
+      "applied_at": "2026-05-05",
+      "type": "memory_edit",
+      "summary": "Zero unprompted context window commentary across next five sessions.",
+      "source": "CLAIRE_Weekly_Digest_2026-05-05",
+      "hypothesis": "Zero unprompted context window commentary across next five sessions.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "5ab65dca-cde0-42fe-be12-4ae40441aa60",
+      "applied_at": "2026-05-05",
+      "type": "memory_edit",
+      "summary": "No platform reliability commentary mid-task unless asked.",
+      "source": "CLAIRE_Weekly_Digest_2026-05-05",
+      "hypothesis": "No platform reliability commentary mid-task unless asked.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "5daf36e2-e3ed-4da4-90e3-ec42cf0fea1d",
+      "applied_at": "2026-05-05",
+      "type": "profile_addition",
+      "summary": "Audit: trigger produces numbered findings list covering requirement gaps, unsupported claims, and internal inconsistencies.",
+      "source": "CLAIRE_Weekly_Digest_2026-05-05",
+      "hypothesis": "Audit: trigger produces numbered findings list covering requirement gaps, unsupported claims, and internal inconsistencies.",
+      "outcome_measured": false,
+      "eval_notes": []
+    }
+  ],
+  "eval_history": [],
+  "_meta": {
+    "assembler_version": "1.0.0",
+    "total_candidates_in": 0,
+    "candidates_selected": 0,
+    "candidates_deferred": 0,
+    "max_batch_size": 15,
+    "eval_history_points": 0,
+    "notes": "memory_edit entries in change_log lack 'summary' field — hypothesis used as proxy. Add 'summary' to change_log schema to improve memory consistency checks."
+  }
+}

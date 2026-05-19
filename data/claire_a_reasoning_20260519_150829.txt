@@ -1,0 +1,283 @@
+CLAIRE-A Reasoning Scratchpad
+Session: 221376f4-726c-477a-9466-38ddc1ad1b23
+Generated: 2026-05-19T20:08:29.240178+00:00
+========================================================================
+
+## Candidate-by-Candidate Analysis
+
+### Candidate 61f8bf1f19fce7fb — "Framework Request Instead of Answer Request"
+**Track C technique candidate**
+
+**Signal Assessment:** This is a user behavior technique, not a Claude configuration change. The signal strength (0.86) is high, but the source posts span different subreddits and appear to describe a general prompting pattern rather than something specific to this user's workflow. The technique itself is sound—asking for frameworks instead of direct answers is a well-known prompt engineering pattern. However, this is Track C (technique candidates), which suggests it's meant for the user's reference rather than Claude's configuration.
+
+**Memory Consistency:** No existing memory entry covers this. It doesn't contradict anything. However, the existing profile already emphasizes research-grade depth, multi-framework analysis, and pushback modes. The user's workflow appears to already operate at this level—they're not asking for simple answers, they're producing governance documents and vendor evaluations. This technique may be below the user's current operating level.
+
+**Eval Alignment:** No eval history to draw from. No prior similar technique candidates in the change log.
+
+**Risk Assessment:** Low risk. This is a user-facing technique suggestion, not a system configuration change. The worst case is the user ignores a potentially useful tip. However, applying it to shadow mode means... what exactly? Track C techniques don't directly modify Claude's behavior. This appears to be informational rather than actionable in the context of CLAIRE-A decisions.
+
+**Decision Inclination:** Skip. This is not a Claude configuration change—it's a user prompting tip. CLAIRE-A is for decisions about profile/memory modifications. Track C techniques are digest outputs for user consumption, not decision engine inputs. The candidate being routed here suggests a pipeline classification issue.
+
+---
+
+### Candidate 2fda7a326491b8fa — "Session limit exhaustion as known operational constraint"
+**Track A memory edit — add**
+
+**Signal Assessment:** Signal strength 0.90 from 401 posts, with 7 specific source posts documenting session limit exhaustion patterns. The signal is genuine—this is a real and documented user pain point across Anthropic's paid tiers. The candidate proposes adding awareness that the user operates on Max plan with session limits as a workflow concern.
+
+**Memory Consistency:** This relates to existing memory entries:
+- "Zero unprompted context window commentary across next five sessions" (id: c1e06a84)
+- "No platform reliability commentary mid-task unless asked" (id: 68b8e7d2)
+
+These existing entries suggest the user explicitly does NOT want Claude commenting on platform operational issues during work. This candidate proposes the opposite—that Claude should "proactively suggest context-conserving strategies." This is a direct contradiction.
+
+**Eval Alignment:** No eval data, but the change log shows explicit decisions to suppress platform commentary. Applying this would reverse those decisions without evidence they failed.
+
+**Risk Assessment:** HIGH_VARIANCE flag warranted. CONTRADICTS_MEMORY flag warranted. The candidate proposes proactive platform commentary that existing memory explicitly suppresses. The user appears to have specifically requested the opposite behavior.
+
+**Decision Inclination:** Skip. The existing memory entries from 2026-05-05 explicitly suppress this type of commentary. This candidate contradicts established user preference.
+
+---
+
+### Candidate c6752681f604aedf — "Monitor Anthropic platform reliability as vendor risk factor"
+**Track A memory edit — add**
+
+**Signal Assessment:** Signal strength 0.88 from 401 posts, with 4 source posts about platform reliability issues (bans, nerfs, billing anomalies). The signal describes real problems users experience. The candidate proposes framing this as vendor risk monitoring for regulated environments.
+
+**Memory Consistency:** This directly conflicts with:
+- "No platform reliability commentary mid-task unless asked" (id: 68b8e7d2)
+
+The existing memory entry was applied 2026-05-05. This candidate asks Claude to actively monitor and surface platform reliability concerns—exactly what the user asked to suppress.
+
+**Eval Alignment:** No eval data showing the suppression failed.
+
+**Risk Assessment:** CONTRADICTS_MEMORY flag. The framing as "vendor risk factor" is clever but doesn't change that this asks for commentary the user explicitly disabled.
+
+**Decision Inclination:** Skip. Same contradiction as previous candidate. The user has active memory suppressing platform commentary.
+
+---
+
+### Candidate 17c93f8d358a1f15 — "User prefers Opus 4.6 over 4.7 for planning/discussion outputs"
+**Track A memory edit — add**
+
+**Signal Assessment:** Signal strength 0.88. Source posts describe broad community dissatisfaction with Opus 4.7 vs 4.6. However, this is aggregate signal about model preference, not signal from this specific user. The candidate assumes the user shares this preference based on community patterns.
+
+**Memory Consistency:** Existing memory includes:
+- "Claude will name model version as a possible cause when output quality degrades, before being asked" (id: b1e5d21d)
+
+This suggests awareness of model versioning as a factor. However, there's no indication the user has expressed preference for 4.6 over 4.7. The candidate extrapolates from community sentiment to this user.
+
+**Eval Alignment:** No eval data.
+
+**Risk Assessment:** SOURCE_NEW flag (default reliability score). The candidate makes an assumption about user preference based on aggregate community data. If the user actually uses 4.7 successfully, this memory entry would create unnecessary friction.
+
+**Decision Inclination:** Skip. This is projection from community preferences onto a specific user without evidence the user shares this preference. The existing profile's emphasis on model version awareness covers the relevant ground without assuming specific version preferences.
+
+---
+
+### Candidate 4aa2123d63003568 — "Never offer to implement; implement directly"
+**Track A profile diff — Output Layer / Document Production**
+
+**Signal Assessment:** Signal strength 0.88. The "lazy offer" failure mode is well-documented—Claude proposing to do something rather than doing it when context is clear. This is a genuine quality issue. The candidate proposes naming this as an explicit anti-pattern.
+
+**Memory Consistency:** This aligns strongly with existing profile emphasis:
+- Research-grade depth requirements
+- Direct response expectations
+- "Compressed direct responses, no filler" (memory id: 2fbfa0a6)
+
+The profile already prohibits generic AI helpfulness. This candidate makes the prohibition more specific by naming the exact failure mode.
+
+**Eval Alignment:** No data, but the direction is consistent with existing compressed response memory entry.
+
+**Risk Assessment:** Low. This reinforces existing direction without contradicting anything. The change is additive and specific. If wrong, the failure mode is Claude implementing when clarity was insufficient—but the candidate scopes this to "when the task context makes the action unambiguous."
+
+**Decision Inclination:** Apply. Clean extension of existing direction, specific enough to be actionable, bounded by the clarity condition.
+
+---
+
+### Candidate 4a038ed700870213 — "Flag low-confidence factual claims inline"
+**Track A profile diff — Analytical Depth / Research-Grade Default**
+
+**Signal Assessment:** Signal strength 0.88. Hallucination-as-fact is a documented issue with Opus 4.7. The candidate proposes explicit inline flagging of low-confidence claims.
+
+**Memory Consistency:** This aligns with:
+- "OUTPUT VERIFICATION section — hallucination self-audit with [verify] inline marker" (id: 3f0e510f)
+
+The existing profile change already added a [verify] inline marker system. This candidate appears to be proposing the same mechanism that already exists.
+
+**Eval Alignment:** The existing [verify] marker system was applied 2026-04-26 and has not been evaluated yet.
+
+**Risk Assessment:** ALREADY_APPLIED flag. This candidate duplicates functionality already in the profile via the [verify] marker system.
+
+**Decision Inclination:** Skip. The [verify] marker system already exists and covers this use case. Applying this would be redundant and could create conflicting instructions about how to handle low-confidence claims.
+
+---
+
+### Candidate b844b650734433f8 — "Automatic session hygiene protocol with handoff document"
+**Track A profile diff — Output Layer / Document Production**
+
+**Signal Assessment:** Signal strength 0.88. Context window exhaustion causing silent quality degradation is a real issue. The candidate proposes automatic production of structured handoff documents when sessions approach saturation.
+
+**Memory Consistency:** This overlaps significantly with:
+- "DRIFT MODE — automatic context saturation detection with structured handoff note" (id: ebb8482f)
+
+The existing DRIFT MODE already provides automatic context saturation detection with structured handoff notes. This candidate appears to propose the same mechanism.
+
+**Eval Alignment:** DRIFT MODE was applied 2026-04-26 and has not been evaluated.
+
+**Risk Assessment:** ALREADY_APPLIED flag. DRIFT MODE already covers automatic context saturation detection with handoff notes.
+
+**Decision Inclination:** Skip. DRIFT MODE exists and covers this functionality. The candidate is redundant.
+
+---
+
+### Candidate 030d32f4c26089db — "Add 'Handoff' mode trigger"
+**Track A profile diff — Cognitive Toolkit / Named Modes**
+
+**Signal Assessment:** Signal strength 0.88. The candidate proposes a named mode trigger for explicit session handoff.
+
+**Memory Consistency:** DRIFT MODE (id: ebb8482f) already provides automatic context saturation detection. The difference here is explicit user-triggered handoff vs. automatic detection.
+
+**Eval Alignment:** No data.
+
+**Risk Assessment:** This is not redundant—it provides a user-initiated complement to the automatic DRIFT MODE. However, the candidate should be evaluated for whether the user needs both automatic and manual triggers, or whether DRIFT MODE is sufficient.
+
+**Decision Inclination:** Defer. The value of a user-triggered Handoff mode alongside the automatic DRIFT MODE is unclear without eval data on whether DRIFT MODE fires appropriately. If DRIFT MODE triggers too often (false positives) or not enough (misses), a manual trigger has different value. Wait for DRIFT MODE eval data.
+
+---
+
+### Candidate 7034900932cf00d1 — "Session hygiene check at task initiation"
+**Track A profile diff — Skill install workflow**
+
+**Signal Assessment:** Signal strength 0.88. The candidate proposes proactive checking at the start of high-context tasks about whether to continue or start fresh.
+
+**Memory Consistency:** Relates to DRIFT MODE but operates at a different point—task initiation vs. mid-session drift detection. However, also relates to suppressed commentary:
+- "Zero unprompted context window commentary across next five sessions" (id: c1e06a84)
+
+The user has explicitly suppressed unprompted context window commentary. This candidate asks for proactive commentary about context state at task initiation.
+
+**Eval Alignment:** No data.
+
+**Risk Assessment:** CONTRADICTS_MEMORY flag. The user suppressed context window commentary. This candidate asks for context-state commentary at task start.
+
+**Decision Inclination:** Skip. Contradicts the explicit suppression of context window commentary.
+
+---
+
+### Candidate 3203fbdb44ade6a1 — "Add HANDOFF mode trigger"
+**Track A profile diff — Cognitive toolkit / Named modes**
+
+**Signal Assessment:** Signal strength 0.88. This is functionally identical to candidate 030d32f4c26089db above—both propose a HANDOFF mode trigger.
+
+**Memory Consistency:** Same analysis—relates to existing DRIFT MODE.
+
+**Eval Alignment:** No data.
+
+**Risk Assessment:** DEPENDENCY_UNRESOLVED flag—this is a duplicate of 030d32f4c26089db.
+
+**Decision Inclination:** Skip. Duplicate of the other HANDOFF mode candidate. If a HANDOFF mode is to be added, only one of these should be considered, and both should wait for DRIFT MODE evaluation.
+
+---
+
+### Candidate 625ae86dde9120b7 — "Skip epistemic disclaimers about AI limitations"
+**Track A memory edit — add**
+
+**Signal Assessment:** Signal strength 0.86. The pattern of Claude defensively restating its own fallibility when challenged is real. The candidate proposes suppressing these disclaimers.
+
+**Memory Consistency:** Strongly aligns with:
+- "Compressed direct responses, no filler" (id: 2fbfa0a6)
+- "Zero unprompted context window commentary" (id: c1e06a84)
+- "No platform reliability commentary mid-task" (id: 68b8e7d2)
+
+The existing memory already establishes a pattern of suppressing meta-commentary. This extends that to epistemic disclaimers specifically.
+
+**Eval Alignment:** No data, but consistent with established direction.
+
+**Risk Assessment:** Low. This is a clean extension of the existing compression/no-filler direction. The user profile already emphasizes the user's sophistication—they know AI has limitations.
+
+**Decision Inclination:** Apply. Clean extension of established pattern.
+
+---
+
+### Candidate c77ffb13c98fd14c — "No em dashes; use commas, colons, semicolons"
+**Track A memory edit — add**
+
+**Signal Assessment:** Signal strength 0.86. Em dash elimination is documented as a persistent user concern.
+
+**Memory Consistency:** Directly relates to existing memory:
+- "Zero em dashes across next three sessions without prompting" (id: 60609d14)
+
+The existing memory already covers this but with a time-bound scope ("next three sessions"). This candidate proposes a permanent rule.
+
+**Eval Alignment:** No eval data on whether the three-session rule worked.
+
+**Risk Assessment:** The existing entry is time-scoped. This candidate removes the time scope. Whether to upgrade from time-scoped to permanent depends on whether the intervention worked. No eval data exists.
+
+**Decision Inclination:** Defer. Wait for eval data on whether the time-scoped em dash suppression worked before making it permanent.
+
+---
+
+### Candidate 1af7a3dac1a422af — "Never rewrite full documents when section edit requested"
+**Track A memory edit — add**
+
+**Signal Assessment:** Signal strength 0.86. The pattern of Claude regenerating entire documents when asked to edit one section is a real token-wasting failure mode.
+
+**Memory Consistency:** Aligns with compressed response expectations and efficient context use. No contradiction.
+
+**Eval Alignment:** No data.
+
+**Risk Assessment:** Low. This is a specific, bounded instruction that addresses a real failure mode. The worst case is Claude being overly conservative about document edits, which is preferable to wasting tokens on full rewrites.
+
+**Decision Inclination:** Apply. Specific, actionable, addresses real failure mode, no contradictions.
+
+---
+
+### Candidate 0aa3a0fbdae137d5 — "Never generate placeholder or template-style filler"
+**Track A memory edit — add**
+
+**Signal Assessment:** Signal strength 0.86. Filler text in governance documents is a genuine risk.
+
+**Memory Consistency:** Aligns with:
+- "Compressed direct responses, no filler" (id: 2fbfa0a6)
+
+The existing memory already covers no-filler. This candidate adds specificity about placeholder/template-style content.
+
+**Eval Alignment:** No data.
+
+**Risk Assessment:** Low. Reinforces existing direction with additional specificity.
+
+**Decision Inclination:** Apply. Specific extension of existing no-filler rule, particularly relevant for formal review contexts.
+
+---
+
+### Candidate 74b0697b8f08a50f — "Flag cross-document consistency issues proactively"
+**Track A memory edit — add**
+
+**Signal Assessment:** Signal strength 0.86. Cross-document consistency is a real concern for multi-document governance packages.
+
+**Memory Consistency:** No contradiction. Extends the proactive surfacing pattern seen in vendor due diligence entries.
+
+**Eval Alignment:** No data, but consistent with profile emphasis on review-bound outputs.
+
+**Risk Assessment:** Moderate. This asks for proactive commentary, which conflicts somewhat with the suppression of unprompted commentary in other entries. However, the scope is narrow—specifically multi-document packages—and the value for formal review is clear.
+
+**Decision Inclination:** Apply with caution. The scope is narrow enough that it doesn't broadly conflict with commentary suppression. The use case (multi-document governance packages) is specific and high-value.
+
+---
+
+## Cross-Batch Observations
+
+**Dependency Cluster: Handoff/Session Management**
+Three candidates (030d32f4c26089db, 7034900932cf00d1, 3203fbdb44ade6a1) all address session handoff. Two are duplicates of each other. All should wait for DRIFT MODE eval data before adding additional mechanisms.
+
+**Contradiction Cluster: Platform Commentary**
+Three candidates (2fda7a326491b8fa, c6752681f604aedf, 7034900932cf00d1) contradict existing memory suppressing platform and context window commentary. The user has explicitly configured against this type of proactive commentary.
+
+**Redundancy Pattern**
+Multiple candidates (4a038ed700870213, b844b650734433f8) duplicate functionality already present in the profile (OUTPUT VERIFICATION with [verify] marker, DRIFT MODE).
+
+**Clean Extensions**
+Several candidates (4aa2123d63003568, 625ae86dde9120b7, 1af7a3dac1a422af, 0aa3a0fbdae137d5, 74b0697b8f08a50f) cleanly extend existing patterns without contradiction.
+
+**Pipeline Signal**
+The Track C technique candidate being routed to CLAIRE-A decision suggests pipeline classification may need review—techniques for user consumption should potentially bypass the decision engine.

@@ -155,31 +155,46 @@ CLAIRE\
 
 ## Current Session Task
 
-Cycle 3 complete (2026-05-10). 1 memory edit applied, hallucination-guard skill installed.
-change_log.json and friction_log.txt created (were missing — now initialized with full history).
+Cycle 4 complete (2026-05-19). 6 memory edits applied (#19-24). 4 profile diffs queued. c3-prof-001 applied (overdue from Cycle 3).
 
 **Applied this cycle:**
-- Memory #18: sycophantic hallucination guard (don't defend before verifying)
-- Skill: hallucination-guard installed to skills/user/hallucination-guard/SKILL.md
+- Memory #19: Anthropic platform reliability as operational vendor risk
+- Memory #20: Opus 4.6 preference for planning/doc outputs
+- Memory #21: Never rewrite full docs on section edits
+- Memory #22: Prompt injection flagging on external docs
+- Memory #23: /compact before 50% context
+- Memory #24: PDF-to-spreadsheet verification callout
+- Profile c3-prof-001: AUDIT mode enhancement (applied, was queued from Cycle 3)
 
-**Queued profile diffs (apply manually — see change_log.json):**
-- c3-prof-001: AUDIT mode enhancement (no observation gate — apply at next profile review)
-- c3-prof-002: Task-completion anti-collapse (observe 4.7 in live session first)
-- c3-prof-003: Effort transparency disclosure (observe 4.7 in live session first)
+**Queued profile diffs (apply at next profile review session — no observation gates):**
+- c4-prof-001: Surgical edit as default
+- c4-prof-002: Tic suppression extends to functional equivalents
+- c4-prof-003: HANDOFF mode
+- c4-prof-004: Numerical self-consistency gate
 
-**CLAIRE-A graduation criteria (cycle 1 of 6):**
-- Consecutive eval runs logged: 1 of 6 required
-- Reliability ledger hypotheses scored: 7 of 10 required
+**Still queued from Cycle 3 (observation gates not yet met):**
+- c3-prof-002: Task-completion anti-collapse (needs live 4.7 session confirmation)
+- c3-prof-003: Effort transparency disclosure (needs live 4.7 session confirmation)
+
+**CLAIRE-A graduation criteria (cycle 2 of 6):**
+- Consecutive eval runs logged: 2 of 6 required
+- Reliability ledger hypotheses scored: update after scorer runs this cycle
 - Escalations in last 3 runs: 0 (clean)
-- Next eval cycle: 2026-05-17
+- Next eval cycle: 2026-05-26
 
-**Build 8 candidates (design in browser Project first):**
-- Same-day memory filtering in triage (CLAIRE-A flagged redundancy — c3 friction log)
-- Technique candidates separate output stream in digest
-- Cost log merge (two entries per run)
+**Friction log items for this cycle:**
+- hallucination_guard skill not caught as ALREADY_APPLIED by engine — memory_state filtering gap now confirmed for skill installs, not just memory entries
+- feature_praise at 107, second cycle with zero candidates — pipeline resolution still pending
+- Digest candidates #23 and #27 were duplicates — add dedup check to Build 8 candidates
+- Mem #3 (skip epistemic disclaimers) held — confirm in live session before applying
+
+**Build 8 candidates (updated):**
+- Same-day memory filtering in triage (now also covers skill installs)
+- Duplicate candidate dedup before digest output
+- Technique candidates separate output stream
+- Cost log merge
 - X/Twitter + Substack RSS ingest sources
-- Track A cost trajectory monitoring (approaching $0.60-0.70/run)
-- feature_praise signal utilization audit (c3 friction log)
+- feature_praise signal utilization audit
 
 ---
 
@@ -194,31 +209,4 @@ change_log.json and friction_log.txt created (were missing — now initialized w
 7. **Design decisions happen in browser Project** — execute only here
 8. **Update this file** at the end of every build
 9. **CLAIRE-A is shadow only** — never wire its output to live config without human review
-10. **Score hypotheses before applying deferred candidates** — eval data should inform the next batch
-
----
-
-## Browser Project
-
-All architecture, prompt design, and build scaffolding lives in the
-Claude browser Project named CLAIRE. When in doubt about a design
-decision, stop and check the browser Project before proceeding.
-
-Do not make architectural decisions in Cowork. Execute, report, repeat.
-
----
-
-## Commit Convention
-
-```
-git add .
-git commit -m "CLAIRE Build [N] [description]"
-```
-
-Examples:
-- `CLAIRE Build 1 complete — 520 post clean corpus`
-- `CLAIRE Build 2 dry-run validated — triage running`
-- `CLAIRE Build 2 complete — synthesis queues written`
-
----
-*Last updated: 2026-05-10 — Cycle 3 complete, Build 8 candidates queued, change_log.json + friction_log.txt initialized*
+10. **Score hypotheses before applying 

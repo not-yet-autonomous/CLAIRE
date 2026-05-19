@@ -1,73 +1,9 @@
 {
   "meta": {
     "track": "c",
-    "run_at": "2026-05-10T20:13:52.378917+00:00",
-    "posts_input": 12,
+    "run_at": "2026-05-19T19:59:14.401363+00:00",
+    "posts_input": 15,
     "model": "claude-sonnet-4-6"
   },
   "candidates": {
-    "technique_candidates": [
-      {
-        "technique_name": "Framework-Request Instead of Answer-Request",
-        "description": "Instead of asking the AI for a direct answer or decision, the user explicitly asks for a decision-making framework, mental model, or set of questions to guide their own reasoning. The prompt structure is something like 'don't give me an answer, give me the framework I should use to find the answer myself.' This shifts the AI from advisor to thinking-partner and reportedly produces more durable, reusable outputs.",
-        "test_suggestion": "On your next complex or recurring decision, open with 'Don't give me an answer \u2014 give me the framework or questions I should use to reason through this myself' and compare the output's usefulness over time.",
-        "change_target": "user_behavior",
-        "confidence": "HIGH",
-        "source_posts": [
-          "/r/ChatGPTPromptGenius/comments/1sts5gv/i_stopped_asking_claude_for_answers_i_started/",
-          "https://news.ycombinator.com/item?id=45362416",
-          "/r/ClaudeAI/comments/1sv5v48/only_claude_is_not_enough/"
-        ]
-      },
-      {
-        "technique_name": "Portable Context File (profile.md / SKILL.md)",
-        "description": "Users maintain a plain-text or Markdown file containing personal preferences, project context, skill instructions, or role definitions, and paste it at the start of each new session across any AI tool. This sidesteps platform-specific memory silos and makes context transfer between Claude, ChatGPT, Gemini, etc. manual but reliable. The file can also encode trigger-based behavioral rules (SKILL.md pattern) that most models can follow if they handle complex instructions well.",
-        "test_suggestion": "Write a single profile.md or context block with your key preferences, project background, and any recurring role instructions, then paste it at the top of your next session on a different AI tool and observe how well it orients the model.",
-        "change_target": "user_behavior",
-        "confidence": "HIGH",
-        "source_posts": [
-          "/r/ArtificialInteligence/comments/1sslxr7/is_there_a_way_to_sync_memory_across_chatgpt/",
-          "/r/AIToolBench/comments/1ssly2l/is_there_a_way_to_sync_memory_across_chatgpt/",
-          "/r/artificial/comments/1stphh6/can_claudes_skills_custom_skillmd_instruction/",
-          "/r/ChatGPT/comments/1ssr698/can_claudes_skills_custom_skillmd_instruction/"
-        ]
-      },
-      {
-        "technique_name": "Tool Specialization Splitting",
-        "description": "Users assign distinct task categories to different AI tools based on each tool's genuine strengths rather than using one tool for everything. Commonly observed splits: NotebookLM for source-grounded synthesis and fact-checking, Claude for generation and reasoning, Gemini or ChatGPT for tasks where Claude hits limits or underperforms. The key discipline is deciding the split criteria upfront rather than switching reactively when frustrated.",
-        "test_suggestion": "Define two or three task types you do regularly, assign each to a specific AI tool based on its documented strength, and run the same task through both your current tool and the assigned specialist to compare output quality.",
-        "change_target": "user_behavior",
-        "confidence": "HIGH",
-        "source_posts": [
-          "/r/notebooklm/comments/1t1kd39/yup_it_is_also_my_observation_that_it_is_better/",
-          "/r/ClaudeAI/comments/1sv5v48/only_claude_is_not_enough/",
-          "/r/SunoAI/comments/1sw1mil/how_i_build_concept_albums_with_no_musical/"
-        ]
-      },
-      {
-        "technique_name": "Context Pruning to Extend Session Limits",
-        "description": "When approaching token or usage limits mid-session, users deliberately trim bloated context \u2014 removing redundant memory entries, summarizing earlier exchanges, or stripping verbose instruction files \u2014 before switching to a lighter model or continuing. This is a reactive maintenance habit rather than a one-time setup step, applied whenever a session starts slowing or hitting rate limits.",
-        "test_suggestion": "In your next long session, before hitting a limit, pause and ask the AI to summarize the conversation so far into a compact context block, then start a new session with only that summary instead of the full history.",
-        "change_target": "user_behavior",
-        "confidence": "MEDIUM",
-        "source_posts": [
-          "/r/ClaudeAI/comments/1sv5v48/only_claude_is_not_enough/",
-          "/r/ClaudeAI/comments/1svj63k/is_pro_really_worth_it/",
-          "/r/ArtificialInteligence/comments/1sslxr7/is_there_a_way_to_sync_memory_across_chatgpt/"
-        ]
-      },
-      {
-        "technique_name": "AI-as-Fact-Checker for AI-Generated Output",
-        "description": "Users generate content with one AI tool, then feed that output into a second tool specifically to verify claims, check for hallucinations, or stress-test reasoning. The NotebookLM + Claude pairing is the most cited instance: Claude drafts, NotebookLM checks against uploaded sources. This treats the second model as an adversarial reviewer rather than a collaborator.",
-        "test_suggestion": "Take a factual or technical draft produced by your primary AI tool and paste it into a second tool (e.g., NotebookLM with relevant sources uploaded) with the prompt 'identify any claims here that are unsupported or likely hallucinated.'",
-        "change_target": "user_behavior",
-        "confidence": "MEDIUM",
-        "source_posts": [
-          "/r/notebooklm/comments/1t1kd39/yup_it_is_also_my_observation_that_it_is_better/",
-          "/r/AIToolBench/comments/1ssly2l/is_there_a_way_to_sync_memory_across_chatgpt/",
-          "/r/artificial/comments/1stphh6/can_claudes_skills_custom_skillmd_instruction/"
-        ]
-      }
-    ]
-  }
-}
+  

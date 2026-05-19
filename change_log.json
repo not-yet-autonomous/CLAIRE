@@ -142,6 +142,5 @@
       "resolve_condition": "Apply if 4.7 observed delivering degraded output without disclosure in live session.",
       "eval_status": "queued",
       "eval_notes": ""
-    }
-  ]
-}
+    },
+    {

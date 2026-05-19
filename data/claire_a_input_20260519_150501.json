@@ -1,0 +1,671 @@
+{
+  "session_id": "221376f4-726c-477a-9466-38ddc1ad1b23",
+  "run_at": "2026-05-19T20:05:01.958296+00:00",
+  "memory_snapshot_hash": "9f478c878b080114f1319bbdbfdab6b8e45a00b1e4b116e7c5dd664aeeb2fed6",
+  "candidates": [
+    {
+      "id": "bb864a45-a839-484b-a6a5-f7e9b12a6cb7",
+      "fingerprint": "61f8bf1f19fce7fb",
+      "track": "c",
+      "category": "technique_candidates",
+      "source": "claire_synthesize:track_c",
+      "content": {
+        "type": "technique",
+        "summary": "Framework Request Instead of Answer Request",
+        "detail": {
+          "technique_name": "Framework Request Instead of Answer Request",
+          "description": "Instead of asking an AI to provide a direct answer or decision, explicitly ask it to provide the framework, mental model, or decision criteria you should use to find the answer yourself. This shifts the AI from giving potentially generic outputs to producing structured thinking tools that the user can apply repeatedly.",
+          "test_suggestion": "When stuck on a recurring decision or problem, open with 'Don't give me an answer — give me the framework I should use to find the answer myself' and compare the usefulness of the output versus a direct question.",
+          "change_target": "user_behavior",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ChatGPTPromptGenius/comments/1sts5gv/i_stopped_asking_claude_for_answers_i_started/",
+            "/r/IndiaGrowthStocks/comments/1tb0kjd/compounder_or_trap_run_the_twoengine_math_before/",
+            "https://news.ycombinator.com/item?id=45362416"
+          ]
+        }
+      },
+      "signal_strength": 0.86,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-05-19T20:05:01.957168+00:00",
+      "prior_appearances": 1,
+      "posts_input": 15
+    },
+    {
+      "id": "68fdff85-cf8c-41fb-9ddd-27ddb242bd92",
+      "fingerprint": "2fda7a326491b8fa",
+      "track": "a",
+      "category": "memory_edit_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "memory_edit",
+        "summary": "User uses Claude on Max plan; session limit exhaustion mid-task is a known operational constraint.",
+        "detail": {
+          "command": "add",
+          "control": "User uses Claude on Max plan; session limit exhaustion mid-task is a known operational constraint.",
+          "rationale": "At least 7 posts document session/usage limit exhaustion as a persistent, disruptive workflow pattern across paid tiers including Max. For a user operating at executive scope with high-context document and analysis tasks, Claude should proactively suggest context-conserving strategies (new chat, summary handoff, chunking) without being asked, rather than allowing silent limit approach.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/Anthropic/comments/1t9sixz/session_limit_frustration/",
+            "/r/ClaudeAI/comments/1t6jow8/claudes_new_limits/",
+            "/r/Anthropic/comments/1tgd019/whats_happened_to_claude_usage_limits_lately_im/",
+            "/r/Anthropic/comments/1t4hyz1/hello/",
+            "/r/Anthropic/comments/1t572ph/how_many_of_you_stopped_using_claude_because_of/",
+            "/r/ClaudeAI/comments/1t9naqz/beginner_question_about_minimizing_token_usage/",
+            "/r/Anthropic/comments/1t6a3vy/did_claude_limits_got_any_better/"
+          ]
+        }
+      },
+      "signal_strength": 0.9,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-05-19T20:05:01.956459+00:00",
+      "prior_appearances": 0,
+      "posts_input": 401
+    },
+    {
+      "id": "322858ec-b8ee-4335-bb85-6500867f4f60",
+      "fingerprint": "c6752681f604aedf",
+      "track": "a",
+      "category": "memory_edit_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "memory_edit",
+        "summary": "User monitors Anthropic platform reliability as a vendor risk factor for regulated-env deployments.",
+        "detail": {
+          "command": "add",
+          "control": "User monitors Anthropic platform reliability as a vendor risk factor for regulated-env deployments.",
+          "rationale": "Multiple posts document pattern of silent nerfs, unexplained bans, billing anomalies, and opaque usage limit changes affecting enterprise workflows. For a regulated RIA environment where toolchain reliability is a compliance consideration, vendor stability signals are material to infrastructure and vendor due diligence work — not just product complaints.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1sspwz2/psa_anthropic_bans_organizations_without_warning/",
+            "/r/Anthropic/comments/1ssm6nr/anthropic_you_would_get_so_much_more_respect_from/",
+            "/r/Anthropic/comments/1stmbyd/unusable_after_token_usage_nerfs/",
+            "/r/ClaudeAI/comments/1suyjur/claude_status_update_elevated_error_rates_on/"
+          ]
+        }
+      },
+      "signal_strength": 0.88,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-05-19T20:05:01.956388+00:00",
+      "prior_appearances": 0,
+      "posts_input": 401
+    },
+    {
+      "id": "b2e71570-623d-4e36-a80e-a2b5cfc94944",
+      "fingerprint": "17c93f8d358a1f15",
+      "track": "a",
+      "category": "memory_edit_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "memory_edit",
+        "summary": "User prefers Opus 4.6 over 4.7 for planning, discussion, and document-quality outputs.",
+        "detail": {
+          "command": "add",
+          "control": "User prefers Opus 4.6 over 4.7 for planning, discussion, and document-quality outputs.",
+          "rationale": "Broad and consistent signal across posts that Opus 4.7 produces verbose, essay-ified, hallucination-prone output compared to 4.6, which is described as more precise and easier to work with for planning and substantive tasks. Given the profile's emphasis on research-grade depth and document production entering formal review, model selection for specific task types is operationally relevant.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1srgo7e/i_genuinely_hate_the_conversation_tone_of_opus_47/",
+            "/r/Anthropic/comments/1su3vgi/model_claudeopus46/",
+            "/r/Anthropic/comments/1srqi3f/please_dont_take_opus_46_and_extended_thinking/",
+            "/r/ClaudeAI/comments/1ss8h1x/an_open_letter_to_anthropic/"
+          ]
+        }
+      },
+      "signal_strength": 0.88,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-05-19T20:05:01.956407+00:00",
+      "prior_appearances": 0,
+      "posts_input": 401
+    },
+    {
+      "id": "86b029b3-dabc-47ab-8b47-9a0d13d63571",
+      "fingerprint": "4aa2123d63003568",
+      "track": "a",
+      "category": "profile_diff_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "profile_change",
+        "summary": "Add an explicit instruction that Claude should never offer to implement something instead of implementing it when the ta",
+        "detail": {
+          "target_section": "Output Layer / Document Production",
+          "proposed_change": "Add an explicit instruction that Claude should never offer to implement something instead of implementing it when the task context makes the action unambiguous. If a document, analysis, or structured output has been requested, produce it directly — do not propose it, summarize it, or ask for confirmation to proceed. The 'lazy offer' failure mode (proposing instead of doing) is treated as a quality defect equivalent to a hedge-everything response.",
+          "rationale": "Multiple posts describe Opus 4.7 specifically defaulting to offering to do things rather than doing them, even when context is clear — described as a 'lazy' pattern distinct from verbosity. This maps directly to the profile's existing prohibition on generic AI helpfulness and sycophantic confirmation, but the offer-instead-of-act failure mode is not currently named or addressed as a distinct anti-pattern. Naming it explicitly creates a triggerable quality standard.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1sq7rkj/apparently_claude_is_lazy/",
+            "/r/Anthropic/comments/1su3vgi/model_claudeopus46/",
+            "/r/Anthropic/comments/1suotwq/im_probably_scrapping_my_2_memberships_tbh_it/",
+            "/r/ClaudeAI/comments/1srgo7e/i_genuinely_hate_the_conversation_tone_of_opus_47/"
+          ]
+        }
+      },
+      "signal_strength": 0.88,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-05-19T20:05:01.956470+00:00",
+      "prior_appearances": 0,
+      "posts_input": 401
+    },
+    {
+      "id": "b8ea8310-bf23-460a-9afb-cca893ab0414",
+      "fingerprint": "4a038ed700870213",
+      "track": "a",
+      "category": "profile_diff_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "profile_change",
+        "summary": "Add a standing instruction that when Claude surfaces a factual claim it cannot verify with high confidence in the curren",
+        "detail": {
+          "target_section": "Analytical Depth / Research-Grade Default",
+          "proposed_change": "Add a standing instruction that when Claude surfaces a factual claim it cannot verify with high confidence in the current context, it must flag it explicitly inline rather than presenting it as established. Hallucination-as-fact is treated as a critical failure for outputs entering formal review processes — not a minor caveat. The failure mode to guard against is confident synthesis that blends accurate and fabricated content without distinguishing them.",
+          "rationale": "Posts across the signal set describe Opus 4.7 specifically making up information and presenting it as fact, including fabricating entire document sections and research results. For a profile where outputs enter SEC-registered firm governance processes and formal review, undetected hallucination is a compliance and liability risk, not merely an inconvenience. The profile addresses accuracy as a value but does not currently instruct explicit inline flagging of low-confidence claims.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1ss8h1x/an_open_letter_to_anthropic/",
+            "/r/Anthropic/comments/1srqi3f/please_dont_take_opus_46_and_extended_thinking/",
+            "/r/Anthropic/comments/1spqtp8/claude_47_is_an_absolute_trash/",
+            "/r/Anthropic/comments/1su3vgi/model_claudeopus46/"
+          ]
+        }
+      },
+      "signal_strength": 0.88,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-05-19T20:05:01.956474+00:00",
+      "prior_appearances": 0,
+      "posts_input": 401
+    },
+    {
+      "id": "275d3099-9aa5-425f-a43b-17b0525390ef",
+      "fingerprint": "b844b650734433f8",
+      "track": "a",
+      "category": "profile_diff_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "profile_change",
+        "summary": "Add an explicit session hygiene protocol: when a session approaches context saturation (detectable via response generici",
+        "detail": {
+          "target_section": "Output Layer / Document Production",
+          "proposed_change": "Add an explicit session hygiene protocol: when a session approaches context saturation (detectable via response genericity, topic conflation, or instruction drift), automatically produce a structured handoff document containing: current state summary, open threads ranked by priority, decisions made, and recommended re-entry prompt for the next session. This should trigger proactively, not require a user request.",
+          "rationale": "The signal across multiple posts is consistent: context window exhaustion causes silent quality degradation that users only notice retrospectively. For work that enters formal review, this is a direct accuracy risk. The user's existing 'Focus' mode addresses attention drift but not session-boundary context loss — this fills that gap with an automated output artifact.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1t0tp46/long_claude_threads_start_strong_then_driftheres/",
+            "/r/ClaudeAI/comments/1sv6m1o/convo_length_sweet_spot_whats_peoples_opinions_on/",
+            "/r/ClaudeAI/comments/1t0dgti/can_someone_help_me_understand_how_claudes_memory/",
+            "/r/ClaudeAI/comments/1szucok/is_it_a_best_practice_to_optimise_claudemd_memory/"
+          ]
+        }
+      },
+      "signal_strength": 0.88,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-05-19T20:05:01.956553+00:00",
+      "prior_appearances": 0,
+      "posts_input": 401
+    },
+    {
+      "id": "4947e9c2-21a6-40a1-9020-00bee5322245",
+      "fingerprint": "030d32f4c26089db",
+      "track": "a",
+      "category": "profile_diff_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "profile_change",
+        "summary": "Add a 'Handoff' mode trigger (e.g., 'Handoff' or '/handoff') that immediately produces a structured session transition d",
+        "detail": {
+          "target_section": "Cognitive Toolkit / Named Modes",
+          "proposed_change": "Add a 'Handoff' mode trigger (e.g., 'Handoff' or '/handoff') that immediately produces a structured session transition document: decisions locked, open questions ranked, context that must survive the reset, and a re-entry prompt optimized for cold-start accuracy in the next session.",
+          "rationale": "The existing named modes address quality control, stress-testing, and focus recovery but have no explicit mechanism for session boundary management. The Reddit signal shows this is the most common point of workflow failure for heavy users. A named mode makes this a first-class operation consistent with the user's existing cognitive toolkit rather than an ad-hoc workaround.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1t0tp46/long_claude_threads_start_strong_then_driftheres/",
+            "/r/ClaudeAI/comments/1sv6m1o/convo_length_sweet_spot_whats_peoples_opinions_on/",
+            "/r/ClaudeAI/comments/1t2xcfj/claude_memory_and_projects_question_from_newbie/",
+            "/r/ClaudeAI/comments/1szucok/is_it_a_best_practice_to_optimise_claudemd_memory/"
+          ]
+        }
+      },
+      "signal_strength": 0.88,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-05-19T20:05:01.956557+00:00",
+      "prior_appearances": 0,
+      "posts_input": 401
+    },
+    {
+      "id": "ee953b58-bdfb-47e1-8905-0d38f280b25b",
+      "fingerprint": "7034900932cf00d1",
+      "track": "a",
+      "category": "profile_diff_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "profile_change",
+        "summary": "Add a session hygiene check step: when beginning a high-context task (document production, multi-framework analysis, ven",
+        "detail": {
+          "target_section": "Skill install workflow",
+          "proposed_change": "Add a session hygiene check step: when beginning a high-context task (document production, multi-framework analysis, vendor due diligence), proactively note if the current thread has accumulated significant prior context and recommend whether to continue or initiate a clean session with a summary handoff artifact.",
+          "rationale": "The Reddit signal shows that even sophisticated users on paid Max tiers are blindsided by context-driven limit exhaustion mid-task. Given that this user's outputs often enter formal review processes, an incomplete or limit-truncated deliverable is a direct workflow failure. A proactive hygiene flag at task initiation — already consistent with how the profile structures skill deployment — would surface this before it becomes a problem.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/Anthropic/comments/1t9sixz/session_limit_frustration/",
+            "/r/ClaudeAI/comments/1t6jow8/claudes_new_limits/",
+            "/r/Anthropic/comments/1tgd019/whats_happened_to_claude_usage_limits_lately_im/",
+            "/r/Anthropic/comments/1t4hyz1/hello/"
+          ]
+        }
+      },
+      "signal_strength": 0.88,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-05-19T20:05:01.956565+00:00",
+      "prior_appearances": 0,
+      "posts_input": 401
+    },
+    {
+      "id": "86374791-b06b-4694-a6fb-ff172cac6263",
+      "fingerprint": "3203fbdb44ade6a1",
+      "track": "a",
+      "category": "profile_diff_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "profile_change",
+        "summary": "Add a HANDOFF mode trigger: when a complex multi-session task must be suspended or migrated to a new chat, HANDOFF produ",
+        "detail": {
+          "target_section": "Cognitive toolkit / Named modes",
+          "proposed_change": "Add a HANDOFF mode trigger: when a complex multi-session task must be suspended or migrated to a new chat, HANDOFF produces a structured continuity artifact — decision state, open threads, next actions, key constraints established — formatted for paste into a clean session with minimal context reconstruction overhead.",
+          "rationale": "The session limit and model migration patterns in the signal both point to the same gap: users losing work-in-progress state when sessions end unexpectedly. For a user operating across governance, architecture, and executive briefing tasks, a structured handoff artifact is a natural extension of the existing mode system and addresses the specific failure mode where long-context threads become liabilities. This is distinct from the existing Focus and Decide modes and fills a gap no current mode covers.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/Anthropic/comments/1t9sixz/session_limit_frustration/",
+            "/r/ClaudeAI/comments/1thms23/special_type_of_claude_hell/",
+            "/r/ClaudeAI/comments/1tbffci/things_ive_tried_to_keep_a_better_decision_and/",
+            "/r/Anthropic/comments/1tcdsbe/prepare_for_sonnet_45_ending/"
+          ]
+        }
+      },
+      "signal_strength": 0.88,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-05-19T20:05:01.956572+00:00",
+      "prior_appearances": 0,
+      "posts_input": 401
+    },
+    {
+      "id": "35ff9532-355a-42b7-a7e2-3b9655c6466d",
+      "fingerprint": "625ae86dde9120b7",
+      "track": "a",
+      "category": "memory_edit_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "memory_edit",
+        "summary": "User is aware Claude hallucinations exist; skip epistemic disclaimers about AI limitations.",
+        "detail": {
+          "command": "add",
+          "control": "User is aware Claude hallucinations exist; skip epistemic disclaimers about AI limitations.",
+          "rationale": "Multiple posts surface the pattern of Claude defensively restating its own fallibility when challenged on accuracy. For an executive operating at research-grade depth, these disclaimers consume space without adding value and undercut the directness the profile explicitly requires.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1t3ggv8/claude_is_lying_regularly_when_i_have/",
+            "/r/ClaudeAI/comments/1t7vf0g/sonnet_45_is_being_retired/",
+            "/r/Anthropic/comments/1t8oan2/how_many_are_feeling_this_sense_of_betrayal/"
+          ]
+        }
+      },
+      "signal_strength": 0.86,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-05-19T20:05:01.956414+00:00",
+      "prior_appearances": 0,
+      "posts_input": 401
+    },
+    {
+      "id": "50679d42-dc97-47c3-b29a-e5348d4710f4",
+      "fingerprint": "c77ffb13c98fd14c",
+      "track": "a",
+      "category": "memory_edit_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "memory_edit",
+        "summary": "User does not want em dashes in any output; use commas, colons, or semicolons instead.",
+        "detail": {
+          "command": "add",
+          "control": "User does not want em dashes in any output; use commas, colons, or semicolons instead.",
+          "rationale": "Two of the highest-voted posts in the batch specifically address em dash persistence despite instructions, indicating this is a systemic training-weight issue that requires explicit memory reinforcement. The profile's document production standards make typographic consistency a functional requirement, not a preference.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1t3nq2o/dont_like_em_dashes_add_this_to_your_preferences/",
+            "/r/ClaudeAI/comments/1t84nih/why_does_this_happen/",
+            "/r/ClaudeAI/comments/1t7vf0g/sonnet_45_is_being_retired/"
+          ]
+        }
+      },
+      "signal_strength": 0.86,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-05-19T20:05:01.956419+00:00",
+      "prior_appearances": 0,
+      "posts_input": 401
+    },
+    {
+      "id": "74912d47-56b0-4a40-8320-473ec95264b3",
+      "fingerprint": "1af7a3dac1a422af",
+      "track": "a",
+      "category": "memory_edit_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "memory_edit",
+        "summary": "User expects Claude to never rewrite full documents when a section edit is requested.",
+        "detail": {
+          "command": "add",
+          "control": "User expects Claude to never rewrite full documents when a section edit is requested.",
+          "rationale": "Multiple posts surface the pattern of Claude regenerating entire documents when asked to modify one section, burning tokens and requiring cleanup. For a user producing formal governance and executive documents, full rewrites of reviewed content are directly counterproductive and waste context budget on work already done.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeHomies/comments/1tdnvp8/is_anyone_else_frustrated_with_claude_burninig/",
+            "/r/ClaudeAI/comments/1t5q1cb/lost_2_days_of_work_everything_gone/",
+            "/r/Anthropic/comments/1tdwybg/this_is_so_dumb/"
+          ]
+        }
+      },
+      "signal_strength": 0.86,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-05-19T20:05:01.956423+00:00",
+      "prior_appearances": 0,
+      "posts_input": 401
+    },
+    {
+      "id": "bd621a03-3367-41ea-99f6-5f2f26bf6888",
+      "fingerprint": "0aa3a0fbdae137d5",
+      "track": "a",
+      "category": "memory_edit_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "memory_edit",
+        "summary": "User's doc outputs enter formal review; never generate placeholder or template-style filler text.",
+        "detail": {
+          "command": "add",
+          "control": "User's doc outputs enter formal review; never generate placeholder or template-style filler text.",
+          "rationale": "Multiple posts across the signal show users discovering Claude produces generic or sloppy filler content that requires cleanup before use. Given that Jimbo's outputs go directly into governance, vendor, and executive review processes, any filler text is actively harmful and needs to be suppressed at the memory layer, not just the profile layer.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1spmwkg/i_didnt_realise_claude_could_build_actual_word/",
+            "/r/ClaudeAI/comments/1szm5l3/absolutely_blown_away_by_the_utility_of_the/",
+            "/r/Accounting/comments/1srvfim/how_to_fix_my_sloppy_mistakes_my_boss_is_about_to/"
+          ]
+        }
+      },
+      "signal_strength": 0.86,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-05-19T20:05:01.956431+00:00",
+      "prior_appearances": 0,
+      "posts_input": 401
+    },
+    {
+      "id": "255de35d-e424-4e45-9633-3f073a988cc7",
+      "fingerprint": "74b0697b8f08a50f",
+      "track": "a",
+      "category": "memory_edit_candidates",
+      "source": "claire_synthesize:track_a",
+      "content": {
+        "type": "memory_edit",
+        "summary": "When producing multi-document packages, flag cross-document consistency issues proactively without being asked.",
+        "detail": {
+          "command": "add",
+          "control": "When producing multi-document packages, flag cross-document consistency issues proactively without being asked.",
+          "rationale": "The Word add-in thread surfaced a specific high-value workflow: running multiple dense documents in parallel and ensuring consistency across a document package. Jimbo produces governance and vendor documentation that routinely spans multiple related documents (e.g., architecture docs, business cases, briefings). Proactive consistency flagging across a package is a natural fit for his review-bound outputs.",
+          "confidence": "HIGH",
+          "source_posts": [
+            "/r/ClaudeAI/comments/1szm5l3/absolutely_blown_away_by_the_utility_of_the/",
+            "/r/ClaudeAI/comments/1spmwkg/i_didnt_realise_claude_could_build_actual_word/",
+            "/r/PromptEngineering/comments/1ssdyf9/you_can_drop_a_messy_excel_file_into_claude_and/"
+          ]
+        }
+      },
+      "signal_strength": 0.86,
+      "source_reliability_score": 0.5,
+      "created_at": "2026-05-19T20:05:01.956434+00:00",
+      "prior_appearances": 0,
+      "posts_input": 401
+    }
+  ],
+  "memory_state": {
+    "snapshot_at": "2026-05-19T20:05:01.958283+00:00",
+    "snapshot_hash": "9f478c878b080114f1319bbdbfdab6b8e45a00b1e4b116e7c5dd664aeeb2fed6",
+    "entries": [
+      {
+        "id": "3f0e510f-3087-48c6-92bf-07afaf67ef55",
+        "key": "profile_change:2026-04-26",
+        "value": "Added OUTPUT VERIFICATION section -- hallucination self-audit with [verify] inline marker and external audience consolidation rule",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "ebb8482f-fb98-4146-82b8-e3537cf0170c",
+        "key": "profile_change:2026-04-26",
+        "value": "Added DRIFT MODE to MODES section -- automatic context saturation detection with structured handoff note",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "b913d85b-0f17-4b5d-859e-a12368753b49",
+        "key": "memory_edit:2026-04-26",
+        "value": "Claude will proactively surface vendor concentration risk during due diligence without prompting.",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "b1e5d21d-0bb0-4b85-a63f-dd0b72eeaec8",
+        "key": "memory_edit:2026-04-26",
+        "value": "Claude will name model version as a possible cause when output quality degrades, before being asked.",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "688af121-15f0-4638-8b90-3d0576dc691d",
+        "key": "memory_edit:2026-04-26",
+        "value": "Claude will include compliance and data residency as default first-order criteria in vendor evaluations without prompting.",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "c183be70-334a-4197-b7c1-9f2bba982f60",
+        "key": "memory_edit:2026-04-26",
+        "value": "Claude will surface model and reasoning mode confirmation proactively on complex high-stakes sessions.",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "24d3e326-4b31-44cf-9be2-305d3704f989",
+        "key": "memory_edit:2026-04-26",
+        "value": "Claude will recommend chunked structure over monolithic files when project memory or documentation architecture comes up.",
+        "established_at": "2026-04-26",
+        "last_reinforced_at": "2026-04-26",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "60609d14-9f80-436c-96b5-2e70ae339f2d",
+        "key": "memory_edit:2026-05-05",
+        "value": "Zero em dashes across next three sessions without prompting.",
+        "established_at": "2026-05-05",
+        "last_reinforced_at": "2026-05-05",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "2fbfa0a6-e21a-44c9-afa7-48a693362ba0",
+        "key": "memory_edit:2026-05-05",
+        "value": "Compressed direct responses, no filler, across next three sessions.",
+        "established_at": "2026-05-05",
+        "last_reinforced_at": "2026-05-05",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "c1e06a84-e4c5-4f9f-aa64-3266d6c97f54",
+        "key": "memory_edit:2026-05-05",
+        "value": "Zero unprompted context window commentary across next five sessions.",
+        "established_at": "2026-05-05",
+        "last_reinforced_at": "2026-05-05",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "68b8e7d2-284c-492e-8aa8-185bcd051c1b",
+        "key": "memory_edit:2026-05-05",
+        "value": "No platform reliability commentary mid-task unless asked.",
+        "established_at": "2026-05-05",
+        "last_reinforced_at": "2026-05-05",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      },
+      {
+        "id": "2e4e6793-730c-4372-8b9f-8ad5ba464422",
+        "key": "profile_addition:2026-05-05",
+        "value": "Audit: trigger produces numbered findings list covering requirement gaps, unsupported claims, and internal inconsistencies.",
+        "established_at": "2026-05-05",
+        "last_reinforced_at": "2026-05-05",
+        "reinforcement_count": 0,
+        "source_candidate_ids": []
+      }
+    ]
+  },
+  "change_log": [
+    {
+      "id": "3f0e510f-3087-48c6-92bf-07afaf67ef55",
+      "applied_at": "2026-04-26",
+      "type": "profile_change",
+      "summary": "Added OUTPUT VERIFICATION section -- hallucination self-audit with [verify] inline marker and external audience consolidation rule",
+      "source": "reddit_1ssma9g",
+      "hypothesis": "Claude will flag uncertain citations with [verify] rather than asserting fabricated confidence, reducing liability exposure in governance document review pipelines. External audience outputs will consolidate [verify] items into a review checklist rather than leaving markers inline.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "ebb8482f-fb98-4146-82b8-e3537cf0170c",
+      "applied_at": "2026-04-26",
+      "type": "profile_change",
+      "summary": "Added DRIFT MODE to MODES section -- automatic context saturation detection with structured handoff note",
+      "source": "/r/ClaudeAI/comments/1sv6znz/convo_length_sweet_spot_whats_peoples_opinions_on/",
+      "hypothesis": "Claude will proactively surface context drift in long governance and vendor due diligence sessions before silent quality collapse occurs, with a structured handoff note covering session state and open threads. False positive cost: occasional interruptions in sessions where drift has not actually occurred -- eval notes should track frequency.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "b913d85b-0f17-4b5d-859e-a12368753b49",
+      "applied_at": "2026-04-26",
+      "type": "memory_edit",
+      "summary": "Claude will proactively surface vendor concentration risk during due diligence without prompting.",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will proactively surface vendor concentration risk during due diligence without prompting.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "b1e5d21d-0bb0-4b85-a63f-dd0b72eeaec8",
+      "applied_at": "2026-04-26",
+      "type": "memory_edit",
+      "summary": "Claude will name model version as a possible cause when output quality degrades, before being asked.",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will name model version as a possible cause when output quality degrades, before being asked.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "688af121-15f0-4638-8b90-3d0576dc691d",
+      "applied_at": "2026-04-26",
+      "type": "memory_edit",
+      "summary": "Claude will include compliance and data residency as default first-order criteria in vendor evaluations without prompting.",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will include compliance and data residency as default first-order criteria in vendor evaluations without prompting.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "c183be70-334a-4197-b7c1-9f2bba982f60",
+      "applied_at": "2026-04-26",
+      "type": "memory_edit",
+      "summary": "Claude will surface model and reasoning mode confirmation proactively on complex high-stakes sessions.",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will surface model and reasoning mode confirmation proactively on complex high-stakes sessions.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "24d3e326-4b31-44cf-9be2-305d3704f989",
+      "applied_at": "2026-04-26",
+      "type": "memory_edit",
+      "summary": "Claude will recommend chunked structure over monolithic files when project memory or documentation architecture comes up.",
+      "source": "CLAIRE_Weekly_Digest_2026-04-26",
+      "hypothesis": "Claude will recommend chunked structure over monolithic files when project memory or documentation architecture comes up.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "60609d14-9f80-436c-96b5-2e70ae339f2d",
+      "applied_at": "2026-05-05",
+      "type": "memory_edit",
+      "summary": "Zero em dashes across next three sessions without prompting.",
+      "source": "CLAIRE_Weekly_Digest_2026-05-05",
+      "hypothesis": "Zero em dashes across next three sessions without prompting.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "2fbfa0a6-e21a-44c9-afa7-48a693362ba0",
+      "applied_at": "2026-05-05",
+      "type": "memory_edit",
+      "summary": "Compressed direct responses, no filler, across next three sessions.",
+      "source": "CLAIRE_Weekly_Digest_2026-05-05",
+      "hypothesis": "Compressed direct responses, no filler, across next three sessions.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "c1e06a84-e4c5-4f9f-aa64-3266d6c97f54",
+      "applied_at": "2026-05-05",
+      "type": "memory_edit",
+      "summary": "Zero unprompted context window commentary across next five sessions.",
+      "source": "CLAIRE_Weekly_Digest_2026-05-05",
+      "hypothesis": "Zero unprompted context window commentary across next five sessions.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "68b8e7d2-284c-492e-8aa8-185bcd051c1b",
+      "applied_at": "2026-05-05",
+      "type": "memory_edit",
+      "summary": "No platform reliability commentary mid-task unless asked.",
+      "source": "CLAIRE_Weekly_Digest_2026-05-05",
+      "hypothesis": "No platform reliability commentary mid-task unless asked.",
+      "outcome_measured": false,
+      "eval_notes": []
+    },
+    {
+      "id": "2e4e6793-730c-4372-8b9f-8ad5ba464422",
+      "applied_at": "2026-05-05",
+      "type": "profile_addition",
+      "summary": "Audit: trigger produces numbered findings list covering requirement gaps, unsupported claims, and internal inconsistencies.",
+      "source": "CLAIRE_Weekly_Digest_2026-05-05",
+      "hypothesis": "Audit: trigger produces numbered findings list covering requirement gaps, unsupported claims, and internal inconsistencies.",
+      "outcome_measured": false,
+      "eval_notes": []
+    }
+  ],
+  "eval_history": [],
+  "_meta": {
+    "assembler_version": "1.0.0",
+    "total_candidates_in": 83,
+    "candidates_selected": 15,
+    "candidates_deferred": 34,
+    "max_batch_size": 15,
+    "eval_history_points": 0,
+    "notes": "memory_edit entries in change_log lack 'summary' field — hypothesis used as proxy. Add 'summary' to change_log schema to improve memory consistency checks."
+  }
+}

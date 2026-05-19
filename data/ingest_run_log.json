@@ -60,5 +60,15 @@
     "reddit_new": 318,
     "hn_new": 1,
     "forum_new": 4
-  }
-]
+  },
+  {
+    "run_at": "2026-05-11T10:58:11.488458+00:00",
+    "source": "all",
+    "dry_run": false,
+    "existing_posts": 1319,
+    "new_posts": 85,
+    "total_posts": 1404,
+    "reddit_new": 85,
+    "hn_new": 0,
+    "forum_new": 0
+  },
