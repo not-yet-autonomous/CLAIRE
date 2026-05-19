@@ -42,7 +42,7 @@ TAGGED_POSTS_PATH   = DATA_DIR / "tagged_posts.json"
 ARCHIVE_PATH        = DATA_DIR / "archive.json"
 TRIAGE_LOG_PATH     = LOGS_DIR / "triage.log"
 TRIAGE_PROMPT_PATH  = PROMPTS_DIR / "triage_prompt.txt"
-FRICTION_LOG_PATH   = DATA_DIR / "friction_log.txt"
+FRICTION_LOG_PATH   = BASE_DIR / "friction_log.txt"
 
 SYNTHESIS_QUEUE_PATHS = {
     "track_a": DATA_DIR / "synthesis_queue_track_a.json",

@@ -531,7 +531,7 @@ def build_eval_section(doc: Document, date_str: str):
 
     doc.add_heading("Friction Log Reminder", level=2)
     doc.add_paragraph(
-        "Update data/friction_log.txt this week. "
+        "Update friction_log.txt (project root — not data/) this week. "
         "2-4 entries. Specific behaviors in specific contexts. "
         "Blank weeks score everything MEDIUM next cycle — the cross-reference gate loses precision."
     )

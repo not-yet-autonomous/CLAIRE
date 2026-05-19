@@ -23,7 +23,7 @@ Run these three lines at the start of every Cowork session before
 doing anything else:
 
 ```powershell
-cd "C:\DEV\CLAIRE"
+cd "C:\Users\<redacted>\OneDrive\Claude Projects\CLAIRE"
 .\.venv\Scripts\Activate.ps1
 python -c "import anthropic, requests; print('Deps OK')"
 ```
@@ -45,42 +45,59 @@ CLAIRE\
 ├── claire_a_assembler.py     ✅ Build 5 — CLAIRE-A input assembler
 ├── claire_a_runner.py        ✅ Build 5 — decision engine runner (Opus)
 ├── claire_a_scorer.py        ✅ Build 5/6 — eval scoring layer (Sonnet)
+├── claire_utils.py           ✅ Build 4 — shared compute_cost, append_cost_log
 ├── config.json               ✅ Pipeline config — locked decisions
 ├── requirements.txt          ✅ requests, anthropic, python-dotenv
 ├── .env                      ✅ ANTHROPIC_API_KEY (never touch)
 ├── .gitignore                ✅ Secrets and data excluded
 ├── HANDOFF.md                ✅ This file
+├── README.md                 ✅ Repo readme
+├── change_log.json           ✅ CANONICAL — Applied changes + eval loop (v1.1 schema, Cycles 2-4)
+├── friction_log.txt          ✅ CANONICAL — Weekly friction notes, human-maintained (Cycles 1-4)
 ├── claire_weekly.ps1         ✅ Build 6 — scheduled pipeline wrapper (CLAIRE + CLAIRE-A)
+├── activate.bat              ✅ Venv activation shortcut
+├── claire.bat                ✅ Pipeline launcher (CMD)
+├── claire_runner.bat         ✅ Alternative pipeline runner
+├── claire_scheduler.xml      ✅ Windows Task Scheduler import file
 ├── .git\                     ✅ Local git, no remote
 ├── data\
-│   ├── raw_posts.json        ✅ 520 posts — clean corpus
-│   ├── friction_log.txt      ✅ Weekly friction notes (human-maintained)
-│   ├── change_log.json       ✅ Applied changes + eval loop
-│   ├── memory_edits_snapshot.txt  ✅ Current Claude memory baseline
-│   ├── tagged_posts.json     ✅ Build 2 output — 520 posts tagged
-│   ├── synthesis_queue_track_a.json  ✅ Build 2 output — 148 posts
-│   ├── synthesis_queue_track_b.json  ✅ Build 2 output — 5 posts
-│   ├── synthesis_queue_track_c.json  ✅ Build 2 output — 8 posts
-│   ├── archive.json          ✅ Build 2 output — Accumulates LOW-confidence posts across weekly runs. Empty = all Build 2 posts were HIGH/MEDIUM. Revisit size quarterly.
+│   ├── raw_posts.json        ✅ Current corpus — grows each ingest run
+│   ├── tagged_posts.json     ✅ Build 2 output — posts with triage tags
+│   ├── synthesis_queue_track_a.json  ✅ Triage output — Track A queue (⚠ JSON corruption, regenerate on next run)
+│   ├── synthesis_queue_track_b.json  ✅ Triage output — Track B queue (⚠ JSON corruption, regenerate on next run)
+│   ├── synthesis_queue_track_c.json  ✅ Triage output — Track C queue (⚠ JSON corruption, regenerate on next run)
+│   ├── candidates_track_a.json       ✅ Build 5 — synthesis output, assembler input (⚠ JSON corruption, regenerate on next run)
+│   ├── candidates_track_b.json       ✅ Build 5 — synthesis output, assembler input
+│   ├── candidates_track_c.json       ✅ Build 5 — synthesis output, assembler input (⚠ JSON corruption, regenerate on next run)
+│   ├── archive.json          ✅ Build 2 output — LOW-confidence post accumulator. Revisit size quarterly.
+│   ├── memory_edits_snapshot.txt     ✅ Current Claude memory baseline (human-maintained)
+│   ├── cost_log.json         ✅ Build 4 — per-run API cost tracking
+│   ├── ingest_run_log.json   ✅ Ingest run history — source counts per run
 │   ├── claire_a_input_[timestamp].json     ✅ Build 5 — assembler output, engine input payload
 │   ├── claire_a_decisions_[timestamp].json ✅ Build 5 — shadow decision record (Opus output)
 │   ├── claire_a_reasoning_[timestamp].txt  ✅ Build 5 — auditable reasoning scratchpad
-│   ├── claire_a_source_reliability.json    ✅ Build 6 — rolling source reliability scores (created on first scorer run)
-│   └── claire_a_session_history.json       ✅ Build 6 — cross-run fingerprint tracking for prior_appearances
+│   ├── claire_a_source_reliability.json    ⬜ Build 6 — expected; created on first scorer run (not yet present)
+│   ├── claire_a_session_history.json       ✅ Build 6 — cross-run fingerprint tracking for prior_appearances
+│   └── change_log_v1_legacy.json           ✅ v1.0 schema archive — superseded by root change_log.json
 ├── prompts\
 │   ├── triage_prompt.txt     ✅ Haiku system prompt
 │   ├── synthesis_prompts.py  ✅ Three Sonnet prompts
 │   └── profile_intent_summary.txt  ✅ Injected into Track A + B
 ├── logs\
 │   ├── ingest.log            ✅ Ingest run log (UTF-8, FileHandler)
-│   └── triage.log            ✅ Build 2 output
+│   ├── triage.log            ✅ Triage run log
+│   ├── synthesis.log         ✅ Synthesis run log
+│   └── output.log            ✅ Digest generation log
 ├── output\                   ✅ Build 3 — weekly digest .docx (Section 6 = CLAIRE-A decisions)
-├── skill_drafts\             ✅ Build 3 — SKILL.md skeletons
-├── archive\                  ⬜ Quarterly review artifacts
+├── skill_drafts\             ✅ Build 3 — SKILL.md drafts (hallucination-guard, source-integrity-enforcer)
+├── skills\user\              ✅ Installed user skills (hallucination-guard)
+├── archive\                  ⬜ Quarterly review artifacts (directory to be created)
 └── docs\
     ├── claire_pipeline_flow.jsx   ✅ Decision flow diagram
     └── reddit_app_setup.md        ✅ Reddit API reference
 ```
+
+**Path rule:** `change_log.json` and `friction_log.txt` live at **project root**. The `data/` directory does not contain canonical versions of either. `data/change_log_v1_legacy.json` is a read-only archive of the v1.0 schema.
 
 ---
 
@@ -150,6 +167,11 @@ CLAIRE\
 | Issue | Detail |
 |-------|--------|
 | Opus filter log count | Reports against full corpus not just new posts — misleading log line, triage behavior correct |
+| change_log.json corruption | Root file truncated mid-write on 2026-05-10 (ends with dangling `{` after c3-prof-003). Repaired 2026-05-19 — trailing `{` removed, JSON closed. Cycle 4 entries appended in same session. 21 entries total. |
+| Cycle 2-4 confidence scores understated | `FRICTION_LOG_PATH` in `claire_triage.py` pointed to `data/friction_log.txt` (original April template) instead of root `friction_log.txt` (live log). Cross-reference gate ran against example data for all three live cycles. Signals matching documented friction scored MEDIUM instead of HIGH. Fix applied 2026-05-19 — takes effect Cycle 5. Historical scores not retroactively adjusted; directionally correct but not corroboration-weighted. |
+| synthesis_queue JSON corruption | synthesis_queue_track_a/b/c.json all have JSON parse errors — truncated writes from a previous pipeline run. Regenerate by re-running triage on current raw_posts.json. |
+| candidates_track JSON corruption | candidates_track_a.json and candidates_track_c.json have JSON parse errors. Regenerate by re-running synthesis. |
+| claire_a_source_reliability.json missing | Expected by Build 6 scorer but never written. Created on first successful scorer run — not a bug, just never run to completion with scorer active. |
 
 ---
 
@@ -209,4 +231,31 @@ Cycle 4 complete (2026-05-19). 6 memory edits applied (#19-24). 4 profile diffs 
 7. **Design decisions happen in browser Project** — execute only here
 8. **Update this file** at the end of every build
 9. **CLAIRE-A is shadow only** — never wire its output to live config without human review
-10. **Score hypotheses before applying 
+10. **Score hypotheses before applying deferred candidates** — eval data should inform the next batch
+
+---
+
+## Browser Project
+
+All architecture, prompt design, and build scaffolding lives in the
+Claude browser Project named CLAIRE. When in doubt about a design
+decision, stop and check the browser Project before proceeding.
+
+Do not make architectural decisions in Cowork. Execute, report, repeat.
+
+---
+
+## Commit Convention
+
+```
+git add .
+git commit -m "CLAIRE Build [N] [description]"
+```
+
+Examples:
+- `CLAIRE Build 1 complete — 520 post clean corpus`
+- `CLAIRE Build 2 dry-run validated — triage running`
+- `CLAIRE Build 2 complete — synthesis queues written`
+
+---
+*Last updated: 2026-05-19 — Cycle 4 complete. File audit: change_log.json repaired + Cycle 4 entries appended (21 total), friction_log path bug fixed in triage, HANDOFF directory structure corrected, Known Issues updated with confidence score caveat.*

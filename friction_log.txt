@@ -36,3 +36,17 @@ Packager requires kebab-case skill names. SKILL.md was initially drafted with un
 
 2026-05-10 | digest review session | feature_praise signal utilization | MEDIUM
 74 feature_praise signals ingested this cycle, 0 candidates generated from that category. No visibility into whether praise signal feeds cross-reference gate weighting or is simply dropped after triage. If dropped, it represents ~15% of signal volume with zero pipeline value. Confirm whether praise category contributes to cross-reference scoring. If not, consider reducing ingest scope or repurposing the category as a baseline confidence modifier for behavior_complaint signals about the same features.
+
+# === CYCLE 4 (2026-05-19) ===
+
+2026-05-19 | file audit | claire_triage.py — friction_log path | HIGH
+FRICTION_LOG_PATH was hardcoded to data/friction_log.txt. The actual live log lives at root. All three live cycles (2, 3, 4) ran the cross-reference gate against the original April 26 example template. No real friction context was ever injected. Confidence scores for all applied changes are understated where friction log corroboration existed. Fix applied 2026-05-19 — takes effect Cycle 5. Historical scores not retroactively adjusted.
+
+2026-05-19 | file audit | change_log.json — canonical path and truncation | HIGH
+change_log.json canonical was documented in HANDOFF as data/change_log.json. Actual canonical (v1.1 schema, Cycles 2-4) lives at root. Root file was truncated mid-write after c3-prof-003 — Cycle 4 entries documented in HANDOFF but never written to file. Repaired 2026-05-19. data/change_log.json renamed to data/change_log_v1_legacy.json.
+
+2026-05-19 | file audit | HANDOFF.md — undocumented operational files | MEDIUM
+claire_utils.py, cost_log.json, candidates_track_a/b/c.json, synthesis.log, output.log, skills/user/ directory all present on disk but absent from HANDOFF directory tree. HANDOFF corrected. No functional impact — files were operational, just undocumented.
+
+2026-05-19 | file audit | synthesis/candidate JSON corruption | MEDIUM
+synthesis_queue_track_a/b/c.json and candidates_track_a/c.json have parse errors from truncated writes. Regenerated outputs — re-running triage and synthesis will overwrite cleanly. Deferred to Cycle 5 first run.
