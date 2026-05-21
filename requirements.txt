@@ -15,3 +15,5 @@ python-docx
 
 # Build 8: PDF generation
 reportlab>=4.0.0
+
+python-dotenv>=1.0.0
