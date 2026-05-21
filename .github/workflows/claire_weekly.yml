@@ -41,6 +41,8 @@ jobs:
       # Public APIs only (Reddit public JSON, HackerNews, dev.to).
       # No credentials required for current ingest implementation.
       - name: Ingest
+        env:
+          PYTHONUNBUFFERED: "1"
         run: python claire_ingest.py --source all
 
       # ── 5. Triage ─────────────────────────────────────────────────────────
