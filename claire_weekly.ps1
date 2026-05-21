@@ -32,6 +32,24 @@ Write-Host "$(Get-Date -Format 'HH:mm:ss')  CLAIRE complete. Starting CLAIRE-A s
 python claire_a_assembler.py
 if ($LASTEXITCODE -ne 0) { Write-Host "claire_a_assembler.py failed"; exit 1 }
 
+# ── Build 8: Track A cost alert check ────────────────────────────────────────
+# After assembler writes the merged cost log entry, read the latest entry and
+# emit a warning if synthesis cost crossed the alert threshold.
+$costLogPath = "data\cost_log.json"
+if (Test-Path $costLogPath) {
+    try {
+        $costLog  = Get-Content $costLogPath -Raw | ConvertFrom-Json
+        $lastRun  = $costLog.runs | Select-Object -Last 1
+        if ($lastRun.track_a_alert -eq $true) {
+            $synthCost = $lastRun.synthesis_cost_usd
+            Write-Warning "Track A cost threshold reached: `$$([math]::Round($synthCost, 4)) — review batch size"
+        }
+    } catch {
+        Write-Host "$(Get-Date -Format 'HH:mm:ss')  Could not read cost_log.json for alert check: $_"
+    }
+}
+# ─────────────────────────────────────────────────────────────────────────────
+
 python claire_a_runner.py
 if ($LASTEXITCODE -ne 0) { Write-Host "claire_a_runner.py failed"; exit 1 }
 

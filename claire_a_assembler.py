@@ -2,12 +2,19 @@
 """
 claire_a_assembler.py
 ---------------------
-CLAIRE-A Build 5 — Input Assembler
+CLAIRE-A Build 8 — Input Assembler
 
 Reads candidate JSON files (tracks A/B/C) and change_log.json, then
 produces the structured JSON payload the decision engine prompt expects.
 
+Build 8 additions:
+  - Semantic memory filter: candidates with similarity >= 0.85 against
+    memory_edits_snapshot.txt are suppressed before engine payload assembly.
+    Suppressed candidates logged to data/suppressed_candidates_[timestamp].json.
+  - Assembler cost appended to the daily merged cost_log.json entry.
+
 Outputs: data/claire_a_input_{timestamp}.json
+         data/suppressed_candidates_{timestamp}.json
 
 Usage:
     python claire_a_assembler.py
@@ -23,6 +30,10 @@ import argparse
 from datetime import datetime, timezone
 from pathlib import Path
 
+import anthropic as _anthropic
+
+from claire_utils import compute_cost, append_cost_log
+
 # ---------------------------------------------------------------------------
 # PATHS  (relative to this script's location)
 # ---------------------------------------------------------------------------
@@ -37,6 +48,7 @@ CANDIDATE_PATHS = {
 }
 CHANGE_LOG_PATH      = DATA_DIR / "change_log.json"
 SESSION_HISTORY_PATH = DATA_DIR / "claire_a_session_history.json"
+MEMORY_SNAPSHOT_PATH = DATA_DIR / "memory_edits_snapshot.txt"
 
 # ---------------------------------------------------------------------------
 # LOGGING
@@ -48,6 +60,20 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
 )
 log = logging.getLogger("claire_a_assembler")
+
+# ---------------------------------------------------------------------------
+# CONFIG LOADER
+# ---------------------------------------------------------------------------
+
+def load_config() -> dict:
+    """Load config.json. Returns empty dict on failure."""
+    config_path = BASE_DIR / "config.json"
+    try:
+        with open(config_path, encoding="utf-8") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        log.warning(f"config.json load error: {e} — using defaults")
+        return {}
 
 # ---------------------------------------------------------------------------
 # CANDIDATE LOADING + NORMALISATION
@@ -349,6 +375,135 @@ def resolve_prior_appearances(candidates: list, change_log_entries: list) -> lis
     return candidates
 
 # ---------------------------------------------------------------------------
+# MEMORY FILTER (Build 8) — semantic duplicate suppression
+# ---------------------------------------------------------------------------
+
+def _semantic_similarity(
+    candidate: dict,
+    memory_text: str,
+    model: str,
+    client: "_anthropic.Anthropic",
+) -> tuple[float, float]:
+    """Call Haiku to score semantic similarity between one candidate and the
+    memory snapshot.
+
+    Returns (score: float 0.0-1.0, cost_usd: float).
+    Raises on API error — caller handles and passes the candidate through.
+    """
+    text_a = f"{candidate['content']['type']}: {candidate['content']['summary']}"
+
+    response = client.messages.create(
+        model=model,
+        max_tokens=50,
+        system=(
+            'You are a semantic similarity scorer. Return only a JSON object: '
+            '{"score": float} where score is 0.0-1.0 representing semantic '
+            'similarity between two texts.'
+        ),
+        messages=[{
+            "role": "user",
+            "content": (
+                f"Text A: {text_a}\n"
+                f"Text B: {memory_text}\n"
+                f"Score how similar Text A is to any content already present in Text B."
+            ),
+        }],
+    )
+
+    raw = response.content[0].text.strip()
+    score = float(json.loads(raw)["score"])
+    cost = compute_cost(model, response.usage.input_tokens, response.usage.output_tokens)
+    return score, cost
+
+
+def filter_candidates_by_memory(
+    candidates: list,
+    config: dict,
+) -> tuple[list, list, float]:
+    """Suppress candidates semantically similar to memory_edits_snapshot.txt.
+
+    Sequential Haiku calls — one per candidate, fine at ≤15 candidates.
+    Returns (unsuppressed, suppressed_log_entries, total_cost_usd).
+
+    Writes data/suppressed_candidates_{timestamp}.json (always, even if empty).
+    """
+    assembler_cfg = config.get("assembler", {})
+    enabled   = assembler_cfg.get("memory_filter_enabled", True)
+    model     = assembler_cfg.get("memory_filter_model", "claude-haiku-4-5-20251001")
+    threshold = assembler_cfg.get("memory_filter_threshold", 0.85)
+
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    suppressed_path = DATA_DIR / f"suppressed_candidates_{ts}.json"
+
+    def _write_suppressed(entries: list):
+        with open(suppressed_path, "w", encoding="utf-8") as f:
+            json.dump(entries, f, indent=2)
+        log.info(f"Suppressed candidates log → {suppressed_path.name} ({len(entries)} entries)")
+
+    if not enabled:
+        log.info("Memory filter disabled in config — skipping")
+        _write_suppressed([])
+        return candidates, [], 0.0
+
+    if not MEMORY_SNAPSHOT_PATH.exists():
+        log.warning("memory_edits_snapshot.txt not found — memory filter skipped")
+        _write_suppressed([])
+        return candidates, [], 0.0
+
+    memory_text = MEMORY_SNAPSHOT_PATH.read_text(encoding="utf-8").strip()
+    if not memory_text:
+        log.warning("memory_edits_snapshot.txt is empty — memory filter skipped")
+        _write_suppressed([])
+        return candidates, [], 0.0
+
+    log.info(f"Memory filter: scoring {len(candidates)} candidates "
+             f"(model={model}, threshold={threshold})")
+
+    client = _anthropic.Anthropic()
+    unsuppressed = []
+    suppressed   = []
+    total_cost   = 0.0
+
+    for candidate in candidates:
+        try:
+            score, cost = _semantic_similarity(candidate, memory_text, model, client)
+            total_cost += cost
+
+            if score >= threshold:
+                entry = {
+                    "id":               candidate["id"],
+                    "change_target":    candidate["content"]["type"],
+                    "similarity_score": round(score, 4),
+                    "reason":           "semantic_duplicate",
+                    "suppressed_at":    datetime.now(timezone.utc).isoformat(),
+                }
+                suppressed.append(entry)
+                log.info(
+                    f"Suppressed {candidate['fingerprint']} "
+                    f"(score={score:.3f} >= {threshold}) — "
+                    f"{candidate['content']['summary'][:60]!r}"
+                )
+            else:
+                unsuppressed.append(candidate)
+                log.debug(f"Passed {candidate['fingerprint']} (score={score:.3f})")
+
+        except Exception as e:
+            log.warning(
+                f"Memory filter error for {candidate['fingerprint']}: {e} "
+                f"— passing through"
+            )
+            unsuppressed.append(candidate)
+
+    log.info(
+        f"Memory filter complete: {len(unsuppressed)} pass, "
+        f"{len(suppressed)} suppressed, cost=${total_cost:.4f}"
+    )
+
+    _write_suppressed(suppressed)
+    return unsuppressed, suppressed, total_cost
+
+
+# ---------------------------------------------------------------------------
 # PRIORITY PRE-FILTER (top N by signal_strength × source_reliability)
 # ---------------------------------------------------------------------------
 
@@ -387,13 +542,22 @@ def apply_priority_filter(candidates: list, max_batch: int = MAX_BATCH_SIZE) -> 
 # ---------------------------------------------------------------------------
 
 def assemble(output_path: Path | None = None, max_batch: int = MAX_BATCH_SIZE) -> dict:
-    """Loads all inputs, applies priority filter, and returns the engine payload."""
+    """Loads all inputs, applies memory filter + priority filter, and returns
+    the engine payload.
+    """
 
     log.info("── CLAIRE-A Input Assembler ──────────────────────────────")
+
+    config = load_config()
 
     candidates                       = load_all_candidates()
     change_log_entries, eval_history = load_change_log()
     candidates                       = resolve_prior_appearances(candidates, change_log_entries)
+
+    # ── Build 8: semantic memory filter ─────────────────────────────────────
+    candidates, suppressed, assembler_cost = filter_candidates_by_memory(candidates, config)
+    # ────────────────────────────────────────────────────────────────────────
+
     selected, deferred               = apply_priority_filter(candidates, max_batch)
     memory_state                     = build_memory_snapshot(change_log_entries)
 
@@ -406,12 +570,15 @@ def assemble(output_path: Path | None = None, max_batch: int = MAX_BATCH_SIZE) -
         "change_log":           change_log_entries,
         "eval_history":         eval_history,
         "_meta": {
-            "assembler_version":    "1.0.0",
-            "total_candidates_in":  len(candidates) + len(deferred),
-            "candidates_selected":  len(selected),
-            "candidates_deferred":  len(deferred),
-            "max_batch_size":       max_batch,
-            "eval_history_points":  len(eval_history),
+            "assembler_version":      "2.0.0",
+            "total_candidates_in":    len(candidates) + len(deferred) + len(suppressed),
+            "candidates_loaded":      len(candidates) + len(deferred),
+            "candidates_suppressed":  len(suppressed),
+            "candidates_selected":    len(selected),
+            "candidates_deferred":    len(deferred),
+            "max_batch_size":         max_batch,
+            "assembler_cost_usd":     round(assembler_cost, 4),
+            "eval_history_points":    len(eval_history),
             "notes": (
                 "memory_edit entries in change_log lack 'summary' field — "
                 "hypothesis used as proxy. Add 'summary' to change_log schema "
@@ -432,8 +599,16 @@ def assemble(output_path: Path | None = None, max_batch: int = MAX_BATCH_SIZE) -
 
     log.info(f"Engine input written → {output_path.name}")
     log.info(f"Session ID: {payload['session_id']}")
-    log.info(f"Candidates: {len(selected)} selected / {len(deferred)} deferred")
+    log.info(f"Candidates: {len(selected)} selected / {len(deferred)} deferred / "
+             f"{len(suppressed)} suppressed by memory filter")
     log.info(f"Memory snapshot hash: {memory_state['snapshot_hash'][:16]}…")
+    log.info(f"Assembler cost: ${assembler_cost:.4f}")
+
+    # ── Build 8: append assembler cost to merged run entry ──────────────────
+    run_id = datetime.now().strftime("%Y%m%d")
+    append_cost_log(run_id=run_id, assembler_cost_usd=assembler_cost)
+    # ────────────────────────────────────────────────────────────────────────
+
     log.info("─────────────────────────────────────────────────────────")
 
     return payload

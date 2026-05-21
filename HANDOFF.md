@@ -164,6 +164,13 @@ CLAIRE\
 | 8 | `claire_output.py` | ✅ Complete | --format pdf; generate_pdf() via reportlab |
 | 8 | `claire_notify.py` | ✅ Complete | Pushover notification — PDF attach or text fallback |
 | 8 | `.github/workflows/claire_weekly.yml` | ✅ Complete | Full GHA pipeline, cron Sunday 14:00 UTC |
+| 8 | `claire_a_assembler.py` | ✅ Complete | Semantic memory filter — Haiku, 0.85 threshold, suppressed_candidates log |
+| 8 | `claire_output.py` | ✅ Complete | Track C separate PDF — output/claire_techniques_[timestamp].pdf |
+| 8 | `claire_utils.py` | ✅ Complete | Cost log merge — one entry per run, Track A alert at $0.65 |
+| 8 | `claire_triage.py` | ✅ Complete | append_cost_log updated — new signature, daily run_id |
+| 8 | `claire_synthesize.py` | ✅ Complete | append_cost_log updated — new signature, daily run_id |
+| 8 | `claire_weekly.ps1` | ✅ Complete | Track A cost alert Write-Warning after assembler |
+| 8 | `config.json` | ✅ Complete | assembler block + track_a_cost_alert_usd added |
 
 ---
 
@@ -178,8 +185,8 @@ CLAIRE\
 | Triage model | claude-haiku-4-5-20251001 |
 | Synthesis model | claude-sonnet-4-6 |
 | Noise prefilter | score < 5 AND comments < 2 → drop |
-| Scheduling | Windows Task Scheduler, weekly Sunday |
-| Cost log entries | Two per run (triage + synthesis separate) — merge TBD |
+| Scheduling | Reddit local Monday 07:00, GHA Sunday 14:00 UTC |
+| Cost log entries | Single entry per run — triage + synthesis + assembler merged by daily run_id |
 | Opus exclusion | exclude_keywords in config.json — config-driven |
 | Shared utilities | claire_utils.py — home for all cross-script helpers |
 | Track A batching | Signal cluster by signal_type, max 50 posts per call |
@@ -197,6 +204,8 @@ CLAIRE\
 | dev.to pages per tag | 2 (60 candidates per tag before dedup) |
 | Commit-back strategy | GHA pipeline commits data/, output/, logs/, change_log.json, friction_log.txt after each run |
 | PDF output | reportlab, six-section mirror of docx digest; filename `claire_digest_YYYY-MM-DD.pdf` |
+| Memory filter threshold | 0.85 semantic similarity (Haiku, assembler stage) |
+| Track C output | Separate PDF — output/claire_techniques_[timestamp].pdf (generated when Track C candidates present) |
 | Pushover oversize fallback | PDF > 2,500,000 bytes → text-only notification with commit URL; no attachment |
 | State persistence | Commit-back — data files committed to repo at end of each GHA run |
 | Digest format (production) | reportlab PDF — docx retained for local dev only |
@@ -225,6 +234,16 @@ CLAIRE\
 Cycle 4 complete (2026-05-19). Cycle 5 pending (next Sunday).
 
 **Completed this session (2026-05-21):**
+- Build 8 (second pass): semantic memory filter, Track C PDF, cost log merge
+  - `claire_a_assembler.py`: Haiku similarity filter against memory_edits_snapshot.txt;
+    suppressed_candidates_[timestamp].json written every run (even if empty)
+  - `claire_output.py`: generate_techniques_pdf() added; fires after main output
+    when synthesis_queue_track_c.json has posts and technique_candidates exist
+  - `claire_utils.py`: append_cost_log redesigned — upsert by daily run_id,
+    new flat schema (triage/synthesis/assembler costs + track_a_alert)
+  - `claire_triage.py` + `claire_synthesize.py`: call signature updated to new API
+  - `claire_weekly.ps1`: Track A cost alert Write-Warning after assembler step
+  - `config.json`: assembler block added; track_a_cost_alert_usd: 0.65
 - README.md full rewrite — Build 7 state, CLAIRE-A shadow pipeline, GHA
   scheduling, correct paths, unauthenticated Reddit ingest documented
 - HANDOFF.md directory structure corrected — change_log.json +
@@ -291,4 +310,4 @@ Examples:
 - `CLAIRE Build 2 complete — synthesis queues written`
 
 ---
-*Last updated: 2026-05-21 — README rewritten, paths corrected, repo shareable*
+*Last updated: 2026-05-21 — Build 8 complete: memory filter, Track C PDF, cost log merge*

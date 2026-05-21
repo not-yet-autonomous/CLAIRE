@@ -2,7 +2,9 @@
 """
 CLAIRE — Shared utilities
 compute_cost:     Calculate API call cost from token usage and pricing config.
-append_cost_log:  Persist run cost data to data/cost_log.json.
+append_cost_log:  Persist run cost data to data/cost_log.json (one entry per run,
+                  upserted by run_id — multiple callers in the same pipeline merge
+                  into a single record).
 """
 
 import json
@@ -40,22 +42,45 @@ def compute_cost(model: str, input_tokens: int, output_tokens: int) -> float:
         return 0.0
 
 
-def append_cost_log(run_id: str,
-                    triage_data: dict,
-                    synthesis_data: dict,
-                    posts_processed: int) -> None:
-    """
-    Append a run entry to data/cost_log.json.
-    If the file is missing or corrupt, starts fresh.
-    Updates meta totals and writes back with indent=2.
+def _load_cost_alert_threshold() -> float:
+    """Read track_a_cost_alert_usd from config.json. Default 0.65."""
+    try:
+        with open(BASE_DIR / "config.json") as f:
+            config = json.load(f)
+        return float(config.get("synthesis", {}).get("track_a_cost_alert_usd", 0.65))
+    except Exception:
+        return 0.65
 
-    triage_data format:
-        {"model": str, "input_tokens": int, "output_tokens": int,
-         "cost_usd": float, "batches": int}
-    synthesis_data format:
-        {"model": str, "tracks": {"a": {...}, "b": {...}, "c": {...}},
-         "total_cost_usd": float}
+
+def append_cost_log(
+    run_id: str,
+    triage_cost_usd: float = 0.0,
+    synthesis_cost_usd: float = 0.0,
+    assembler_cost_usd: float = 0.0,
+    posts_processed: int = 0,
+) -> dict:
+    """Upsert one cost entry per run_id into data/cost_log.json.
+
+    Multiple callers in the same pipeline run (triage, synthesis, assembler)
+    should pass the same run_id — typically today's date (YYYYMMDD) — and
+    each call accumulates its cost into the shared entry.
+
+    Entry schema:
+        {
+          "run_id":              str  (ISO timestamp of first call),
+          "triage_cost_usd":     float,
+          "synthesis_cost_usd":  float,
+          "assembler_cost_usd":  float,
+          "total_cost_usd":      float,
+          "track_a_alert":       bool,   # True if synthesis_cost >= threshold
+          "posts_processed":     int,
+          "last_updated":        str (ISO)
+        }
+
+    Returns the final entry dict after the upsert.
     """
+    alert_threshold = _load_cost_alert_threshold()
+
     existing = {
         "meta": {
             "total_runs":          0,
@@ -72,32 +97,70 @@ def append_cost_log(run_id: str,
         except (json.JSONDecodeError, OSError) as e:
             log.warning(f"cost_log.json unreadable ({e}) — starting fresh")
 
-    total_run_cost = round(
-        triage_data.get("cost_usd", 0.0) +
-        synthesis_data.get("total_cost_usd", 0.0),
+    # Find existing entry by run_id (upsert)
+    now_iso = datetime.now(timezone.utc).isoformat()
+    entry = None
+    for run in existing["runs"]:
+        if run.get("run_id") == run_id:
+            entry = run
+            break
+
+    if entry is None:
+        entry = {
+            "run_id":             now_iso,       # ISO timestamp on first creation
+            "_match_key":         run_id,         # internal key for upsert matching
+            "triage_cost_usd":    0.0,
+            "synthesis_cost_usd": 0.0,
+            "assembler_cost_usd": 0.0,
+            "total_cost_usd":     0.0,
+            "track_a_alert":      False,
+            "posts_processed":    0,
+            "last_updated":       now_iso,
+        }
+        existing["runs"].append(entry)
+    else:
+        entry["last_updated"] = now_iso
+
+    # Accumulate costs (non-zero values win over zeros so callers can pass
+    # only their own slice without zeroing out other callers' data)
+    if triage_cost_usd:
+        entry["triage_cost_usd"] = round(
+            entry["triage_cost_usd"] + triage_cost_usd, 4)
+    if synthesis_cost_usd:
+        entry["synthesis_cost_usd"] = round(
+            entry["synthesis_cost_usd"] + synthesis_cost_usd, 4)
+    if assembler_cost_usd:
+        entry["assembler_cost_usd"] = round(
+            entry["assembler_cost_usd"] + assembler_cost_usd, 4)
+    if posts_processed:
+        entry["posts_processed"] = max(entry["posts_processed"], posts_processed)
+
+    entry["total_cost_usd"] = round(
+        entry["triage_cost_usd"] +
+        entry["synthesis_cost_usd"] +
+        entry["assembler_cost_usd"],
         4
     )
+    entry["track_a_alert"] = entry["synthesis_cost_usd"] >= alert_threshold
 
-    run_entry = {
-        "run_id":          run_id,
-        "run_at":          datetime.now(timezone.utc).isoformat(),
-        "posts_processed": posts_processed,
-        "triage":          triage_data,
-        "synthesis":       synthesis_data,
-        "total_cost_usd":  total_run_cost,
-    }
-
-    existing["runs"].append(run_entry)
-    existing["meta"]["total_runs"]          = len(existing["runs"])
+    # Update meta
+    existing["meta"]["total_runs"] = len(existing["runs"])
+    # Recompute cumulative from all entries
     existing["meta"]["cumulative_cost_usd"] = round(
-        existing["meta"].get("cumulative_cost_usd", 0.0) + total_run_cost, 4
+        sum(r["total_cost_usd"] for r in existing["runs"]), 4
     )
-    existing["meta"]["last_updated"] = run_entry["run_at"]
+    existing["meta"]["last_updated"] = now_iso
 
     with open(COST_LOG_PATH, "w", encoding="utf-8") as f:
         json.dump(existing, f, indent=2)
 
+    alert_flag = " [TRACK A ALERT]" if entry["track_a_alert"] else ""
     log.info(
-        f"Cost log updated — run: ${total_run_cost:.4f} | "
-        f"cumulative: ${existing['meta']['cumulative_cost_usd']:.4f}"
+        f"Cost log updated (run_id={run_id}) — "
+        f"triage=${entry['triage_cost_usd']:.4f} | "
+        f"synthesis=${entry['synthesis_cost_usd']:.4f} | "
+        f"assembler=${entry['assembler_cost_usd']:.4f} | "
+        f"total=${entry['total_cost_usd']:.4f}{alert_flag}"
     )
+
+    return entry

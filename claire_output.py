@@ -1155,6 +1155,86 @@ def pdf_build_claire_a_section(story: list, decision_record: dict | None, styles
     story.append(pdf_rule(styles))
 
 
+def generate_techniques_pdf(date_str: str, technique_candidates: list) -> Path:
+    """Build a lightweight Track C techniques PDF.
+
+    Lighter than the main digest — no CLAIRE-A column, no triage stats.
+    Sections: header, one entry per technique (name, description, source signal,
+    confidence), footer with total count.
+
+    Returns the output path.
+    """
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_path = OUTPUT_DIR / f"claire_techniques_{ts}.pdf"
+
+    doc = SimpleDocTemplate(
+        str(output_path),
+        pagesize=letter,
+        leftMargin=inch,
+        rightMargin=inch,
+        topMargin=inch,
+        bottomMargin=inch,
+        title=f"CLAIRE Technique Candidates {date_str}",
+        author="CLAIRE",
+        creator="CLAIRE",
+    )
+
+    styles = build_pdf_styles()
+    story  = []
+
+    # ── Header ────────────────────────────────────────────────────────────────
+    story.append(Paragraph("CLAIRE — Technique Candidates", styles["title"]))
+    story.append(Paragraph(f"Run date: {date_str}", styles["eyebrow"]))
+    story.append(HRFlowable(width="100%", thickness=2, color=PDF_GOLD,
+                            spaceAfter=12, spaceBefore=4))
+
+    story.append(Paragraph(
+        "Cross-platform workflow techniques surfaced this cycle. "
+        "Test manually before considering any configuration change.",
+        styles["normal"],
+    ))
+    story.append(Spacer(1, 8))
+
+    # ── Technique entries ─────────────────────────────────────────────────────
+    for i, technique in enumerate(technique_candidates, 1):
+        name       = technique.get("technique_name", f"Technique {i}")
+        description = technique.get("description", "")
+        test_hint  = technique.get("test_suggestion", "")
+        confidence = technique.get("confidence", "MEDIUM")
+        sources    = technique.get("source_posts", [])
+        source_str = ", ".join(sources[:3]) if sources else "—"
+
+        conf_label = pdf_confidence_label(confidence)
+
+        keep_items = []
+        keep_items.append(Paragraph(
+            f'<b>{i}. {name}</b>{conf_label}',
+            styles["body_bold"],
+        ))
+        keep_items.append(Paragraph(description, styles["normal"]))
+        keep_items.append(Paragraph(
+            f'<b>Source signal:</b> {source_str}',
+            styles["small"],
+        ))
+        if test_hint:
+            keep_items.append(pdf_callout(f"Test: {test_hint}", styles))
+
+        story.append(KeepTogether(keep_items))
+        story.append(Spacer(1, 10))
+
+    # ── Footer ────────────────────────────────────────────────────────────────
+    story.append(HRFlowable(width="100%", thickness=1, color=PDF_BGRAY,
+                            spaceAfter=6, spaceBefore=6))
+    story.append(Paragraph(
+        f"Total technique candidates this cycle: {len(technique_candidates)}",
+        styles["small"],
+    ))
+
+    doc.build(story)
+    log.info(f"Track C techniques PDF saved → {output_path.name}")
+    return output_path
+
+
 def generate_pdf(
     date_str: str,
     candidates: dict,
@@ -1403,6 +1483,31 @@ def main():
         log.info("Digest: " + str(output_path))
         log.info("Skill drafts: " + str(skill_count) + " files in skill_drafts/")
         log.info("Review the digest. Apply candidates manually with hypotheses.")
+
+    # ── Build 8: Track C separate techniques PDF ──────────────────────────────
+    # Check synthesis_queue_track_c.json for Track C activity this cycle.
+    # PDF content sourced from candidates_track_c.json (synthesized output).
+    track_c_queue_path = DATA_DIR / "synthesis_queue_track_c.json"
+    track_c_has_posts  = False
+    if track_c_queue_path.exists():
+        try:
+            with open(track_c_queue_path, encoding="utf-8") as f:
+                tc_queue = json.load(f)
+            track_c_has_posts = len(tc_queue.get("posts", [])) > 0
+        except (json.JSONDecodeError, OSError) as e:
+            log.warning(f"Could not read synthesis_queue_track_c.json: {e}")
+
+    technique_candidates = candidates.get("c", {}).get("technique_candidates", [])
+
+    if track_c_has_posts and technique_candidates:
+        try:
+            techniques_path = generate_techniques_pdf(date_str, technique_candidates)
+            log.info(f"Track C techniques PDF: {techniques_path.name}")
+        except Exception as e:
+            log.error(f"Track C techniques PDF generation failed: {e} — continuing")
+    else:
+        log.info("Track C: no candidates this cycle — techniques PDF skipped")
+    # ─────────────────────────────────────────────────────────────────────────
 
 
 if __name__ == "__main__":

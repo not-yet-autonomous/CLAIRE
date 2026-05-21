@@ -628,18 +628,14 @@ def main():
             log.info(f"  Track {track.upper()}: empty")
     log.info("Next step: python claire_output.py")
 
-    run_id = run_start.strftime("%Y%m%d_%H%M%S")
+    run_id = run_start.strftime("%Y%m%d")   # daily key — merges with triage + assembler
     append_cost_log(
         run_id=run_id,
-        triage_data={},
-        synthesis_data={
-            "model":          SYNTHESIS_MODEL,
-            "tracks":         synthesis_track_usage,
-            "total_cost_usd": synthesis_total_cost,
-        },
+        synthesis_cost_usd=synthesis_total_cost,
         posts_processed=total_posts_synthesized,
     )
 
 
 if __name__ == "__main__":
     main()
+                                                                                                                         

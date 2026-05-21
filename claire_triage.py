@@ -478,17 +478,10 @@ def main():
         }, f, indent=2)
     log.info(f"Archive: {len(archive_data)} total posts → {ARCHIVE_PATH}")
 
-    run_id = run_start.strftime("%Y%m%d_%H%M%S")
+    run_id = run_start.strftime("%Y%m%d")   # daily key — merges with synthesis + assembler
     append_cost_log(
         run_id=run_id,
-        triage_data={
-            "model":         TRIAGE_MODEL,
-            "input_tokens":  triage_usage["input_tokens"],
-            "output_tokens": triage_usage["output_tokens"],
-            "batches":       triage_usage["batches"],
-            "cost_usd":      triage_cost,
-        },
-        synthesis_data={},
+        triage_cost_usd=triage_cost,
         posts_processed=triage_stats.get("classified", 0),
     )
 
@@ -497,3 +490,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+                                                                                                                                                                                                                                            
