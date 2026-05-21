@@ -222,28 +222,26 @@ CLAIRE\
 
 ## Current Session Task
 
-Build 8 complete (2026-05-21). GitHub Actions migration, reportlab PDF output,
-Pushover notification, Reddit RSS attempted and abandoned — manual ingest
-architecture adopted.
+Build 8 complete (2026-05-21). GHA migration validated end-to-end.
+Cycle 5 digest reviewed. 3 memory edits applied, 3 profile diffs queued.
 
-**Applied this build:**
-- GHA workflow replacing Windows Task Scheduler
-- reportlab PDF digest output (--format pdf)
-- claire_notify.py — Pushover dispatch with PDF attachment
-- Reddit ingestion moved to manual-and-commit; GHA runs HN + dev.to only
-- data/session_notes.txt — scorer notes file for unattended GHA runs
-- python-dotenv added to requirements.txt
+**Weekly ritual:**
+1. Monday 07:00 - Task Scheduler runs claire_reddit_ingest.ps1 automatically
+2. Before Sunday - update data/session_notes.txt, commit, push
+3. Sunday 14:00 UTC - GHA fires automatically
 
-**Pre-Sunday ritual:**
-1. Run claire_ingest.py --source reddit locally
-2. Commit raw_posts.json
-3. Update data/session_notes.txt with weekly observations
-4. Push — GHA picks up from triage at 14:00 UTC Sunday
+**Applied this cycle:**
+- c5-mem-001: suppress session-termination suggestions
+- c5-mem-002: suppress token/session limit caveats
+- c5-mem-003: proactive prompt injection flagging
 
-**Queued profile diffs (carry forward from Cycle 3):**
-- c3-prof-001: AUDIT mode enhancement (no observation gate)
-- c3-prof-002: Task-completion anti-collapse (observe 4.7 first)
-- c3-prof-003: Effort transparency disclosure (observe 4.7 first)
+**Queued profile diffs:**
+- c5-prof-001: never show work in deliverables (no gate - apply now)
+- c5-prof-002: surface conflicting instructions explicitly (no gate - apply now)
+- c5-prof-003: distinguish document-grounded vs training-derived (observe first)
+- c3-prof-001: AUDIT mode enhancement (no gate - apply now)
+- c3-prof-002: task-completion anti-collapse (observe 4.7 first)
+- c3-prof-003: effort transparency disclosure (observe 4.7 first)
 
 **CLAIRE-A graduation status:**
 - Consecutive eval runs: 2 of 6
@@ -251,11 +249,13 @@ architecture adopted.
 - Escalations in last 3 runs: 0
 
 **Build 9 candidates:**
-- Same-day memory filtering in triage
+- Same-day memory filtering in triage (highest priority)
+- feature_praise signal utilization - confirmed dead weight 2 cycles
 - Technique candidates separate output stream
-- Cost log merge (two entries per run)
-- X/Twitter + Substack RSS ingest sources
-- feature_praise signal utilization audit
+- Cost log merge
+- X/Twitter + Substack RSS ingest
+- friction_log.txt dual Cycle 4 header cleanup
+- Pushover duplicate row cleanup
 
 ---
 

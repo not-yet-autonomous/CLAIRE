@@ -84,14 +84,14 @@
     "forum_new": 1
   },
   {
-    "run_at": "2026-05-21T20:31:58.923090+00:00",
-    "source": "forum",
+    "run_at": "2026-05-21T20:20:41.034401+00:00",
+    "source": "reddit",
     "dry_run": false,
-    "existing_posts": 1803,
-    "new_posts": 2,
-    "total_posts": 1805,
-    "reddit_new": 0,
+    "existing_posts": 1745,
+    "new_posts": 58,
+    "total_posts": 1803,
+    "reddit_new": 58,
     "hn_new": 0,
-    "forum_new": 2
+    "forum_new": 0
   }
 ]
