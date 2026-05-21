@@ -222,43 +222,34 @@ CLAIRE\
 
 ## Current Session Task
 
-Build 8 complete (2026-05-21). GHA migration validated end-to-end.
-Cycle 5 digest reviewed. 3 memory edits applied (2 net-new, 1 duplicate
-caught), 3 profile diffs queued.
+Cycle 4 complete (2026-05-19). Cycle 5 pending (next Sunday).
 
-**Weekly ritual:**
-1. Monday 07:00 — Task Scheduler runs claire_reddit_ingest.ps1 automatically
-2. Before Sunday — update data/session_notes.txt, commit, push
-3. Sunday 14:00 UTC — GHA fires automatically
+**Completed this session (2026-05-21):**
+- README.md full rewrite — Build 7 state, CLAIRE-A shadow pipeline, GHA
+  scheduling, correct paths, unauthenticated Reddit ingest documented
+- HANDOFF.md directory structure corrected — change_log.json +
+  friction_log.txt moved to project root; output/ corrected to PDF
+- Repo is now public-shareable
 
-**Applied this cycle:**
-- c5-mem-001: suppress session-termination suggestions
-- c5-mem-002: suppress token/session limit caveats
-- c5-mem-003: skipped — duplicate of memory entry 22
-- c5-prof-001: never show work in deliverables (applied to profile)
-- c5-prof-002: surface conflicting instructions explicitly (applied to profile)
+**Queued profile diffs (apply manually — see change_log.json):**
+- c3-prof-001: AUDIT mode enhancement (no observation gate — apply at next profile review)
+- c3-prof-002: Task-completion anti-collapse (observe 4.7 in live session first)
+- c3-prof-003: Effort transparency disclosure (observe 4.7 in live session first)
+- c4-prof-001 through c4-prof-004: see change_log.json
 
-**Queued profile diffs:**
-- c5-prof-003: distinguish document-grounded vs training-derived (observe first)
-- c3-prof-001: AUDIT mode enhancement (no gate — apply now)
-- c3-prof-002: task-completion anti-collapse (observe 4.7 first)
-- c3-prof-003: effort transparency disclosure (observe 4.7 first)
+**CLAIRE-A graduation criteria:**
+- Consecutive eval runs logged: 2 of 6 required
+- Reliability ledger hypotheses scored: 7 of 10 required
+- Escalations in last 3 runs: 0 (clean)
+- Next eval cycle: 2026-05-24
 
-**CLAIRE-A graduation status:**
-- Consecutive eval runs: 2 of 6
-- Reliability ledger hypotheses: 7 of 10
-- Escalations in last 3 runs: 0
-
-**Build 9 candidates (priority order):**
-- Same-day memory filtering in triage — CLAIRE-A flagged twice, c5-mem-003
-  duplicate confirms the gap
-- feature_praise signal utilization — confirmed dead weight 2 cycles, 27%
-  of corpus volume
-- Technique candidates separate output stream
-- Cost log merge
-- X/Twitter + Substack RSS ingest
-- friction_log.txt dual Cycle 4 header cleanup
-- Pushover duplicate locked-decision row cleanup
+**Build 8 candidates (design in browser Project first):**
+- Same-day memory filtering in triage
+- Technique candidates separate output stream in digest
+- Cost log merge (two entries per run)
+- X/Twitter + Substack RSS ingest sources
+- Track A cost trajectory monitoring
+- feature_praise signal utilization audit
 
 ---
 
@@ -300,4 +291,4 @@ Examples:
 - `CLAIRE Build 2 complete — synthesis queues written`
 
 ---
-*Last updated: 2026-05-21 — Directory structure corrected: change_log.json + friction_log.txt moved to project root; output/ corrected to PDF*
+*Last updated: 2026-05-21 — README rewritten, paths corrected, repo shareable*
