@@ -309,7 +309,6 @@ def fetch_reddit_rss(subreddit: str, sort: str, limit: int) -> list:
     if not text:
         return []
 
-    log.info(f"Reddit RSS raw (first 300): {text[:300]!r}")
     try:
         root = ET.fromstring(text)
     except ET.ParseError as e:

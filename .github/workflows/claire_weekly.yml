@@ -43,7 +43,7 @@ jobs:
       - name: Ingest
         env:
           PYTHONUNBUFFERED: "1"
-        run: python claire_ingest.py --source all
+        run: python claire_ingest.py --source forum
 
       # ── 5. Triage ─────────────────────────────────────────────────────────
       - name: Triage
