@@ -1,12 +1,14 @@
 # Copyright (c) 2026 James Cole. Licensed under the MIT License.
 """
-CLAIRE — Build 3b: Output Layer
+CLAIRE — Build 8: Output Layer
 Input:   data/candidates_track_a/b/c.json
-Output:  output/CLAIRE_Weekly_Digest_YYYY-MM-DD.docx
+Output:  output/CLAIRE_Weekly_Digest_YYYY-MM-DD.docx  (default)
+         output/claire_digest_YYYY-MM-DD.pdf           (--format pdf)
          skill_drafts/*.md (Track B skill skeletons)
 
 Run:     python claire_output.py
          python claire_output.py --date 2026-04-25  (override date)
+         python claire_output.py --format pdf
 """
 
 import json
@@ -23,6 +25,19 @@ from docx.enum.table import WD_TABLE_ALIGNMENT, WD_ALIGN_VERTICAL
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 from dotenv import load_dotenv
+
+# reportlab — PDF generation (Build 8)
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import inch
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_LEFT, TA_CENTER
+from reportlab.lib import colors
+from reportlab.lib.colors import HexColor
+from reportlab.platypus import (
+    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle,
+    HRFlowable, PageBreak, KeepTogether,
+)
+from reportlab.platypus.flowables import HRFlowable
 
 load_dotenv()
 
@@ -600,6 +615,594 @@ source_signal: {', '.join(candidate.get('source_posts', [])[:3])}
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# PDF GENERATION — reportlab (Build 8)
+# Font note: reportlab's standard 14 fonts do not include Century Gothic or
+# Georgia. Helvetica is used in place of Century Gothic; Times-Roman in place
+# of Georgia. This is a deliberate fallback — registering TTF fonts would
+# require the font files to be present at runtime and is not worth the
+# complexity for an internal digest.
+#
+# Callout boxes: replicated as a 1-column Table with a thick left border line
+# (gold) drawn via TableStyle LINEABOVE/LINEBELOW + a Paragraph. ReportLab has
+# no native sidebar-border primitive for Platypus flowables; the Table approach
+# is the standard pattern.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# PDF brand colors
+PDF_NAVY    = HexColor("#1E3A5F")
+PDF_GOLD    = HexColor("#C5A030")
+PDF_CHARCOAL = HexColor("#3C3C3C")
+PDF_LGRAY   = HexColor("#F7F8FA")
+PDF_BGRAY   = HexColor("#E2E8F0")
+PDF_WHITE   = colors.white
+PDF_GREEN   = HexColor("#2D6A4F")
+PDF_AMBER   = HexColor("#8B6914")
+
+
+def build_pdf_styles() -> dict:
+    """Return a dict of named ParagraphStyle objects for the digest."""
+    base = getSampleStyleSheet()
+
+    styles = {}
+
+    styles["normal"] = ParagraphStyle(
+        "pdf_normal",
+        fontName="Helvetica",
+        fontSize=10,
+        leading=14,
+        textColor=PDF_CHARCOAL,
+        spaceAfter=6,
+    )
+    styles["eyebrow"] = ParagraphStyle(
+        "pdf_eyebrow",
+        fontName="Times-Italic",
+        fontSize=11,
+        leading=14,
+        textColor=PDF_GOLD,
+        spaceAfter=2,
+    )
+    styles["title"] = ParagraphStyle(
+        "pdf_title",
+        fontName="Times-Bold",
+        fontSize=28,
+        leading=32,
+        textColor=PDF_NAVY,
+        spaceBefore=4,
+        spaceAfter=4,
+    )
+    styles["subtitle"] = ParagraphStyle(
+        "pdf_subtitle",
+        fontName="Times-Bold",
+        fontSize=14,
+        leading=18,
+        textColor=PDF_GOLD,
+        spaceAfter=18,
+    )
+    styles["h1"] = ParagraphStyle(
+        "pdf_h1",
+        fontName="Times-Bold",
+        fontSize=16,
+        leading=20,
+        textColor=PDF_NAVY,
+        spaceBefore=14,
+        spaceAfter=6,
+    )
+    styles["h2"] = ParagraphStyle(
+        "pdf_h2",
+        fontName="Times-Bold",
+        fontSize=13,
+        leading=17,
+        textColor=PDF_GOLD,
+        spaceBefore=10,
+        spaceAfter=4,
+    )
+    styles["h3"] = ParagraphStyle(
+        "pdf_h3",
+        fontName="Times-Bold",
+        fontSize=11,
+        leading=14,
+        textColor=PDF_GOLD,
+        spaceBefore=8,
+        spaceAfter=3,
+    )
+    styles["body_bold"] = ParagraphStyle(
+        "pdf_body_bold",
+        fontName="Helvetica-Bold",
+        fontSize=10,
+        leading=14,
+        textColor=PDF_NAVY,
+        spaceAfter=2,
+    )
+    styles["small"] = ParagraphStyle(
+        "pdf_small",
+        fontName="Helvetica",
+        fontSize=8,
+        leading=11,
+        textColor=PDF_CHARCOAL,
+        spaceAfter=4,
+    )
+    styles["callout"] = ParagraphStyle(
+        "pdf_callout",
+        fontName="Helvetica-Oblique",
+        fontSize=9,
+        leading=13,
+        textColor=PDF_CHARCOAL,
+        leftIndent=8,
+        rightIndent=8,
+        spaceBefore=2,
+        spaceAfter=2,
+        backColor=PDF_LGRAY,
+    )
+    styles["bullet"] = ParagraphStyle(
+        "pdf_bullet",
+        fontName="Helvetica",
+        fontSize=10,
+        leading=14,
+        textColor=PDF_CHARCOAL,
+        leftIndent=12,
+        bulletIndent=0,
+        spaceAfter=4,
+    )
+    styles["table_header"] = ParagraphStyle(
+        "pdf_table_header",
+        fontName="Helvetica-Bold",
+        fontSize=9,
+        leading=12,
+        textColor=PDF_WHITE,
+    )
+    styles["table_body"] = ParagraphStyle(
+        "pdf_table_body",
+        fontName="Helvetica",
+        fontSize=9,
+        leading=12,
+        textColor=PDF_CHARCOAL,
+    )
+    return styles
+
+
+def pdf_rule(styles: dict) -> HRFlowable:
+    """Gold horizontal rule."""
+    return HRFlowable(
+        width="100%",
+        thickness=2,
+        color=PDF_GOLD,
+        spaceAfter=8,
+        spaceBefore=4,
+    )
+
+
+def pdf_callout(text: str, styles: dict) -> Table:
+    """Gold left-bordered callout box.
+
+    ReportLab Platypus has no sidebar-border primitive for arbitrary
+    flowables. The standard pattern is a 1-cell Table with a thick left
+    LINEBEFORE rule in TableStyle. The background is set via BACKGROUND.
+    """
+    cell_para = Paragraph(text.replace("\n", "<br/>"), styles["callout"])
+    t = Table([[cell_para]], colWidths=["100%"])
+    t.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, -1), PDF_LGRAY),
+        ("LINEBEFORE",  (0, 0), (0, -1), 4, PDF_GOLD),
+        ("TOPPADDING",  (0, 0), (-1, -1), 6),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+        ("LEFTPADDING",   (0, 0), (-1, -1), 10),
+        ("RIGHTPADDING",  (0, 0), (-1, -1), 8),
+    ]))
+    return t
+
+
+def pdf_confidence_label(confidence: str) -> str:
+    """Return inline XML markup for confidence badge."""
+    color = "#1E3A5F" if confidence == "HIGH" else "#C5A030"
+    return f' <font color="{color}" size="8"><b>[{confidence}]</b></font>'
+
+
+def pdf_build_signal_summary(story: list, triage_data: dict, styles: dict):
+    """PDF Section 1 — Signal Summary."""
+    story.append(Paragraph("Signal Summary", styles["h1"]))
+
+    meta  = triage_data.get("meta", {})
+    stats = meta.get("stats", {})
+    run_at = meta.get("run_at", "unknown")
+    total  = meta.get("total", 0)
+
+    story.append(Paragraph(
+        f'<b>Run date:</b> {run_at[:10]}', styles["normal"]))
+    story.append(Paragraph(
+        f'<b>Posts scanned:</b> {total}', styles["normal"]))
+
+    story.append(Paragraph("Signal Breakdown", styles["h2"]))
+
+    by_signal  = stats.get("by_signal", {})
+    by_persona = stats.get("by_persona", {})
+
+    headers = [
+        Paragraph("Category", styles["table_header"]),
+        Paragraph("Count",    styles["table_header"]),
+    ]
+    rows = [
+        ["behavior_complaint", str(by_signal.get("behavior_complaint", 0))],
+        ["workflow_gap",       str(by_signal.get("workflow_gap", 0))],
+        ["feature_praise",     str(by_signal.get("feature_praise", 0))],
+        ["competitor_gap",     str(by_signal.get("competitor_gap", 0))],
+        ["cross_platform",     str(by_signal.get("cross_platform_workflow", 0))],
+        ["noise (dropped)",    str(by_signal.get("noise", 0))],
+    ]
+
+    table_data = [headers]
+    for i, (cat, cnt) in enumerate(rows):
+        bg = PDF_WHITE if i % 2 == 0 else PDF_LGRAY
+        table_data.append([
+            Paragraph(cat, styles["table_body"]),
+            Paragraph(cnt, styles["table_body"]),
+        ])
+
+    t = Table(table_data, colWidths=[4.5 * inch, 2.0 * inch])
+    ts = TableStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), PDF_NAVY),
+        ("ROWBACKGROUNDS", (0, 1), (-1, -1), [PDF_WHITE, PDF_LGRAY]),
+        ("GRID",       (0, 0), (-1, -1), 0.5, PDF_BGRAY),
+        ("TOPPADDING",    (0, 0), (-1, -1), 4),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+        ("LEFTPADDING",   (0, 0), (-1, -1), 6),
+        ("RIGHTPADDING",  (0, 0), (-1, -1), 6),
+    ])
+    t.setStyle(ts)
+    story.append(t)
+    story.append(Spacer(1, 8))
+
+    story.append(Paragraph("Developer Signal Disposition", styles["h2"]))
+    dev_count = by_persona.get("developer", 0)
+    story.append(Paragraph(
+        f"{dev_count} developer-persona posts filtered at cross-reference gate "
+        f"per locked pipeline configuration (filter_out).", styles["normal"]))
+
+    story.append(pdf_rule(styles))
+
+
+def pdf_build_track_a_section(story: list, candidates: dict, styles: dict):
+    """PDF Section 2 — Track A."""
+    story.append(Paragraph("Track A — Claude Native Signal", styles["h1"]))
+
+    memory_edits  = candidates.get("memory_edit_candidates", [])
+    profile_diffs = candidates.get("profile_diff_candidates", [])
+    watch_list    = candidates.get("behavior_watch", [])
+
+    story.append(Paragraph("Memory Edit Candidates", styles["h2"]))
+    if not memory_edits:
+        story.append(Paragraph(
+            "No memory edit candidates this cycle. "
+            "Signal below evidence threshold or no patterns identified.",
+            styles["normal"]))
+    else:
+        for i, candidate in enumerate(memory_edits, 1):
+            conf = candidate.get("confidence", "MEDIUM")
+            label = pdf_confidence_label(conf)
+            story.append(Paragraph(
+                f'<b>{i}. {candidate.get("control", "")}</b>{label}',
+                styles["body_bold"]))
+            story.append(Paragraph(candidate.get("rationale", ""), styles["normal"]))
+            story.append(pdf_callout(
+                f'Apply command: memory_user_edits → add → '
+                f'"{candidate.get("control", "")}"\n'
+                f'Write your hypothesis before applying.',
+                styles))
+            sources = candidate.get("source_posts", [])
+            if sources:
+                src_text = " · ".join(
+                    f"reddit.com{p}" if p.startswith("/r/") else p
+                    for p in sources[:5]
+                )
+                story.append(Paragraph(
+                    f'<b>Sources:</b> {src_text}', styles["small"]))
+            if i < len(memory_edits):
+                story.append(Spacer(1, 6))
+
+    story.append(pdf_rule(styles))
+
+    story.append(Paragraph("Profile Diff Candidates", styles["h2"]))
+    if not profile_diffs:
+        story.append(Paragraph(
+            "No profile diff candidates this cycle.", styles["normal"]))
+    else:
+        for i, candidate in enumerate(profile_diffs, 1):
+            conf = candidate.get("confidence", "MEDIUM")
+            label = pdf_confidence_label(conf)
+            story.append(Paragraph(
+                f'<b>{i}. Target section: {candidate.get("target_section", "")}</b>{label}',
+                styles["body_bold"]))
+            story.append(Paragraph(
+                f'Proposed change: {candidate.get("proposed_change", "")}',
+                styles["normal"]))
+            story.append(Paragraph(candidate.get("rationale", ""), styles["normal"]))
+            story.append(pdf_callout(
+                "Review proposed change against current profile section "
+                "before applying. Write hypothesis first.",
+                styles))
+            sources = candidate.get("source_posts", [])
+            if sources:
+                story.append(Paragraph(
+                    f'<b>Sources:</b> {" · ".join(sources[:5])}',
+                    styles["small"]))
+
+    story.append(pdf_rule(styles))
+
+    story.append(Paragraph("Behavior Watch List", styles["h2"]))
+    story.append(Paragraph(
+        "Patterns flagged for monitoring — not yet actionable. "
+        "Check against personal session notes before next cycle.",
+        styles["normal"]))
+    if not watch_list:
+        story.append(Paragraph("Nothing on watch list this cycle.", styles["normal"]))
+    else:
+        for item in watch_list:
+            story.append(Paragraph(
+                f'• <b>{item.get("pattern", "")}</b>',
+                styles["bullet"]))
+            story.append(Paragraph(
+                f'Why not actioned: {item.get("why_not_actioned", "")}',
+                styles["normal"]))
+
+    story.append(pdf_rule(styles))
+
+
+def pdf_build_track_b_section(story: list, candidates: dict, styles: dict):
+    """PDF Section 3 — Track B."""
+    story.append(Paragraph("Track B — Competitor Gap Signal", styles["h1"]))
+
+    skill_drafts      = candidates.get("skill_draft_candidates", [])
+    profile_additions = candidates.get("profile_addition_candidates", [])
+
+    story.append(Paragraph("Skill Draft Candidates", styles["h2"]))
+    if not skill_drafts:
+        story.append(Paragraph(
+            "No skill draft candidates this cycle. "
+            "Competitor gap signal below evidence threshold of 3 corroborating posts. "
+            "This is expected in early cycles — pattern builds over weekly runs.",
+            styles["normal"]))
+    else:
+        for i, candidate in enumerate(skill_drafts, 1):
+            conf  = candidate.get("confidence", "MEDIUM")
+            label = pdf_confidence_label(conf)
+            story.append(Paragraph(
+                f'<b>{i}. {candidate.get("skill_name", "")}</b>{label}',
+                styles["body_bold"]))
+            story.append(Paragraph(
+                f'Gap: {candidate.get("gap_description", "")}',
+                styles["normal"]))
+            story.append(Paragraph(
+                f'Trigger: {candidate.get("trigger_description", "")}',
+                styles["normal"]))
+            story.append(Paragraph(
+                f'Estimated effort: {candidate.get("estimated_build_effort", "")}',
+                styles["normal"]))
+            sname = candidate.get("skill_name", "skill").replace(" ", "_")
+            story.append(pdf_callout(
+                f"SKILL.md skeleton saved to skill_drafts/{sname}.md",
+                styles))
+
+    story.append(pdf_rule(styles))
+
+    story.append(Paragraph("Profile Addition Candidates", styles["h2"]))
+    if not profile_additions:
+        story.append(Paragraph(
+            "No profile addition candidates this cycle.", styles["normal"]))
+    else:
+        for i, candidate in enumerate(profile_additions, 1):
+            conf  = candidate.get("confidence", "MEDIUM")
+            label = pdf_confidence_label(conf)
+            story.append(Paragraph(
+                f'<b>{i}. Section: {candidate.get("target_section", "")}</b>{label}',
+                styles["body_bold"]))
+            story.append(Paragraph(candidate.get("proposed_text", ""), styles["normal"]))
+            story.append(Paragraph(candidate.get("rationale", ""), styles["normal"]))
+
+    story.append(pdf_rule(styles))
+
+
+def pdf_build_track_c_section(story: list, candidates: dict, styles: dict):
+    """PDF Section 4 — Track C."""
+    story.append(Paragraph(
+        "Track C — Cross-Platform Workflow Techniques", styles["h1"]))
+    story.append(Paragraph(
+        "Portable techniques to test manually before any configuration change is considered.",
+        styles["normal"]))
+
+    techniques = candidates.get("technique_candidates", [])
+
+    if not techniques:
+        story.append(Paragraph("No technique candidates this cycle.", styles["normal"]))
+    else:
+        for i, technique in enumerate(techniques, 1):
+            conf  = technique.get("confidence", "MEDIUM")
+            label = pdf_confidence_label(conf)
+            story.append(Paragraph(
+                f'<b>{i}. {technique.get("technique_name", "")}</b>{label}',
+                styles["body_bold"]))
+            story.append(Paragraph(technique.get("description", ""), styles["normal"]))
+            story.append(pdf_callout(
+                f'Test: {technique.get("test_suggestion", "")}',
+                styles))
+
+    story.append(pdf_rule(styles))
+
+
+def pdf_build_eval_section(story: list, date_str: str, styles: dict):
+    """PDF Section 5 — Eval Status."""
+    story.append(Paragraph("Eval Loop Status", styles["h1"]))
+
+    story.append(Paragraph("Applied Changes Pending Eval", styles["h2"]))
+    story.append(Paragraph(
+        "Review change_log.json for changes applied since last digest. "
+        "For each change where a relevant session has occurred, add an eval note:",
+        styles["normal"]))
+    story.append(pdf_callout(
+        f"{date_str} | [session context] | held/partial/no | [one sentence notes]",
+        styles))
+
+    story.append(Paragraph("Friction Log Reminder", styles["h2"]))
+    story.append(Paragraph(
+        "Update friction_log.txt (project root — not data/) this week. "
+        "2-4 entries. Specific behaviors in specific contexts. "
+        "Blank weeks score everything MEDIUM next cycle — the cross-reference gate loses precision.",
+        styles["normal"]))
+
+    story.append(Paragraph("Quarterly Eval", styles["h2"]))
+    story.append(Paragraph(
+        "If quarterly eval is due: feed change_log.json and friction_log.txt to Claude. "
+        "Request eval report. Revert changes that did not hold. "
+        "Flag source signal from reverted changes as low-quality in archive.",
+        styles["normal"]))
+
+
+def pdf_build_claire_a_section(story: list, decision_record: dict | None, styles: dict):
+    """PDF Section 6 — CLAIRE-A Shadow Decisions."""
+    story.append(Paragraph("CLAIRE-A Shadow Decisions", styles["h1"]))
+
+    if decision_record is None:
+        story.append(Paragraph(
+            "No CLAIRE-A decision record found for this cycle. "
+            "Run claire_a_assembler.py and claire_a_runner.py after synthesis.",
+            styles["normal"]))
+        story.append(pdf_rule(styles))
+        return
+
+    apply_count = decision_record.get("apply_count", 0)
+    skip_count  = decision_record.get("skip_count", 0)
+    defer_count = decision_record.get("defer_count", 0)
+    total       = apply_count + skip_count + defer_count
+    escalation  = decision_record.get("escalation_required", False)
+    model       = decision_record.get("model", "unknown")
+
+    story.append(Paragraph(
+        f'<font color="#1E3A5F"><b>Engine evaluated {total} candidates ({model}): '
+        f'{apply_count} apply &nbsp;|&nbsp; {skip_count} skip &nbsp;|&nbsp; '
+        f'{defer_count} defer</b></font>',
+        styles["normal"]))
+
+    if escalation:
+        reason = decision_record.get("escalation_reason", "")
+        story.append(pdf_callout(f"ESCALATION REQUIRED: {reason}", styles))
+
+    decisions = decision_record.get("decisions", [])
+    if decisions:
+        story.append(Paragraph("Candidate Decisions", styles["h2"]))
+
+        headers = [
+            Paragraph("Decision",   styles["table_header"]),
+            Paragraph("Confidence", styles["table_header"]),
+            Paragraph("Candidate",  styles["table_header"]),
+            Paragraph("Risk Flags", styles["table_header"]),
+        ]
+
+        order = {"apply": 0, "defer": 1, "skip": 2}
+        sorted_decisions = sorted(
+            decisions, key=lambda d: order.get(d.get("decision", "skip"), 2))
+
+        table_data = [headers]
+        for row_idx, d in enumerate(sorted_decisions):
+            decision = d.get("decision", "")
+            conf     = d.get("confidence", 0.0)
+            summary  = d.get("candidate_summary", "")[:120]
+            flags    = ", ".join(d.get("risk_flags", [])) or "-"
+
+            # Decision cell color
+            if decision == "apply":
+                dec_color = "#007000"
+            elif decision == "skip":
+                dec_color = "#990000"
+            else:
+                dec_color = "#B88600"
+
+            dec_para  = Paragraph(
+                f'<font color="{dec_color}"><b>{decision.upper()}</b></font>',
+                styles["table_body"])
+            conf_para = Paragraph(f"{conf:.0%}", styles["table_body"])
+            sum_para  = Paragraph(summary, styles["table_body"])
+            flag_para = Paragraph(flags, styles["table_body"])
+            table_data.append([dec_para, conf_para, sum_para, flag_para])
+
+        col_w = [1.0*inch, 0.8*inch, 3.5*inch, 1.2*inch]
+        t = Table(table_data, colWidths=col_w)
+        t.setStyle(TableStyle([
+            ("BACKGROUND",    (0, 0), (-1, 0), PDF_NAVY),
+            ("ROWBACKGROUNDS",(0, 1), (-1, -1), [PDF_WHITE, PDF_LGRAY]),
+            ("GRID",          (0, 0), (-1, -1), 0.5, PDF_BGRAY),
+            ("VALIGN",        (0, 0), (-1, -1), "TOP"),
+            ("TOPPADDING",    (0, 0), (-1, -1), 4),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+            ("LEFTPADDING",   (0, 0), (-1, -1), 6),
+            ("RIGHTPADDING",  (0, 0), (-1, -1), 6),
+        ]))
+        story.append(t)
+        story.append(Spacer(1, 8))
+
+    deferrals = [d for d in decisions if d.get("decision") == "defer"]
+    if deferrals:
+        story.append(Paragraph("Deferred — Conditions for Resolution", styles["h2"]))
+        for d in deferrals:
+            story.append(Paragraph(
+                f'<b>{d.get("candidate_summary", "")[:100]}</b>',
+                styles["body_bold"]))
+            condition = d.get("defer_condition") or "No condition specified."
+            story.append(pdf_callout(f"Resolve when: {condition}", styles))
+
+    session_notes = decision_record.get("session_notes", "").strip()
+    if session_notes:
+        story.append(Paragraph("Engine Session Notes", styles["h2"]))
+        story.append(Paragraph(session_notes, styles["normal"]))
+
+    story.append(pdf_rule(styles))
+
+
+def generate_pdf(
+    date_str: str,
+    candidates: dict,
+    triage_data: dict,
+    claire_a_dr: dict | None,
+) -> Path:
+    """Build the six-section CLAIRE digest as a PDF and return the output path."""
+    output_path = OUTPUT_DIR / f"claire_digest_{date_str}.pdf"
+
+    doc = SimpleDocTemplate(
+        str(output_path),
+        pagesize=letter,
+        leftMargin=inch,
+        rightMargin=inch,
+        topMargin=inch,
+        bottomMargin=inch,
+        title=f"CLAIRE Digest {date_str}",
+        author="CLAIRE",
+        creator="CLAIRE",
+        producer="",
+        subject="",
+    )
+
+    styles = build_pdf_styles()
+    story  = []
+
+    # Title block
+    story.append(Paragraph("Weekly Intelligence Digest", styles["eyebrow"]))
+    story.append(Paragraph("CLAIRE", styles["title"]))
+    story.append(Paragraph(
+        f"Claude Configuration Signal Report — {date_str}", styles["subtitle"]))
+    story.append(HRFlowable(width="100%", thickness=3, color=PDF_GOLD,
+                            spaceAfter=16, spaceBefore=0))
+
+    # Six sections
+    pdf_build_signal_summary(story, triage_data, styles)
+    pdf_build_track_a_section(story, candidates.get("a", {}), styles)
+    pdf_build_track_b_section(story, candidates.get("b", {}), styles)
+    pdf_build_track_c_section(story, candidates.get("c", {}), styles)
+    pdf_build_eval_section(story, date_str, styles)
+    pdf_build_claire_a_section(story, claire_a_dr, styles)
+
+    doc.build(story)
+    log.info(f"PDF digest saved → {output_path}")
+    return output_path
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # MAIN
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -718,13 +1321,19 @@ def build_claire_a_section(doc: "Document", decision_record: dict | None):
 
 def main():
     parser = argparse.ArgumentParser(description="CLAIRE output layer")
-    parser.add_argument("--date", help="Override digest date (YYYY-MM-DD)")
+    parser.add_argument("--date",   help="Override digest date (YYYY-MM-DD)")
+    parser.add_argument(
+        "--format",
+        choices=["docx", "pdf"],
+        default="docx",
+        help="Output format (default: docx)",
+    )
     args = parser.parse_args()
 
     date_str  = args.date or datetime.now(timezone.utc).strftime("%Y-%m-%d")
     run_start = datetime.now(timezone.utc)
 
-    log.info(f"CLAIRE output started — date={date_str}")
+    log.info(f"CLAIRE output started — date={date_str}  format={args.format}")
 
     # Load candidate files
     candidates = {}
@@ -744,43 +1353,56 @@ def main():
         with open(TRIAGE_TAGGED_PATH, encoding="utf-8") as f:
             triage_data = json.load(f)
 
-    # Build document
-    doc = init_document()
-    add_title_block(doc, date_str)
-
-    build_signal_summary(doc, triage_data)
-    build_track_a_section(doc, candidates.get("a", {}))
-    build_track_b_section(doc, candidates.get("b", {}))
-    build_track_c_section(doc, candidates.get("c", {}))
-    build_eval_section(doc, date_str)
-
     # CLAIRE-A shadow decisions
     claire_a_dr = load_latest_claire_a_decisions()
-    build_claire_a_section(doc, claire_a_dr)
 
-    # Save document
-    filename = f"CLAIRE_Weekly_Digest_{date_str}.docx"
-    output_path = OUTPUT_DIR / filename
-    try:
-        doc.save(str(output_path))
-        log.info(f"Digest saved → {output_path}")
-    except PermissionError:
-        locked_path = OUTPUT_DIR / f"CLAIRE_Weekly_Digest_{date_str}_locked.docx"
-        doc.save(str(locked_path))
-        log.warning(f"Output file was locked — saved to fallback: {locked_path.name}")
-    except Exception as e:
-        log.error(f"Failed to save digest: {e}")
-        sys.exit(1)
+    if args.format == "pdf":
+        # ── PDF path ─────────────────────────────────────────────────────────
+        try:
+            output_path = generate_pdf(date_str, candidates, triage_data, claire_a_dr)
+        except Exception as e:
+            log.error(f"PDF generation failed: {e}")
+            sys.exit(1)
 
-    # Write skill drafts
-    skill_count = write_skill_drafts(candidates.get("b", {}))
-    log.info(f"Skill drafts written: {skill_count}")
+        log.info("═" * 60)
+        log.info("CLAIRE output complete.")
+        log.info(f"PDF digest: {output_path}")
+        # Emit digest_date for GitHub Actions step output
+        print(f"digest_date={date_str}", flush=True)
 
-    log.info("═" * 60)
-    log.info("CLAIRE output complete.")
-    log.info(f"Digest: {output_path}")
-    log.info(f"Skill drafts: {skill_count} files in skill_drafts/")
-    log.info("Review the digest. Apply candidates manually with hypotheses.")
+    else:
+        # ── DOCX path (default) ───────────────────────────────────────────────
+        doc = init_document()
+        add_title_block(doc, date_str)
+
+        build_signal_summary(doc, triage_data)
+        build_track_a_section(doc, candidates.get("a", {}))
+        build_track_b_section(doc, candidates.get("b", {}))
+        build_track_c_section(doc, candidates.get("c", {}))
+        build_eval_section(doc, date_str)
+        build_claire_a_section(doc, claire_a_dr)
+
+        filename = f"CLAIRE_Weekly_Digest_{date_str}.docx"
+        output_path = OUTPUT_DIR / filename
+        try:
+            doc.save(str(output_path))
+            log.info(f"Digest saved → {output_path}")
+        except PermissionError:
+            locked_path = OUTPUT_DIR / ("CLAIRE_Weekly_Digest_" + date_str + "_locked.docx")
+            doc.save(str(locked_path))
+            log.warning("Output file was locked - saved to fallback: " + locked_path.name)
+        except Exception as e:
+            log.error("Failed to save digest: " + str(e))
+            sys.exit(1)
+
+        skill_count = write_skill_drafts(candidates.get("b", {}))
+        log.info("Skill drafts written: " + str(skill_count))
+
+        log.info("=" * 60)
+        log.info("CLAIRE output complete.")
+        log.info("Digest: " + str(output_path))
+        log.info("Skill drafts: " + str(skill_count) + " files in skill_drafts/")
+        log.info("Review the digest. Apply candidates manually with hypotheses.")
 
 
 if __name__ == "__main__":

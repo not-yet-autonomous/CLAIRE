@@ -10,17 +10,22 @@
 | Project root | `C:\Users\<redacted>\OneDrive\Claude Projects\CLAIRE` |
 | Python | `python` (via .venv) |
 | Pip | `python -m pip` |
-| Venv activate (PowerShell) | `.\.venv\Scripts\Activate.ps1` |
-| Venv activate (CMD/bat) | `.\.venv\Scripts\activate.bat` |
-| Git | initialized, local only, no remote |
-| Execution policy | RemoteSigned (already set) |
+| Venv activate (PowerShell) | `.\.venv\Scripts\Activate.ps1` [local dev only] |
+| Venv activate (CMD/bat) | `.\.venv\Scripts\activate.bat` [local dev only] |
+| Git | initialized, remote on GitHub |
+| Execution policy | RemoteSigned (already set) [local dev only] |
+| CI/CD | GitHub Actions — `.github/workflows/claire_weekly.yml` |
+| GHA trigger | Cron `0 14 * * 0` (Sundays 14:00 UTC) + `workflow_dispatch` |
 
 ---
 
 ## Session Start Checklist
 
-Run these three lines at the start of every Cowork session before
-doing anything else:
+**GitHub Actions runs require no manual start** — the pipeline triggers
+automatically on the Sunday 14:00 UTC cron, or via `workflow_dispatch` in
+the GitHub Actions UI. Monitor runs at the repo's Actions tab.
+
+For local Cowork sessions, run these three lines before doing anything else:
 
 ```powershell
 cd "C:\Users\<redacted>\OneDrive\Claude Projects\CLAIRE"
@@ -41,7 +46,7 @@ CLAIRE\
 ├── claire_ingest.py          ✅ Build 7 — dev.to practitioner feed added (Reddit + HN + dev.to)
 ├── claire_triage.py          ✅ Build 2 — triage complete
 ├── claire_synthesize.py      ✅ Build 5 — fingerprints + change_target field added
-├── claire_output.py          ✅ Build 3 — digest generation
+├── claire_output.py          ✅ Build 8 — digest generation (docx default; --format pdf for GHA)
 ├── claire_a_assembler.py     ✅ Build 5 — CLAIRE-A input assembler
 ├── claire_a_runner.py        ✅ Build 5 — decision engine runner (Opus)
 ├── claire_a_scorer.py        ✅ Build 5/6 — eval scoring layer (Sonnet)
@@ -54,11 +59,15 @@ CLAIRE\
 ├── README.md                 ✅ Repo readme
 ├── change_log.json           ✅ CANONICAL — Applied changes + eval loop (v1.1 schema, Cycles 2-4)
 ├── friction_log.txt          ✅ CANONICAL — Weekly friction notes, human-maintained (Cycles 1-4)
-├── claire_weekly.ps1         ✅ Build 6 — scheduled pipeline wrapper (CLAIRE + CLAIRE-A)
+├── claire_weekly.ps1         ✅ Build 6 — scheduled pipeline wrapper [local dev only]
+├── claire_notify.py          ✅ Build 8 — Pushover notification (PDF attach or text fallback)
 ├── activate.bat              ✅ Venv activation shortcut
 ├── claire.bat                ✅ Pipeline launcher (CMD)
 ├── claire_runner.bat         ✅ Alternative pipeline runner
-├── claire_scheduler.xml      ✅ Windows Task Scheduler import file
+├── claire_scheduler.xml      ✅ Windows Task Scheduler import file [local dev only]
+├── .github\
+│   └── workflows\
+│       └── claire_weekly.yml ✅ Build 8 — GitHub Actions weekly pipeline
 ├── .git\                     ✅ Local git, no remote
 ├── data\
 │   ├── raw_posts.json        ✅ Current corpus — grows each ingest run
@@ -88,7 +97,7 @@ CLAIRE\
 │   ├── triage.log            ✅ Triage run log
 │   ├── synthesis.log         ✅ Synthesis run log
 │   └── output.log            ✅ Digest generation log
-├── output\                   ✅ Build 3 — weekly digest .docx (Section 6 = CLAIRE-A decisions)
+├── output\                   ✅ Build 3/8 — weekly digest .docx + claire_digest_YYYY-MM-DD.pdf
 ├── skill_drafts\             ✅ Build 3 — SKILL.md drafts (hallucination-guard, source-integrity-enforcer)
 ├── skills\user\              ✅ Installed user skills (hallucination-guard)
 ├── archive\                  ⬜ Quarterly review artifacts (directory to be created)
@@ -128,6 +137,10 @@ CLAIRE\
 | 6 | `claire_weekly.ps1` | ✅ Complete | Scheduled wrapper with per-script exit checks |
 | 7 | `claire_ingest.py` | ✅ Complete | dev.to feed added — tags: anthropic, claudeai, claude |
 | 7 | `claire_weekly.ps1` | ✅ Complete | --source all flag added |
+| 8 | `requirements.txt` | ✅ Complete | reportlab added |
+| 8 | `claire_output.py` | ✅ Complete | --format pdf; generate_pdf() via reportlab |
+| 8 | `claire_notify.py` | ✅ Complete | Pushover notification — PDF attach or text fallback |
+| 8 | `.github/workflows/claire_weekly.yml` | ✅ Complete | Full GHA pipeline, cron Sunday 14:00 UTC |
 
 ---
 
@@ -159,6 +172,29 @@ CLAIRE\
 | dev.to tags | anthropic, claudeai, claude |
 | dev.to min reactions | 5 (raise from 2 after Build 7 validation) |
 | dev.to pages per tag | 2 (60 candidates per tag before dedup) |
+| Commit-back strategy | GHA pipeline commits data/, output/, logs/, change_log.json, friction_log.txt after each run |
+| PDF output | reportlab, six-section mirror of docx digest; filename `claire_digest_YYYY-MM-DD.pdf` |
+| Pushover oversize fallback | PDF > 2,500,000 bytes → text-only notification with commit URL; no attachment |
+
+---
+
+## GitHub Secrets
+
+Required in repo Settings → Secrets and variables → Actions:
+
+| Secret | Used by | Notes |
+|--------|---------|-------|
+| `ANTHROPIC_API_KEY` | triage, synthesize, claire_a_runner, claire_a_scorer | Anthropic API — all model calls |
+| `GH_PAT` | commit-state | Personal access token with `contents: write` scope; needed to push commits from the workflow |
+| `PUSHOVER_APP_TOKEN` | notify | Pushover application token |
+| `PUSHOVER_USER_KEY` | notify | Pushover user/group delivery key |
+| `REDDIT_CLIENT_ID` | ingest (reserved) | Required when upgrading to authenticated Reddit OAuth API |
+| `REDDIT_CLIENT_SECRET` | ingest (reserved) | Required when upgrading to authenticated Reddit OAuth API |
+| `REDDIT_USERNAME` | ingest (reserved) | Required when upgrading to authenticated Reddit OAuth API |
+| `REDDIT_PASSWORD` | ingest (reserved) | Required when upgrading to authenticated Reddit OAuth API |
+
+**Currently active:** `ANTHROPIC_API_KEY`, `GH_PAT`, `PUSHOVER_APP_TOKEN`, `PUSHOVER_USER_KEY`.
+Reddit secrets are defined but unused until the ingest layer upgrades from public JSON to OAuth API.
 
 ---
 
@@ -177,16 +213,20 @@ CLAIRE\
 
 ## Current Session Task
 
-Cycle 4 complete (2026-05-19). 6 memory edits applied (#19-24). 4 profile diffs queued. c3-prof-001 applied (overdue from Cycle 3).
+**Build 8 complete (2026-05-21) — GitHub Actions migration, reportlab PDF, Pushover notify.**
 
-**Applied this cycle:**
-- Memory #19: Anthropic platform reliability as operational vendor risk
-- Memory #20: Opus 4.6 preference for planning/doc outputs
-- Memory #21: Never rewrite full docs on section edits
-- Memory #22: Prompt injection flagging on external docs
-- Memory #23: /compact before 50% context
-- Memory #24: PDF-to-spreadsheet verification callout
-- Profile c3-prof-001: AUDIT mode enhancement (applied, was queued from Cycle 3)
+**Delivered this build:**
+- `requirements.txt` — reportlab added
+- `claire_output.py` — `--format pdf` argument; `generate_pdf()` via reportlab (six-section digest mirror)
+- `claire_notify.py` — Pushover notification with PDF attachment or text fallback
+- `.github/workflows/claire_weekly.yml` — full GHA pipeline (cron Sunday 14:00 UTC)
+- `HANDOFF.md` — six surgical updates (GHA machine context, session start note, directory structure, locked decisions, GitHub Secrets section, this task block)
+
+**Next actions before Cycle 5:**
+1. Push repo to GitHub remote (create remote, `git remote add origin`, `git push -u origin main`)
+2. Add four active secrets to repo: `ANTHROPIC_API_KEY`, `GH_PAT`, `PUSHOVER_APP_TOKEN`, `PUSHOVER_USER_KEY`
+3. Run `workflow_dispatch` to validate GHA pipeline end-to-end before relying on cron
+4. Confirm Pushover notification received with PDF attachment
 
 **Queued profile diffs (apply at next profile review session — no observation gates):**
 - c4-prof-001: Surgical edit as default
@@ -204,13 +244,7 @@ Cycle 4 complete (2026-05-19). 6 memory edits applied (#19-24). 4 profile diffs 
 - Escalations in last 3 runs: 0 (clean)
 - Next eval cycle: 2026-05-26
 
-**Friction log items for this cycle:**
-- hallucination_guard skill not caught as ALREADY_APPLIED by engine — memory_state filtering gap now confirmed for skill installs, not just memory entries
-- feature_praise at 107, second cycle with zero candidates — pipeline resolution still pending
-- Digest candidates #23 and #27 were duplicates — add dedup check to Build 8 candidates
-- Mem #3 (skip epistemic disclaimers) held — confirm in live session before applying
-
-**Build 8 candidates (updated):**
+**Build 9 candidates (carry-forward from Build 8 scope):**
 - Same-day memory filtering in triage (now also covers skill installs)
 - Duplicate candidate dedup before digest output
 - Technique candidates separate output stream
@@ -258,4 +292,4 @@ Examples:
 - `CLAIRE Build 2 complete — synthesis queues written`
 
 ---
-*Last updated: 2026-05-19 — Cycle 4 complete. File audit: change_log.json repaired + Cycle 4 entries appended (21 total), friction_log path bug fixed in triage, HANDOFF directory structure corrected, Known Issues updated with confidence score caveat.*
+*Last updated: 2026-05-21 — Build 8 complete. GitHub Actions migration, reportlab PDF output, Pushover notify. HANDOFF updated: GHA machine context, session start note, directory structure (claire_notify.py + .github/workflows/), locked decisions (3 new rows), GitHub Secrets section added.*
