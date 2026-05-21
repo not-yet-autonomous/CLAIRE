@@ -63,3 +63,18 @@ claire_a_scorer.py reads session notes interactively via stdin when --notes is n
 
 2026-05-21 | GHA migration | secrets count | LOW
 Build 8 spec named 8 GitHub Secrets including five Reddit credentials. Correct count is 4 — Reddit ingest was always unauthenticated public JSON, no OAuth credentials ever required. Secrets table corrected in HANDOFF.md. No credentials were unnecessarily exposed; the error was in documentation only.
+
+# === CYCLE 5 (2026-05-21) ===
+
+2026-05-21 | digest review session | feature_praise utilization | HIGH
+Second consecutive cycle with 409 feature_praise signals and zero candidates
+generated. Confirmed dead weight at ~27% of corpus volume. Build 9 must
+resolve — either repurpose as baseline confidence modifier for
+behavior_complaint signals about same features, or reduce ingest scope.
+
+2026-05-21 | digest review session | c5-mem-003 redundant | LOW
+c5-mem-003 (prompt injection flagging) was proposed as a new memory edit but
+memory entry 22 already covers it. CLAIRE-A did not catch the duplicate —
+cross-reference gate does not check against live memory state before generating
+candidates. Same gap flagged in Cycle 3 (same-day memory filtering). Build 9
+priority confirmed.

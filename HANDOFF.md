@@ -223,23 +223,24 @@ CLAIRE\
 ## Current Session Task
 
 Build 8 complete (2026-05-21). GHA migration validated end-to-end.
-Cycle 5 digest reviewed. 3 memory edits applied, 3 profile diffs queued.
+Cycle 5 digest reviewed. 3 memory edits applied (2 net-new, 1 duplicate
+caught), 3 profile diffs queued.
 
 **Weekly ritual:**
-1. Monday 07:00 - Task Scheduler runs claire_reddit_ingest.ps1 automatically
-2. Before Sunday - update data/session_notes.txt, commit, push
-3. Sunday 14:00 UTC - GHA fires automatically
+1. Monday 07:00 — Task Scheduler runs claire_reddit_ingest.ps1 automatically
+2. Before Sunday — update data/session_notes.txt, commit, push
+3. Sunday 14:00 UTC — GHA fires automatically
 
 **Applied this cycle:**
 - c5-mem-001: suppress session-termination suggestions
 - c5-mem-002: suppress token/session limit caveats
-- c5-mem-003: proactive prompt injection flagging
+- c5-mem-003: skipped — duplicate of memory entry 22
+- c5-prof-001: never show work in deliverables (applied to profile)
+- c5-prof-002: surface conflicting instructions explicitly (applied to profile)
 
 **Queued profile diffs:**
-- c5-prof-001: never show work in deliverables (no gate - apply now)
-- c5-prof-002: surface conflicting instructions explicitly (no gate - apply now)
 - c5-prof-003: distinguish document-grounded vs training-derived (observe first)
-- c3-prof-001: AUDIT mode enhancement (no gate - apply now)
+- c3-prof-001: AUDIT mode enhancement (no gate — apply now)
 - c3-prof-002: task-completion anti-collapse (observe 4.7 first)
 - c3-prof-003: effort transparency disclosure (observe 4.7 first)
 
@@ -248,14 +249,16 @@ Cycle 5 digest reviewed. 3 memory edits applied, 3 profile diffs queued.
 - Reliability ledger hypotheses: 7 of 10
 - Escalations in last 3 runs: 0
 
-**Build 9 candidates:**
-- Same-day memory filtering in triage (highest priority)
-- feature_praise signal utilization - confirmed dead weight 2 cycles
+**Build 9 candidates (priority order):**
+- Same-day memory filtering in triage — CLAIRE-A flagged twice, c5-mem-003
+  duplicate confirms the gap
+- feature_praise signal utilization — confirmed dead weight 2 cycles, 27%
+  of corpus volume
 - Technique candidates separate output stream
 - Cost log merge
 - X/Twitter + Substack RSS ingest
 - friction_log.txt dual Cycle 4 header cleanup
-- Pushover duplicate row cleanup
+- Pushover duplicate locked-decision row cleanup
 
 ---
 
