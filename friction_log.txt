@@ -50,3 +50,16 @@ claire_utils.py, cost_log.json, candidates_track_a/b/c.json, synthesis.log, outp
 
 2026-05-19 | file audit | synthesis/candidate JSON corruption | MEDIUM
 synthesis_queue_track_a/b/c.json and candidates_track_a/c.json have parse errors from truncated writes. Regenerated outputs — re-running triage and synthesis will overwrite cleanly. Deferred to Cycle 5 first run.
+
+# === CYCLE 4 (2026-05-21) ===
+2026-05-21 | GHA migration | reddit ingest | HIGH
+Reddit public JSON endpoints return 403 from GHA datacenter IPs. RSS feeds attempted as fallback — return valid Atom XML with zero entries from GHA IPs despite working locally. Reddit ingestion permanently moved to manual-and-commit. GHA pipeline runs HN + dev.to only (--source forum). Raw_posts.json committed locally after each Reddit ingest run; GHA picks up from triage onward. No automated Reddit signal until a residential proxy or third-party Reddit API solution is evaluated in a future build.
+
+2026-05-21 | GHA migration | requirements | MEDIUM
+python-dotenv missing from requirements.txt — caused immediate ModuleNotFoundError on first GHA run at ingest step. Was present in local venv from manual install, never added to requirements.txt. Fixed in Build 8 patch. Add dep audit (pip freeze vs requirements.txt diff) to pre-push checklist for future builds.
+
+2026-05-21 | GHA migration | claire_a_scorer stdin | MEDIUM
+claire_a_scorer.py reads session notes interactively via stdin when --notes is not provided. Incompatible with unattended GHA execution — exits with error code 1. Fixed by passing --notes data/session_notes.txt in workflow. Session notes file is now a required manual step before each Sunday run: update data/session_notes.txt with weekly behavioral observations, commit, push before cron fires. Blank or placeholder content will produce low-quality scorer output — not a pipeline failure but a signal quality failure.
+
+2026-05-21 | GHA migration | secrets count | LOW
+Build 8 spec named 8 GitHub Secrets including five Reddit credentials. Correct count is 4 — Reddit ingest was always unauthenticated public JSON, no OAuth credentials ever required. Secrets table corrected in HANDOFF.md. No credentials were unnecessarily exposed; the error was in documentation only.

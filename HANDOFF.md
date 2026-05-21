@@ -8,7 +8,7 @@
 | Item | Value |
 |------|-------|
 | Project root | `C:\Users\<redacted>\OneDrive\Claude Projects\CLAIRE` |
-| Python | `python` (via .venv) |
+| Python | `python` (via .venv) [local dev only] |
 | Pip | `python -m pip` |
 | Venv activate (PowerShell) | `.\.venv\Scripts\Activate.ps1` [local dev only] |
 | Venv activate (CMD/bat) | `.\.venv\Scripts\activate.bat` [local dev only] |
@@ -16,6 +16,21 @@
 | Execution policy | RemoteSigned (already set) [local dev only] |
 | CI/CD | GitHub Actions — `.github/workflows/claire_weekly.yml` |
 | GHA trigger | Cron `0 14 * * 0` (Sundays 14:00 UTC) + `workflow_dispatch` |
+| Execution (automated) | GitHub Actions — .github/workflows/claire_weekly.yml |
+| GitHub repo | https://github.com/shamblingshade/CLAIRE |
+
+---
+
+## GitHub Secrets
+
+| Secret | Purpose |
+|--------|---------|
+| `ANTHROPIC_API_KEY` | All Claude API calls |
+| `GH_PAT` | Commit-back push (Contents read+write, fine-grained PAT) |
+| `PUSHOVER_APP_TOKEN` | Pushover CLAIRE app token |
+| `PUSHOVER_USER_KEY` | Pushover account user key |
+
+Reddit credentials are not required — ingest uses unauthenticated public endpoints.
 
 ---
 
@@ -26,6 +41,13 @@ automatically on the Sunday 14:00 UTC cron, or via `workflow_dispatch` in
 the GitHub Actions UI. Monitor runs at the repo's Actions tab.
 
 For local Cowork sessions, run these three lines before doing anything else:
+
+> GHA runs unattended on Sunday 14:00 UTC. This checklist is for local dev
+> sessions only.
+>
+> **Pre-Sunday ritual (manual, before cron fires):**
+> 1. Update `data/session_notes.txt` with behavioral observations from the week
+> 2. `git add data/session_notes.txt && git commit -m "session notes cycle N" && git push`
 
 ```powershell
 cd "C:\Users\<redacted>\OneDrive\Claude Projects\CLAIRE"
@@ -59,15 +81,15 @@ CLAIRE\
 ├── README.md                 ✅ Repo readme
 ├── change_log.json           ✅ CANONICAL — Applied changes + eval loop (v1.1 schema, Cycles 2-4)
 ├── friction_log.txt          ✅ CANONICAL — Weekly friction notes, human-maintained (Cycles 1-4)
-├── claire_weekly.ps1         ✅ Build 6 — scheduled pipeline wrapper [local dev only]
-├── claire_notify.py          ✅ Build 8 — Pushover notification (PDF attach or text fallback)
+├── claire_weekly.ps1         ✅ Build 6 — scheduled pipeline wrapper [local dev only — Task Scheduler entry retired]
+├── claire_notify.py          ✅ Build 8 — Pushover dispatch with PDF attachment
 ├── activate.bat              ✅ Venv activation shortcut
 ├── claire.bat                ✅ Pipeline launcher (CMD)
 ├── claire_runner.bat         ✅ Alternative pipeline runner
 ├── claire_scheduler.xml      ✅ Windows Task Scheduler import file [local dev only]
 ├── .github\
 │   └── workflows\
-│       └── claire_weekly.yml ✅ Build 8 — GitHub Actions weekly pipeline
+│       └── claire_weekly.yml ✅ Build 8 — GHA workflow (replaces Task Scheduler)
 ├── .git\                     ✅ Local git, no remote
 ├── data\
 │   ├── raw_posts.json        ✅ Current corpus — grows each ingest run
@@ -87,7 +109,8 @@ CLAIRE\
 │   ├── claire_a_reasoning_[timestamp].txt  ✅ Build 5 — auditable reasoning scratchpad
 │   ├── claire_a_source_reliability.json    ⬜ Build 6 — expected; created on first scorer run (not yet present)
 │   ├── claire_a_session_history.json       ✅ Build 6 — cross-run fingerprint tracking for prior_appearances
-│   └── change_log_v1_legacy.json           ✅ v1.0 schema archive — superseded by root change_log.json
+│   ├── change_log_v1_legacy.json           ✅ v1.0 schema archive — superseded by root change_log.json
+│   └── session_notes.txt     ✅ Build 8 — weekly scorer observations (manual update required)
 ├── prompts\
 │   ├── triage_prompt.txt     ✅ Haiku system prompt
 │   ├── synthesis_prompts.py  ✅ Three Sonnet prompts
@@ -175,26 +198,11 @@ CLAIRE\
 | Commit-back strategy | GHA pipeline commits data/, output/, logs/, change_log.json, friction_log.txt after each run |
 | PDF output | reportlab, six-section mirror of docx digest; filename `claire_digest_YYYY-MM-DD.pdf` |
 | Pushover oversize fallback | PDF > 2,500,000 bytes → text-only notification with commit URL; no attachment |
-
----
-
-## GitHub Secrets
-
-Required in repo Settings → Secrets and variables → Actions:
-
-| Secret | Used by | Notes |
-|--------|---------|-------|
-| `ANTHROPIC_API_KEY` | triage, synthesize, claire_a_runner, claire_a_scorer | Anthropic API — all model calls |
-| `GH_PAT` | commit-state | Personal access token with `contents: write` scope; needed to push commits from the workflow |
-| `PUSHOVER_APP_TOKEN` | notify | Pushover application token |
-| `PUSHOVER_USER_KEY` | notify | Pushover user/group delivery key |
-| `REDDIT_CLIENT_ID` | ingest (reserved) | Required when upgrading to authenticated Reddit OAuth API |
-| `REDDIT_CLIENT_SECRET` | ingest (reserved) | Required when upgrading to authenticated Reddit OAuth API |
-| `REDDIT_USERNAME` | ingest (reserved) | Required when upgrading to authenticated Reddit OAuth API |
-| `REDDIT_PASSWORD` | ingest (reserved) | Required when upgrading to authenticated Reddit OAuth API |
-
-**Currently active:** `ANTHROPIC_API_KEY`, `GH_PAT`, `PUSHOVER_APP_TOKEN`, `PUSHOVER_USER_KEY`.
-Reddit secrets are defined but unused until the ingest layer upgrades from public JSON to OAuth API.
+| State persistence | Commit-back — data files committed to repo at end of each GHA run |
+| Digest format (production) | reportlab PDF — docx retained for local dev only |
+| Pushover oversize fallback | Summary notification + repo commit if PDF > 2.5MB |
+| Reddit ingestion | Manual — run locally, commit raw_posts.json, GHA picks up from triage |
+| GHA ingest sources | HN + dev.to only (--source forum) — Reddit blocked from datacenter IPs |
 
 ---
 
@@ -208,47 +216,44 @@ Reddit secrets are defined but unused until the ingest layer upgrades from publi
 | synthesis_queue JSON corruption | synthesis_queue_track_a/b/c.json all have JSON parse errors — truncated writes from a previous pipeline run. Regenerate by re-running triage on current raw_posts.json. |
 | candidates_track JSON corruption | candidates_track_a.json and candidates_track_c.json have JSON parse errors. Regenerate by re-running synthesis. |
 | claire_a_source_reliability.json missing | Expected by Build 6 scorer but never written. Created on first successful scorer run — not a bug, just never run to completion with scorer active. |
+| Reddit GHA IP block | Reddit returns 403 on JSON endpoints and empty RSS feeds from GHA datacenter IPs. Manual ingest is permanent architecture — not a bug to fix. |
 
 ---
 
 ## Current Session Task
 
-**Build 8 complete (2026-05-21) — GitHub Actions migration, reportlab PDF, Pushover notify.**
+Build 8 complete (2026-05-21). GitHub Actions migration, reportlab PDF output,
+Pushover notification, Reddit RSS attempted and abandoned — manual ingest
+architecture adopted.
 
-**Delivered this build:**
-- `requirements.txt` — reportlab added
-- `claire_output.py` — `--format pdf` argument; `generate_pdf()` via reportlab (six-section digest mirror)
-- `claire_notify.py` — Pushover notification with PDF attachment or text fallback
-- `.github/workflows/claire_weekly.yml` — full GHA pipeline (cron Sunday 14:00 UTC)
-- `HANDOFF.md` — six surgical updates (GHA machine context, session start note, directory structure, locked decisions, GitHub Secrets section, this task block)
+**Applied this build:**
+- GHA workflow replacing Windows Task Scheduler
+- reportlab PDF digest output (--format pdf)
+- claire_notify.py — Pushover dispatch with PDF attachment
+- Reddit ingestion moved to manual-and-commit; GHA runs HN + dev.to only
+- data/session_notes.txt — scorer notes file for unattended GHA runs
+- python-dotenv added to requirements.txt
 
-**Next actions before Cycle 5:**
-1. Push repo to GitHub remote (create remote, `git remote add origin`, `git push -u origin main`)
-2. Add four active secrets to repo: `ANTHROPIC_API_KEY`, `GH_PAT`, `PUSHOVER_APP_TOKEN`, `PUSHOVER_USER_KEY`
-3. Run `workflow_dispatch` to validate GHA pipeline end-to-end before relying on cron
-4. Confirm Pushover notification received with PDF attachment
+**Pre-Sunday ritual:**
+1. Run claire_ingest.py --source reddit locally
+2. Commit raw_posts.json
+3. Update data/session_notes.txt with weekly observations
+4. Push — GHA picks up from triage at 14:00 UTC Sunday
 
-**Queued profile diffs (apply at next profile review session — no observation gates):**
-- c4-prof-001: Surgical edit as default
-- c4-prof-002: Tic suppression extends to functional equivalents
-- c4-prof-003: HANDOFF mode
-- c4-prof-004: Numerical self-consistency gate
+**Queued profile diffs (carry forward from Cycle 3):**
+- c3-prof-001: AUDIT mode enhancement (no observation gate)
+- c3-prof-002: Task-completion anti-collapse (observe 4.7 first)
+- c3-prof-003: Effort transparency disclosure (observe 4.7 first)
 
-**Still queued from Cycle 3 (observation gates not yet met):**
-- c3-prof-002: Task-completion anti-collapse (needs live 4.7 session confirmation)
-- c3-prof-003: Effort transparency disclosure (needs live 4.7 session confirmation)
+**CLAIRE-A graduation status:**
+- Consecutive eval runs: 2 of 6
+- Reliability ledger hypotheses: 7 of 10
+- Escalations in last 3 runs: 0
 
-**CLAIRE-A graduation criteria (cycle 2 of 6):**
-- Consecutive eval runs logged: 2 of 6 required
-- Reliability ledger hypotheses scored: update after scorer runs this cycle
-- Escalations in last 3 runs: 0 (clean)
-- Next eval cycle: 2026-05-26
-
-**Build 9 candidates (carry-forward from Build 8 scope):**
-- Same-day memory filtering in triage (now also covers skill installs)
-- Duplicate candidate dedup before digest output
+**Build 9 candidates:**
+- Same-day memory filtering in triage
 - Technique candidates separate output stream
-- Cost log merge
+- Cost log merge (two entries per run)
 - X/Twitter + Substack RSS ingest sources
 - feature_praise signal utilization audit
 
