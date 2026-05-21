@@ -1,82 +1,70 @@
 {
   "meta": {
     "track": "c",
-    "run_at": "2026-05-19T19:59:14.401363+00:00",
-    "posts_input": 15,
+    "run_at": "2026-05-21T20:51:20.402373+00:00",
+    "posts_input": 11,
     "model": "claude-sonnet-4-6"
   },
   "candidates": {
     "technique_candidates": [
       {
-        "technique_name": "Framework Request Instead of Answer Request",
-        "description": "Instead of asking an AI to provide a direct answer or decision, explicitly ask it to provide the framework, mental model, or decision criteria you should use to find the answer yourself. This shifts the AI from giving potentially generic outputs to producing structured thinking tools that the user can apply repeatedly.",
-        "test_suggestion": "When stuck on a recurring decision or problem, open with 'Don't give me an answer \u2014 give me the framework I should use to find the answer myself' and compare the usefulness of the output versus a direct question.",
-        "change_target": "user_behavior",
-        "confidence": "HIGH",
-        "source_posts": [
-          "/r/ChatGPTPromptGenius/comments/1sts5gv/i_stopped_asking_claude_for_answers_i_started/",
-          "/r/IndiaGrowthStocks/comments/1tb0kjd/compounder_or_trap_run_the_twoengine_math_before/",
-          "https://news.ycombinator.com/item?id=45362416"
-        ]
-      },
-      {
-        "technique_name": "Detailed Context Prompting Over Vague Prompting",
-        "description": "Providing rich context in prompts \u2014 including goals, constraints, tone, audience, and things to avoid \u2014 produces significantly better outputs than short vague requests across all major AI models. Users describe thinking of prompts like briefs written for a new intern: assume nothing, specify everything relevant.",
-        "test_suggestion": "Take a prompt you recently found unsatisfying, rewrite it adding your goal, your audience, your tone preference, and at least two things to avoid, then compare the outputs side by side.",
-        "change_target": "user_behavior",
-        "confidence": "HIGH",
-        "source_posts": [
-          "/r/ClaudeAI/comments/1t9ye9o/i_ran_the_same_vague_prompt_through_chatgpt/",
-          "/r/ChatGPTPromptGenius/comments/1sts5gv/i_stopped_asking_claude_for_answers_i_started/",
-          "/r/IndiaGrowthStocks/comments/1tb0kjd/compounder_or_trap_run_the_twoengine_math_before/"
-        ]
-      },
-      {
-        "technique_name": "Portable Markdown Instruction Files Across AI Tools",
-        "description": "Storing reusable instructions, behavioral rules, or skill definitions in plain Markdown files (e.g. SKILL.md, profile.md) allows users to paste or import the same context into different AI tools \u2014 Claude, ChatGPT, Gemini, etc. \u2014 enabling consistent behavior without relying on any single platform's memory or project features.",
-        "test_suggestion": "Write a single profile.md or skill.md file capturing your preferred output style and domain context, then paste it at the start of sessions in two different AI tools and observe consistency in behavior.",
+        "technique_name": "Portable Context File (profile.md)",
+        "description": "Maintaining a personal context document (e.g., profile.md or a Notion/Obsidian page) that summarizes preferences, background, and ongoing project state, then pasting it into each new AI chat session to bootstrap context. This compensates for the lack of cross-platform memory sync by giving every tool the same starting knowledge about the user.",
+        "test_suggestion": "Create a short markdown file with your key context (role, goals, style preferences, active projects) and paste it at the start of your next session with any AI tool before asking your main question.",
         "change_target": "user_behavior",
         "confidence": "HIGH",
         "source_posts": [
           "/r/ArtificialInteligence/comments/1sslxr7/is_there_a_way_to_sync_memory_across_chatgpt/",
           "/r/AIToolBench/comments/1ssly2l/is_there_a_way_to_sync_memory_across_chatgpt/",
-          "/r/artificial/comments/1stphh6/can_claudes_skills_custom_skillmd_instruction/"
+          "/r/productivity/comments/1t1qqgl/notion_a_memory_layer_for_claude_as_a/"
         ]
       },
       {
-        "technique_name": "Tool Specialization by Task Type",
-        "description": "Rather than using a single AI for all tasks, users route different task types to the AI tool best suited for them \u2014 for example, using NotebookLM for source-grounded synthesis and fact-checking, Claude for generation and reasoning, and Gemini for other tasks. This avoids hitting limits on any single tool and exploits genuine capability differences.",
-        "test_suggestion": "For your next multi-step research or writing project, deliberately use one AI for summarizing sources and a different AI for generating or drafting, and note whether output quality or reliability improves.",
+        "technique_name": "Brief-Style Prompting with Role, Goals, Tone, and Exclusions",
+        "description": "Structuring prompts like a creative or professional brief rather than a single vague sentence \u2014 explicitly stating the goal, target audience or context, desired tone, and things to avoid. Multiple users across platforms report this pattern consistently produces better outputs than either vague prompts or excessively padded ones.",
+        "test_suggestion": "On your next content or writing task, write your prompt in four labeled sections: Goal, Context, Tone, and Avoid \u2014 then compare the output to your usual single-sentence prompt.",
         "change_target": "user_behavior",
         "confidence": "HIGH",
         "source_posts": [
-          "/r/notebooklm/comments/1t1kd39/yup_it_is_also_my_observation_that_it_is_better/",
-          "/r/ClaudeAI/comments/1sv5v48/only_claude_is_not_enough/",
-          "/r/ClaudeAI/comments/1svj63k/is_pro_really_worth_it/"
-        ]
-      },
-      {
-        "technique_name": "Cross-Tool Prompt Comparison for Calibration",
-        "description": "Running identical prompts across multiple AI tools (ChatGPT, Claude, Gemini, etc.) helps users calibrate which tool handles specific task types better, and reveals when poor output is caused by the prompt rather than the model. Users report that systematic comparison across tools shifts blame away from the AI and toward prompt quality.",
-        "test_suggestion": "Pick one prompt you found underwhelming, run it verbatim on two or three different AI tools, and assess whether the variance in output quality points to a model difference or a prompt specificity issue.",
-        "change_target": "user_behavior",
-        "confidence": "MEDIUM",
-        "source_posts": [
           "/r/ClaudeAI/comments/1t9ye9o/i_ran_the_same_vague_prompt_through_chatgpt/",
-          "/r/ChatGPT/comments/1tamy4z/arguing_with_chatgpt/",
-          "/r/ClaudeAI/comments/1sv5v48/only_claude_is_not_enough/"
+          "/r/ClaudeAI/comments/1tdlvgy/stopped_padding_my_prompts_and_told_the_ai_to/",
+          "/r/IndiaGrowthStocks/comments/1tb0kjd/compounder_or_trap_run_the_twoengine_math_before/"
         ]
       },
       {
-        "technique_name": "Socratic Questioning as a Learning Prompt Mode",
-        "description": "Instead of asking AI for explanations or answers, users ask it to question them \u2014 prompting the AI to act as a Socratic tutor that asks probing questions to surface what the user already knows and guide them to insights. This technique is described as particularly effective for learning new domains and for brainstorming.",
-        "test_suggestion": "On a topic you want to understand more deeply, open a session by saying 'Ask me questions to help me develop my own understanding of X rather than explaining it to me directly' and follow where the questions lead.",
+        "technique_name": "First-Principles Self-Definition Before Output",
+        "description": "Instead of over-specifying all constraints in the prompt, adding a single line instructing the AI to surface its own assumptions and define its terms before proceeding (e.g., 'use first-principles reasoning \u2014 before you proceed, break this down to its core assumptions and state them explicitly'). This externalizes the model's reasoning frame so the user can inspect and correct it early, reducing hallucination and misalignment.",
+        "test_suggestion": "Add the sentence 'Before you begin, state the core assumptions you are making about this task' to your next complex prompt and review whether the surfaced assumptions match your intent.",
         "change_target": "user_behavior",
-        "confidence": "MEDIUM",
+        "confidence": "HIGH",
         "source_posts": [
-          "https://news.ycombinator.com/item?id=45362416",
-          "/r/ChatGPTPromptGenius/comments/1sts5gv/i_stopped_asking_claude_for_answers_i_started/",
-          "/r/ClaudeAI/comments/1t9ye9o/i_ran_the_same_vague_prompt_through_chatgpt/"
+          "/r/ClaudeAI/comments/1tdlvgy/stopped_padding_my_prompts_and_told_the_ai_to/",
+          "/r/ClaudeAI/comments/1t9ye9o/i_ran_the_same_vague_prompt_through_chatgpt/",
+          "/r/LocalLLaMA/comments/1tjbhjk/same_task_in_githubcopilot_pi_claudecode_and/"
+        ]
+      },
+      {
+        "technique_name": "Tool-Layer Segmentation by Task Depth",
+        "description": "Deliberately assigning AI tools to task categories by depth rather than defaulting to one tool for everything: using a capable model (e.g., Claude, GPT-4) for deep, long-form work requiring extended focus, and a faster or lighter tool for high-volume shallow tasks (quick emails, lookups, brief rewrites). Users report this eliminates the friction of forcing a single tool into mismatched modes.",
+        "test_suggestion": "For one week, categorize every AI task before starting as either 'deep work' (>15 min focus) or 'quick task' (<5 min), and route them to different tools or interfaces, then assess whether output quality and session friction differ.",
+        "change_target": "user_behavior",
+        "confidence": "HIGH",
+        "source_posts": [
+          "/r/ClaudeAI/comments/1thjemx/claude_vs_wingman_after_1_month_theyre_not_really/",
+          "/r/ClaudeAI/comments/1t9ye9o/i_ran_the_same_vague_prompt_through_chatgpt/",
+          "/r/SunoAI/comments/1sw1mil/how_i_build_concept_albums_with_no_musical/"
+        ]
+      },
+      {
+        "technique_name": "Framework-as-Prompt: Paste a Full Mental Model Then Apply It",
+        "description": "Copying an entire analytical framework or article into the AI prompt and then asking the model to apply it to specific data (e.g., your portfolio, your document, your codebase). This offloads framework design to a trusted external source and uses the AI purely for application, which multiple users find produces more rigorous and consistent analysis than asking the AI to construct the framework itself.",
+        "test_suggestion": "Find a decision framework or analytical template you trust, paste it in full into a new chat, then ask the AI to apply it to a specific case you are currently evaluating.",
+        "change_target": "user_behavior",
+        "confidence": "HIGH",
+        "source_posts": [
+          "/r/IndiaGrowthStocks/comments/1tb0kjd/compounder_or_trap_run_the_twoengine_math_before/",
+          "/r/ClaudeAI/comments/1tdlvgy/stopped_padding_my_prompts_and_told_the_ai_to/",
+          "/r/SunoAI/comments/1sw1mil/how_i_build_concept_albums_with_no_musical/"
         ]
       }
     ]

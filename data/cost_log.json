@@ -1,8 +1,8 @@
 {
   "meta": {
-    "total_runs": 16,
-    "cumulative_cost_usd": 3.8871,
-    "last_updated": "2026-05-19T20:05:01.285518+00:00"
+    "total_runs": 18,
+    "cumulative_cost_usd": 5.7299,
+    "last_updated": "2026-05-21T20:56:14.198880+00:00"
   },
   "runs": [
     {
@@ -354,6 +354,48 @@
         "total_cost_usd": 0.7244
       },
       "total_cost_usd": 0.7244
+    },
+    {
+      "run_id": "20260521_203221",
+      "run_at": "2026-05-21T20:50:50.066188+00:00",
+      "posts_processed": 1539,
+      "triage": {
+        "model": "claude-haiku-4-5-20251001",
+        "input_tokens": 502375,
+        "output_tokens": 135258,
+        "batches": 77,
+        "cost_usd": 1.1787
+      },
+      "synthesis": {},
+      "total_cost_usd": 1.1787
+    },
+    {
+      "run_id": "20260521_205050",
+      "run_at": "2026-05-21T20:56:14.198880+00:00",
+      "posts_processed": 394,
+      "triage": {},
+      "synthesis": {
+        "model": "claude-sonnet-4-6",
+        "tracks": {
+          "b": {
+            "input_tokens": 5863,
+            "output_tokens": 1132,
+            "cost_usd": 0.0346
+          },
+          "c": {
+            "input_tokens": 4336,
+            "output_tokens": 1561,
+            "cost_usd": 0.0364
+          },
+          "a": {
+            "input_tokens": 124791,
+            "output_tokens": 14582,
+            "cost_usd": 0.5931
+          }
+        },
+        "total_cost_usd": 0.6641
+      },
+      "total_cost_usd": 0.6641
     }
   ]
 }

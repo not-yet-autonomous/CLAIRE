@@ -82,5 +82,16 @@
     "reddit_new": 340,
     "hn_new": 0,
     "forum_new": 1
+  },
+  {
+    "run_at": "2026-05-21T20:31:58.923090+00:00",
+    "source": "forum",
+    "dry_run": false,
+    "existing_posts": 1803,
+    "new_posts": 2,
+    "total_posts": 1805,
+    "reddit_new": 0,
+    "hn_new": 0,
+    "forum_new": 2
   }
 ]
