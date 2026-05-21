@@ -1,3 +1,4 @@
+# Copyright (c) 2026 James Cole. Licensed under the MIT License.
 """
 CLAIRE — Build 3b: Output Layer
 Input:   data/candidates_track_a/b/c.json

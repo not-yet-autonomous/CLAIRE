@@ -1,3 +1,4 @@
+# Copyright (c) 2026 James Cole. Licensed under the MIT License.
 """
 CLAIRE — Build 3a: Synthesis Layer
 Input:   data/synthesis_queue_track_a/b/c.json

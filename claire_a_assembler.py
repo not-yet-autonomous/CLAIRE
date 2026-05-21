@@ -1,3 +1,4 @@
+# Copyright (c) 2026 James Cole. Licensed under the MIT License.
 """
 claire_a_assembler.py
 ---------------------

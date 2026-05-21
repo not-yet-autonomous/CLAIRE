@@ -1,3 +1,4 @@
+# Copyright (c) 2026 James Cole. Licensed under the MIT License.
 """
 CLAIRE — Build 1: Ingestion Layer
 Sources: Reddit public JSON + HackerNews API

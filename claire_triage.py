@@ -1,3 +1,4 @@
+# Copyright (c) 2026 James Cole. Licensed under the MIT License.
 """
 CLAIRE — Build 2: Triage Layer
 Input:   data/raw_posts.json

@@ -1,3 +1,4 @@
+# Copyright (c) 2026 James Cole. Licensed under the MIT License.
 """
 CLAIRE — Shared utilities
 compute_cost:     Calculate API call cost from token usage and pricing config.
