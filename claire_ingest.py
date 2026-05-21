@@ -12,10 +12,12 @@ Run:     python claire_ingest.py
 
 import json
 import os
+import re
 import time
 import argparse
 import hashlib
 import logging
+import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -40,6 +42,7 @@ RUN_LOG_PATH    = DATA_DIR / "ingest_run_log.json"
 LOCK_PATH       = DATA_DIR / "ingest.lock"
 
 REDDIT_HEADERS  = {"User-Agent": "CLAIRE/0.1 personal-use-signal-pipeline"}
+REDDIT_RSS_NS   = "http://www.w3.org/2005/Atom"
 HN_HEADERS      = {"User-Agent": "CLAIRE/0.1 personal-use-signal-pipeline"}
 
 REDDIT_DELAY    = 3.5   # seconds between Reddit requests (unauthenticated limit)
@@ -218,34 +221,47 @@ def stable_id(*parts) -> str:
     return hashlib.md5(raw.encode()).hexdigest()[:12]
 
 
-def safe_get(url, headers, params=None, delay=2.1, retries=3):
-    """GET with retry logic and rate limit delay."""
+def safe_get(url, headers, params=None, delay=2.1, retries=3, raw=False):
+    """GET with retry logic and rate limit delay.
+
+    raw=True: return response text instead of parsed JSON.
+    Raises requests.HTTPError immediately on 403 (not retriable — caller handles it).
+    """
     rate_limit_hits = 0
     for attempt in range(retries):
         try:
             r = requests.get(url, headers=headers, params=params, timeout=15)
-            if r.status_code == 429:
-                rate_limit_hits += 1
-                if rate_limit_hits > 5:
-                    log.error(f"Too many rate limit responses for {url} — aborting.")
-                    return None
-                wait = int(r.headers.get("Retry-After", 30))
-                log.warning(f"Rate limited (hit {rate_limit_hits}). Waiting {wait}s...")
-                time.sleep(wait)
-                continue
-            if r.status_code == 200:
-                time.sleep(delay)
-                try:
-                    return r.json()
-                except ValueError:
-                    log.warning(f"Non-JSON response from {url} (attempt {attempt+1}) — body: {r.text[:200]!r}")
-                    time.sleep(delay)
-                    continue
-            log.warning(f"HTTP {r.status_code} for {url}")
-            time.sleep(delay)
         except requests.RequestException as e:
             log.warning(f"Request error (attempt {attempt+1}): {e}")
             time.sleep(delay * 2)
+            continue
+
+        if r.status_code == 429:
+            rate_limit_hits += 1
+            if rate_limit_hits > 5:
+                log.error(f"Too many rate limit responses for {url} — aborting.")
+                return None
+            wait = int(r.headers.get("Retry-After", 30))
+            log.warning(f"Rate limited (hit {rate_limit_hits}). Waiting {wait}s...")
+            time.sleep(wait)
+            continue
+
+        if r.status_code == 403:
+            r.raise_for_status()  # not retriable — propagate to caller
+
+        if r.status_code == 200:
+            time.sleep(delay)
+            if raw:
+                return r.text
+            try:
+                return r.json()
+            except ValueError:
+                log.warning(f"Non-JSON response from {url} (attempt {attempt+1}) — body: {r.text[:200]!r}")
+                time.sleep(delay)
+                continue
+
+        log.warning(f"HTTP {r.status_code} for {url}")
+        time.sleep(delay)
     return None
 
 
@@ -272,15 +288,106 @@ def fetch_reddit_listing(subreddit: str, sort: str, limit: int, time_filter: str
     return posts
 
 
+def fetch_reddit_rss(subreddit: str, sort: str, limit: int) -> list:
+    """Fetch a subreddit listing via Atom RSS feed (no auth, no JSON API).
+
+    Returns list of partial post dicts compatible with normalize_reddit_post().
+    score and num_comments are None — not present in the RSS feed.
+    created_utc is an ISO 8601 string; normalize_reddit_post() converts it.
+    """
+    limit = min(limit, 100)
+    url   = f"https://www.reddit.com/r/{subreddit}/{sort}/.rss"
+    log.info(f"Reddit RSS r/{subreddit}/{sort} (limit={limit})")
+
+    try:
+        text = safe_get(url, REDDIT_HEADERS, params={"limit": limit},
+                        delay=REDDIT_DELAY, raw=True)
+    except requests.HTTPError as e:
+        log.warning(f"Reddit RSS r/{subreddit}/{sort} HTTP error: {e} — skipping")
+        return []
+
+    if not text:
+        return []
+
+    try:
+        root = ET.fromstring(text)
+    except ET.ParseError as e:
+        log.warning(f"Reddit RSS parse error for r/{subreddit}/{sort}: {e}")
+        return []
+
+    ns      = {"atom": REDDIT_RSS_NS}
+    posts   = []
+
+    for entry in root.findall("atom:entry", ns):
+        try:
+            # <id> format: https://www.reddit.com/r/sub/comments/ID/slug/
+            entry_id = (entry.findtext("atom:id", default="", namespaces=ns) or "").strip()
+            post_id  = ""
+            if "/comments/" in entry_id:
+                parts = entry_id.rstrip("/").split("/")
+                try:
+                    ci       = parts.index("comments")
+                    post_id  = parts[ci + 1]
+                except (ValueError, IndexError):
+                    pass
+            if not post_id:
+                continue
+
+            title = (entry.findtext("atom:title", default="", namespaces=ns) or "").strip()
+
+            author_el = entry.find("atom:author", ns)
+            author    = ""
+            if author_el is not None:
+                author = (author_el.findtext("atom:name", default="",
+                          namespaces=ns) or "").strip()
+                if author.startswith("/u/"):
+                    author = author[3:]
+
+            link_el   = entry.find("atom:link", ns)
+            permalink = ""
+            if link_el is not None:
+                permalink = link_el.get("href", "")
+            if permalink.startswith("https://www.reddit.com"):
+                permalink = permalink[len("https://www.reddit.com"):]
+
+            content_el = entry.find("atom:content", ns)
+            selftext   = ""
+            if content_el is not None and content_el.text:
+                selftext = re.sub(r"<[^>]+>", " ", content_el.text).strip()[:2000]
+
+            published = (entry.findtext("atom:published", default="",
+                         namespaces=ns) or "").strip()
+
+            posts.append({
+                "id":            post_id,
+                "title":         title[:500],
+                "selftext":      selftext,
+                "score":         None,
+                "num_comments":  None,
+                "author":        author,
+                "permalink":     permalink,
+                "url":           permalink,
+                "created_utc":   published,   # ISO 8601 string
+                "subreddit":     subreddit,
+                "_rss_ingested": True,
+            })
+        except Exception as e:
+            log.warning(f"Reddit RSS entry parse error: {e}")
+            continue
+
+    log.info(f"Reddit RSS r/{subreddit}/{sort}: {len(posts)} entries parsed")
+    return posts
+
+
 def fetch_reddit_comments(post_id: str, subreddit: str) -> list:
     """Fetch top comments for a post. Returns flat list of comment strings."""
     url = f"https://www.reddit.com/r/{subreddit}/comments/{post_id}.json"
-    data = safe_get(url, REDDIT_HEADERS, delay=REDDIT_DELAY)
-    if not data or len(data) < 2:
-        return []
-
-    comments = []
     try:
+        data = safe_get(url, REDDIT_HEADERS, delay=REDDIT_DELAY)
+        if not data or len(data) < 2:
+            return []
+
+        comments = []
         for child in data[1]["data"]["children"][:COMMENTS_PER_POST]:
             c = child.get("data", {})
             body = c.get("body", "").strip()
@@ -290,34 +397,65 @@ def fetch_reddit_comments(post_id: str, subreddit: str) -> list:
                     "score":  c.get("score", 0),
                     "body":   body[:800],  # cap comment length
                 })
+        return comments
+    except requests.HTTPError as e:
+        if e.response is not None and e.response.status_code == 403:
+            log.warning(f"Reddit comments 403 for {post_id} — skipping")
+            return []
+        raise
     except (KeyError, IndexError, TypeError):
-        pass
-    return comments
+        return []
 
 
 def fetch_reddit_search(query: str, limit: int = 25) -> list:
     """Search Reddit for keyword across all subreddits."""
-    url = "https://www.reddit.com/search.json"
+    url    = "https://www.reddit.com/search.json"
     params = {"q": query, "sort": "relevance", "t": "week", "limit": limit}
     log.info(f"Reddit search: '{query}'")
-    data = safe_get(url, REDDIT_HEADERS, params=params, delay=REDDIT_DELAY)
-    if not data:
-        return []
-    return [child.get("data", {}) for child in data.get("data", {}).get("children", [])]
+    try:
+        data = safe_get(url, REDDIT_HEADERS, params=params, delay=REDDIT_DELAY)
+        if not data:
+            return []
+        return [child.get("data", {})
+                for child in data.get("data", {}).get("children", [])]
+    except requests.HTTPError as e:
+        if e.response is not None and e.response.status_code == 403:
+            log.warning(f"Reddit search 403 for '{query}' — skipping")
+            return []
+        raise
 
 
 def normalize_reddit_post(raw: dict, subreddit_category: str, source_type: str) -> dict | None:
-    """Convert raw Reddit post dict to CLAIRE normalized format."""
-    post_id     = raw.get("id", "")
-    score       = raw.get("score", 0)
-    num_comments = raw.get("num_comments", 0)
-    subreddit   = raw.get("subreddit", "")
+    """Convert raw Reddit post dict to CLAIRE normalized format.
+
+    Handles two shapes:
+      - JSON API posts: score/num_comments are ints, created_utc is a float.
+      - RSS posts (_rss_ingested=True): score/num_comments are None,
+        created_utc is an ISO 8601 string. Noise prefilter is skipped.
+    """
+    post_id      = raw.get("id", "")
+    score        = raw.get("score", 0) or 0
+    num_comments = raw.get("num_comments", 0) or 0
+    subreddit    = raw.get("subreddit", "")
+    rss_ingested = raw.get("_rss_ingested", False)
 
     if not post_id:
         return None
 
-    if noise_prefilter(score, num_comments):
+    # RSS posts have no score/comment metadata — skip the noise prefilter
+    if not rss_ingested and noise_prefilter(score, num_comments):
         return None
+
+    # created_utc: float (JSON API) or ISO 8601 string (RSS)
+    created_utc_raw = raw.get("created_utc", 0)
+    if isinstance(created_utc_raw, str) and created_utc_raw:
+        try:
+            created_utc = datetime.fromisoformat(
+                created_utc_raw.replace("Z", "+00:00")).timestamp()
+        except ValueError:
+            created_utc = 0.0
+    else:
+        created_utc = float(created_utc_raw) if created_utc_raw else 0.0
 
     post = {
         "post_id":            f"reddit_{post_id}",
@@ -332,7 +470,7 @@ def normalize_reddit_post(raw: dict, subreddit_category: str, source_type: str) 
         "url":                f"https://reddit.com{raw.get('permalink', '')}",
         "permalink":          raw.get("permalink", ""),
         "author_flair":       raw.get("author_flair_text", ""),
-        "created_utc":        raw.get("created_utc", 0),
+        "created_utc":        created_utc,
         "fetched_at":         datetime.now(timezone.utc).isoformat(),
         "comments":           [],  # populated in second pass
         "triage":             {},  # populated by claire_triage.py
@@ -349,10 +487,10 @@ def ingest_reddit(existing_cache: dict, dry_run: bool) -> dict:
     new_posts = {}
     stats = {"fetched": 0, "prefiltered": 0, "deduplicated": 0, "new": 0}
 
-    # 1. Subreddit listings — native
+    # 1. Subreddit listings — native (via RSS to avoid JSON API 403s)
     for sub in REDDIT_NATIVE:
         for sort, limit in [("hot", HOT_LIMIT), ("top", TOP_LIMIT)]:
-            raw_list = fetch_reddit_listing(sub, sort, limit)
+            raw_list = fetch_reddit_rss(sub, sort, limit)
             for raw in raw_list:
                 stats["fetched"] += 1
                 post = normalize_reddit_post(raw, "native", "subreddit_listing")
