@@ -296,7 +296,7 @@ def fetch_reddit_rss(subreddit: str, sort: str, limit: int) -> list:
     created_utc is an ISO 8601 string; normalize_reddit_post() converts it.
     """
     limit = min(limit, 100)
-    url   = f"https://www.reddit.com/r/{subreddit}/{sort}/.rss"
+    url   = f"https://www.reddit.com/r/{subreddit}/{sort}.rss"
     log.info(f"Reddit RSS r/{subreddit}/{sort} (limit={limit})")
 
     try:
