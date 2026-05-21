@@ -120,7 +120,7 @@ CLAIRE\
 │   ├── triage.log            ✅ Triage run log
 │   ├── synthesis.log         ✅ Synthesis run log
 │   └── output.log            ✅ Digest generation log
-├── output\                   ✅ Build 3/8 — weekly digest .docx + claire_digest_YYYY-MM-DD.pdf
+├── output\                   ✅ Build 3 — weekly digest PDF (Section 6 = CLAIRE-A decisions)
 ├── skill_drafts\             ✅ Build 3 — SKILL.md drafts (hallucination-guard, source-integrity-enforcer)
 ├── skills\user\              ✅ Installed user skills (hallucination-guard)
 ├── archive\                  ⬜ Quarterly review artifacts (directory to be created)
@@ -300,4 +300,4 @@ Examples:
 - `CLAIRE Build 2 complete — synthesis queues written`
 
 ---
-*Last updated: 2026-05-21 — Build 8 complete. GitHub Actions migration, reportlab PDF output, Pushover notify. HANDOFF updated: GHA machine context, session start note, directory structure (claire_notify.py + .github/workflows/), locked decisions (3 new rows), GitHub Secrets section added.*
+*Last updated: 2026-05-21 — Directory structure corrected: change_log.json + friction_log.txt moved to project root; output/ corrected to PDF*
