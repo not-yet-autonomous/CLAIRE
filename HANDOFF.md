@@ -59,13 +59,28 @@ Expected output: `(.venv)` in prompt + `Deps OK`
 If venv fails: use `.\.venv\Scripts\activate.bat` instead
 If deps fail: `python -m pip install -r requirements.txt`
 
+```powershell
+# Strip FUSE null-byte corruption from key files before working:
+python -c "
+for f in ['HANDOFF.md', 'change_log.json', 'friction_log.txt', '.git/config', '.git/index']:
+    try:
+        data = open(f, 'rb').read().rstrip(b'\x00')
+        open(f, 'wb').write(data)
+    except FileNotFoundError:
+        pass
+print('Null-byte check OK')
+"
+```
+
+Expected output after all four steps: `(.venv)` in prompt + `Deps OK` + `Null-byte check OK`
+
 ---
 
 ## Directory Structure
 
 ```
 CLAIRE\
-├── claire_ingest.py          ✅ Build 7 — dev.to practitioner feed added (Reddit + HN + dev.to)
+├── claire_ingest.py          ✅ Build 9 — dev.to tag expansion (per-tag thresholds; llm, aitools, machinelearning added)
 ├── claire_triage.py          ✅ Build 2 — triage complete
 ├── claire_synthesize.py      ✅ Build 5 — fingerprints + change_target field added
 ├── claire_output.py          ✅ Build 8 — digest generation (docx default; --format pdf for GHA)
@@ -167,6 +182,8 @@ CLAIRE\
 | 8 | `claire_a_assembler.py` | ✅ Complete | Semantic memory filter — Haiku, 0.85 threshold, suppressed_candidates log |
 | 8 | `claire_output.py` | ✅ Complete | Track C separate PDF — generate_techniques_pdf(), non-fatal on failure |
 | 8 | `claire_utils.py` | ✅ Complete | Cost log merge — upsert by run_id, Track A alert at $0.65 |
+| 9 | `claire_ingest.py` | ✅ Complete | dev.to tag expansion — per-tag thresholds; llm (15), aitools (10), machinelearning (20) |
+| 9 | `config.json` | ✅ Complete | devto.tags migrated to object array; DEVTO_MIN_REACTIONS constant removed |
 
 ---
 
@@ -223,12 +240,14 @@ CLAIRE\
 | candidates_track JSON corruption | candidates_track_a.json and candidates_track_c.json have JSON parse errors. Regenerate by re-running synthesis. |
 | claire_a_source_reliability.json missing | Expected by Build 6 scorer but never written. Created on first successful scorer run — not a bug, just never run to completion with scorer active. |
 | Reddit GHA IP block | Reddit returns 403 on JSON endpoints and empty RSS feeds from GHA datacenter IPs. Manual ingest is permanent architecture — not a bug to fix. |
+| git null-byte corruption | .git/config and .git/index had null-byte padding appended (62 and 130 bytes) — likely OneDrive FUSE mount. Strip with: `python -c "open('.git/config','wb').write(open('.git/config','rb').read().rstrip(b'\\x00'))"` Same fix applies to .git/index. Symptoms: 'bad config line' or 'index file corrupt'. |
+| OneDrive FUSE mount write behavior | Silently truncates large file writes. Do not write config.json or other large files through Cowork file tools. Use Windows-side editor or bash heredoc. |
 
 ---
 
 ## Current Session Task
 
-Build 8 complete (2026-05-21).
+Build 9 complete (2026-05-21). Commit: CLAIRE Build 9 — dev.to tag expansion, per-tag thresholds
 
 **Completed this build:**
 - Semantic memory filter in claire_a_assembler.py — Haiku similarity
