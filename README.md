@@ -1,3 +1,5 @@
+<img src="docs/CLAIRE.png" width="80" alt="CLAIRE"/>
+
 # CLAIRE
 **Claude Learns and Improves Iteratively from Real Engagement**
 
