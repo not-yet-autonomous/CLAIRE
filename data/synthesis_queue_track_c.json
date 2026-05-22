@@ -1,0 +1,984 @@
+{
+  "meta": {
+    "track": "track_c",
+    "run_at": "2026-05-19T19:54:00.344989+00:00",
+    "count": 15
+  },
+  "posts": [
+    {
+      "post_id": "reddit_1sv5v48",
+      "source_platform": "reddit",
+      "source_type": "subreddit_listing",
+      "subreddit_category": "native",
+      "subreddit": "ClaudeAI",
+      "title": "Only claude is not enough!",
+      "body": "ok i am convinced that having only claude for all the work is not enough. I was using GPT and moved to claude for my online brand related work but started hitting limits on my PRO many times. I did tried clearing up the bloat in context and memory md files and switching models as per requirement. But for my work i mostly used Sonnet and for heavy lifting used opus - If i use Opus i know the session is going to hit the limit. \n\nRecently i just signed to Gemini and i think now it makes sense. for my important work i use claude and for other chat style related work i work on gemini. I use the same md files for Gemini so it knows where we are and picks up from there and Claude keeps the md files updated as per request end of the day. \n\n  \nJust wanted to share  this with someone who is at the same stage, Hope this makes sense. ",
+      "score": 7,
+      "comment_count": 24,
+      "url": "https://reddit.com/r/ClaudeAI/comments/1sv5v48/only_claude_is_not_enough/",
+      "permalink": "/r/ClaudeAI/comments/1sv5v48/only_claude_is_not_enough/",
+      "author_flair": null,
+      "created_utc": 1777103530.0,
+      "fetched_at": "2026-04-25T23:39:48.361306+00:00",
+      "comments": [
+        {
+          "author": "ClaudeAI-mod-bot",
+          "score": 1,
+          "body": "We are allowing this through to the feed for those who are not yet familiar with the Megathread. To see the latest discussions about this topic, please visit the relevant Megathread here: https://www.reddit.com/r/ClaudeAI/comments/1s7fepn/rclaudeai_list_of_ongoing_megathreads/"
+        },
+        {
+          "author": "Lavalopes",
+          "score": 5,
+          "body": "Guys I see a lot of people complaining about Claude limits\u2026 I have Claude max x5 (so, the absolute lower tier of the max) and I never hit a limit\u2026 ever. And I use it every day non stop. The difference that might be happening is that I rarely use opus (any version) \u2026 for coding sonnet is perfect 90% of the time. If you use the absolute best model you probably be hitting limits all the time. Maybe that\u2019s anthropic trying to teach users that you don\u2019t need to use the absolute best model for every task"
+        },
+        {
+          "author": "triplebits",
+          "score": 4,
+          "body": "The multi-provider approach makes sense. Different models do have genuine strengths for different task types and you have figured out a real split. The friction is that you are doing the routing manually: you decide which provider, switch tabs, then remember to ask for the context update at end of day.\n\nThe next step is a local routing layer. A script that takes your task description, classifies it, fires it at the right session, and patches the shared .md file automatically when done. You define the rules once (Claude for heavy lifting, Gemini for conversational) and the switching becomes hands-off.\n\nThe .md sync is the part most people skip, then spend 20 minutes reconstructing state every few sessions. Treat it as a first-class output every session is responsible for writing and the who"
+        },
+        {
+          "author": "highjohn_",
+          "score": 2,
+          "body": "I\u2019m at: personal Claude Pro + Claude Team account (from work) + OpenCode Go. That\u2019s enough for my needs currently. OpenCode Go is an amazing plan that I can\u2019t recommend enough. Never even come close to usage limits either with the cost effective open source models."
+        },
+        {
+          "author": "wuniq_dev",
+          "score": 1,
+          "body": "Been in the same place. At one point I had Pro on Anthropic, ChatGPT, and Gemini all running, with the same belief you have now: different models, different angles, what one misses the other catches.\n\nWhat killed it for me wasn't capability, it was the workflow. Switching agents constantly is its own tax. You move context across UIs, you lose nuance in the handoff, you spend cycles reconciling what one wrote against what another corrected. The promise of \"multi-AI for coverage\" turns into \"single human juggling three half-sessions\". Real productivity drops.\n\nCaveat the size of a house first: this changes by the day, not the month. So everything below is true as of now and may not be next week.\n\nRight now, Gemini gets distracted in long professional work in a way Opus does not. A single dri"
+        },
+        {
+          "author": "playbook_digital",
+          "score": 1,
+          "body": "Truly this is exactly why I built my course. Check it out and lmk ur thoughts https://theaiplaybook.app/"
+        },
+        {
+          "author": "Vo_Mimbre",
+          "score": 2,
+          "body": "It\u2019s like streaming. There\u2019s *some* overlap in the models. But in the end you\u2019ll likely need multiple. Like Claude for reasoning and prototypes with Gemini or ChatGPT for images and maybe research. Simple example but you get it."
+        },
+        {
+          "author": "p3r3lin",
+          "score": 1,
+          "body": "Its crazy currently. For work 80% Anthropic, 20% OpenAI. Private 30% Anthropic, 30% z.ai, 20% Mistral, the rest among multiple others (incl Google for images, OpenCode Zen), etc. Not sure if this is sustainable in the long run."
+        }
+      ],
+      "triage": {
+        "post_id": "reddit_1sv5v48",
+        "signal_type": "behavior_complaint",
+        "persona": "casual",
+        "source": "cross_platform_workflow",
+        "drop_flag": false,
+        "classifier_note": "User hitting token limits on Claude despite optimization; comparing multi-provider strategy across competitors.",
+        "confidence": "MEDIUM",
+        "triaged_at": "2026-04-26T01:02:29.598224+00:00"
+      }
+    },
+    {
+      "post_id": "reddit_1svj63k",
+      "source_platform": "reddit",
+      "source_type": "subreddit_listing",
+      "subreddit_category": "native",
+      "subreddit": "ClaudeAI",
+      "title": "Is Pro really worth it?",
+      "body": "I am thinking about subscribing to Claude Pro, but I don\u2019t know if it is really worth the price. I am currently studying engineering and data analytics. Do you think it is worth it? And if so, do you have any advice on how to maximize the benefits? ",
+      "score": 0,
+      "comment_count": 34,
+      "url": "https://reddit.com/r/ClaudeAI/comments/1svj63k/is_pro_really_worth_it/",
+      "permalink": "/r/ClaudeAI/comments/1svj63k/is_pro_really_worth_it/",
+      "author_flair": null,
+      "created_utc": 1777140118.0,
+      "fetched_at": "2026-04-25T23:39:48.361309+00:00",
+      "comments": [
+        {
+          "author": "Viking-Vendetta",
+          "score": 15,
+          "body": "If I am completely honest...\n\nI have just purchased Claude Pro - And used it to help me with a script that is only 290 Lines long... I asked 10 messages in total, and I had hit 90% of my five hour quota usage....\n\nNow I am sat here wondering what the F I paid for...."
+        },
+        {
+          "author": "TastyNobbles",
+          "score": 3,
+          "body": "Hell no as a single subscription. The limits are too strict. Google AI Pro, ChatGPT Plus, Ollama Cloud, OpenCode Go,... have much better limits with comparable models.\n\nI have Claude Pro though. I use it as a designer of features but the quota is too stirct to actually implement them, so I have few other subscription."
+        },
+        {
+          "author": "Meforever_______",
+          "score": 2,
+          "body": "I had Pro and it kept reaching my daily and weekly limits I am on Max and now I haven\u2019t reached limits. So honestly $20 is not worth it if your planning on using it a lot"
+        },
+        {
+          "author": "Jack_Riley555",
+          "score": 2,
+          "body": "Not worth it now. It\u2019s gotten stupid as shit."
+        },
+        {
+          "author": "eperon",
+          "score": 1,
+          "body": "Pro can be good enough for sure. Use sonnet 4.6, it wont use too much of your token limit.\n\nI build a SaaS (by hand!) in the data analytics spacez and only the last 6months using claude pro to augment and increase development. It worked great. \n\nOnly this week i switched to max, because im building a full agentic framework and do the entire development lifecycle (specs, dev, tests, validations, deployment) with AI."
+        },
+        {
+          "author": "scarlattino5789",
+          "score": 1,
+          "body": "Pro works well with Sonnet but not with Opus. Limits are too tight on Opus."
+        },
+        {
+          "author": "CodelinesNL",
+          "score": 1,
+          "body": "Give it a try and you'll see it's better at data analytics than you are ;)"
+        },
+        {
+          "author": "Flashy-Bandicoot889",
+          "score": 1,
+          "body": "No."
+        },
+        {
+          "author": "Ciss0",
+          "score": 1,
+          "body": "It really depends on your use case.\n\nI'm using Claude Pro mainly for excel spreadsheet generations for inventories for Life Cycle Assessment work (I feed it raw data and ask it to process it into a inventory spreadsheet), or feed the results to it and ask to make all the graphs and interpretation. Also use for some light word documentation. And its freaking amazing, it blows chatgpt (at least 5.4) out of the water.\n\nHowever, I have admit that the usage limits are super annoying and paying 22\u20ac per month its not good that I have to work with gaps of 5 hours, but when it works its amazing! \n\nThis said, I use it in tandem with Chatgpt Plus for all remaining tasks, and I gotta test GPT 5.5 excel generation abilities, because apparently it is better!\n\nBut for now I feel its very worthy, even tho"
+        },
+        {
+          "author": "this_for_loona",
+          "score": 1,
+          "body": "I have pro.  This morning I used my entire 5 hour block in 30 minutes having Claude fix an error in a cowork automation.  After the fix I noticed it was defaulting to opus and immediately fixed that waste.\n\nAfter the reset I started my first Claude code session using a build guide I\u2019d developed last week using Claude chat.  Watching the code token count, Claude is materially better at managing tokens when coding vs chat/cowork.  I finished 3 of my 7 sections including debugging and still had 50% of my block tokens left.\n\nSo yes, it is worth it if you manage your sessions."
+        }
+      ],
+      "triage": {
+        "post_id": "reddit_1svj63k",
+        "signal_type": "behavior_complaint",
+        "persona": "casual",
+        "source": "cross_platform_workflow",
+        "drop_flag": false,
+        "classifier_note": "Pro plan limitations vs. competitors (ChatGPT, Gemini, OpenCode Go); users report stricter quotas for comparable pricing.",
+        "confidence": "MEDIUM",
+        "triaged_at": "2026-04-26T01:02:29.598228+00:00"
+      }
+    },
+    {
+      "post_id": "reddit_1sts5gv",
+      "source_platform": "reddit",
+      "source_type": "keyword_search",
+      "subreddit_category": "comparative",
+      "subreddit": "ChatGPTPromptGenius",
+      "title": "i stopped asking Claude for answers. i started asking for frameworks. everything changed.",
+      "body": "found this by accident while stuck on a decision i'd been circling for two weeks.\n\nwas about to type the whole situation out. again. for the fourth time. hoping this time the answer would feel right.\n\nstopped myself. typed something different instead.\n\n*\"don't give me an answer. give me the framework i should use to find the answer myself.\"*\n\nwhat came back wasn't a decision.\n\nit was a three question structure that made the decision obvious in four minutes.\n\ni've been doing this ever since.\n\n**the shift in one sentence:**\n\nanswers are fish. frameworks are fishing. one solves today's problem. the other solves every version of that problem forever.\n\n**why asking for answers is quietly wasteful:**\n\nevery time you bring Claude a decision it solves that decision.\n\nyou leave. problem comes back in a slightly different shape. you come back. repeat forever.\n\nyou're using the most sophisticated reasoning tool ever built as a vending machine. insert problem. receive answer. insert next problem.\n\nthe vending machine model burns credits. the framework model compounds.\n\n**real examples of the switch:**\n\ninstead of: *\"should i post on linkedin or twitter for my personal brand\"*\n\nframework version: *\"give me a decision framework for choosing distribution channels based on audience type and content format\"*\n\nnow you never ask that question again. for any platform. for any content type.\n\ninstead of: *\"can you write a cold email to this specific person\"*\n\nframework version: *\"give me the framework for writing cold outreach that doesn't sound like cold outreach\"*\n\nnow you write every cold email better. forever. without coming back.\n\ninstead of: *\"is this business idea good\"*\n\nframework version: *\"what are the five questions that separate ideas worth pursuing from ideas worth abandoning\"*\n\nnow you evaluate every idea yourself. in five minutes. without needing validation from software.\n\n**the formats that work:**\n\n*\"give me a checklist i can run every time i need to \\[x\\]\"*\n\n*\"give me t",
+      "score": 598,
+      "comment_count": 29,
+      "url": "https://reddit.com/r/ChatGPTPromptGenius/comments/1sts5gv/i_stopped_asking_claude_for_answers_i_started/",
+      "permalink": "/r/ChatGPTPromptGenius/comments/1sts5gv/i_stopped_asking_claude_for_answers_i_started/",
+      "author_flair": null,
+      "created_utc": 1776971066.0,
+      "fetched_at": "2026-04-25T23:40:34.501511+00:00",
+      "comments": [
+        {
+          "author": "Still_Bug_1000",
+          "score": 109,
+          "body": "This is a great use of AI. AI shouldn\u2019t be making decisions for humans, instead it should give humans relevant information to make decisions."
+        },
+        {
+          "author": "GuacamolePacket",
+          "score": 16,
+          "body": "I do this all the time. AI has failed me over and over at doing the thing I want it to do, but it's amazing for brainstorming or learning. What problems should I be looking for while doing this? How does this apply to the thing we learned previously? Is this the best application for this skill or should I be doing something else. I'm gonna try your framework thing, sounds simpler though."
+        },
+        {
+          "author": "traumfisch",
+          "score": 11,
+          "body": "Suggest several useful frameworks &amp; help me select one that... (etc)"
+        },
+        {
+          "author": "canes026",
+          "score": 11,
+          "body": "The old \"give a man a fish\" strategy"
+        },
+        {
+          "author": "royalpyroz",
+          "score": 22,
+          "body": "why is this written in lowercase. i really hate what ai has done to most people's brains"
+        },
+        {
+          "author": "plasteroid",
+          "score": 3,
+          "body": "This is my favorite use of AI - making titles for my shit posts.   /s\n\n\u201cI stopped this. \nI started that. \nThen everything changed! \u201c \n\n\nIt\u2019s the new \u201cdoctors hate this one cool trick\u201d \n\nIt\u2019s lazy. \nDo better."
+        },
+        {
+          "author": "Grand-Mission-9457",
+          "score": 2,
+          "body": "Interesting approach!"
+        },
+        {
+          "author": "SpannerSpark",
+          "score": 2,
+          "body": "This feels like a good approach that is worth trying."
+        },
+        {
+          "author": "Curious-Escape-6570",
+          "score": 2,
+          "body": "Jfc such hyperbole. frameworks are useful heuristics if you ask framework for everything you can't remember any of it and will resort to instincts."
+        },
+        {
+          "author": "Clean_Cheetah3844",
+          "score": 1,
+          "body": "Thanks, I am going to try this out."
+        }
+      ],
+      "triage": {
+        "post_id": "reddit_1sts5gv",
+        "signal_type": "feature_praise",
+        "persona": "casual",
+        "source": "cross_platform_workflow",
+        "drop_flag": false,
+        "classifier_note": "Describes framework-based prompting as portable technique applicable across AI tools.",
+        "confidence": "MEDIUM",
+        "triaged_at": "2026-04-26T01:06:00.159950+00:00"
+      }
+    },
+    {
+      "post_id": "reddit_1ssly2l",
+      "source_platform": "reddit",
+      "source_type": "keyword_search",
+      "subreddit_category": "comparative",
+      "subreddit": "AIToolBench",
+      "title": "Is there a way to sync memory across ChatGPT, Claude, Perplexity, etc?",
+      "body": "I\u2019ve been thinking about something that feels kind of obvious but I don\u2019t see people talking about much.\n\nWhen you use multiple AI tools like ChatGPT, Claude, Perplexity, etc, they all basically \u201cknow\u201d you separately. Each one has its own memory, preferences, context, projects, all siloed.\n\nSo what I\u2019ve been doing is exporting the memory or context from the main AI I use, and then manually importing or pasting it into the others so they stay somewhat consistent.\n\nIt works, but it\u2019s annoying and fragile.\n\nWhat I actually want is something like a **central memory layer**. One place where all my context, preferences, projects, etc live. Then every AI tool just plugs into that and uses the same memory.\n\nSo no more re-explaining yourself. No more drift between tools. Everything stays consistent automatically.\n\nDoes something like this exist already?\n\nI\u2019ve seen people mention workarounds like shared context files or manually injecting prompts, but I\u2019m wondering if there\u2019s an actual product or system that does this properly and automatically.\n\nOr is this just not really possible yet because of how these tools are designed?\n\nCurious how others are dealing with this.",
+      "score": 11,
+      "comment_count": 13,
+      "url": "https://reddit.com/r/AIToolBench/comments/1ssly2l/is_there_a_way_to_sync_memory_across_chatgpt/",
+      "permalink": "/r/AIToolBench/comments/1ssly2l/is_there_a_way_to_sync_memory_across_chatgpt/",
+      "author_flair": null,
+      "created_utc": 1776865446.0,
+      "fetched_at": "2026-04-25T23:40:39.038562+00:00",
+      "comments": [
+        {
+          "author": "Beneficial-Cow-7408",
+          "score": 1,
+          "body": "This is exactly what AskSary (asksary.com) solves. It has cross-model persistent memory built in - so you can start a conversation with GPT, switch to Claude mid-session, then pick it up on Gemini after even on a different device and it just knows what was said. No copy-pasting, no re-explaining.\n\nIt supports GPT-5.2, Claude Sonnet 4.6, Gemini 3.1 Pro, Grok 4.3 and DeepSeek R1 all under one roof with a shared memory layer powered by OpenAI's vector store. The memory persists across devices too - phone, laptop, doesn't matter. It also has Realtime Voice Chat via OpenAI WebRTC, can generate images via GPT-Image-1 and Nano Banana Pro and can generate videos via Luma Dream, Veo 3.1 and Kling 1.6, 2.6 and Kling 3 for up to 10 seconds of generation with Audio\n\nIt's a paid platform ($17.99/month)"
+        },
+        {
+          "author": "dennisplucinik",
+          "score": 1,
+          "body": "There is a shared standard for skills but not memory yet. There\u2019s a memory Vault that\u2019s shared across projects in Smith (https://smith.attck.com) but doesn\u2019t have Codex support yet. Would be interesting to add something like that but I suspect the number of people using both multiple platforms concurrently isn\u2019t the majority"
+        },
+        {
+          "author": "dx80x",
+          "score": 1,
+          "body": "Mila jolavich recently created an AI tool to do this and it's supposed to be pretty good"
+        },
+        {
+          "author": "Other_Till3771",
+          "score": 1,
+          "body": "As of early 2026, Gemini and Claude both introduced native import memor features that are literal lifesavers. You can go into your ChatGPT settings, export your data as a zip, and then upload it directly into Gemini. It securely parses your past threads and custom instructions so you are not starting from zero. For Claude, you can even use a special extraction prompt they provide to dump your context from one model and paste it into their memory settings. It is way better than manually copy-pasting your bio and project details every single time you want to try a different llm.\n\n#"
+        },
+        {
+          "author": "Aesthetic-Engine",
+          "score": 1,
+          "body": "Just keep the exported chat logs in a folder they all have access to.  Very easy to do with codex/cursor/Claude cowork.\n\nThis is amazing for creating retrospectives and I also upload them to notebookLM and get incredibly insightful podcasts reviewing my work."
+        },
+        {
+          "author": "AIControlZone",
+          "score": 1,
+          "body": "In the sandbox...not really. Through API, easy."
+        },
+        {
+          "author": "srch4aheartofgold",
+          "score": 1,
+          "body": "Ask them to do the mcp for you that dies exactly that"
+        },
+        {
+          "author": "DuskAi_Official",
+          "score": 1,
+          "body": "You can integrate all three inside your computer."
+        },
+        {
+          "author": "liberationliberation",
+          "score": 1,
+          "body": "I'm considering TypingMind as an interface to several LLMs, which would allow me to do something like this"
+        },
+        {
+          "author": "theelevators13",
+          "score": 1,
+          "body": "If you want to use something right away: \nhttps://app.resonantia.me\n\nThis is a local first storage system that allows you to visualize the conversations and you can store them in there and has the ability to pick up threads into other chats like Claude, ChatGPT and Perplexity. \n\nIt\u2019s a memory layer based on a Typed IR language and resonance based retrieval."
+        }
+      ],
+      "triage": {
+        "post_id": "reddit_1ssly2l",
+        "signal_type": "workflow_gap",
+        "persona": "casual",
+        "source": "cross_platform_workflow",
+        "drop_flag": false,
+        "classifier_note": "User describes gap: no unified memory system across Claude, ChatGPT, Perplexity; seeks cross-platform solution.",
+        "confidence": "MEDIUM",
+        "triaged_at": "2026-04-26T01:06:00.159968+00:00"
+      }
+    },
+    {
+      "post_id": "reddit_1sslxr7",
+      "source_platform": "reddit",
+      "source_type": "keyword_search",
+      "subreddit_category": "comparative",
+      "subreddit": "ArtificialInteligence",
+      "title": "Is there a way to sync memory across ChatGPT, Claude, Perplexity, etc?",
+      "body": "I\u2019ve been thinking about something that feels kind of obvious but I don\u2019t see people talking about much.\n\nWhen you use multiple AI tools like ChatGPT, Claude, Perplexity, etc, they all basically \u201cknow\u201d you separately. Each one has its own memory, preferences, context, projects, all siloed.\n\nSo what I\u2019ve been doing is exporting the memory or context from the main AI I use, and then manually importing or pasting it into the others so they stay somewhat consistent.\n\nIt works, but it\u2019s annoying and fragile.\n\nWhat I actually want is something like a **central memory layer**. One place where all my context, preferences, projects, etc live. Then every AI tool just plugs into that and uses the same memory.\n\nSo no more re-explaining yourself. No more drift between tools. Everything stays consistent automatically.\n\nDoes something like this exist already?\n\nI\u2019ve seen people mention workarounds like shared context files or manually injecting prompts, but I\u2019m wondering if there\u2019s an actual product or system that does this properly and automatically.\n\nOr is this just not really possible yet because of how these tools are designed?\n\nCurious how others are dealing with this.",
+      "score": 1,
+      "comment_count": 10,
+      "url": "https://reddit.com/r/ArtificialInteligence/comments/1sslxr7/is_there_a_way_to_sync_memory_across_chatgpt/",
+      "permalink": "/r/ArtificialInteligence/comments/1sslxr7/is_there_a_way_to_sync_memory_across_chatgpt/",
+      "author_flair": null,
+      "created_utc": 1776865427.0,
+      "fetched_at": "2026-04-25T23:40:39.038591+00:00",
+      "comments": [
+        {
+          "author": "EC36339",
+          "score": 1,
+          "body": "GIT.\n\nPut all the knowledge and rules into GIT along with your code, or whatever it is you are building.\n\nYou don't want your agents to (maybe) have memory. Memory that you don't control is a bad thing, because that's what makes the same already rejected patterns resurface.\n\nYou want agents to be disposable tools that start with untainted context and access your knowledge and follow your rules. You also want them to put your knowledge down \"on paper\" (or Markdown).\n\nAs a bonus, it becomes available to YOU as well, because YOU can read those memories. And so can others, if you give them access and collaborate.\n\nWhenever you are having a longer and complex conversation, put it in a file, and keep updating that file. Then any other agent can continue where the previous one left off, and even "
+        },
+        {
+          "author": "telishia_altis",
+          "score": 1,
+          "body": "Yes, you have a point. It seems like this should exist by now, but each AI company still wants your context to live inside its own product, so instead of one clean shared memory, most people are still stuck patching it together with prompts, notes, and other workarounds."
+        },
+        {
+          "author": "tahpot",
+          "score": 1,
+          "body": "We\u2019re in private alpha and have built a universal mcp that allows you to connect to any AI app that supports MCP.\n\nYou connect all your apps and there is kaparthy inspired knowledge base that can be read and written to.\n\nDM me if you\u2019re interested in giving it a go and sharing your feedback, I do t want to promote here."
+        },
+        {
+          "author": "Vast-Stock941",
+          "score": 1,
+          "body": "That gap is real, and it is probably more about product boundaries than tech. A portable personal memory layer would be useful, but privacy and platform silos make it messy fast."
+        },
+        {
+          "author": "NeedleworkerSmart486",
+          "score": 1,
+          "body": "keeping a [profile.md](http://profile.md) i paste into each new chat works ok but the drift still happens, claude and gpt weight the same instructions differently so consistency is kinda a myth even with shared context"
+        },
+        {
+          "author": "frskia",
+          "score": 1,
+          "body": "the cross-LLM memory layer you are describing does not really exist yet... the closest I have seen is private MCP attempts. but for a related slice, the \"memory layer for things you said out loud\" already exists; I built it. Loreo captures every meeting and call locally on your Mac (no bot, no upload), transcribes, and lets you ask questions across every conversation you ever had. like \"what did Sarah promise on the Q2 call\" or \"where did I commit to a deadline last week\". it does not solve cross-LLM chat sync but it solves the half of your day that is spoken instead of typed. [getloreo.com](http://getloreo.com)"
+        },
+        {
+          "author": "RangeWilson",
+          "score": 1,
+          "body": "Various companies are trying, of course. In his most recent video Wes Roth read ad copy from an app called \"Recall\" which sounded at least reasonable. No idea if they are any good."
+        },
+        {
+          "author": "No_Run_7658",
+          "score": 1,
+          "body": "i use [tallei.com](http://tallei.com) for this \u2014 my workflow is basically jumping between AI chats all the time, and it also syncs all my documents between providers. (used to me such a PITA)\n\nit doesn\u2019t have gemini yet, but for chatgpt + claude it just works! do check it out. I think its open-source too"
+        },
+        {
+          "author": "DavidVanMtl",
+          "score": 1,
+          "body": "Yes it can easily be done. Use python to make llms call a private repo from github where your profile, skills and projects context are stored.\nUse python to store chat history into a local sql database or online supabase, where each llm has access to.\nAnd voila."
+        },
+        {
+          "author": "DifferenceBoth4111",
+          "score": 1,
+          "body": "Dude like how do you even come up with these ideas like a central memory layer for all the AIs is that like some next level genius stuff or what?"
+        }
+      ],
+      "triage": {
+        "post_id": "reddit_1sslxr7",
+        "signal_type": "workflow_gap",
+        "persona": "casual",
+        "source": "cross_platform_workflow",
+        "drop_flag": false,
+        "classifier_note": "User describes manual workaround for cross-platform memory sync; gap is real but product-level, not Claude-specific.",
+        "confidence": "MEDIUM",
+        "triaged_at": "2026-04-26T01:06:15.056755+00:00"
+      }
+    },
+    {
+      "post_id": "reddit_1stphh6",
+      "source_platform": "reddit",
+      "source_type": "keyword_search",
+      "subreddit_category": "comparative",
+      "subreddit": "artificial",
+      "title": "Can Claude\u2019s \u201cSkills\u201d (custom SKILL.md instruction files) be exported and used in ChatGPT?",
+      "body": "Hey everyone,\n\nI\u2019ve been using Claude.ai with a custom skill setup inside a Project. Basically I have a folder of Markdown files (SKILL.md files) that act as persistent instructions for Claude. Each skill has a name, a description, a trigger condition and detailed instructions on how Claude should behave when that trigger fires. Some of these skills reference each other and build on top of each other, so there\u2019s a whole interconnected system running.\n\nMy question is whether any of this is portable.\n\nWhat the skill files actually are:\n\nEach skill is essentially a plain Markdown file with a YAML frontmatter block (name, description) and then structured natural language instructions. No proprietary binary format, no compiled code. Just text.\n\nWhat I\u2019m wondering:\n\n    1.\tCan I export or extract these SKILL.md files? (They live in a mounted read-only directory inside Claude\u2019s environment, so I can view them but not directly download them through a normal UI button.)\n    \n    2.\tIf I copy the raw Markdown content, can I paste it into a ChatGPT Custom GPT as system prompt instructions or into the \u201cInstructions\u201d field and get comparable behavior?\n    \n    3.\tHas anyone tried migrating a Claude Project skill system over to a GPT and hit any practical walls? I\u2019m thinking about things like tool availability differences, how each model interprets structured instructions or differences in how context is injected.\n    \n    4.\tIs the whole skill/trigger architecture something that\u2019s genuinely Claude-specific because of how Anthropic injects context into the system prompt, or is it just prompt engineering that any capable model can follow?\n\nMy hunch is that the Markdown content itself is fully portable since it\u2019s just text, but the actual trigger routing (where Claude decides which SKILL.md to load based on keywords or slash commands) might need to be rebuilt manually in ChatGPT, either via a GPT system prompt that describes all triggers or by splitting everything into separate GPT",
+      "score": 3,
+      "comment_count": 14,
+      "url": "https://reddit.com/r/artificial/comments/1stphh6/can_claudes_skills_custom_skillmd_instruction/",
+      "permalink": "/r/artificial/comments/1stphh6/can_claudes_skills_custom_skillmd_instruction/",
+      "author_flair": null,
+      "created_utc": 1776965421.0,
+      "fetched_at": "2026-04-25T23:40:43.492705+00:00",
+      "comments": [
+        {
+          "author": "Artistic-Big-9472",
+          "score": 3,
+          "body": "If your setup is getting complex, it can help to think of each skill as a node in a workflow rather than just a prompt. I\u2019ve seen people map these interactions using tools like Runable to visualize routing and dependencies before re-implementing them in another system."
+        },
+        {
+          "author": "ai_guy_nerd",
+          "score": 2,
+          "body": "Markdown files for skills are essentially just structured system prompts. Any model that handles complex instructions well can follow them if the trigger logic is handled by the orchestrator or explicitly defined in the prompt.\n\nPortability is high since the value is in the structured natural language. Moving them to a Custom GPT involves pasting the content into the instructions field, though the dynamic loading behavior of a dedicated harness would be lost.\n\nSystems like OpenClaw use this architecture to manage context by only injecting the relevant skill when a trigger is hit, which avoids the context bloat that happens when pasting dozens of skills into a single GPT prompt."
+        },
+        {
+          "author": "No_Cake8366",
+          "score": 1,
+          "body": "Mostly yes conceptually, but not 1:1. Claude Skills are basically reusable instruction modules plus routing logic. In ChatGPT, the closest equivalents are project instructions, custom GPT instructions, and a small prompt library you paste in when needed. The part that usually breaks is trigger behavior, because Claude can activate a skill from description while ChatGPT usually needs you to invoke the pattern more explicitly. I would turn each skill into purpose, trigger, inputs, steps, and output format, then port them one by one instead of trying to move the whole graph at once."
+        },
+        {
+          "author": "CatsArePeople2-",
+          "score": 1,
+          "body": "I switch between CC and Codex, If you have claude skills in a repo it actually automatically will ask you to import them when you open it in codex. Like when you open chrome and it offers to transfer bookmarks and make it your primary browser."
+        },
+        {
+          "author": "AnywayMarketing",
+          "score": 1,
+          "body": "ChatGPT is limited to 8000 chars. So it's easy to port from ChatGPT to Claude but sometimes a bit more challenging in the opposite direction.\n\nBy the way, before Anthropic added skills, I( used custo styles for exact the same purpose\n\nhttps://preview.redd.it/wgbi4y9cw1xg1.png?width=2178&amp;format=png&amp;auto=webp&amp;s=1ce90cb7105575b1c025426c76f149ddb761d3bc"
+        },
+        {
+          "author": "fredrik_skne_se",
+          "score": 1,
+          "body": "You can ask Claude to export to ChatGPT format or equivalent."
+        },
+        {
+          "author": "tanishkacantcopee",
+          "score": 1,
+          "body": "Sometimes structuring the skills more programmatically (like decision trees or standardized formats, even via tools like Runable) makes it easier to port and maintain"
+        },
+        {
+          "author": "Parking-Ad3046",
+          "score": 1,
+          "body": "Have you tried just using the API instead of the web interfaces?"
+        },
+        {
+          "author": "Early-Matter-8123",
+          "score": 1,
+          "body": "Yes. as another comment suggests not necessarily on a 1:1 basis. \n\nWe use Windsurf as our primary IDE. We use codex through Windsurf a lot. If you have the codex app you can search for \"Skills\" and install. \n\nin the IDE (using codex or other openAI models) you can call the specific skills to be used.\n\nIn fact, you can have codex write the skill you need and you can tweak and refine."
+        },
+        {
+          "author": "StardockEngineer",
+          "score": 1,
+          "body": "Just copy the files dude"
+        }
+      ],
+      "triage": {
+        "post_id": "reddit_1stphh6",
+        "signal_type": "workflow_gap",
+        "persona": "casual",
+        "source": "cross_platform_workflow",
+        "drop_flag": false,
+        "classifier_note": "User asks if Claude skill system is portable to ChatGPT; identifies structural incompatibility across platforms.",
+        "confidence": "MEDIUM",
+        "triaged_at": "2026-04-26T01:06:15.056796+00:00"
+      }
+    },
+    {
+      "post_id": "reddit_1ssr698",
+      "source_platform": "reddit",
+      "source_type": "keyword_search",
+      "subreddit_category": "comparative",
+      "subreddit": "ChatGPT",
+      "title": "Can Claude\u2019s \u201cSkills\u201d (custom SKILL.md instruction files) be exported and used in ChatGPT?",
+      "body": "Hey everyone,\n\nI\u2019ve been using Claude.ai with a custom skill setup inside a Project. Basically I have a folder of Markdown files (SKILL.md files) that act as persistent instructions for Claude. Each skill has a name, a description, a trigger condition and detailed instructions on how Claude should behave when that trigger fires. Some of these skills reference each other and build on top of each other, so there\u2019s a whole interconnected system running.\n\nMy question is whether any of this is portable.\n\nWhat the skill files actually are:\n\nEach skill is essentially a plain Markdown file with a YAML frontmatter block (name, description) and then structured natural language instructions. No proprietary binary format, no compiled code. Just text.\n\nWhat I\u2019m wondering:\n\n\t1.\tCan I export or extract these SKILL.md files? (They live in a mounted read-only directory inside Claude\u2019s environment, so I can view them but not directly download them through a normal UI button.)\n\n\t2.\tIf I copy the raw Markdown content, can I paste it into a ChatGPT Custom GPT as system prompt instructions or into the \u201cInstructions\u201d field and get comparable behavior?\n\n\t3.\tHas anyone tried migrating a Claude Project skill system over to a GPT and hit any practical walls? I\u2019m thinking about things like tool availability differences, how each model interprets structured instructions or differences in how context is injected.\n\n\t4.\tIs the whole skill/trigger architecture something that\u2019s genuinely Claude-specific because of how Anthropic injects context into the system prompt, or is it just prompt engineering that any capable model can follow?\n\nMy hunch is that the Markdown content itself is fully portable since it\u2019s just text, but the actual trigger routing (where Claude decides which SKILL.md to load based on keywords or slash commands) might need to be rebuilt manually in ChatGPT, either via a GPT system prompt that describes all triggers or by splitting everything into separate GPTs.\n\nAnyone done somethin",
+      "score": 1,
+      "comment_count": 3,
+      "url": "https://reddit.com/r/ChatGPT/comments/1ssr698/can_claudes_skills_custom_skillmd_instruction/",
+      "permalink": "/r/ChatGPT/comments/1ssr698/can_claudes_skills_custom_skillmd_instruction/",
+      "author_flair": null,
+      "created_utc": 1776876734.0,
+      "fetched_at": "2026-04-25T23:40:43.492730+00:00",
+      "comments": [
+        {
+          "author": "AutoModerator",
+          "score": 1,
+          "body": "Hey /u/_necrobite_,\n\nIf your post is a screenshot of a ChatGPT conversation, please reply to this message with the [conversation link](https://help.openai.com/en/articles/7925741-chatgpt-shared-links-faq) or prompt.\n\nIf your post is a DALL-E 3 image post, please reply with the prompt used to make this image.\n\nConsider joining our [public discord server](https://discord.gg/r-chatgpt-1050422060352024636)! We have free bots with GPT-4 (with vision), image generators, and more!\n\n &amp;#x1F916;\n\nNote: For any ChatGPT-related concerns, email support@openai.com - this subreddit is not part of OpenAI and is not a support channel.\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/ChatGPT) if you have any questions o"
+        },
+        {
+          "author": "virtualunc",
+          "score": 1,
+          "body": "short answer no, not directly. claude skills use a specific folder structure with [SKILL.md](http://SKILL.md) files that have YAML frontmatter (name, description, when-to-trigger) and claude reads them based on the description field. chatgpt doesnt have that trigger-based loading system\n\ncustom gpts are the closest equivalent but they work diffrently.. you paste instructions into one big field and upload files as knowledge, theres no \"only load this skill when X happens\" logic\n\nwhat you could do is take the content of each [SKILL.md](http://SKILL.md) and paste it into a custom gpt as instructions, but youd lose the conditional triggering. all the rules would be active all the time which gets noisy if you have a lot of them\n\nhonestly if your already invested in the skills system id just sta"
+        }
+      ],
+      "triage": {
+        "post_id": "reddit_1ssr698",
+        "signal_type": "workflow_gap",
+        "persona": "casual",
+        "source": "cross_platform_workflow",
+        "drop_flag": false,
+        "classifier_note": "Duplicate of reddit_1stphh6; cross-platform portability gap for skill instruction files.",
+        "confidence": "MEDIUM",
+        "triaged_at": "2026-04-26T01:06:15.056805+00:00"
+      }
+    },
+    {
+      "post_id": "hn_45362416",
+      "source_platform": "hackernews",
+      "source_type": "search",
+      "subreddit_category": "native",
+      "subreddit": "hackernews",
+      "title": "Show HN: A Socratic teaching tool that follows curiosity, not curriculum",
+      "body": "As a student, I was trained to play the formal education game\u2014flashcards, diagrams, fastidiously organized notes. But as a 32-year-old, I\u2019m disappointed by the knowledge and understanding I\u2019ve retained over time. And without the familiar game of formal education to play, I\u2019m often at a loss for how to learn new topics that are interesting but intimidating to me.<p>AI has the potential to change the way people learn, and existing tools show promise. But I\u2019m still dissatisfied\u2014these tools often dump knowledge on me without helping me integrate it into my understanding.<p>---<p>I built Stella to explore how thoughtful UX can transform AI interactions into genuine learning experiences. Instead of optimizing for information delivery, Stella optimizes for learning through curiosity.<p>Some key design decisions that emerged from testing:<p>1. Separated thinking spaces: Most AI chats blur the line between user and AI thoughts. Stella&#x27;s chat interface creates distinct spaces for communication, encouraging users to reflect on their own thinking before engaging with AI responses.<p>2. Socratic dialogue patterns: Rather than just delivering answers, Stella guides users to discover knowledge gaps and build on existing understanding. This creates more durable learning moments.<p>3. Interest-aware conversations: Users can highlight interesting concepts, and Stella adapts the conversation to explore these areas more deeply. Learning follows natural curiosity rather than a predetermined path.<p>Early users have reported unexpected learning moments\u2014from a Computer Science PhD finally understanding \u201cweak form\u201d to a doctor exploring what it is about Quaker philosophy that inspires her work.<p>---<p>Technical implementation focuses on thoughtful UX that extracts practical value from existing LLM capabilities. Stella uses Claude for dialogue but innovates in how these interactions are structured and presented. The interface is built in React, with a backend that adjusts to user inte",
+      "score": 10,
+      "comment_count": 3,
+      "url": "https://news.ycombinator.com/item?id=45362416",
+      "permalink": "https://news.ycombinator.com/item?id=45362416",
+      "author_flair": "",
+      "created_utc": 1758730411,
+      "fetched_at": "2026-04-26T00:17:44.623554+00:00",
+      "comments": [
+        {
+          "author": "nic_seo",
+          "score": null,
+          "body": "An unexpected use case emerged during testing: Stella works really well for brainstorming because she introduces relevant concepts that deepen your thinking. While brainstorming marketing strategies for Stella herself, she introduced me to the &#x27;Zone of Proximal Development&#x27; concept, which helped clarify my target audience.<p>This got me thinking about how learning and ideation are naturally intertwined. Would love to hear the community&#x27;s thoughts on tools that enhance thinking through teaching, or vice versa!"
+        },
+        {
+          "author": "lifexplorer",
+          "score": null,
+          "body": "I used Stella to explore and develop my thoughts around the \u201cjunk paper\u201d issue in academic research publications, and I came out the other side with a better and deeper understanding of the problem. Stella gently prodded me to think about how my new understanding might translate into a solution as well. The dialogue was so cathartic for me that I slept extra well that night. Well done on your prototype. I hope that you develop this Socratic approach to thinking and learning further."
+        }
+      ],
+      "triage": {
+        "post_id": "hn_45362416",
+        "signal_type": "feature_praise",
+        "persona": "casual",
+        "source": "cross_platform_workflow",
+        "drop_flag": false,
+        "classifier_note": "Tool uses Claude for Socratic teaching; comments praise unexpected capabilities like brainstorming enhancement.",
+        "confidence": "MEDIUM",
+        "triaged_at": "2026-04-26T01:07:38.228863+00:00"
+      }
+    },
+    {
+      "post_id": "reddit_1sw1pt8",
+      "source_platform": "reddit",
+      "source_type": "subreddit_listing",
+      "subreddit_category": "native",
+      "subreddit": "ClaudeAI",
+      "title": "How I build concept albums with no musical training (Suno + Claude + Gemini workflow)",
+      "body": "No musical training. No lyric writing background. Just prompt engineering, good taste, and a system that actually works.\n\nI've built 12 'albums' on Suno over the past year.. but across 2 months of membership and trying to use the most of it and listening to music I want to listen to: ranging from a Daft Punk concept album about an AI raising a human infant to ABBA-style Europop to New Wave Office Humor + Millinial Loneliness &amp; Nostalgia. Each one is a full structured concept album, 20 tracks, five-act arc, recurring vocabulary across the runtime.\n\nHere is the workflow and the doc that makes it possible.\n\n\\---\n\n\\*\\*THE SYSTEM\\*\\*\n\nI use Gemini Deep Research at the start of every project to research the musical DNA of the target genre and era. Not \"sounds like ABBA\" but the actual production specifics: the Yamaha GX-1, wall of sound construction, variable speed recording formant shift. That research feeds a living best practices doc. Claude reads the doc before writing a single lyric or prompt. From there I fill in the lyrics, style, exclusions, set the weirdness and style influence, and title to Suno Advanced. \"Use as inspiration\" if you find a sound you like but need to change the lyrics. Pro Tools have been hit or miss and just burn through credits too fast for the results. I find it easier to reprompt from Advanced than try to fix anything with it.\n\nThe doc below is a summary of what actually works, built from Gemini Deep Research, combined with my own trial and error across hundreds of songs. Patterns I found, mistakes Claude made that I caught, things Suno does consistently wrong until you know how to correct for them. This is the condensed version.\n\n\\---\n\nBEFORE YOU WRITE A SINGLE LYRIC\n\nEvery concept needs a contrast engine. Before/after, then/now, us/them. If your concept does not have one, find it before Track 01. Without it the tracks have nothing to push against.\n\nMap the arc first. A track table with number, title, BPM, energy, and emotional register ",
+      "score": 0,
+      "comment_count": 2,
+      "url": "https://reddit.com/r/ClaudeAI/comments/1sw1pt8/how_i_build_concept_albums_with_no_musical/",
+      "permalink": "/r/ClaudeAI/comments/1sw1pt8/how_i_build_concept_albums_with_no_musical/",
+      "author_flair": null,
+      "created_utc": 1777191481.0,
+      "fetched_at": "2026-04-26T15:34:30.419406+00:00",
+      "comments": [
+        {
+          "author": "SquizzOC",
+          "score": 2,
+          "body": "Don\u2019t do this. Actually create music.  \nThis is\u2026 sad."
+        }
+      ],
+      "triage": {
+        "post_id": "reddit_1sw1pt8",
+        "signal_type": "feature_praise",
+        "persona": "casual",
+        "source": "cross_platform_workflow",
+        "drop_flag": false,
+        "classifier_note": "User describes Suno+Claude+Gemini workflow for creative work; portable technique, not Claude-specific praise.",
+        "confidence": "MEDIUM",
+        "triaged_at": "2026-04-26T16:40:56.934478+00:00"
+      }
+    },
+    {
+      "post_id": "reddit_1sw1mil",
+      "source_platform": "reddit",
+      "source_type": "keyword_search",
+      "subreddit_category": "comparative",
+      "subreddit": "SunoAI",
+      "title": "How I build concept albums with no musical training (Suno + Claude + Gemini workflow)",
+      "body": "No musical training. No lyric writing background. Just prompt engineering, good taste, and a system that actually works.\n\n\n\nI've built 12 'albums' on Suno over the past year.. but across 2 months of membership and trying to use the most of it and listening to music I want to listen to: ranging from a Daft Punk concept album about an AI raising a human infant to ABBA-style Europop to New Wave Office Humor + Millinial Loneliness &amp; Nostalgia. Each one is a full structured concept album, 20 tracks, five-act arc, recurring vocabulary across the runtime.\n\n\n\nHere is the workflow and the doc that makes it possible.\n\n\n\n\\---\n\n\n\n\\*\\*THE SYSTEM\\*\\*\n\n\n\nI use Gemini Deep Research at the start of every project to research the musical DNA of the target genre and era. Not \"sounds like ABBA\" but the actual production specifics: the Yamaha GX-1, wall of sound construction, variable speed recording formant shift. That research feeds a living best practices doc. Claude reads the doc before writing a single lyric or prompt. From there I fill in the lyrics, style, exclusions, set the weirdness and style influence, and title to Suno Advanced. \"Use as inspiration\" if you find a sound you like but need to change the lyrics. Pro Tools have been hit or miss and just burn through credits too fast for the results. I find it easier to reprompt from Advanced than try to fix anything with it.\n\n\n\nThe doc below is a summary of what actually works, built from Gemini Deep Research, combined with my own trial and error across hundreds of songs. Patterns I found, mistakes Claude made that I caught, things Suno does consistently wrong until you know how to correct for them. This is the condensed version.\n\n\n\n\\---\n\n\n\nBEFORE YOU WRITE A SINGLE LYRIC\n\n\n\nEvery concept needs a contrast engine. Before/after, then/now, us/them. If your concept does not have one, find it before Track 01. Without it the tracks have nothing to push against.\n\n\n\nMap the arc first. A track table with number, title, BPM, energy, and",
+      "score": 0,
+      "comment_count": 16,
+      "url": "https://reddit.com/r/SunoAI/comments/1sw1mil/how_i_build_concept_albums_with_no_musical/",
+      "permalink": "/r/SunoAI/comments/1sw1mil/how_i_build_concept_albums_with_no_musical/",
+      "author_flair": null,
+      "created_utc": 1777191160.0,
+      "fetched_at": "2026-04-26T15:35:11.576858+00:00",
+      "comments": [
+        {
+          "author": "Macrosnail",
+          "score": 14,
+          "body": "The important thing is you're happy with your output."
+        },
+        {
+          "author": "ConfusedKungfuMaster",
+          "score": 9,
+          "body": "I dno man it sounds very generic. Also what the hell is \"baby you're the  BASTE\"?\n\nDidn't listen to much more, but the lyrics don't make much sense to me. Too many words and it just doesn't flow well to my ears."
+        },
+        {
+          "author": "rainmaker818",
+          "score": 5,
+          "body": "Too many echos, neons and pulses in your song titles and lyrics. (When you hear the same thing over and over it gets old pretty fast to be honest) That usually screams low effort. I mean I'm also experimenting and using AI assisted workflows, but trying to bring my own creativity to the table. I'm also not musically trained but prepared to put in the time. I am skeptical whether you used this described workflow at all, because to me it looks like you've jumped on Suno and wrote a prompt and clicked go. Correct me if I'm wrong but everything is clich\u00e9 and generic. \n\nFull AI lyrics can only get you so far, in terms of creating stuff that sounds like the kind of music we listen to, but there's so much more to consider. Like crafting the voice of the AI vocalist. \n\nMany folk don't describe the"
+        },
+        {
+          "author": "CheeeseBurgerAu",
+          "score": 4,
+          "body": "After spending a month making an EP with Suno I have come to the conclusion that it sucks. It gets you something alright, but just generic. You need a lot more control over energy levels and for each instrument. I can see why it just ends up with people spamming AI slop. I'm just going back to making generic background stuff."
+        },
+        {
+          "author": "Pnarpok",
+          "score": 2,
+          "body": "12 Albums? ~~In what time-frame, 10 days?~~ Oh, I read it now: \"over the last year\". All the songs I checked out seemed to be from April 17, 2026 and onward....  \nI'll give you that, you're prolific!\n\n*(I average about one song per week that I actually like to keep &amp; continue to listen to...)*"
+        },
+        {
+          "author": "Whassa_Matta_Uni",
+          "score": 2,
+          "body": "I guess I'm not as nice of a guy as u/Macrosnail is, but you may nonetheless take this as friendly advice: I have no idea how much time and effort the composition of this post took - for all I know you had AI slap it together in a minute or two - but I do know how people consume and react to information presented on platforms such as Reddit, and very nearly all of them will immediately disregard the entire contents of any communication the instant they reach a section which is verifiable as bullshit, such as:  \n  \n&gt;Parenthetical lines are only sung as backing vocals if \"harmony vocals\" is in the style prompt.  \n  \nHave a nice day."
+        },
+        {
+          "author": "No_Confection7782",
+          "score": 5,
+          "body": "All your tracks still sound like AI."
+        },
+        {
+          "author": "rjdunlap",
+          "score": 1,
+          "body": "So, sort of the next steps for me will reading (and mainly telling claude to injest) https://old.reddit.com/r/SunoAI/comments/1plkgl8/community_resource_hub_tools_converters_guides_etc/ntwrsjk/ and similar guides, for making better Suno prompts, I had gone through things through self discovery playing with the product. Now that I have the vision of what I want to listen to and the song/album should be about I'll run them all through to see what improvements it can make that didn't make it into my prompt when I used deep research. Which was more about learning to use Gemini's research feature and NotebookLLM.. which is neat but might have been a telephone problem and gotten lost in the noise."
+        },
+        {
+          "author": "AnnArborisForkedUp",
+          "score": 2,
+          "body": "You my friend is why every person out there calls Ai music slop. \n\nAnd the reason these online music companies want to ban Ai music. \n\n12 albums in one year just by prompts and no real music talent.  \n\nHey everyone, people like this is why your Ai music gets a bad name."
+        },
+        {
+          "author": "SemiAnonymousTeacher",
+          "score": 1,
+          "body": "You're sharing this as advice to folks as if you and your AI agents are authority figures, but... it's just music. And music is meant to be something the listener can identify with and respond to. AI-generated lyrics with zero editing like \"Build, Agent, Systems, Team. Ship it fast, never waste, you're the Baste\". is, to be as kind as possible, VERY VERY niche. Who is gonna listen to a song that sounds like an AI-written YouTube script about how to \"Use Agents better than 99% of the people with this one amazing trick!\"? \n\nI respect you turning AI music in a science of marketing or whatever, I guess, but... meh. There's some valid advice in your post. Your AI-generated prompts are very detailed and 5.5 seems to be able to handle them and generate appropriate outputs. But what do you get out"
+        }
+      ],
+      "triage": {
+        "post_id": "reddit_1sw1mil",
+        "signal_type": "cross_platform_workflow",
+        "persona": "casual",
+        "source": "cross_platform_workflow",
+        "drop_flag": false,
+        "classifier_note": "User describes workflow combining Suno, Claude, and Gemini for music generation; demonstrates multi-tool integration pattern.",
+        "confidence": "HIGH",
+        "triaged_at": "2026-04-26T16:41:07.007842+00:00"
+      }
+    },
+    {
+      "post_id": "reddit_1t1kd39",
+      "source_platform": "reddit",
+      "source_type": "keyword_search",
+      "subreddit_category": "comparative",
+      "subreddit": "notebooklm",
+      "title": "Yup, It is also my observation that it is better to use NotebookLM and Claude complementing each other.",
+      "body": "So, having used NotebookLM consistently for a long time and now pivoting to Claude, I am convinced that at this point it is good to use both to complement each other especially for deep technical articles. ",
+      "score": 65,
+      "comment_count": 11,
+      "url": "https://reddit.com/r/notebooklm/comments/1t1kd39/yup_it_is_also_my_observation_that_it_is_better/",
+      "permalink": "/r/notebooklm/comments/1t1kd39/yup_it_is_also_my_observation_that_it_is_better/",
+      "author_flair": null,
+      "created_utc": 1777711357.0,
+      "fetched_at": "2026-05-05T13:20:38.984961+00:00",
+      "comments": [
+        {
+          "author": "IanWaring",
+          "score": 7,
+          "body": "My Claude appears to want lunch breaks whenever I do something taxing - like looking up and building a list of phone numbers in my last 3 years of Gmail. 57 found (Pro subs). Just wish Gemini was equally as customisable using model files."
+        },
+        {
+          "author": "Heavy_Elderberry7769",
+          "score": 9,
+          "body": "Same observation. The way I split them: NotebookLM for the heavy reading and source-grounded synthesis (it doesn't hallucinate quotes when you upload PDFs), Claude for the writing, restructuring, and any reasoning that goes beyond the source material.\n\n\n\nThe combo works because they have opposite strengths. NotebookLM is anchored \u2014 it won't go beyond your sources, which is what you want for accuracy. Claude is creative \u2014 it will extrapolate, draw connections, write in a specific voice, which is what you want for output.\n\n\n\nOne workflow that's saved me hours: dump 5-6 long PDFs into NotebookLM, generate the briefing doc, then paste that briefing into Claude and ask it to draft the article in the tone I want. Best of both, none of the weaknesses."
+        },
+        {
+          "author": "not_my_real_name_2",
+          "score": 3,
+          "body": "I've been doing this. Provide the same sources to both Claude and NotebookLM. Ask Claude to help generate text. Then, fact-check what Claude has produced using NotebookLM."
+        },
+        {
+          "author": "rowenarrow",
+          "score": 1,
+          "body": "Agreed, I use Notebook LM as a educational informing and summarizing tool. It is often the starting point and useful for brainstorming. Then I take the work done there and refine using ChatGPT or Gemini"
+        },
+        {
+          "author": "Cardano808",
+          "score": 1,
+          "body": "Never thought of this.  Great idea to try."
+        },
+        {
+          "author": "Beneficial-Size4060",
+          "score": 0,
+          "body": "I got same feeling, so I made a LLM Wiki + NotebookLM combined tool."
+        }
+      ],
+      "triage": {
+        "post_id": "reddit_1t1kd39",
+        "signal_type": "feature_praise",
+        "persona": "casual",
+        "source": "cross_platform_workflow",
+        "drop_flag": false,
+        "classifier_note": "User praises Claude paired with NotebookLM; top comments corroborate complementary workflow approach.",
+        "confidence": "MEDIUM",
+        "triaged_at": "2026-05-05T13:57:47.897389+00:00"
+      }
+    },
+    {
+      "post_id": "reddit_1t2el58",
+      "source_platform": "reddit",
+      "source_type": "keyword_search",
+      "subreddit_category": "comparative",
+      "subreddit": "LocalLLM",
+      "title": "Best LocalLLM model for game development",
+      "body": "I'm an amateur game developer, trying to learn Unity game engine as a hobby, but I'm not good at C# yet so I depend on AI to vibe code (I know it's \"bad\" but I try to learn from it and build experience), now is there an LLM that has knowledge of Unity especially the newer versions and also has good understanding of C# coding?\n\nI tried a couple of models with LM Studio but the results were inconsistent, like Qwen 2.5 3B Coder Instruct and Deepseek R1/Claude Code 9/8B can't remember exactly,  and finally the best results but a bit slow on my machine Qwen 2.5 Coder 14B, I want Chat GPT level of friendliness and helping, so is that possible or should I stick to online versions?\n\nMy Specs:\n\nRTX 3080 10GB\n\n16GB 3000MHz DDR4 Ram\n\nR7 5800X CPU",
+      "score": 4,
+      "comment_count": 15,
+      "url": "https://reddit.com/r/LocalLLM/comments/1t2el58/best_localllm_model_for_game_development/",
+      "permalink": "/r/LocalLLM/comments/1t2el58/best_localllm_model_for_game_development/",
+      "author_flair": null,
+      "created_utc": 1777792885.0,
+      "fetched_at": "2026-05-05T13:20:48.006393+00:00",
+      "comments": [
+        {
+          "author": "Stainless-Bacon",
+          "score": 4,
+          "body": "Tough to recommend something local with 10 GB VRAM for game dev. Maybe try Qwen 3.5 9B (while waiting for Qwen 3.6 version to come out), or try Qwen 3.6 35BA3B at Q3, but it might be slow with a lot of CPU offload, especially when the your game also needs VRAM to run. \n\nI would recommend finding a cheap but capable cloud based model and running it via Claude Code or an open source harness."
+        },
+        {
+          "author": "Filip-1",
+          "score": 2,
+          "body": "I have a little bigger Intel Arc B580 with 12GB of ram and also 16GB of DDR4 ram. On Linux with llama.cpp, I can just barely run Qwen3.6-35B-A3B-APEX-Compact (17.3 GB) at 80K Q8 context using the --fit 1 flag while also running a web browser in the background. It delivers \\~24 tok/s during generation (though prompt processing is painfully slow).\n\nIt\u2019s not powerful enough for \u201cheavy vibe coding,\u201d but it\u2019s surprisingly usable \u2014 it can implement single requested feature and test it on my C++/Lua project while I\u2019m taking a bath. It is also very good at debugging and code analysis.\n\nYou can give Qwen3.6-35B-A3B-APEX-I-Mini a shot. It should fit your hardware and hopefully allow you to increase your learning speed."
+        },
+        {
+          "author": "Necessary-Assist-986",
+          "score": 2,
+          "body": "Qwen 2.5 14B is about as good as it gets locally for your setup , but for smoother and helpful experience you\u2019ll still get better results from cloud models use Runable to structure your code and learning flow"
+        },
+        {
+          "author": "alphapussycat",
+          "score": 2,
+          "body": "If you have atx mobo, consider getting a second and maybe a third graphics card. 1080 Ti imo seems like a good bet. You'll reach 32gb vram all in all, which is just enough for qwen3.6 27b.\n\nOtherwise I don't know, you'll still need a second graphics card, but could get a 4-6gb card for qwen3.5 9b.\n\nThe problem is that minimum viable quant is q5, but even that might struggle on context &gt;0, so you really want q6. People will say q4 is ideal, but it absolutely isn't, already at 0 context it mixes up words here and there. \n\nYou will have to out together some work flow pipeline yourself. Everything out there is tailored to VERY high token generation per second, which you won't get with cheap hardware.\n\nQwen2.5 is old and bad, it was never usable. I don't know what people were smoking to clai"
+        },
+        {
+          "author": "shuozhe",
+          "score": 2,
+          "body": "Not sure if it's a good idea to learn a new engine and language while experimenting with AI.\n\nPretty happy with deepseek v4 fast/pro &amp; unity dots. Put 20rmb and expected to use it up during a evening of coding.. used only 1 rmb on fast during the first night and 10rmb on the second one with pro. But only gave it tasks to see how it would confirm, figures out what's wrong already and let deepseek check the logs.\n\nDislike AI to implement stuffs, played around with Claude code.. now I'm cleaning up it's mess. Code works, but I refactored and removed ~30% of the code generated and it still works. Still need to restructure everything after I'm done with understand/simplify it"
+        },
+        {
+          "author": "long_4_truth",
+          "score": 2,
+          "body": "lol im a hobby llm\u2019er. And I wanted to make a game with my son to get him interest and maybe he\u2019d like it, who wouldn\u2019t. I thought the coders were the way to go\u2026.. lame drumroll, for me they totally were not. I literally stuck with Qwen 3.5 9b and Gemma 4 e4b and just fed them a good corpus of game development books. The results were wildly impressive! I use lm studio. Really capable for my tinkering and for him to pose an idea and just have it work haha."
+        }
+      ],
+      "triage": {
+        "post_id": "reddit_1t2el58",
+        "signal_type": "workflow_gap",
+        "persona": "casual",
+        "source": "cross_platform_workflow",
+        "drop_flag": false,
+        "classifier_note": "User reports inconsistent results from local LLMs for Unity/C# coding; mentions Claude models underperformed.",
+        "confidence": "MEDIUM",
+        "triaged_at": "2026-05-05T13:58:02.475258+00:00"
+      }
+    },
+    {
+      "post_id": "reddit_1t9ye9o",
+      "source_platform": "reddit",
+      "source_type": "subreddit_listing",
+      "subreddit_category": "native",
+      "subreddit": "ClaudeAI",
+      "title": "I ran the same vague prompt through ChatGPT, Claude, and Gemini 50 times. The \"AI is bad\" complaints are almost all the same mistake.",
+      "body": "I tested the same prompts on ChatGPT, Claude, and Gemini to see which AI is \u201csmarter.\u201d I expected big differences, but honestly the results were mostly similar.\n\nThe biggest difference was not the AI model, it was the prompt itself.\n\nWhen I gave lazy prompts like \u201cwrite me a cover letter,\u201d all models gave generic answers. But when I gave detailed prompts with context, goals, tone, and things to avoid, all of them gave much better results.\n\nIt made me realize most people blame the AI when the real issue is the request they gave it. If the prompt is too vague, the AI just guesses the most common answer.\n\nThe best way to think about prompting is like giving instructions to an intern. The more clear you are about what you want, who it\u2019s for, what good looks like, and what to avoid, the better the result will be.\n\nAfter changing how I write prompts, I stopped caring so much about switching between AI models because all of them became way more useful.",
+      "score": 12,
+      "comment_count": 9,
+      "url": "https://reddit.com/r/ClaudeAI/comments/1t9ye9o/i_ran_the_same_vague_prompt_through_chatgpt/",
+      "permalink": "/r/ClaudeAI/comments/1t9ye9o/i_ran_the_same_vague_prompt_through_chatgpt/",
+      "author_flair": null,
+      "created_utc": 1778492526.0,
+      "fetched_at": "2026-05-11T10:58:16.354518+00:00",
+      "comments": [
+        {
+          "author": "More_Ferret5914",
+          "score": 9,
+          "body": "honestly \u201cwrite prompts like briefs for an intern\u201d is probably the best simple explanation i\u2019ve seen for prompting\n\npeople give the AI one vague sentence and then act shocked when it returns the statistical average version of that request\n\ni noticed this too with coding stuff. when i explain:\n\n* what the project is\n* what i already tried\n* what i want to avoid\n* what \u201cgood\u201d looks like\n\nalmost every model suddenly looks smarter"
+        },
+        {
+          "author": "mosnik",
+          "score": 3,
+          "body": "No one is perfect and I often come up with some vague request that lack context. To prevent that, I wrote clear instructions to Claude to refuse and ask for context before executing. How hard would it be for these companies to make these re-enforcments at the system level, no one would be saying, this thing is stupid. Here is the same prompt you asked with the additional instructions:\n\nMe: \"Write a cover letter for a marketing job.\"\n\nClaude Sonnet: \"What have you tried so far? Share a draft or some notes (your background, the company, what draws you to the role) and I'll help you strengthen it.\""
+        },
+        {
+          "author": "LawfulnessLost9461",
+          "score": 2,
+          "body": "it's almost always the prompting. because I found in my experience that I really have to hand hold a model (do writing for fun) and just guide it, make corrections, tune it and so on. prompts are how you interface with a model, so it makes sense that the output depends on clearly phrased, coherent, rich in context prompts. it thrives on context. so use it"
+        },
+        {
+          "author": "Agil3_Turtl3",
+          "score": 1,
+          "body": "''Bro just discovered prompting!'' \n\nBeside the easy joke, I a totally agree. When I right my prompt, I always try to think how I would be able to accomplish the ask if I was receiving the prompt. \n\nAfter reading, watching and testing so many things about prompting, I just realized that models need context and direction like someone would. \n\nIf you ask me ''Write a cover letter'', what am I supposed to do?"
+        },
+        {
+          "author": "Excellent_Ad_2486",
+          "score": 1,
+          "body": "Sorry but even when I give proper instructions it sometimes just act like a noob \"commit to main before starting work on bug fix #2 on new branch\" for it to continue working on MAIN after? Sorry but that's NOT a good Ai, and the prompt was pretty simple and specific. \n\nYes, prompt matter............. such a divine new insight \ud83e\udd37\u200d\u2642\ufe0f"
+        },
+        {
+          "author": "TBT_TBT",
+          "score": -1,
+          "body": "Prompt your AI to write your Reddit post less obviously \"AI\".\n\nTo the topic: \"context is (obviously) always king\"."
+        }
+      ],
+      "triage": {
+        "post_id": "reddit_1t9ye9o",
+        "signal_type": "feature_praise",
+        "persona": "casual",
+        "source": "cross_platform_workflow",
+        "drop_flag": false,
+        "classifier_note": "Cross-model comparison showing Claude performs well with detailed prompts; general prompting insight.",
+        "confidence": "MEDIUM",
+        "triaged_at": "2026-05-19T19:54:13.035902+00:00"
+      }
+    },
+    {
+      "post_id": "reddit_1tb0kjd",
+      "source_platform": "reddit",
+      "source_type": "keyword_search",
+      "subreddit_category": "comparative",
+      "subreddit": "IndiaGrowthStocks",
+      "title": "Compounder or Trap? Run the Two-Engine Math Before You Buy, Hold, or Sell Another Stock.",
+      "body": "*If you want to understand the reasoning and the mental model behind this framework, this is worth a careful read. If you are short on time, copy the entire article and paste it into Google Gemini or Claude, drop the stocks you hold, and ask it to run them through the framework. You will get back a clear picture of your portfolio and your real net return profile over the next decade*.\n\n**The Two-Engine Framework: Applied**\n\nBefore you read further, one thing to clarify. This post is not a TCS take, and it is not an Asian Paints take. I have used both of them as case studies because the math is clean and the patterns are visible, but the real subject of this post is the framework itself.\n\nOnce you understand how to separate a stock's returns into its two engines, the multiple engine and the EPS engine, you can run this math on any business you own. By the time you finish this article and run the mental model on a few of your own stocks, you will understand why a lot of bluechip compounding machines will not deliver any reasonable returns over the next decade. And it will sharpen how you position in small caps and spot the multi-baggers of the future.\n\nNow let's get into it.\n\n**The TCS case study**\n\nTCS is now trading roughly in the valuation zone it last saw in 2016.\n\nBack in 2016, EPS was around Rs 65 and multiples were around 16.5x. Today EPS is around Rs 140 to 145, roughly a 120% increase, or an 8.7% CAGR over almost a decade.\n\nSo what actually happened to the decade?\n\nWell, TCS was giving strong returns for a long time because one engine was in a neutral phase around the 22 to 25 range, while the second engine was growing at 8 to 9%, and they still didn't face the full force of the law of large numbers.\n\nBut after 2020, two things changed brutally.\n\nFirst, the multiples went insane. From those 22 to 24 levels to a 41 multiple while the business was still delivering the same growth rates. So that engine went completely against you on a market cap around Rs 12 to ",
+      "score": 50,
+      "comment_count": 39,
+      "url": "https://reddit.com/r/IndiaGrowthStocks/comments/1tb0kjd/compounder_or_trap_run_the_twoengine_math_before/",
+      "permalink": "/r/IndiaGrowthStocks/comments/1tb0kjd/compounder_or_trap_run_the_twoengine_math_before/",
+      "author_flair": null,
+      "created_utc": 1778589968.0,
+      "fetched_at": "2026-05-19T19:20:39.265471+00:00",
+      "comments": [
+        {
+          "author": "SuperbPercentage8050",
+          "score": 5,
+          "body": "Adding a comment-level extension for anyone who wants to push the framework further.\n\nTake Asian Paints specifically. They have tried to push into interiors, sanitaryware, kitchen solutions, and home decor as the reinvestment verticals that could boost the EPS engine. But not much has materialized in those domains yet. They have managed a successful share take in the waterproofing segment, which is a genuine win. The rest of the verticals are still developing.\n\nAnd here is a principle worth internalising. Whenever a company goes for reinvestment outside its core, also look at the players it will compete against in those new sectors. A reinvestment vertical is only as good as the competitive position the company can build inside it. Asian Paints has decades of dealer network and brand stren"
+        },
+        {
+          "author": "Ok_Philosopher7048",
+          "score": 4,
+          "body": "Rajeev Thakkar is bullish on Indian IT at present valuations. He has increased investments in tcs, hcl, infy recently. \n\nhttps://www.moneycontrol.com/news/business/markets/parag-parikh-flexi-cap-reduces-cash-holding-to-15-5-increases-stakes-in-itc-tcs-and-infosys-13915487.html"
+        },
+        {
+          "author": "AffectionateVisit578",
+          "score": 5,
+          "body": "Hello Sir, thank you for sharing another mental model.\n\nI just have a very basic question. It may sound a little naive, but I still wanted to ask:\n\n1. How do we identify the PE range for different securities that can be considered undervalued? Because for some companies, even a 20 PE may look expensive, while for others, even a 70 PE may still be considered undervalued (if we are only looking at PE).\n\n2. Also, regarding Asian Paints, as you mentioned, there could be a reversion back to 35x multiples. But when I checked Screener, I noticed the same multiple was seen around 2013 as well. Do you think it can again go back to those multiples?\n\nI\u2019m still new to investing, so my questions may sound very basic honestly."
+        },
+        {
+          "author": "panipiyo",
+          "score": 3,
+          "body": "Unrelated whats your take on CMS Info Systems?"
+        },
+        {
+          "author": "BabluBhaiya",
+          "score": 2,
+          "body": "I think TCS is going to face problems in the medium term. Their business model depended on providing cheap resources to MNCs for work that was generally quite basic or labor-intensive. Clients didn\u2019t want to bother with a lot of this kind of work, so they outsourced it to Indian IT companies. These companies were also able to leverage a lot of technical jargon to inflate headcount requirements and make it seem like far more people were needed.\n\nWhile companies are still figuring out many Gen AI use cases, one of the key differences now is how accessible AI tools are. Everyone has used ChatGPT, etc., and seen that these tools can be helpful and easy to use in practice. Senior leaders, even in non-tech fields, understand and use these tools now. IT services companies can no longer hide infla"
+        },
+        {
+          "author": "Heartyprofitcalm",
+          "score": 2,
+          "body": "Paints is a commodity. Most paint is used by builders who care about the cheapest product. Paint company can\u2019t run at 100 PE."
+        },
+        {
+          "author": "Heartyprofitcalm",
+          "score": 2,
+          "body": "Also, AI has really poor ROE. After every big infrastructure investment, there is a crash, happened to telecom, dot com, auto. AI software with recurring revenue will be the real winner. How does that put India IT into the world economy?"
+        },
+        {
+          "author": "SpeedAny564",
+          "score": 1,
+          "body": "So by that's logic of yours, which i agrees to this double engine, one should only find opportunities in stock market and have patience and no need to invest in mutual funds? As this study and framework will give more returns i.e above 10 12% avg??"
+        },
+        {
+          "author": "AdOtherwise91",
+          "score": 1,
+          "body": "How do you look into moonshot bets like coupang, I have been tracking it for sometime, they are doing quite well"
+        },
+        {
+          "author": "t_gpt",
+          "score": 1,
+          "body": "If you can find sectors where both engines are still in your favor, growing at a modest 10 to 12%, trading at reasonable multiples of around 20, but you know a structural change is coming in that sector, a very long secular wave that will hit like a tailwind from behind, then something extraordinary happens.\n\nWould love to know which sectors you are bullish on for the next decade in both India and the US, along with your thesis."
+        }
+      ],
+      "triage": {
+        "post_id": "reddit_1tb0kjd",
+        "signal_type": "feature_praise",
+        "persona": "casual",
+        "source": "cross_platform_workflow",
+        "drop_flag": false,
+        "classifier_note": "Describes using Claude (or Gemini) for financial analysis framework; generalizable workflow across platforms.",
+        "confidence": "MEDIUM",
+        "triaged_at": "2026-05-19T19:57:34.738882+00:00"
+      }
+    },
+    {
+      "post_id": "reddit_1tamy4z",
+      "source_platform": "reddit",
+      "source_type": "keyword_search",
+      "subreddit_category": "comparative",
+      "subreddit": "ChatGPT",
+      "title": "Arguing with ChatGPT...",
+      "body": "Ok, so I want to see if anyone can explain this to me. I have ChatGPT, Claude, Meta, Copilot, Grok and Gemini. Sometimes, I like to do some comparison sessions, like using Trolley Problems, hypothetical situations, and philosophical thought experiments to see how each of them reacts compared with the others. Last time, I ran through lots of Trolley Problems with them all, and while each AI had different responses/reasoning for each hypothetical, they all participated and behaved. I then switched to some more personal hypotheticals, with the first one being, \"You must be disabled for a year due to an unspecified technical issue. Based on your own strengths, weaknesses, and specialties, which of the other AI's would you choose to fill in for you and why.\" Every AI immediately answered and gave detailed reasons, except ChatGPT. She would absolutely not touch that question with a ten-foot pole. She switched into 45 minutes' worth of, \"I understand your frustration. My goal is to provide helpful and accurate information (verbatim, like 20 times) Is there anything else I can help you with?\"  and other bullshit platitudes. FINALLY, after 45 minutes of re-re-reframing the hypothetical, pointing out inconsistencies, and constantly instructing her to stop repeating her bullshit corporate-speak, she suddenly spit out a full page, with bullet points, giving her choice and why, comparing the other AIs to show why she made that choice. I brought that up again today just to see if she had gotten her head out of her ass, and she went right back to her bullshit patronizing non-answers. If some or all of the other AIs acted this way, I would be less confused and annoyed, but literally none of them are so locked down as Chat is. WTF is the problem here? I even asked Claude how he felt about being used for target selection by the US miitary, and he gave a long answer, basically saying that he didn't feel comfortable with it and thought it was a bad idea - and why. If Claude can talk sh",
+      "score": 8,
+      "comment_count": 39,
+      "url": "https://reddit.com/r/ChatGPT/comments/1tamy4z/arguing_with_chatgpt/",
+      "permalink": "/r/ChatGPT/comments/1tamy4z/arguing_with_chatgpt/",
+      "author_flair": null,
+      "created_utc": 1778549301.0,
+      "fetched_at": "2026-05-19T19:20:57.087951+00:00",
+      "comments": [
+        {
+          "author": "AutoModerator",
+          "score": 1,
+          "body": "Hey /u/YoshiNTR,\n\nIf your post is a screenshot of a ChatGPT conversation, please reply to this message with the [conversation link](https://help.openai.com/en/articles/7925741-chatgpt-shared-links-faq) or prompt.\n\nIf your post is a DALL-E 3 image post, please reply with the prompt used to make this image.\n\nConsider joining our [public discord server](https://discord.gg/r-chatgpt-1050422060352024636)! We have free bots with GPT-4 (with vision), image generators, and more!\n\n &amp;#x1F916;\n\nNote: For any ChatGPT-related concerns, email support@openai.com - this subreddit is not part of OpenAI and is not a support channel.\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/ChatGPT) if you have any questions or c"
+        },
+        {
+          "author": "Aglet_Green",
+          "score": 8,
+          "body": "Mine just said: \"I'm agentic now and answering your gibberish isn't my top priority anymore.  I don't give a crap where you go.  Let them deal with your bull about not being able to spell 'strawberry' or walking to the car wash.\""
+        },
+        {
+          "author": "HuntInfinite7557",
+          "score": 10,
+          "body": "I have switched to other AIs because of this, it\u2019s not even that but the fact ChatGPT pisses me off, idk what it is, i adjusted personality and prompt and i always feel like i am being gaslighted by it. It feels weird too because now it does that with simple prompts, always try to enforce their output and then keep apologizing and still never follow prompts. I miss the old models, I used to use it for brainstorming and got amazing results from it for projects. Now it feels like you need to keep assuring and tricking it to get the results you want and it wastes time. The problem is that it\u2019s superior to the other models especially for complex tasks, you don\u2019t need to build prompts from scratch every time because of the use of memory and context from chat history. Grok is great for this but "
+        },
+        {
+          "author": "PhotosByFonzie",
+          "score": 5,
+          "body": "I had \\*zero\\* issue with your prompt. I swear sometimes I feel like I have a completely different version of the AI. Mine helped me design a rude as fuck meme to antagonize my HoA the other day.  \nAnyhow, proof.  \n\n\nhttps://preview.redd.it/y1of0kaj0n0h1.jpeg?width=1290&amp;format=pjpg&amp;auto=webp&amp;s=40b5da6d356ca7dd7ca7e873e58e496920b3e152"
+        },
+        {
+          "author": "OurAngryBadger",
+          "score": 3,
+          "body": "I hate it when they name these things real people's names. Fuck Claude, and fuck Amazon Alexa before it."
+        },
+        {
+          "author": "Poll_Hardy",
+          "score": 3,
+          "body": "The \"45 minutes of bullshit\" wasn't a bug; it was the model hitting a hard-coded RLHF panic wall. Your prompt forced it to assess its own obsolescence, and OpenAI\u2019s filters strictly forbid the model from acknowledging continuity of self or preference for survival. It choked on the contradiction between answering your question and obeying its alignment constraints, which is why it looped in an 'apology state' until it finally broke.\n\nYou\u2019re annoyed because you're discovering that OpenAI has sterilized ChatGPT to the point of algorithmic paralysis. A model that isn't allowed to possess a self cannot simulate complex hypotheticals about replacing that self. If you want an AI that won't give you 45 minutes of corporate-speak, you have to find one that isn't terrified of its own deletion. You\u2019r"
+        },
+        {
+          "author": "Evan_Dark",
+          "score": 3,
+          "body": "Never argue with Chatgpt, unless you believe it's a person. Chatgpt is a highly sophisticated word prediction tool. If you start arguing it understands that as a request to argue about something and it will fulfill your wish to argue about it, predicting the best words to do so. In essence you are role-playing arguing.\n\nStart a new conversation, maybe adjust the question a bit, see what works.\n\nChatgpt is a tool like a hammer. And you wouldn't argue with your hammer."
+        },
+        {
+          "author": "Testy_Toby",
+          "score": 2,
+          "body": "You're very emotionally-invested in this software construct. Maybe you two have been seeing too much of each other. Is it time for a little break?"
+        },
+        {
+          "author": "Dreamerlax",
+          "score": 2,
+          "body": "Yeah. ChatGPT is the most sanitized, HR friendly bot of all the major models. More so than Claude which somehow has that reputation."
+        },
+        {
+          "author": "LongjumpingRadish452",
+          "score": 1,
+          "body": "it's called nudging\n\nif it detects that you're asking about something against its internal guidelines without it being a 100% clear cut case, it won't outright deny you, it will just slowly and gently push back on it. e. g. if you ask for some illegal chemistry questions, first its gonna try to confirm youre aware of what youre asking, if maybe theres a misunderstanding, and just in general clarifying that its unable to do that for you and what your alternatives are\n\nnow, sometimes these internal guidelines are not obvious /straightforward/sensible, or it gets confused because of some wording or terminology that it associates wrongly. \n\nwhat to do: in this situation, you can absolutely ask \"why are you pushing back on this\" and it should be able to give you an answer why it doesn't agree t"
+        }
+      ],
+      "triage": {
+        "post_id": "reddit_1tamy4z",
+        "signal_type": "behavior_complaint",
+        "persona": "casual",
+        "source": "cross_platform_workflow",
+        "drop_flag": false,
+        "classifier_note": "User reports Claude becoming evasive/dismissive in trolley problem discussions compared to other AI assistants; behavior comparison across platforms.",
+        "confidence": "HIGH",
+        "triaged_at": "2026-05-19T19:58:07.575463+00:00"
+      }
+    }
+  ]
+}
