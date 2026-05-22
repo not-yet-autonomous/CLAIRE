@@ -2,103 +2,81 @@ name: CLAIRE Weekly Pipeline
 
 on:
   schedule:
-    - cron: '0 14 * * 0'   # Sundays at 14:00 UTC
-  workflow_dispatch:         # Manual trigger for testing
-
-concurrency:
-  group: claire-pipeline
-  cancel-in-progress: false
+    - cron: '0 14 * * 0'  # Sunday 14:00 UTC
+  workflow_dispatch:       # Manual trigger for testing
 
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
-    permissions:
-      contents: write        # Required for commit-state step
 
     steps:
-      # ── 1. Checkout ────────────────────────────────────────────────────────
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
           token: ${{ secrets.GH_PAT }}
+          fetch-depth: 1
 
-      # ── 2. Set up Python ──────────────────────────────────────────────────
-      - name: Set up Python 3.11
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip'
 
-      # ── 3. Install dependencies ───────────────────────────────────────────
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
+        run: python -m pip install -r requirements.txt
 
-      # ── 4. Ingest ─────────────────────────────────────────────────────────
-      # Public APIs only (Reddit public JSON, HackerNews, dev.to).
-      # No credentials required for current ingest implementation.
-      - name: Ingest
+      - name: Ingest HackerNews and dev.to
         env:
-          PYTHONUNBUFFERED: "1"
-        run: python claire_ingest.py --source forum
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python claire_ingest.py --source gha
 
-      # ── 5. Triage ─────────────────────────────────────────────────────────
       - name: Triage
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python claire_triage.py
 
-      # ── 6. Synthesize ─────────────────────────────────────────────────────
       - name: Synthesize
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python claire_synthesize.py
 
-      # ── 7. Generate PDF digest ────────────────────────────────────────────
-      - name: Generate PDF digest
-        id: generate_pdf
-        run: |
-          output=$(python claire_output.py --format pdf)
-          # claire_output.py prints "digest_date=YYYY-MM-DD" to stdout
-          echo "$output" | grep "^digest_date=" >> "$GITHUB_OUTPUT"
-
-      # ── 8. CLAIRE-A assembler ─────────────────────────────────────────────
-      - name: CLAIRE-A assembler
-        run: python claire_a_assembler.py
-
-      # ── 9. CLAIRE-A runner (Opus) ─────────────────────────────────────────
-      - name: CLAIRE-A runner
+      - name: Run CLAIRE-A
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python claire_a_runner.py
+        run: |
+          python claire_a_assembler.py
+          python claire_a_runner.py
+          python claire_a_scorer.py
 
-      # ── 10. CLAIRE-A scorer (Sonnet) ──────────────────────────────────────
-      - name: CLAIRE-A scorer
+      - name: Generate digest
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python claire_a_scorer.py --notes data/session_notes.txt
+        run: python claire_output.py
 
-      # ── 11. Commit pipeline state back to repo ────────────────────────────
-      - name: Commit pipeline state
+      - name: Commit outputs
         run: |
-          git config user.name  "CLAIRE Pipeline"
-          git config user.email "claire-pipeline@users.noreply.github.com"
-          git add data/ output/ logs/ change_log.json friction_log.txt
-          git diff --cached --quiet || git commit \
-            -m "CLAIRE auto: cycle run $(date -u '+%Y-%m-%d')"
+          git config user.name "CLAIRE"
+          git config user.email "claire@noreply"
+          git add output/ data/
+          git diff --staged --quiet || git commit -m "CLAIRE digest $(date -u +%Y-%m-%d)"
           git push
 
-      # ── 12. Pushover notification ─────────────────────────────────────────
-      - name: Notify
-        if: always()
-        env:
-          DIGEST_DATE:        ${{ steps.generate_pdf.outputs.digest_date }}
-          PUSHOVER_APP_TOKEN: ${{ secrets.PUSHOVER_APP_TOKEN }}
-          PUSHOVER_USER_KEY:  ${{ secrets.PUSHOVER_USER_KEY }}
-          GITHUB_SHA:         ${{ github.sha }}
-          GITHUB_REPOSITORY:  ${{ github.repository }}
-          GITHUB_SERVER_URL:  ${{ github.server_url }}
-        run: python claire_notify.py
+      - name: Notify via Pushover
+        run: |
+          PDF=$(ls output/claire_digest_*.pdf 2>/dev/null | sort | tail -1)
+          if [ -z "$PDF" ]; then
+            echo "No digest PDF found -- skipping notification"
+            exit 0
+          fi
+          curl -s -o /dev/null -w "%{http_code}" \
+            --form-string "token=${{ secrets.PUSHOVER_APP_TOKEN }}" \
+            --form-string "user=${{ secrets.PUSHOVER_USER_KEY }}" \
+            --form-string "message=CLAIRE digest ready -- $(date -u +%Y-%m-%d)" \
+            --form-string "title=CLAIRE" \
+            --form "attachment=@$PDF;type=application/pdf" \
+            https://api.pushover.net/1/messages.json
+
+      - name: Add workflow to git if new
+        run: |
+          git add .github/
+          git diff --staged --quiet || git commit -m "GHA: add claire_weekly workflow"
+          git push
