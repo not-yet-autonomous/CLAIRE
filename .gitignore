@@ -17,6 +17,7 @@ logs/*.log
 
 # Generated outputs and dry-run artifacts (rebuild on each run)
 output/*.docx
+output/*.pdf
 data/candidates_track_*.json
 data/ingest_run_log.json
 
@@ -27,6 +28,5 @@ data/ingest_run_log.json
 # config.json            — tracked
 # requirements.txt       — tracked
 # README.md              — tracked
-prompts/synthesis_prompts.py
 
 data/

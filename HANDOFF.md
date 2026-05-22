@@ -7,7 +7,7 @@
 
 | Item | Value |
 |------|-------|
-| Project root | `C:\Users\<redacted>\OneDrive\Claude Projects\CLAIRE` |
+| Project root | `C:\Users\[username]\OneDrive\Claude Projects\CLAIRE` |
 | Python | `python` (via .venv) [local dev only] |
 | Pip | `python -m pip` |
 | Venv activate (PowerShell) | `.\.venv\Scripts\Activate.ps1` [local dev only] |
@@ -50,7 +50,7 @@ For local Cowork sessions, run these three lines before doing anything else:
 > 2. `git add data/session_notes.txt && git commit -m "session notes cycle N" && git push`
 
 ```powershell
-cd "C:\Users\<redacted>\OneDrive\Claude Projects\CLAIRE"
+cd "C:\Users\[username]\OneDrive\Claude Projects\CLAIRE"
 .\.venv\Scripts\Activate.ps1
 python -c "import anthropic, requests; print('Deps OK')"
 ```
@@ -105,7 +105,7 @@ CLAIRE\
 ├── .github\
 │   └── workflows\
 │       └── claire_weekly.yml ✅ Build 8 — GHA workflow (replaces Task Scheduler)
-├── .git\                     ✅ Local git, no remote
+├── .git\                     ✅ Local git, remote on GitHub
 ├── data\
 │   ├── raw_posts.json        ✅ Current corpus — grows each ingest run
 │   ├── tagged_posts.json     ✅ Build 2 output — posts with triage tags
