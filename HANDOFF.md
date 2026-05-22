@@ -99,7 +99,7 @@ CLAIRE\
 │   ├── synthesis_queue_track_c.json  ✅ Triage output — Track C queue (⚠ JSON corruption, regenerate on next run)
 │   ├── candidates_track_a.json       ✅ Build 5 — synthesis output, assembler input (⚠ JSON corruption, regenerate on next run)
 │   ├── candidates_track_b.json       ✅ Build 5 — synthesis output, assembler input
-│   ├── candidates_track_c.json       ✅ Build 5 — synthesis output, assembler input (⚠ JSON corruption, regenerate on next run)
+│   ├── candidates_track_c.json       ✅ Build 8 — Track C candidates for techniques PDF
 │   ├── archive.json          ✅ Build 2 output — LOW-confidence post accumulator. Revisit size quarterly.
 │   ├── memory_edits_snapshot.txt     ✅ Current Claude memory baseline (human-maintained)
 │   ├── cost_log.json         ✅ Build 4 — per-run API cost tracking
@@ -165,12 +165,8 @@ CLAIRE\
 | 8 | `claire_notify.py` | ✅ Complete | Pushover notification — PDF attach or text fallback |
 | 8 | `.github/workflows/claire_weekly.yml` | ✅ Complete | Full GHA pipeline, cron Sunday 14:00 UTC |
 | 8 | `claire_a_assembler.py` | ✅ Complete | Semantic memory filter — Haiku, 0.85 threshold, suppressed_candidates log |
-| 8 | `claire_output.py` | ✅ Complete | Track C separate PDF — output/claire_techniques_[timestamp].pdf |
-| 8 | `claire_utils.py` | ✅ Complete | Cost log merge — one entry per run, Track A alert at $0.65 |
-| 8 | `claire_triage.py` | ✅ Complete | append_cost_log updated — new signature, daily run_id |
-| 8 | `claire_synthesize.py` | ✅ Complete | append_cost_log updated — new signature, daily run_id |
-| 8 | `claire_weekly.ps1` | ✅ Complete | Track A cost alert Write-Warning after assembler |
-| 8 | `config.json` | ✅ Complete | assembler block + track_a_cost_alert_usd added |
+| 8 | `claire_output.py` | ✅ Complete | Track C separate PDF — generate_techniques_pdf(), non-fatal on failure |
+| 8 | `claire_utils.py` | ✅ Complete | Cost log merge — upsert by run_id, Track A alert at $0.65 |
 
 ---
 
@@ -186,7 +182,7 @@ CLAIRE\
 | Synthesis model | claude-sonnet-4-6 |
 | Noise prefilter | score < 5 AND comments < 2 → drop |
 | Scheduling | Reddit local Monday 07:00, GHA Sunday 14:00 UTC |
-| Cost log entries | Single entry per run — triage + synthesis + assembler merged by daily run_id |
+| Cost log entries | Single upsert per run keyed by YYYYMMDD — triage + synthesis + assembler accumulated |
 | Opus exclusion | exclude_keywords in config.json — config-driven |
 | Shared utilities | claire_utils.py — home for all cross-script helpers |
 | Track A batching | Signal cluster by signal_type, max 50 posts per call |
@@ -204,8 +200,9 @@ CLAIRE\
 | dev.to pages per tag | 2 (60 candidates per tag before dedup) |
 | Commit-back strategy | GHA pipeline commits data/, output/, logs/, change_log.json, friction_log.txt after each run |
 | PDF output | reportlab, six-section mirror of docx digest; filename `claire_digest_YYYY-MM-DD.pdf` |
-| Memory filter threshold | 0.85 semantic similarity (Haiku, assembler stage) |
-| Track C output | Separate PDF — output/claire_techniques_[timestamp].pdf (generated when Track C candidates present) |
+| Memory filter threshold | 0.85 semantic similarity (Haiku, assembler stage) — tunable in config.json |
+| Track C output | Separate PDF — output/claire_techniques_[timestamp].pdf, non-fatal |
+| Track A cost alert | $0.65 synthesis threshold — Write-Warning in claire_weekly.ps1 |
 | Pushover oversize fallback | PDF > 2,500,000 bytes → text-only notification with commit URL; no attachment |
 | State persistence | Commit-back — data files committed to repo at end of each GHA run |
 | Digest format (production) | reportlab PDF — docx retained for local dev only |
@@ -231,44 +228,38 @@ CLAIRE\
 
 ## Current Session Task
 
-Cycle 4 complete (2026-05-19). Cycle 5 pending (next Sunday).
+Build 8 complete (2026-05-21).
 
-**Completed this session (2026-05-21):**
-- Build 8 (second pass): semantic memory filter, Track C PDF, cost log merge
-  - `claire_a_assembler.py`: Haiku similarity filter against memory_edits_snapshot.txt;
-    suppressed_candidates_[timestamp].json written every run (even if empty)
-  - `claire_output.py`: generate_techniques_pdf() added; fires after main output
-    when synthesis_queue_track_c.json has posts and technique_candidates exist
-  - `claire_utils.py`: append_cost_log redesigned — upsert by daily run_id,
-    new flat schema (triage/synthesis/assembler costs + track_a_alert)
-  - `claire_triage.py` + `claire_synthesize.py`: call signature updated to new API
-  - `claire_weekly.ps1`: Track A cost alert Write-Warning after assembler step
-  - `config.json`: assembler block added; track_a_cost_alert_usd: 0.65
-- README.md full rewrite — Build 7 state, CLAIRE-A shadow pipeline, GHA
-  scheduling, correct paths, unauthenticated Reddit ingest documented
-- HANDOFF.md directory structure corrected — change_log.json +
-  friction_log.txt moved to project root; output/ corrected to PDF
-- Repo is now public-shareable
+**Completed this build:**
+- Semantic memory filter in claire_a_assembler.py — Haiku similarity
+  scoring, 0.85 threshold, suppressed_candidates log always written
+- Track C techniques PDF — separate from main digest, non-fatal failure path
+- Cost log merge — single upsert per run, Track A alert at $0.65
 
-**Queued profile diffs (apply manually — see change_log.json):**
-- c3-prof-001: AUDIT mode enhancement (no observation gate — apply at next profile review)
-- c3-prof-002: Task-completion anti-collapse (observe 4.7 in live session first)
-- c3-prof-003: Effort transparency disclosure (observe 4.7 in live session first)
-- c4-prof-001 through c4-prof-004: see change_log.json
+**Known edge case:**
+- Cost log upsert keyed by YYYYMMDD — double-run on same day overwrites
+  rather than accumulates. Acceptable for now; watch friction log.
+
+**Queued profile diffs applied (2026-05-21):**
+- c4-prof-001 through c4-prof-004: applied
+- c5-prof-001, c5-prof-002: applied
+- Profile updated to v10
+
+**Still gated (observation required):**
+- c3-prof-002: task-completion anti-collapse (observe 4.7 in live session)
+- c3-prof-003: effort transparency disclosure (observe 4.7 in live session)
+- c5-prof-003: document-grounded vs training-derived (one live doc synthesis session)
 
 **CLAIRE-A graduation criteria:**
 - Consecutive eval runs logged: 2 of 6 required
 - Reliability ledger hypotheses scored: 7 of 10 required
 - Escalations in last 3 runs: 0 (clean)
-- Next eval cycle: 2026-05-24
+- Next eval cycle: 2026-05-25 (Sunday)
 
-**Build 8 candidates (design in browser Project first):**
-- Same-day memory filtering in triage
-- Technique candidates separate output stream in digest
-- Cost log merge (two entries per run)
-- X/Twitter + Substack RSS ingest sources
-- Track A cost trajectory monitoring
-- feature_praise signal utilization audit
+**Build 9 candidates (design in browser Project first):**
+- Substack RSS ingest (identify target feeds first)
+- X/Twitter ingest (blocked — API access/cost unresolved)
+- feature_praise signal utilization audit (investigation before code)
 
 ---
 
@@ -310,4 +301,4 @@ Examples:
 - `CLAIRE Build 2 complete — synthesis queues written`
 
 ---
-*Last updated: 2026-05-21 — Build 8 complete: memory filter, Track C PDF, cost log merge*
+*Last updated: 2026-05-21 — Profile v10 applied: 6 queued diffs resolved*

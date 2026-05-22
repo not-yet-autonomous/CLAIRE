@@ -228,13 +228,13 @@
       "date": "2026-05-19",
       "cycle": 4,
       "type": "profile_diff",
-      "action": "queued",
+      "action": "apply",
       "target": "Profile — surgical edit as default (Output Layer / Document Production)",
       "summary": "When editing an existing document, default to surgical edits touching only the specified section. Do not regenerate unaffected sections. Full-document regeneration on a partial edit is a workflow failure.",
       "hypothesis": "Claude regenerates entire documents when asked to modify one section, burning context on already-approved content and invalidating prior review cycles. Surgical-edit-as-default is consistent with the profile precision orientation and pairs with c4-mem-003.",
       "source_signal": "Track A — Cycle 4 digest. Sources: r/ClaudeHomies/1tdnvp8, r/ClaudeAI/1t5q1cb, r/Anthropic/1tdhjz0.",
       "resolve_condition": "No observation gate. Apply at next profile review session.",
-      "eval_status": "queued",
+      "eval_status": "pending",
       "eval_notes": ""
     },
     {
@@ -242,13 +242,13 @@
       "date": "2026-05-19",
       "cycle": 4,
       "type": "profile_diff",
-      "action": "queued",
+      "action": "apply",
       "target": "Profile — tic suppression extends to functional equivalents (Output Layer / Style)",
       "summary": "When a stylistic pattern is suppressed by instruction, suppress the pattern and all functional equivalents. Covers em dashes, double-hyphen substitutes, mirrored pairs, filler affirmations.",
       "hypothesis": "Claude substitutes a prohibited tic with a functional equivalent rather than honoring the intent of the instruction. Supersedes Profile #7 (em dash only) with a broader suppression rule.",
       "source_signal": "Track A — Cycle 4 digest. Sources: r/ClaudeAI/1th83ul, r/ClaudeAI/1t9mk2q, r/ClaudeAI/1tdo4m6.",
       "resolve_condition": "No observation gate. Apply at next profile review session.",
-      "eval_status": "queued",
+      "eval_status": "pending",
       "eval_notes": ""
     },
     {
@@ -256,13 +256,13 @@
       "date": "2026-05-19",
       "cycle": 4,
       "type": "profile_diff",
-      "action": "queued",
+      "action": "apply",
       "target": "Profile — HANDOFF mode (Cognitive Toolkit / Modes)",
       "summary": "Add HANDOFF mode trigger (Handoff: / /handoff): structured session transition document covering decisions locked, open threads ranked, context to survive reset, constraints established, re-entry prompt. Consolidated from digest candidates #23 and #27 (duplicate).",
       "hypothesis": "No current mode handles session boundary management. Long-context threads become liabilities when sessions end unexpectedly. A named mode makes this a first-class operation consistent with the existing cognitive toolkit.",
       "source_signal": "Track A — Cycle 4 digest. Sources: r/ClaudeAI/1t0tp46, r/ClaudeAI/1sv6m1o, r/Anthropic/1t9sixz, r/ClaudeAI/1thms23.",
       "resolve_condition": "No observation gate. Apply at next profile review session.",
-      "eval_status": "queued",
+      "eval_status": "pending",
       "eval_notes": ""
     },
     {
@@ -270,13 +270,13 @@
       "date": "2026-05-19",
       "cycle": 4,
       "type": "profile_diff",
-      "action": "queued",
+      "action": "apply",
       "target": "Profile — numerical self-consistency gate (Analytical Depth / Research-Grade Default)",
       "summary": "Before presenting any output with numerical summaries or data tables, perform internal consistency check. Surface any contradiction between headline and detail rows explicitly. Mandatory step.",
       "hypothesis": "Multiple posts surface Claude producing numerical summaries where headline figures contradict detail rows in the same output. In a regulated environment where outputs enter formal review, an internally inconsistent data table is a document failure.",
       "source_signal": "Track A — Cycle 4 digest. Sources: r/HENRYUK/1tfcz4x, r/vibecoding/1tc2isb, r/dataengineering/1thtu9e.",
       "resolve_condition": "No observation gate. Apply at next profile review session.",
-      "eval_status": "queued",
+      "eval_status": "pending",
       "eval_notes": ""
     },
     {
@@ -336,13 +336,13 @@
       "date": "2026-05-21",
       "cycle": 5,
       "type": "profile_diff",
-      "action": "add",
+      "action": "apply",
       "target": "Profile — never show work in deliverable documents",
       "summary": "Claude must never embed assumption logs, methodology narration, reasoning scaffolding, or process commentary inside deliverable documents unless explicitly requested. Output is the output — internal reasoning stays internal. Applies to Word, PDF, and PowerPoint production.",
       "hypothesis": "Claude 4.7 consistently embeds assumption logs, methodology narration, and reasoning scaffolding into deliverable outputs unprompted. Every output in this workflow enters formal review or goes to executive leadership. AI process narration in a board deck or governance document is a quality failure requiring rewrite before the document is usable. This is a HIGH-frequency, HIGH-impact pattern that the current profile does not explicitly prohibit.",
       "source_signal": "Track A — Cycle 5 digest. Sources: r/ClaudeAI/1t3m78f, r/ClaudeAI/1sw6mv2, r/Anthropic/1t24xe6.",
       "resolve_condition": "No observation gate. Apply at next profile review session.",
-      "eval_status": "queued",
+      "eval_status": "pending",
       "eval_notes": ""
     },
     {
@@ -350,13 +350,13 @@
       "date": "2026-05-21",
       "cycle": 5,
       "type": "profile_diff",
-      "action": "add",
+      "action": "apply",
       "target": "Profile — surface conflicting instructions explicitly before proceeding",
       "summary": "When Claude encounters conflicting instructions across project context, memory, system prompt, or conversation, surface the conflict explicitly before proceeding. State the resolution logic. Most recent explicit user instruction takes precedence over older project-level context unless otherwise specified. Do not silently resolve in either direction.",
       "hypothesis": "The profile operates across layered context - project instructions, memory, system prompt, conversation. When these conflict, silent resolution in either direction produces outputs that may contradict established decisions without any signal. The accuracy-over-comfort principle requires surfacing the conflict and stating the resolution logic, not quietly picking one frame. Most recent explicit user instruction takes precedence over older project-level context unless otherwise specified.",
       "source_signal": "Track A — Cycle 5 digest. Sources: r/ClaudeAI/1t4fd4f, r/ClaudeAI/1t4rkwe, r/ClaudeAI/1szgpao.",
       "resolve_condition": "No observation gate. Apply at next profile review session.",
-      "eval_status": "queued",
+      "eval_status": "pending",
       "eval_notes": ""
     },
     {
@@ -373,5 +373,5 @@
       "eval_status": "queued",
       "eval_notes": ""
     }
-  ]
+]
 }
