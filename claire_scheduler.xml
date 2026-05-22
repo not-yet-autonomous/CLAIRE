@@ -2,7 +2,7 @@
 <Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
   <RegistrationInfo>
     <Date>2026-04-26T00:00:00</Date>
-    <Author>James</Author>
+    <Author>CLAIRE</Author>
     <Description>CLAIRE weekly AI configuration intelligence pipeline. Runs ingestion, triage, synthesis, and output generation. Produces weekly digest in output\ directory.</Description>
     <URI>\CLAIRE Weekly Pipeline</URI>
   </RegistrationInfo>
