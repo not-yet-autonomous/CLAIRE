@@ -2,12 +2,12 @@
 # CLAIRE + CLAIRE-A weekly pipeline runner
 # Scheduled via Windows Task Scheduler
 
-Set-Location "C:\Users\<redacted>\OneDrive\Claude Projects\CLAIRE"
+Set-Location "C:\DEV\CLAIRE"
 & "C:\DEV\envs\CLAIRE\.venv\Scripts\Activate.ps1"
 
 # Explicitly load API key from .env into the process environment
 # Ensures all Python scripts see it regardless of dotenv working directory
-$envFile = "C:\Users\<redacted>\OneDrive\Claude Projects\CLAIRE\.env"
+$envFile = "C:\DEV\CLAIRE\.env"
 Get-Content $envFile | Where-Object { $_ -match "^[^#].*=.*" } | ForEach-Object {
     $parts = $_ -split "=", 2
     [System.Environment]::SetEnvironmentVariable($parts[0].Trim(), $parts[1].Trim(), "Process")
