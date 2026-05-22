@@ -7,7 +7,7 @@ Run this after the Cycle 4 digest is confirmed good. These are mechanical file o
 ## Session Start
 
 ```powershell
-cd "C:\Users\<redacted>\OneDrive\Claude Projects\CLAIRE"
+cd "C:\DEV\CLAIRE"
 .\.venv\Scripts\Activate.ps1
 python -c "import anthropic, requests; print('Deps OK')"
 ```

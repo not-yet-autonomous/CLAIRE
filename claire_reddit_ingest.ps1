@@ -2,7 +2,7 @@
 # CLAIRE — Local Reddit ingest with git commit-back
 # Schedule: Weekly, Monday 07:00 — runs only when user is logged in
 
-Set-Location "C:\Users\<redacted>\OneDrive\Claude Projects\CLAIRE"
+Set-Location "C:\DEV\CLAIRE"
 
 # Activate venv
 .\.venv\Scripts\Activate.ps1
