@@ -135,6 +135,17 @@
     "archive_path": "archive/",
     "change_log_path": "data/change_log.json"
   },
+  "devto": {
+    "tags": [
+      { "name": "anthropic",       "min_reactions": 5  },
+      { "name": "claudeai",        "min_reactions": 5  },
+      { "name": "claude",          "min_reactions": 5  },
+      { "name": "llm",             "min_reactions": 15 },
+      { "name": "aitools",         "min_reactions": 10 },
+      { "name": "machinelearning", "min_reactions": 20 }
+    ],
+    "pages_per_tag": 2
+  },
   "api_pricing": {
     "claude-haiku-4-5-20251001": {
       "input_per_mtok": 1.0,

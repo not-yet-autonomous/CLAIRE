@@ -91,10 +91,9 @@ HN_MIN_POINTS        = CONFIG["ingestion"]["hn_min_points"]
 
 # dev.to practitioner articles
 DEVTO_BASE_URL   = "https://dev.to/api"
-DEVTO_TAGS       = ["anthropic", "claudeai", "claude"]
-DEVTO_PER_PAGE   = 30   # articles per tag fetch
-DEVTO_PAGES      = 2    # pages per tag (30 x 2 = 60 candidates per tag)
-DEVTO_MIN_REACTIONS = 2  # skip articles with no engagement
+DEVTO_TAGS       = CONFIG["devto"]["tags"]          # list of {name, min_reactions}
+DEVTO_PER_PAGE   = 30                               # articles per tag fetch
+DEVTO_PAGES      = CONFIG["devto"]["pages_per_tag"] # pages per tag (30 x N candidates per tag)
 
 # Noise prefilter thresholds (applied before triage — saves Haiku calls)
 MIN_SCORE    = CONFIG["triage"]["noise_prefilter"]["min_score"]
@@ -691,8 +690,11 @@ def fetch_devto_tag(tag: str, page: int = 1) -> list:
     return []
 
 
-def normalize_devto_article(article: dict) -> dict | None:
-    """Convert dev.to article dict to CLAIRE normalized format."""
+def normalize_devto_article(article: dict, min_reactions: int = 2) -> dict | None:
+    """Convert dev.to article dict to CLAIRE normalized format.
+
+    min_reactions is supplied per-tag by ingest_devto() from config["devto"]["tags"].
+    """
     article_id    = article.get("id")
     title         = (article.get("title") or "").strip()
     body          = (article.get("description") or "").strip()
@@ -705,7 +707,7 @@ def normalize_devto_article(article: dict) -> dict | None:
     if not article_id or not title:
         return None
 
-    if reactions < DEVTO_MIN_REACTIONS:
+    if reactions < min_reactions:
         return None
 
     # Parse created_utc
@@ -741,7 +743,9 @@ def ingest_devto(existing_cache: dict, dry_run: bool) -> dict:
     stats     = {"fetched": 0, "prefiltered": 0, "deduplicated": 0, "new": 0}
     seen_ids  = set()
 
-    for tag in DEVTO_TAGS:
+    for tag_cfg in DEVTO_TAGS:
+        tag           = tag_cfg["name"]
+        min_reactions = tag_cfg["min_reactions"]
         for page in range(1, DEVTO_PAGES + 1):
             articles = fetch_devto_tag(tag, page=page)
             if not articles:
@@ -761,7 +765,7 @@ def ingest_devto(existing_cache: dict, dry_run: bool) -> dict:
                     stats["deduplicated"] += 1
                     continue
 
-                post = normalize_devto_article(article)
+                post = normalize_devto_article(article, min_reactions=min_reactions)
                 if post is None:
                     stats["prefiltered"] += 1
                     continue
