@@ -10,7 +10,7 @@
 | Project root | `C:\DEV\CLAIRE` |
 | Python | `python` (via .venv) [local dev only] |
 | Pip | `python -m pip` |
-| Venv activate (PowerShell) | `.\.venv\Scripts\Activate.ps1` [local dev only] |
+| Venv activate (PowerShell) | `C:\DEV\envs\CLAIRE\.venv\Scripts\Activate.ps1` [local dev only] |
 | Venv activate (CMD/bat) | `.\.venv\Scripts\activate.bat` [local dev only] |
 | Git | initialized, remote on GitHub |
 | Execution policy | RemoteSigned (already set) [local dev only] |
@@ -51,7 +51,7 @@ For local Cowork sessions, run these three lines before doing anything else:
 
 ```powershell
 cd "C:\DEV\CLAIRE"
-.\.venv\Scripts\Activate.ps1
+C:\DEV\envs\CLAIRE\.venv\Scripts\Activate.ps1
 python -c "import anthropic, requests; print('Deps OK')"
 ```
 
