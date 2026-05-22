@@ -28,3 +28,5 @@ data/ingest_run_log.json
 # requirements.txt       — tracked
 # README.md              — tracked
 prompts/synthesis_prompts.py
+
+data/
