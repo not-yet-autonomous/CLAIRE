@@ -803,7 +803,7 @@ def append_run_log(meta: dict):
 def main():
     parser = argparse.ArgumentParser(description="CLAIRE ingestion layer")
     parser.add_argument("--dry-run",  action="store_true", help="Fetch metadata only, skip comments, no write")
-    parser.add_argument("--source",   choices=["reddit", "hackernews", "forum", "both", "all"], default="all")
+    parser.add_argument("--source",   choices=["reddit", "hackernews", "forum", "both", "all", "gha"], default="all")
     args = parser.parse_args()
 
     _acquire_lock()
@@ -827,12 +827,12 @@ def _main(args):
         all_new.update(reddit_posts)
         log.info(f"Reddit: {len(reddit_posts)} new posts")
 
-    if args.source in ("hackernews", "both", "all"):
+    if args.source in ("hackernews", "both", "all", "gha"):
         hn_posts = ingest_hackernews(existing_cache, args.dry_run)
         all_new.update(hn_posts)
         log.info(f"HackerNews: {len(hn_posts)} new posts")
 
-    if args.source in ("forum", "all"):
+    if args.source in ("forum", "all", "gha"):
         forum_posts = ingest_devto(existing_cache, args.dry_run)
         all_new.update(forum_posts)
         log.info(f"dev.to: {len(forum_posts)} new posts")
