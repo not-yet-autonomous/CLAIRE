@@ -1,8 +1,8 @@
-# Copyright (c) 2026 James Cole. Licensed under the MIT License.
+﻿# Copyright (c) 2026 James Cole. Licensed under the MIT License.
 """
 claire_a_assembler.py
 ---------------------
-CLAIRE-A Build 8 — Input Assembler
+CLAIRE-A Build 8 â€” Input Assembler
 
 Reads candidate JSON files (tracks A/B/C) and change_log.json, then
 produces the structured JSON payload the decision engine prompt expects.
@@ -46,7 +46,7 @@ CANDIDATE_PATHS = {
     "b": DATA_DIR / "candidates_track_b.json",
     "c": DATA_DIR / "candidates_track_c.json",
 }
-CHANGE_LOG_PATH      = DATA_DIR / "change_log.json"
+CHANGE_LOG_PATH      = Path(__file__).parent / "change_log.json"
 SESSION_HISTORY_PATH = DATA_DIR / "claire_a_session_history.json"
 MEMORY_SNAPSHOT_PATH = DATA_DIR / "memory_edits_snapshot.txt"
 
@@ -72,7 +72,7 @@ def load_config() -> dict:
         with open(config_path, encoding="utf-8") as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError) as e:
-        log.warning(f"config.json load error: {e} — using defaults")
+        log.warning(f"config.json load error: {e} â€” using defaults")
         return {}
 
 # ---------------------------------------------------------------------------
@@ -124,7 +124,7 @@ def _ensure_fingerprint(candidate: dict, category: str) -> str:
 def _load_track(path: Path, track: str) -> list:
     """Loads one track's candidate JSON and returns a flat normalised list."""
     if not path.exists():
-        log.warning(f"Track {track.upper()} file not found: {path.name} — skipping")
+        log.warning(f"Track {track.upper()} file not found: {path.name} â€” skipping")
         return []
 
     with open(path, encoding="utf-8") as f:
@@ -180,7 +180,7 @@ def _normalise_source(entry: dict) -> str:
 
 
 def _content_for_entry(entry: dict) -> str:
-    """memory_edit entries lack a 'summary' field — fall back to hypothesis.
+    """memory_edit entries lack a 'summary' field â€” fall back to hypothesis.
     NOTE: This is a known gap in the change log schema. Adding 'summary' to
     memory_edit entries will improve decision engine memory consistency checks.
     """
@@ -214,11 +214,11 @@ def _parse_eval_notes(eval_notes: list) -> list:
 def load_change_log() -> tuple[list, list]:
     """Returns (change_log_entries, eval_history_entries).
 
-    change_log_entries  → formatted for the 'change_log' field in engine input
-    eval_history_entries → formatted for the 'eval_history' field
+    change_log_entries  â†’ formatted for the 'change_log' field in engine input
+    eval_history_entries â†’ formatted for the 'eval_history' field
     """
     if not CHANGE_LOG_PATH.exists():
-        log.warning(f"change_log.json not found at {CHANGE_LOG_PATH} — using empty history")
+        log.warning(f"change_log.json not found at {CHANGE_LOG_PATH} â€” using empty history")
         return [], []
 
     with open(CHANGE_LOG_PATH, encoding="utf-8") as f:
@@ -278,7 +278,7 @@ def load_change_log() -> tuple[list, list]:
 def build_memory_snapshot(change_log_entries: list) -> dict:
     """Derives the current memory state from the change log.
 
-    The applied changes array IS the memory state — what has been applied
+    The applied changes array IS the memory state â€” what has been applied
     and is currently live. The snapshot hash lets the decision engine detect
     if memory changed between runs.
     """
@@ -324,7 +324,7 @@ def load_session_history() -> dict:
     }
     """
     if not SESSION_HISTORY_PATH.exists():
-        log.info("No session history found — starting fresh")
+        log.info("No session history found â€” starting fresh")
         return {}
     with open(SESSION_HISTORY_PATH, encoding="utf-8") as f:
         return json.load(f)
@@ -337,9 +337,9 @@ def load_session_history() -> dict:
 def resolve_prior_appearances(candidates: list, change_log_entries: list) -> list:
     """Resolves prior_appearances for each candidate from two sources:
 
-    1. Session history (claire_a_session_history.json) — cross-run tracking.
+    1. Session history (claire_a_session_history.json) â€” cross-run tracking.
        Written by the runner after each decision session.
-    2. Change log — candidates matching applied changes get prior_appearances=1
+    2. Change log â€” candidates matching applied changes get prior_appearances=1
        minimum, flagging them as already actioned.
 
     The two sources are additive: a candidate seen in 3 prior sessions AND
@@ -360,22 +360,22 @@ def resolve_prior_appearances(candidates: list, change_log_entries: list) -> lis
                     f"last decision={last_decision}"
                 )
 
-    # Source 2: change log — mark already-applied candidates
+    # Source 2: change log â€” mark already-applied candidates
     applied_summaries = {e["summary"][:60] for e in change_log_entries}
     for c in candidates:
         summary_60 = c["content"]["summary"][:60]
         if summary_60 in applied_summaries:
-            # Floor at 1 — don't zero out session history count
+            # Floor at 1 â€” don't zero out session history count
             c["prior_appearances"] = max(c["prior_appearances"], 1)
             log.debug(
-                f"Candidate {c['fingerprint']} matches applied change — "
+                f"Candidate {c['fingerprint']} matches applied change â€” "
                 f"prior_appearances floored at 1"
             )
 
     return candidates
 
 # ---------------------------------------------------------------------------
-# MEMORY FILTER (Build 8) — semantic duplicate suppression
+# MEMORY FILTER (Build 8) â€” semantic duplicate suppression
 # ---------------------------------------------------------------------------
 
 def _semantic_similarity(
@@ -388,7 +388,7 @@ def _semantic_similarity(
     memory snapshot.
 
     Returns (score: float 0.0-1.0, cost_usd: float).
-    Raises on API error — caller handles and passes the candidate through.
+    Raises on API error â€” caller handles and passes the candidate through.
     """
     text_a = f"{candidate['content']['type']}: {candidate['content']['summary']}"
 
@@ -422,7 +422,7 @@ def filter_candidates_by_memory(
 ) -> tuple[list, list, float]:
     """Suppress candidates semantically similar to memory_edits_snapshot.txt.
 
-    Sequential Haiku calls — one per candidate, fine at ≤15 candidates.
+    Sequential Haiku calls â€” one per candidate, fine at â‰¤15 candidates.
     Returns (unsuppressed, suppressed_log_entries, total_cost_usd).
 
     Writes data/suppressed_candidates_{timestamp}.json (always, even if empty).
@@ -438,21 +438,21 @@ def filter_candidates_by_memory(
     def _write_suppressed(entries: list):
         with open(suppressed_path, "w", encoding="utf-8") as f:
             json.dump(entries, f, indent=2)
-        log.info(f"Suppressed candidates log → {suppressed_path.name} ({len(entries)} entries)")
+        log.info(f"Suppressed candidates log â†’ {suppressed_path.name} ({len(entries)} entries)")
 
     if not enabled:
-        log.info("Memory filter disabled in config — skipping")
+        log.info("Memory filter disabled in config â€” skipping")
         _write_suppressed([])
         return candidates, [], 0.0
 
     if not MEMORY_SNAPSHOT_PATH.exists():
-        log.warning("memory_edits_snapshot.txt not found — memory filter skipped")
+        log.warning("memory_edits_snapshot.txt not found â€” memory filter skipped")
         _write_suppressed([])
         return candidates, [], 0.0
 
     memory_text = MEMORY_SNAPSHOT_PATH.read_text(encoding="utf-8").strip()
     if not memory_text:
-        log.warning("memory_edits_snapshot.txt is empty — memory filter skipped")
+        log.warning("memory_edits_snapshot.txt is empty â€” memory filter skipped")
         _write_suppressed([])
         return candidates, [], 0.0
 
@@ -480,7 +480,7 @@ def filter_candidates_by_memory(
                 suppressed.append(entry)
                 log.info(
                     f"Suppressed {candidate['fingerprint']} "
-                    f"(score={score:.3f} >= {threshold}) — "
+                    f"(score={score:.3f} >= {threshold}) â€” "
                     f"{candidate['content']['summary'][:60]!r}"
                 )
             else:
@@ -490,7 +490,7 @@ def filter_candidates_by_memory(
         except Exception as e:
             log.warning(
                 f"Memory filter error for {candidate['fingerprint']}: {e} "
-                f"— passing through"
+                f"â€” passing through"
             )
             unsuppressed.append(candidate)
 
@@ -504,7 +504,7 @@ def filter_candidates_by_memory(
 
 
 # ---------------------------------------------------------------------------
-# PRIORITY PRE-FILTER (top N by signal_strength × source_reliability)
+# PRIORITY PRE-FILTER (top N by signal_strength Ã— source_reliability)
 # ---------------------------------------------------------------------------
 
 MAX_BATCH_SIZE = 15
@@ -513,7 +513,7 @@ MAX_BATCH_SIZE = 15
 def apply_priority_filter(candidates: list, max_batch: int = MAX_BATCH_SIZE) -> tuple[list, list]:
     """Sorts candidates by priority score and returns (selected, deferred).
 
-    priority_score = signal_strength × source_reliability × (1 + 0.2 × min(prior_appearances, 5))
+    priority_score = signal_strength Ã— source_reliability Ã— (1 + 0.2 Ã— min(prior_appearances, 5))
     Older stuck candidates float up gradually rather than being permanently
     displaced by high-signal newcomers.
     """
@@ -527,7 +527,7 @@ def apply_priority_filter(candidates: list, max_batch: int = MAX_BATCH_SIZE) -> 
     candidates.sort(key=lambda c: c["_priority"], reverse=True)
 
     for c in candidates:
-        del c["_priority"]  # internal field — don't leak into engine input
+        del c["_priority"]  # internal field â€” don't leak into engine input
 
     selected = candidates[:max_batch]
     deferred = candidates[max_batch:]
@@ -546,7 +546,7 @@ def assemble(output_path: Path | None = None, max_batch: int = MAX_BATCH_SIZE) -
     the engine payload.
     """
 
-    log.info("── CLAIRE-A Input Assembler ──────────────────────────────")
+    log.info("â”€â”€ CLAIRE-A Input Assembler â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")
 
     config = load_config()
 
@@ -554,9 +554,9 @@ def assemble(output_path: Path | None = None, max_batch: int = MAX_BATCH_SIZE) -
     change_log_entries, eval_history = load_change_log()
     candidates                       = resolve_prior_appearances(candidates, change_log_entries)
 
-    # ── Build 8: semantic memory filter ─────────────────────────────────────
+    # â”€â”€ Build 8: semantic memory filter â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     candidates, suppressed, assembler_cost = filter_candidates_by_memory(candidates, config)
-    # ────────────────────────────────────────────────────────────────────────
+    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     selected, deferred               = apply_priority_filter(candidates, max_batch)
     memory_state                     = build_memory_snapshot(change_log_entries)
@@ -580,7 +580,7 @@ def assemble(output_path: Path | None = None, max_batch: int = MAX_BATCH_SIZE) -
             "assembler_cost_usd":     round(assembler_cost, 4),
             "eval_history_points":    len(eval_history),
             "notes": (
-                "memory_edit entries in change_log lack 'summary' field — "
+                "memory_edit entries in change_log lack 'summary' field â€” "
                 "hypothesis used as proxy. Add 'summary' to change_log schema "
                 "to improve memory consistency checks."
                 if any(e["type"] == "memory_edit" for e in change_log_entries)
@@ -597,19 +597,19 @@ def assemble(output_path: Path | None = None, max_batch: int = MAX_BATCH_SIZE) -
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2, ensure_ascii=False)
 
-    log.info(f"Engine input written → {output_path.name}")
+    log.info(f"Engine input written â†’ {output_path.name}")
     log.info(f"Session ID: {payload['session_id']}")
     log.info(f"Candidates: {len(selected)} selected / {len(deferred)} deferred / "
              f"{len(suppressed)} suppressed by memory filter")
-    log.info(f"Memory snapshot hash: {memory_state['snapshot_hash'][:16]}…")
+    log.info(f"Memory snapshot hash: {memory_state['snapshot_hash'][:16]}â€¦")
     log.info(f"Assembler cost: ${assembler_cost:.4f}")
 
-    # ── Build 8: append assembler cost to merged run entry ──────────────────
+    # â”€â”€ Build 8: append assembler cost to merged run entry â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     run_id = datetime.now().strftime("%Y%m%d")
     append_cost_log(run_id=run_id, assembler_cost_usd=assembler_cost)
-    # ────────────────────────────────────────────────────────────────────────
+    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-    log.info("─────────────────────────────────────────────────────────")
+    log.info("â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")
 
     return payload
 
