@@ -142,11 +142,9 @@ Four secrets required in your repo settings:
 CLAIRE synthesizes candidates against *your* configuration. Before running,
 populate:
 
-- `data/memory_edits_snapshot.txt` Ã¢â‚¬â€ paste your current Claude memory edits
-- `prompts/profile_intent_summary.txt` Ã¢â‚¬â€ 200-400 word summary of your Claude
-  profile goals and behavioral priorities
-- `friction_log.txt` Ã¢â‚¬â€ at least one cycle of behavioral observations (format
-  below)
+* `data/memory_edits_snapshot.txt` - paste your current Claude memory edits
+* `prompts/profile_intent_summary.txt` - 200-400 word summary of your Claude profile goals and behavioral priorities
+* `friction_log.txt` - at least one cycle of behavioral observations (format below)
 
 The synthesis stage injects both files into Track A and B prompts. Without
 them, candidates are generic community signal with no personal filtering.
