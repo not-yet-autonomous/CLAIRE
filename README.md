@@ -165,10 +165,8 @@ Reddit blocks datacenter IPs, so ingest is split across two jobs:
 **Monday 07:00 local** (automatic, Task Scheduler or launchd)
 ```
 python claire_ingest.py --source reddit
-git add data/raw_posts.json
-git commit -m "ingest: reddit update $(date +%Y-%m-%d)"
-git push
 ```
+Reddit signal is ingested locally only. raw_posts.json is gitignored and does not get committed. GHA generates its own corpus from HackerNews and dev.to on Sunday. To include Reddit signal in a local pipeline run, execute claire_weekly.ps1 after the Monday ingest completes.
 
 **Before Sunday** (manual, 10 minutes)
 
