@@ -280,6 +280,7 @@ Cycle 5 complete (2026-05-21). Git history sanitized for public release (2026-05
 - Session notes pre-commit workflow (required before each Sunday GHA run)
 - Substack RSS ingest (identify target feeds first)
 - X/Twitter ingest (blocked — API access/cost unresolved)
+- Pushover notification pattern fix: workflow looks for output/claire_digest_*.pdf but output is .docx — update pattern or add PDF output step
 
 ---
 
