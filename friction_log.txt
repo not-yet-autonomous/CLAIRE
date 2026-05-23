@@ -85,14 +85,4 @@ priority confirmed.
 Silently truncated large file writes â€” caused two failed config.json writes before workaround (bash heredoc / Windows-side write). Also appended null-byte padding to HANDOFF.md (1,045 bytes), .git/config (62 bytes), .git/index (130 bytes). Null-byte strip added to session start checklist. Any file written through Cowork file tools on this mount should be treated as suspect until verified.
 
 2026-05-21 | Build 9 execution | git index.lock | MEDIUM
-<<<<<<< HEAD
-index.lock held across sessions â€” likely OneDrive sync, VS Code, or backgrounded git process. Required manual Remove-Item before every commit this session. Check Task Manager for lingering git.exe before future Cowork sessions.
-=======
-index.lock held across sessions — likely OneDrive sync, VS Code, or backgrounded git process. Required manual Remove-Item before every commit this session. Check Task Manager for lingering git.exe before future Cowork sessions.
-
-# === CLAIRE GIT SANITIZATION SESSION (2026-05-22) ===
-
-2026-05-22 | git sanitization | sandbox ref corruption cascade | HIGH
-Cowork sandbox .git copy attempt partially wrote refs pointing to sanitized commit hashes into the original repo object store before hitting permissions. Left original with broken HEAD. git clone CLAIRE CLAIRE_sanitize cloned from corrupted source and silently failed into wrong directory. All downstream steps including Remove-Item -Recurse -Force CLAIRE ran in C:\DEV with no git context. Original working tree deleted including stash. Recovered from intact sanitized clone in sandbox (65 clean commits). Root cause: sandbox .git operations should never be attempted against a live working repo. Add explicit warning to HANDOFF session start checklist.
->>>>>>> cd423cd (Session close 2026-05-22 â€” friction log cascade entry, HANDOFF current state updated)
-
+index.lock held ac

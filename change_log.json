@@ -108,14 +108,14 @@
       "date": "2026-05-10",
       "cycle": 3,
       "type": "profile_diff",
-      "action": "queued",
+      "action": "add",
       "target": "Profile — AUDIT mode enhancement",
       "summary": "Extend existing AUDIT mode to include: citation confidence tagging (distinguish training-derived from retrieval-verified claims) and challenge-response retraction check (if a prior claim was defended under challenge, evaluate whether original basis can be reconstructed; if not, retract). Triggers and syntax unchanged.",
       "hypothesis": "Existing AUDIT mode covers output completeness and internal consistency but does not fire on the hallucination-defense failure pattern — the specific gap that c3-mem-001 addresses at the memory level. Extending AUDIT closes this at the mode level without adding a new invocation pattern. Additive and low-risk; no observation gate required before applying.",
       "source_signal": "Track A profile diff candidate #5 (MEDIUM) + CLAIRE-A APPLY 79% (adversarial self-audit) — 2026-05-10 digest.",
       "resolve_condition": "No observation gate. Apply at next profile review session.",
-      "eval_status": "queued",
-      "eval_notes": ""
+      "eval_status": "pending",
+      "eval_notes": "Applied 2026-05-23. No observation gate required per original resolve_condition. Eval window: 14d."
     },
     {
       "id": "c3-prof-002",
