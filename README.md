@@ -41,21 +41,16 @@ you decide whether to allow it.
 
 ```
 Reddit public JSON (local, Monday)
-HackerNews API (GHA, Sunday)      Ã¢â€ â€™  Ingest  Ã¢â€ â€™  raw_posts.json
+HackerNews API (GHA, Sunday)          -->  Ingest  -->  raw_posts.json
 dev.to API - 6 tags, per-tag thresholds (GHA, Sunday)
-
-raw_posts.json  Ã¢â€ â€™  Triage (Haiku)  Ã¢â€ â€™  Track A / B / C queues
-
-Track A (memory/profile)  Ã¢â€â‚¬Ã¢â€Â
-Track B (skill candidates) Ã¢â€â‚¬Ã¢â€Â¤  Synthesis (Sonnet, parallel)  Ã¢â€ â€™  candidates
-Track C (technique)       Ã¢â€â‚¬Ã¢â€Ëœ
-
-candidates  Ã¢â€ â€™  CLAIRE-A Assembler
-            Ã¢â€ â€™  Decision Engine (Opus)     shadow decisions
-            Ã¢â€ â€™  Eval Scorer (Sonnet)       reliability ledger
-
-candidates + shadow decisions  Ã¢â€ â€™  Output (reportlab PDF)  Ã¢â€ â€™  output/
-
+raw_posts.json  -->  Triage (Haiku)  -->  Track A / B / C queues
+Track A (memory/profile)  -
+Track B (skill candidates)  -->  Synthesis (Sonnet, parallel)  -->  candidates
+Track C (technique)       -/
+candidates  -->  CLAIRE-A Assembler
+-->  Decision Engine (Opus)     [shadow decisions]
+-->  Eval Scorer (Sonnet)       [reliability ledger]
+candidates + shadow decisions  -->  Output (reportlab PDF)  -->  output/
 GHA commit-back + Pushover notification
 ```
 
