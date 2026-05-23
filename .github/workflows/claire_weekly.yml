@@ -1,4 +1,4 @@
-name: CLAIRE Weekly Pipeline
+﻿name: CLAIRE Weekly Pipeline
 
 on:
   schedule:
@@ -45,7 +45,7 @@ jobs:
         run: |
           python claire_a_assembler.py
           python claire_a_runner.py
-          python claire_a_scorer.py
+          python claire_a_scorer.py --notes data/session_notes.txt
 
       - name: Generate digest
         env:
