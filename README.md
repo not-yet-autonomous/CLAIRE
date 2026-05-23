@@ -120,7 +120,7 @@ CLAIRE/
 
 ### Clone and install
 ```bash
-git clone https://github.com/shamblingshade/CLAIRE.git
+git clone https://github.com/not-yet-autonomous/CLAIRE.git
 cd CLAIRE
 python -m venv .venv
 source .venv/bin/activate  # or .\.venv\Scripts\Activate.ps1 on Windows
