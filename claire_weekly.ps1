@@ -2,9 +2,18 @@
 # claire_weekly.ps1
 # CLAIRE + CLAIRE-A weekly pipeline runner
 # Scheduled via Windows Task Scheduler
+<<<<<<< HEAD
 Set-Location "C:\DEV\CLAIRE"
 & "C:\DEV\envs\CLAIRE\.venv\Scripts\Activate.ps1"
 
+=======
+
+Set-Location "C:\DEV\CLAIRE"
+& "C:\DEV\envs\CLAIRE\.venv\Scripts\Activate.ps1"
+
+# Explicitly load API key from .env into the process environment
+# Ensures all Python scripts see it regardless of dotenv working directory
+>>>>>>> 236a62f (Sanitize: fix hardcoded OneDrive paths in ps1 and scheduler XML)
 $envFile = "C:\DEV\CLAIRE\.env"
 Get-Content $envFile | Where-Object { $_ -match "^[^#].*=.*" } | ForEach-Object {
     $parts = $_ -split "=", 2
@@ -46,3 +55,4 @@ if ($LASTEXITCODE -ne 0) { Write-Host "claire_a_runner.py failed"; exit 1 }
 python claire_a_scorer.py
 if ($LASTEXITCODE -ne 0) { Write-Host "claire_a_scorer.py failed"; exit 1 }
 Write-Host "$(Get-Date -Format 'HH:mm:ss')  CLAIRE-A complete. Weekly run done."
+
