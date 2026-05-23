@@ -247,38 +247,39 @@ CLAIRE\
 
 ## Current Session Task
 
-Build 9 complete (2026-05-21). Commit: CLAIRE Build 9 — dev.to tag expansion, per-tag thresholds
+Cycle 5 complete (2026-05-21). Git history sanitized for public release (2026-05-22).
 
-**Completed this build:**
-- Semantic memory filter in claire_a_assembler.py — Haiku similarity
-  scoring, 0.85 threshold, suppressed_candidates log always written
-- Track C techniques PDF — separate from main digest, non-fatal failure path
-- Cost log merge — single upsert per run, Track A alert at $0.65
+**Cycle 5 applied:**
+- c5-mem-001: Suppress session-termination suggestions
+- c5-mem-002: Suppress session/token limit caveats
+- c5-mem-003: Proactive prompt injection flagging
+- c5-prof-001: Never embed reasoning scaffolding in deliverable documents
+- c5-prof-002: Surface conflicting instructions explicitly before proceeding
 
-**Known edge case:**
-- Cost log upsert keyed by YYYYMMDD — double-run on same day overwrites
-  rather than accumulates. Acceptable for now; watch friction log.
+**Queued (observation gate):**
+- c5-prof-003: Distinguish document-grounded vs training-derived conclusions (one live doc synthesis session required)
+- c3-prof-002: Task-completion anti-collapse (observe 4.7 in live session first)
+- c3-prof-003: Effort transparency disclosure (observe 4.7 in live session first)
+- c4-prof-001 through c4-prof-004: queued, no gates
 
-**Queued profile diffs applied (2026-05-21):**
-- c4-prof-001 through c4-prof-004: applied
-- c5-prof-001, c5-prof-002: applied
-- Profile updated to v10
-
-**Still gated (observation required):**
-- c3-prof-002: task-completion anti-collapse (observe 4.7 in live session)
-- c3-prof-003: effort transparency disclosure (observe 4.7 in live session)
-- c5-prof-003: document-grounded vs training-derived (one live doc synthesis session)
-
-**CLAIRE-A graduation criteria:**
+**CLAIRE-A graduation criteria (2 of 6):**
 - Consecutive eval runs logged: 2 of 6 required
 - Reliability ledger hypotheses scored: 7 of 10 required
 - Escalations in last 3 runs: 0 (clean)
-- Next eval cycle: 2026-05-25 (Sunday)
 
-**Build 9 candidates (design in browser Project first):**
+**Git sanitization (2026-05-22):**
+- filter-repo pass complete. 3 commits dropped. 65 clean commits + 1 HANDOFF fix = 66 total.
+- Remote: https://github.com/shamblingshade/CLAIRE.git
+- Repo is public-release ready pending force-push from restored working copy.
+- Cascade failure documented in friction_log.txt (2026-05-22 entry).
+
+**Build 10 / next session candidates:**
+- Same-day memory filtering in triage (cross-reference gate gap — c3, c5 friction logs)
+- feature_praise repurpose or scope reduction (dead weight at 27% corpus volume)
+- Technique candidates separate output stream
+- Session notes pre-commit workflow (required before each Sunday GHA run)
 - Substack RSS ingest (identify target feeds first)
 - X/Twitter ingest (blocked — API access/cost unresolved)
-- feature_praise signal utilization audit (investigation before code)
 
 ---
 

@@ -1,11 +1,11 @@
-# CLAIRE â€” Friction Log
+﻿# CLAIRE Ã¢â‚¬â€ Friction Log
 # Human-maintained. Update weekly. 2-4 entries per cycle minimum.
 # Format: YYYY-MM-DD | [context] | [component] | [severity: LOW/MEDIUM/HIGH]
 # Severity: LOW = cosmetic/minor, MEDIUM = precision/quality impact, HIGH = correctness risk
-# Blank weeks score everything MEDIUM next cycle â€” cross-reference gate loses precision.
+# Blank weeks score everything MEDIUM next cycle Ã¢â‚¬â€ cross-reference gate loses precision.
 # -----------------------------------------------------------------------
 
-# === CYCLE 1 (pipeline validation â€” no digest review session) ===
+# === CYCLE 1 (pipeline validation Ã¢â‚¬â€ no digest review session) ===
 # No friction entries. Cycle 1 was pipeline build validation only.
 # If behavioral friction was observed during Build 1-4 development, backfill here.
 
@@ -21,68 +21,78 @@ Em dash suppression added as memory edit after profile-level instruction alone p
 CLAIRE-A completed first decision cycle but had no eval history to calibrate against. All confidence scores are first-cycle estimates with no reliability ledger backing. Applied candidates carry higher uncertainty than the confidence numbers suggest. Score hypotheses across next 5 cycles before treating CLAIRE-A confidence tiers as reliable signal.
 
 2026-05-05 | profile update | Audit mode scope | LOW
-Audit mode added as new named mode in profile. Scope defined as artifact-level completeness gate. Boundary with Frenemy and Steelman modes is clear in definition but may blur in practice â€” user may invoke wrong mode for hallucination-checking tasks. Monitor for mode confusion before next profile revision.
+Audit mode added as new named mode in profile. Scope defined as artifact-level completeness gate. Boundary with Frenemy and Steelman modes is clear in definition but may blur in practice Ã¢â‚¬â€ user may invoke wrong mode for hallucination-checking tasks. Monitor for mode confusion before next profile revision.
 
 # === CYCLE 3 (2026-05-10) ===
 
 2026-05-10 | digest review session | CLAIRE-A candidate redundancy | MEDIUM
-CLAIRE-A engine flagged its own redundancy: 5 of 15 candidates in this cycle duplicated same-day memory entries already applied or clearly present in memory state. Cross-reference gate is not currently filtering against live memory_state before generating candidates. Precision loss is real â€” engine deferred legitimate candidates and burned cycles on already-applied ones. Investigate memory_state injection into triage stage before Build 8.
+CLAIRE-A engine flagged its own redundancy: 5 of 15 candidates in this cycle duplicated same-day memory entries already applied or clearly present in memory state. Cross-reference gate is not currently filtering against live memory_state before generating candidates. Precision loss is real Ã¢â‚¬â€ engine deferred legitimate candidates and burned cycles on already-applied ones. Investigate memory_state injection into triage stage before Build 8.
 
 2026-05-10 | digest review session | technique candidate routing | LOW
 Three Track C technique candidates (framework-request, portable context file, tool specialization splitting) are categorically user-behavior advice, not profile or memory config changes. They routed through the same output stream as config candidates and required manual triage during review. CLAIRE-A noted this in engine session notes. Separate output stream or category tag warranted before signal volume increases in Build 8.
 
 2026-05-10 | hallucination-guard skill build | skill naming convention | LOW
-Packager requires kebab-case skill names. SKILL.md was initially drafted with underscore (hallucination_guard) matching CLAIRE-A's internal candidate reference. Caught at validation â€” minor delay. Add kebab-case naming convention to CLAIRE skill draft template and skill_drafts/ README to prevent repeat.
+Packager requires kebab-case skill names. SKILL.md was initially drafted with underscore (hallucination_guard) matching CLAIRE-A's internal candidate reference. Caught at validation Ã¢â‚¬â€ minor delay. Add kebab-case naming convention to CLAIRE skill draft template and skill_drafts/ README to prevent repeat.
 
 2026-05-10 | digest review session | feature_praise signal utilization | MEDIUM
 74 feature_praise signals ingested this cycle, 0 candidates generated from that category. No visibility into whether praise signal feeds cross-reference gate weighting or is simply dropped after triage. If dropped, it represents ~15% of signal volume with zero pipeline value. Confirm whether praise category contributes to cross-reference scoring. If not, consider reducing ingest scope or repurposing the category as a baseline confidence modifier for behavior_complaint signals about the same features.
 
 # === CYCLE 4 (2026-05-19) ===
 
-2026-05-19 | file audit | claire_triage.py â€” friction_log path | HIGH
-FRICTION_LOG_PATH was hardcoded to data/friction_log.txt. The actual live log lives at root. All three live cycles (2, 3, 4) ran the cross-reference gate against the original April 26 example template. No real friction context was ever injected. Confidence scores for all applied changes are understated where friction log corroboration existed. Fix applied 2026-05-19 â€” takes effect Cycle 5. Historical scores not retroactively adjusted.
+2026-05-19 | file audit | claire_triage.py Ã¢â‚¬â€ friction_log path | HIGH
+FRICTION_LOG_PATH was hardcoded to data/friction_log.txt. The actual live log lives at root. All three live cycles (2, 3, 4) ran the cross-reference gate against the original April 26 example template. No real friction context was ever injected. Confidence scores for all applied changes are understated where friction log corroboration existed. Fix applied 2026-05-19 Ã¢â‚¬â€ takes effect Cycle 5. Historical scores not retroactively adjusted.
 
-2026-05-19 | file audit | change_log.json â€” canonical path and truncation | HIGH
-change_log.json canonical was documented in HANDOFF as data/change_log.json. Actual canonical (v1.1 schema, Cycles 2-4) lives at root. Root file was truncated mid-write after c3-prof-003 â€” Cycle 4 entries documented in HANDOFF but never written to file. Repaired 2026-05-19. data/change_log.json renamed to data/change_log_v1_legacy.json.
+2026-05-19 | file audit | change_log.json Ã¢â‚¬â€ canonical path and truncation | HIGH
+change_log.json canonical was documented in HANDOFF as data/change_log.json. Actual canonical (v1.1 schema, Cycles 2-4) lives at root. Root file was truncated mid-write after c3-prof-003 Ã¢â‚¬â€ Cycle 4 entries documented in HANDOFF but never written to file. Repaired 2026-05-19. data/change_log.json renamed to data/change_log_v1_legacy.json.
 
-2026-05-19 | file audit | HANDOFF.md â€” undocumented operational files | MEDIUM
-claire_utils.py, cost_log.json, candidates_track_a/b/c.json, synthesis.log, output.log, skills/user/ directory all present on disk but absent from HANDOFF directory tree. HANDOFF corrected. No functional impact â€” files were operational, just undocumented.
+2026-05-19 | file audit | HANDOFF.md Ã¢â‚¬â€ undocumented operational files | MEDIUM
+claire_utils.py, cost_log.json, candidates_track_a/b/c.json, synthesis.log, output.log, skills/user/ directory all present on disk but absent from HANDOFF directory tree. HANDOFF corrected. No functional impact Ã¢â‚¬â€ files were operational, just undocumented.
 
 2026-05-19 | file audit | synthesis/candidate JSON corruption | MEDIUM
-synthesis_queue_track_a/b/c.json and candidates_track_a/c.json have parse errors from truncated writes. Regenerated outputs â€” re-running triage and synthesis will overwrite cleanly. Deferred to Cycle 5 first run.
+synthesis_queue_track_a/b/c.json and candidates_track_a/c.json have parse errors from truncated writes. Regenerated outputs Ã¢â‚¬â€ re-running triage and synthesis will overwrite cleanly. Deferred to Cycle 5 first run.
 
 # === CYCLE 4 (2026-05-21) ===
 2026-05-21 | GHA migration | reddit ingest | HIGH
-Reddit public JSON endpoints return 403 from GHA datacenter IPs. RSS feeds attempted as fallback â€” return valid Atom XML with zero entries from GHA IPs despite working locally. Reddit ingestion permanently moved to manual-and-commit. GHA pipeline runs HN + dev.to only (--source forum). Raw_posts.json committed locally after each Reddit ingest run; GHA picks up from triage onward. No automated Reddit signal until a residential proxy or third-party Reddit API solution is evaluated in a future build.
+Reddit public JSON endpoints return 403 from GHA datacenter IPs. RSS feeds attempted as fallback Ã¢â‚¬â€ return valid Atom XML with zero entries from GHA IPs despite working locally. Reddit ingestion permanently moved to manual-and-commit. GHA pipeline runs HN + dev.to only (--source forum). Raw_posts.json committed locally after each Reddit ingest run; GHA picks up from triage onward. No automated Reddit signal until a residential proxy or third-party Reddit API solution is evaluated in a future build.
 
 2026-05-21 | GHA migration | requirements | MEDIUM
-python-dotenv missing from requirements.txt â€” caused immediate ModuleNotFoundError on first GHA run at ingest step. Was present in local venv from manual install, never added to requirements.txt. Fixed in Build 8 patch. Add dep audit (pip freeze vs requirements.txt diff) to pre-push checklist for future builds.
+python-dotenv missing from requirements.txt Ã¢â‚¬â€ caused immediate ModuleNotFoundError on first GHA run at ingest step. Was present in local venv from manual install, never added to requirements.txt. Fixed in Build 8 patch. Add dep audit (pip freeze vs requirements.txt diff) to pre-push checklist for future builds.
 
 2026-05-21 | GHA migration | claire_a_scorer stdin | MEDIUM
-claire_a_scorer.py reads session notes interactively via stdin when --notes is not provided. Incompatible with unattended GHA execution â€” exits with error code 1. Fixed by passing --notes data/session_notes.txt in workflow. Session notes file is now a required manual step before each Sunday run: update data/session_notes.txt with weekly behavioral observations, commit, push before cron fires. Blank or placeholder content will produce low-quality scorer output â€” not a pipeline failure but a signal quality failure.
+claire_a_scorer.py reads session notes interactively via stdin when --notes is not provided. Incompatible with unattended GHA execution Ã¢â‚¬â€ exits with error code 1. Fixed by passing --notes data/session_notes.txt in workflow. Session notes file is now a required manual step before each Sunday run: update data/session_notes.txt with weekly behavioral observations, commit, push before cron fires. Blank or placeholder content will produce low-quality scorer output Ã¢â‚¬â€ not a pipeline failure but a signal quality failure.
 
 2026-05-21 | GHA migration | secrets count | LOW
-Build 8 spec named 8 GitHub Secrets including five Reddit credentials. Correct count is 4 â€” Reddit ingest was always unauthenticated public JSON, no OAuth credentials ever required. Secrets table corrected in HANDOFF.md. No credentials were unnecessarily exposed; the error was in documentation only.
+Build 8 spec named 8 GitHub Secrets including five Reddit credentials. Correct count is 4 Ã¢â‚¬â€ Reddit ingest was always unauthenticated public JSON, no OAuth credentials ever required. Secrets table corrected in HANDOFF.md. No credentials were unnecessarily exposed; the error was in documentation only.
 
 # === CYCLE 5 (2026-05-21) ===
 
 2026-05-21 | digest review session | feature_praise utilization | HIGH
 Second consecutive cycle with 409 feature_praise signals and zero candidates
 generated. Confirmed dead weight at ~27% of corpus volume. Build 9 must
-resolve â€” either repurpose as baseline confidence modifier for
+resolve Ã¢â‚¬â€ either repurpose as baseline confidence modifier for
 behavior_complaint signals about same features, or reduce ingest scope.
 
 2026-05-21 | digest review session | c5-mem-003 redundant | LOW
 c5-mem-003 (prompt injection flagging) was proposed as a new memory edit but
-memory entry 22 already covers it. CLAIRE-A did not catch the duplicate â€”
+memory entry 22 already covers it. CLAIRE-A did not catch the duplicate Ã¢â‚¬â€
 cross-reference gate does not check against live memory state before generating
 candidates. Same gap flagged in Cycle 3 (same-day memory filtering). Build 9
 priority confirmed.
 
-# === CYCLE 4 — Build 9 session (2026-05-21) ===
+# === CYCLE 4 â€” Build 9 session (2026-05-21) ===
 
 2026-05-21 | Build 9 execution | OneDrive FUSE mount | HIGH
-Silently truncated large file writes — caused two failed config.json writes before workaround (bash heredoc / Windows-side write). Also appended null-byte padding to HANDOFF.md (1,045 bytes), .git/config (62 bytes), .git/index (130 bytes). Null-byte strip added to session start checklist. Any file written through Cowork file tools on this mount should be treated as suspect until verified.
+Silently truncated large file writes â€” caused two failed config.json writes before workaround (bash heredoc / Windows-side write). Also appended null-byte padding to HANDOFF.md (1,045 bytes), .git/config (62 bytes), .git/index (130 bytes). Null-byte strip added to session start checklist. Any file written through Cowork file tools on this mount should be treated as suspect until verified.
 
 2026-05-21 | Build 9 execution | git index.lock | MEDIUM
+<<<<<<< HEAD
+index.lock held across sessions â€” likely OneDrive sync, VS Code, or backgrounded git process. Required manual Remove-Item before every commit this session. Check Task Manager for lingering git.exe before future Cowork sessions.
+=======
 index.lock held across sessions — likely OneDrive sync, VS Code, or backgrounded git process. Required manual Remove-Item before every commit this session. Check Task Manager for lingering git.exe before future Cowork sessions.
+
+# === CLAIRE GIT SANITIZATION SESSION (2026-05-22) ===
+
+2026-05-22 | git sanitization | sandbox ref corruption cascade | HIGH
+Cowork sandbox .git copy attempt partially wrote refs pointing to sanitized commit hashes into the original repo object store before hitting permissions. Left original with broken HEAD. git clone CLAIRE CLAIRE_sanitize cloned from corrupted source and silently failed into wrong directory. All downstream steps including Remove-Item -Recurse -Force CLAIRE ran in C:\DEV with no git context. Original working tree deleted including stash. Recovered from intact sanitized clone in sandbox (65 clean commits). Root cause: sandbox .git operations should never be attempted against a live working repo. Add explicit warning to HANDOFF session start checklist.
+>>>>>>> cd423cd (Session close 2026-05-22 â€” friction log cascade entry, HANDOFF current state updated)
+
