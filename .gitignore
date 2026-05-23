@@ -34,3 +34,5 @@ data/
 CLAIRE_sanitized.zip
 
 expressions.txt
+
+data/ingest_run_log.json
