@@ -24,7 +24,7 @@ Every week, CLAIRE:
    (skill candidates), or Track C (technique candidates) using Haiku
 3. Synthesizes configuration candidates across all three tracks in parallel
    using Sonnet
-4. Runs the CLAIRE-A shadow pipeline â€” an autonomous decision engine (Opus)
+4. Runs the CLAIRE-A shadow pipeline Ã¢â‚¬â€ an autonomous decision engine (Opus)
    that evaluates every candidate and writes nothing to live config
 5. Produces a six-section PDF digest covering candidates, CLAIRE-A shadow
    decisions, and the running eval loop
@@ -41,20 +41,20 @@ you decide whether to allow it.
 
 ```
 Reddit public JSON (local, Monday)
-HackerNews API (GHA, Sunday)      â†’  Ingest  â†’  raw_posts.json
+HackerNews API (GHA, Sunday)      Ã¢â€ â€™  Ingest  Ã¢â€ â€™  raw_posts.json
 dev.to API - 6 tags, per-tag thresholds (GHA, Sunday)
 
-raw_posts.json  â†’  Triage (Haiku)  â†’  Track A / B / C queues
+raw_posts.json  Ã¢â€ â€™  Triage (Haiku)  Ã¢â€ â€™  Track A / B / C queues
 
-Track A (memory/profile)  â”€â”
-Track B (skill candidates) â”€â”¤  Synthesis (Sonnet, parallel)  â†’  candidates
-Track C (technique)       â”€â”˜
+Track A (memory/profile)  Ã¢â€â‚¬Ã¢â€Â
+Track B (skill candidates) Ã¢â€â‚¬Ã¢â€Â¤  Synthesis (Sonnet, parallel)  Ã¢â€ â€™  candidates
+Track C (technique)       Ã¢â€â‚¬Ã¢â€Ëœ
 
-candidates  â†’  CLAIRE-A Assembler
-            â†’  Decision Engine (Opus)     shadow decisions
-            â†’  Eval Scorer (Sonnet)       reliability ledger
+candidates  Ã¢â€ â€™  CLAIRE-A Assembler
+            Ã¢â€ â€™  Decision Engine (Opus)     shadow decisions
+            Ã¢â€ â€™  Eval Scorer (Sonnet)       reliability ledger
 
-candidates + shadow decisions  â†’  Output (reportlab PDF)  â†’  output/
+candidates + shadow decisions  Ã¢â€ â€™  Output (reportlab PDF)  Ã¢â€ â€™  output/
 
 GHA commit-back + Pushover notification
 ```
@@ -68,48 +68,43 @@ reliability ledger, zero escalations in the last 3 runs.
 ---
 
 ## Directory Structure
-
-```
 CLAIRE/
-â”œâ”€â”€ claire_ingest.py           # Reddit + HackerNews + dev.to ingest
-â”œâ”€â”€ claire_triage.py           # Haiku classification, three-track routing
-â”œâ”€â”€ claire_synthesize.py       # Sonnet synthesis, parallel tracks
-â”œâ”€â”€ claire_output.py           # reportlab PDF digest builder
-â”œâ”€â”€ claire_a_assembler.py      # CLAIRE-A input payload builder
-â”œâ”€â”€ claire_a_runner.py         # Opus decision engine
-â”œâ”€â”€ claire_a_scorer.py         # Sonnet eval scorer, reliability ledger
-â”œâ”€â”€ claire_utils.py            # Shared helpers (cost logging, etc.)
-â”œâ”€â”€ claire_weekly.ps1          # Local scheduled wrapper
-â”œâ”€â”€ config.json                # All locked pipeline decisions
-â”œâ”€â”€ requirements.txt
-â”œâ”€â”€ .env                       # ANTHROPIC_API_KEY (never commit)
-â”œâ”€â”€ change_log.json            # Applied changes + eval loop  â† YOU maintain
-â”œâ”€â”€ friction_log.txt           # Weekly behavioral observations  â† YOU maintain
-â”œâ”€â”€ data/
-â”‚   â”œâ”€â”€ raw_posts.json
-â”‚   â”œâ”€â”€ tagged_posts.json
-â”‚   â”œâ”€â”€ synthesis_queue_track_a.json
-â”‚   â”œâ”€â”€ synthesis_queue_track_b.json
-â”‚   â”œâ”€â”€ synthesis_queue_track_c.json
-â”‚   â”œâ”€â”€ archive.json
-â”‚   â”œâ”€â”€ memory_edits_snapshot.txt
-â”‚   â”œâ”€â”€ claire_a_input_[timestamp].json
-â”‚   â”œâ”€â”€ claire_a_decisions_[timestamp].json
-â”‚   â”œâ”€â”€ claire_a_reasoning_[timestamp].txt
-â”‚   â”œâ”€â”€ claire_a_source_reliability.json
-â”‚   â””â”€â”€ claire_a_session_history.json
-â”œâ”€â”€ output/                    # Weekly PDF digests
-â”œâ”€â”€ skill_drafts/              # SKILL.md skeletons from Track B
-â”œâ”€â”€ prompts/
-â”‚   â”œâ”€â”€ triage_prompt.txt
-â”‚   â”œâ”€â”€ synthesis_prompts.py
-â”‚   â””â”€â”€ profile_intent_summary.txt
-â””â”€â”€ docs/
-    â”œâ”€â”€ claire_pipeline_flow.jsx
-    â””â”€â”€ reddit_app_setup.md
-```
-
----
+├── claire_ingest.py           # Reddit + HackerNews + dev.to ingest
+├── claire_triage.py           # Haiku classification, three-track routing
+├── claire_synthesize.py       # Sonnet synthesis, parallel tracks
+├── claire_output.py           # reportlab PDF digest builder
+├── claire_a_assembler.py      # CLAIRE-A input payload builder
+├── claire_a_runner.py         # Opus decision engine
+├── claire_a_scorer.py         # Sonnet eval scorer, reliability ledger
+├── claire_utils.py            # Shared helpers (cost logging, etc.)
+├── claire_weekly.ps1          # Local scheduled wrapper
+├── config.json                # All locked pipeline decisions
+├── requirements.txt
+├── .env                       # ANTHROPIC_API_KEY (never commit)
+├── change_log.json            # Applied changes + eval loop  <- YOU maintain
+├── friction_log.txt           # Weekly behavioral observations  <- YOU maintain
+├── data/
+│   ├── raw_posts.json
+│   ├── tagged_posts.json
+│   ├── synthesis_queue_track_a.json
+│   ├── synthesis_queue_track_b.json
+│   ├── synthesis_queue_track_c.json
+│   ├── archive.json
+│   ├── memory_edits_snapshot.txt
+│   ├── claire_a_input_[timestamp].json
+│   ├── claire_a_decisions_[timestamp].json
+│   ├── claire_a_reasoning_[timestamp].txt
+│   ├── claire_a_source_reliability.json
+│   └── claire_a_session_history.json
+├── output/                    # Weekly PDF digests
+├── skill_drafts/              # SKILL.md skeletons from Track B
+├── prompts/
+│   ├── triage_prompt.txt
+│   ├── synthesis_prompts.py
+│   └── profile_intent_summary.txt
+└── docs/
+├── claire_pipeline_flow.jsx
+└── reddit_app_setup.md
 
 ## Setup
 
@@ -148,10 +143,10 @@ Four secrets required in your repo settings:
 CLAIRE synthesizes candidates against *your* configuration. Before running,
 populate:
 
-- `data/memory_edits_snapshot.txt` â€” paste your current Claude memory edits
-- `prompts/profile_intent_summary.txt` â€” 200-400 word summary of your Claude
+- `data/memory_edits_snapshot.txt` Ã¢â‚¬â€ paste your current Claude memory edits
+- `prompts/profile_intent_summary.txt` Ã¢â‚¬â€ 200-400 word summary of your Claude
   profile goals and behavioral priorities
-- `friction_log.txt` â€” at least one cycle of behavioral observations (format
+- `friction_log.txt` Ã¢â‚¬â€ at least one cycle of behavioral observations (format
   below)
 
 The synthesis stage injects both files into Track A and B prompts. Without
@@ -174,11 +169,11 @@ git push
 **Before Sunday** (manual, 10 minutes)
 
 1. Update `friction_log.txt` with 2-4 behavioral observations from the past week.
-   Commit and push. This is the cross-reference gate's ground truth — skip it
+   Commit and push. This is the cross-reference gate's ground truth â€” skip it
    and all candidates score MEDIUM regardless of relevance.
 
 2. Update `data/session_notes.txt` with behavioral observations from recent Claude
-   sessions — what held, what regressed, anything new. Commit and push. The
+   sessions â€” what held, what regressed, anything new. Commit and push. The
    CLAIRE-A scorer requires this file at runtime. Blank or missing content will
    cause the scorer to exit with error code 1 and fail the GHA run.
 
@@ -223,7 +218,7 @@ One entry per applied change. Schema version 1.1.
   "cycle": 5,
   "type": "memory_edit",
   "action": "add",
-  "target": "Memory â€” [description]",
+  "target": "Memory Ã¢â‚¬â€ [description]",
   "summary": "One sentence. What the memory says.",
   "hypothesis": "What you expect this change to do and why. Your words.",
   "source_signal": "Track and source posts that motivated this candidate.",
@@ -249,7 +244,7 @@ This is not optional.** The eval loop has nothing to measure against without it.
 | Decision engine model | `claude-opus-4-5` (CLAIRE-A) |
 | Eval scoring model | `claude-sonnet-4-6` (CLAIRE-A) |
 | Evidence threshold | 3 corroborating posts minimum |
-| Noise prefilter | score < 5 AND comments < 2 â†’ drop |
+| Noise prefilter | score < 5 AND comments < 2 Ã¢â€ â€™ drop |
 | Track A batch ceiling | 50 posts per synthesis call |
 | CLAIRE-A batch ceiling | 15 candidates per decision engine run |
 | Hypothesis authorship | Human-written for applied changes; Opus-written for shadow decisions |
@@ -320,4 +315,3 @@ candidates. One enthusiastic post does not make a configuration change.
 These are not preferences. They are the difference between an optimization
 system and a pipeline that randomly edits your AI configuration based on
 whatever Reddit was complaining about this week.
-
