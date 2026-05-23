@@ -1405,7 +1405,7 @@ def main():
     parser.add_argument(
         "--format",
         choices=["docx", "pdf"],
-        default="docx",
+        default="pdf",
         help="Output format (default: docx)",
     )
     args = parser.parse_args()
