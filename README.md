@@ -164,11 +164,11 @@ Reddit signal is ingested locally only. raw_posts.json is gitignored and does no
 **Before Sunday** (manual, 10 minutes)
 
 1. Update `friction_log.txt` with 2-4 behavioral observations from the past week.
-   Commit and push. This is the cross-reference gate's ground truth â€” skip it
+   Commit and push. This is the cross-reference gate's ground truth - skip it
    and all candidates score MEDIUM regardless of relevance.
 
 2. Update `data/session_notes.txt` with behavioral observations from recent Claude
-   sessions â€” what held, what regressed, anything new. Commit and push. The
+   sessions - what held, what regressed, anything new. Commit and push. The
    CLAIRE-A scorer requires this file at runtime. Blank or missing content will
    cause the scorer to exit with error code 1 and fail the GHA run.
 
@@ -213,7 +213,7 @@ One entry per applied change. Schema version 1.1.
   "cycle": 5,
   "type": "memory_edit",
   "action": "add",
-  "target": "Memory Ã¢â‚¬â€ [description]",
+  "target": "Memory - [description]",
   "summary": "One sentence. What the memory says.",
   "hypothesis": "What you expect this change to do and why. Your words.",
   "source_signal": "Track and source posts that motivated this candidate.",
