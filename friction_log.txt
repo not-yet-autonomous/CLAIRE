@@ -85,4 +85,32 @@ priority confirmed.
 Silently truncated large file writes â€” caused two failed config.json writes before workaround (bash heredoc / Windows-side write). Also appended null-byte padding to HANDOFF.md (1,045 bytes), .git/config (62 bytes), .git/index (130 bytes). Null-byte strip added to session start checklist. Any file written through Cowork file tools on this mount should be treated as suspect until verified.
 
 2026-05-21 | Build 9 execution | git index.lock | MEDIUM
-index.lock held ac
+index.lock held across sessions — likely OneDrive sync, VS Code, or backgrounded git process. Required manual Remove-Item before every commit this session. Check Task Manager for lingering git.exe before future Cowork sessions.
+
+# === CLAIRE GIT SANITIZATION SESSION (2026-05-22) ===
+
+2026-05-22 | git sanitization | sandbox ref corruption cascade | HIGH
+Cowork sandbox .git copy attempt partially wrote refs pointing to sanitized commit hashes into the original repo object store before hitting permissions. Left original with broken HEAD. git clone CLAIRE CLAIRE_sanitize cloned from corrupted source and silently failed into wrong directory. All downstream steps including Remove-Item -Recurse -Force CLAIRE ran in C:\DEV with no git context. Original working tree deleted including stash. Recovered from intact sanitized clone in sandbox (65 clean commits). Root cause: sandbox .git operations should never be attempted against a live working repo. Add explicit warning to HANDOFF session start checklist.
+
+# === CYCLE 5 (2026-05-21) ===
+
+2026-05-21 | digest review session | feature_praise utilization | HIGH
+Second consecutive cycle with 409 feature_praise signals and zero candidates
+generated. Confirmed dead weight at ~27% of corpus volume. Build 9 must
+resolve — either repurpose as baseline confidence modifier for
+behavior_complaint signals about same features, or reduce ingest scope.
+
+2026-05-21 | digest review session | c5-mem-003 redundant | LOW
+c5-mem-003 (prompt injection flagging) was proposed as a new memory edit but
+memory entry 22 already covers it. CLAIRE-A did not catch the duplicate —
+cross-reference gate does not check against live memory state before generating
+candidates. Same gap flagged in Cycle 3 (same-day memory filtering). Build 9
+priority confirmed.
+
+# === CYCLE 5 FOLLOW-UP (2026-05-23) ===
+
+2026-05-23 | digest review session | track A behavior watch | LOW
+Fan-out prompting pattern (outline + parallel section completions) for long-form document production flagged in Cycle 5 watch list. Single post, below evidence threshold. User's document production volume makes this worth watching. Tag: accumulate.
+
+2026-05-23 | digest review session | feature_praise pipeline yield | MEDIUM
+feature_praise at 47 posts (Cycle 5), 0 candidates generated - second consecutive zero-yield cycle (47 posts in Cycle 3 also produced nothing). Pattern is now confirmed, not a single-cycle anomaly. Design decision pending: reduce ingest scope, or implement as baseline confidence modifier for behavior_complaint signals on the same features. Candidate for Build 8 scope.

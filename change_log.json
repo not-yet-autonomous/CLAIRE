@@ -360,6 +360,19 @@
       "eval_notes": ""
     },
     {
+      "id": "c5-prof-004",
+      "date": "2026-05-23",
+      "cycle": 5,
+      "type": "profile_diff",
+      "action": "add",
+      "target": "Profile — AI tooling vendor due diligence lens",
+      "summary": "Add compliance-first evaluation methodology for AI-assisted development tools: BAA availability, FedRAMP status, data routing architecture, and audit trail capability as leading findings for SEC-registered RIA context. BAA-less cloud-only architectures flagged as presumptively non-compliant, not as a caveat.",
+      "hypothesis": "The user's existing vendor due diligence profile language addresses AI dependency risk broadly but does not specify an evaluation methodology for AI-assisted development tools entering enterprise procurement. These tools (Claude Code, Cursor, Copilot) now route code through third-party LLM infrastructure at evaluation speeds that outpace compliance review. For an SEC-registered RIA, a BAA-less cloud-only tool with opaque data routing is presumptively non-compliant - a blocking finding, not a caveat for follow-up. The existing profile would surface this as a trade-off; this change makes it a leading disqualifier, matching how a CISO or compliance officer actually evaluates these tools. Three independent HN threads confirm this is active practitioner pattern, not theoretical.",
+      "source_signal": "Track A - Cycle 5 digest. HN/47043484, HN/47227647, HN/47753643.",
+      "eval_status": "pending",
+      "eval_notes": ""
+    },
+    {
       "id": "c5-prof-003",
       "date": "2026-05-21",
       "cycle": 5,

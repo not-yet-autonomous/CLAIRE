@@ -242,6 +242,7 @@ CLAIRE\
 | Reddit GHA IP block | Reddit returns 403 on JSON endpoints and empty RSS feeds from GHA datacenter IPs. Manual ingest is permanent architecture — not a bug to fix. |
 | git null-byte corruption | .git/config and .git/index had null-byte padding appended (62 and 130 bytes) — likely OneDrive FUSE mount. Strip with: `python -c "open('.git/config','wb').write(open('.git/config','rb').read().rstrip(b'\\x00'))"` Same fix applies to .git/index. Symptoms: 'bad config line' or 'index file corrupt'. |
 | OneDrive FUSE mount write behavior | Silently truncates large file writes. Do not write config.json or other large files through Cowork file tools. Use Windows-side editor or bash heredoc. |
+| Git index corruption (2026-05-23) | Null sha1 cache entry in .git/index — resolved by deleting index.lock and index, then running `git reset HEAD` to rebuild from HEAD before restaging. Root cause: FUSE mount null-byte padding. |
 
 ---
 
@@ -305,21 +306,4 @@ All architecture, prompt design, and build scaffolding lives in the
 Claude browser Project named CLAIRE. When in doubt about a design
 decision, stop and check the browser Project before proceeding.
 
-Do not make architectural decisions in Cowork. Execute, report, repeat.
-
----
-
-## Commit Convention
-
-```
-git add .
-git commit -m "CLAIRE Build [N] [description]"
-```
-
-Examples:
-- `CLAIRE Build 1 complete — 520 post clean corpus`
-- `CLAIRE Build 2 dry-run validated — triage running`
-- `CLAIRE Build 2 complete — synthesis queues written`
-
----
-*Last updated: 2026-05-21 — Profile v10 applied: 6 queued diffs resolved*
+Do not make ar
