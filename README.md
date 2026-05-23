@@ -71,42 +71,42 @@ reliability ledger, zero escalations in the last 3 runs.
 
 ```
 CLAIRE/
-+-- claire_ingest.py           # Reddit + HackerNews + dev.to ingest
-+-- claire_triage.py           # Haiku classification, three-track routing
-+-- claire_synthesize.py       # Sonnet synthesis, parallel tracks
-+-- claire_output.py           # reportlab PDF digest builder
-+-- claire_a_assembler.py      # CLAIRE-A input payload builder
-+-- claire_a_runner.py         # Opus decision engine
-+-- claire_a_scorer.py         # Sonnet eval scorer, reliability ledger
-+-- claire_utils.py            # Shared helpers (cost logging, etc.)
-+-- claire_weekly.ps1          # Local scheduled wrapper
-+-- config.json                # All locked pipeline decisions
-+-- requirements.txt
-+-- .env                       # ANTHROPIC_API_KEY (never commit)
-+-- change_log.json            # Applied changes + eval loop  <- YOU maintain
-+-- friction_log.txt           # Weekly behavioral observations  <- YOU maintain
-+-- data/
-|   +-- raw_posts.json
-|   +-- tagged_posts.json
-|   +-- synthesis_queue_track_a.json
-|   +-- synthesis_queue_track_b.json
-|   +-- synthesis_queue_track_c.json
-|   +-- archive.json
-|   +-- memory_edits_snapshot.txt
-|   +-- claire_a_input_[timestamp].json
-|   +-- claire_a_decisions_[timestamp].json
-|   +-- claire_a_reasoning_[timestamp].txt
-|   +-- claire_a_source_reliability.json
-|   +-- claire_a_session_history.json
-+-- output/                    # Weekly PDF digests
-+-- skill_drafts/              # SKILL.md skeletons from Track B
-+-- prompts/
-|   +-- triage_prompt.txt
-|   +-- synthesis_prompts.py
-|   +-- profile_intent_summary.txt
-+-- docs/
-    +-- claire_pipeline_flow.jsx
-    +-- reddit_app_setup.md
+-- claire_ingest.py           # Reddit + HackerNews + dev.to ingest
+-- claire_triage.py           # Haiku classification, three-track routing
+-- claire_synthesize.py       # Sonnet synthesis, parallel tracks
+-- claire_output.py           # reportlab PDF digest builder
+-- claire_a_assembler.py      # CLAIRE-A input payload builder
+-- claire_a_runner.py         # Opus decision engine
+-- claire_a_scorer.py         # Sonnet eval scorer, reliability ledger
+-- claire_utils.py            # Shared helpers (cost logging, etc.)
+-- claire_weekly.ps1          # Local scheduled wrapper
+-- config.json                # All locked pipeline decisions
+-- requirements.txt
+-- .env                       # ANTHROPIC_API_KEY (never commit)
+-- change_log.json            # Applied changes + eval loop  <- YOU maintain
+-- friction_log.txt           # Weekly behavioral observations  <- YOU maintain
+-- data/
+    -- raw_posts.json
+    -- tagged_posts.json
+    -- synthesis_queue_track_a.json
+    -- synthesis_queue_track_b.json
+    -- synthesis_queue_track_c.json
+    -- archive.json
+    -- memory_edits_snapshot.txt
+    -- claire_a_input_[timestamp].json
+    -- claire_a_decisions_[timestamp].json
+    -- claire_a_reasoning_[timestamp].txt
+    -- claire_a_source_reliability.json
+    -- claire_a_session_history.json
+-- output/                    # Weekly PDF digests
+-- skill_drafts/              # SKILL.md skeletons from Track B
+-- prompts/
+    -- triage_prompt.txt
+    -- synthesis_prompts.py
+    -- profile_intent_summary.txt
+-- docs/
+    -- claire_pipeline_flow.jsx
+    -- reddit_app_setup.md
 ```
 `
 \\n\\n\
