@@ -300,6 +300,19 @@ authorizes every applied change until you explicitly decide otherwise.
 
 ---
 
+
+---
+
+## Cost and Terms of Service
+
+**API costs.** CLAIRE makes live Anthropic API calls on every run. A normal weekly cycle costs approximately $0.70-1.00 (triage + synthesis + CLAIRE-A). At current pricing: Haiku for triage (~$0.25), Sonnet for synthesis (~$0.45), Opus for CLAIRE-A shadow decisions (~$0.20). Costs scale with corpus size -- a large ingest week can push synthesis toward $0.70 on its own. Monitor `cost_log.json` and the Track A cost alert in `claire_weekly.ps1`.
+
+**GitHub Actions.** The weekly workflow consumes GHA minutes. Normal runs complete in under 5 minutes. Free tier accounts receive 2,000 minutes/month -- CLAIRE will not exhaust this under normal use.
+
+**Reddit terms of service.** Reddit ingest uses public JSON endpoints without authentication. This is technically outside Reddit's current ToS for automated access. Reddit signal stays on your machine and is never committed to the repo. Users are responsible for ensuring their usage complies with Reddit's current terms of service.
+
+**Configuration changes.** CLAIRE proposes edits to Claude memory, profile, and skills. Applying candidates without reviewing them can degrade your Claude configuration. Every applied change requires a human-written hypothesis. The eval loop exists to catch changes that do not perform as expected. Do not apply candidates in bulk.
+
 ## Design Principles
 
 CLAIRE is built on three constraints that are not negotiable:
