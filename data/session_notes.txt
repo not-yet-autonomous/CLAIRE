@@ -1,4 +1,1 @@
-# CLAIRE session notes — update before each Sunday run
-# Scorer reads this file. Must contain at least one observation.
-# Format: free text. Cite specific behaviors observed during the week.
-Cycle 4 baseline run. No behavioral observations this cycle — placeholder entry.
+﻿Test run — pipeline validation only. No behavioral observations this cycle.
