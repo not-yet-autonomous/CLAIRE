@@ -1,38 +1,28 @@
-# Virtual environment
+﻿# Virtual environment
 .venv/
 
 # Regenerated data files (rebuilt weekly, not tracked)
 data/tagged_posts.json
 data/synthesis_queue*.json
-
 # Python bytecode
 __pycache__/
 *.pyc
-
-# Runtime logs (no rotation yet — excluded until size is known)
+# Runtime logs (no rotation yet â€” excluded until size is known)
 logs/*.log
-
 # Environment variables
 .env
-
 # Generated outputs and dry-run artifacts (rebuild on each run)
 output/*.docx
 output/*.pdf
 data/candidates_track_*.json
 data/ingest_run_log.json
-
 # --- Tracked intentionally ---
-# data/friction_log.txt  — human-maintained, must be tracked
-# data/change_log.json   — eval loop, must be tracked
-# prompts/               — tracked
-# config.json            — tracked
-# requirements.txt       — tracked
-# README.md              — tracked
-
+# data/friction_log.txt  â€” human-maintained, must be tracked
+# data/change_log.json   â€” eval loop, must be tracked
+# prompts/               â€” tracked
+# config.json            â€” tracked
+# requirements.txt       â€” tracked
+# README.md              â€” tracked
 data/
-
 CLAIRE_sanitized.zip
-
 expressions.txt
-
-data/ingest_run_log.json
