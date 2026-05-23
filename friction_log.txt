@@ -114,3 +114,9 @@ Fan-out prompting pattern (outline + parallel section completions) for long-form
 
 2026-05-23 | digest review session | feature_praise pipeline yield | MEDIUM
 feature_praise at 47 posts (Cycle 5), 0 candidates generated - second consecutive zero-yield cycle (47 posts in Cycle 3 also produced nothing). Pattern is now confirmed, not a single-cycle anomaly. Design decision pending: reduce ingest scope, or implement as baseline confidence modifier for behavior_complaint signals on the same features. Candidate for Build 8 scope.
+
+2026-05-23 | pre-publish scan | claire_weekly.ps1 | MEDIUM
+Unresolved merge conflict markers (<<<<<<< HEAD / >>>>>>> 236a62f) present in claire_weekly.ps1 at lines 5-16. Not detected until pre-publish sanitization scan. Both sides were functionally identical — only a comment block differed — so runtime behavior was unaffected, but markers would have broken the script and were visible in the public repo. Resolved by keeping the 236a62f version with the .env comment. Add conflict marker check to pre-publish checklist.
+
+2026-05-23 | pre-publish scan | claire_output.py + claire_weekly.ps1 | MEDIUM
+PDF was specified as the digest output format in architecture documentation since Build 8 reportlab migration, but claire_weekly.ps1 was calling claire_output.py without --format pdf, and the argparse default remained "docx". Pipeline produced .docx digests for every cycle since Build 8 without detection. Fixed by setting default="pdf" in claire_output.py and adding --format pdf to claire_weekly.ps1. Spec/behavior mismatch persisted across multiple cycles — add output format verification to post-run checklist.
