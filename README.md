@@ -239,7 +239,7 @@ This is not optional.** The eval loop has nothing to measure against without it.
 | Decision engine model | `claude-opus-4-5` (CLAIRE-A) |
 | Eval scoring model | `claude-sonnet-4-6` (CLAIRE-A) |
 | Evidence threshold | 3 corroborating posts minimum |
-| Noise prefilter | score < 5 AND comments < 2 Ã¢â€ â€™ drop |
+| Noise prefilter | score < 5 AND comments < 2 → drop |
 | Track A batch ceiling | 50 posts per synthesis call |
 | CLAIRE-A batch ceiling | 15 candidates per decision engine run |
 | Hypothesis authorship | Human-written for applied changes; Opus-written for shadow decisions |
