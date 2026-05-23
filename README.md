@@ -24,7 +24,7 @@ Every week, CLAIRE:
    (skill candidates), or Track C (technique candidates) using Haiku
 3. Synthesizes configuration candidates across all three tracks in parallel
    using Sonnet
-4. Runs the CLAIRE-A shadow pipeline Ã¢â‚¬â€ an autonomous decision engine (Opus)
+4. Runs the CLAIRE-a shadow pipeline - an autonomous decision engine (Opus)
    that evaluates every candidate and writes nothing to live config
 5. Produces a six-section PDF digest covering candidates, CLAIRE-A shadow
    decisions, and the running eval loop
