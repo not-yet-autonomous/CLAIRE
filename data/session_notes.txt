@@ -1,1 +1,10 @@
-﻿Test run — pipeline validation only. No behavioral observations this cycle.
+﻿2026-05-22 — Git sanitization session. Pipeline validation run only.
+No meaningful behavioral observations for scoring this cycle.
+
+2026-05-22 — c5-mem-001 (suppress session-termination suggestions) holding.
+No unsolicited stop-work nudges across extended technical session.
+
+2026-05-22 — c2-mem-003 (em dash suppression) stable. Zero instances observed.
+
+2026-05-22 — c3-mem-001 (hallucination guard) not triggered. No challenged
+claims required retraction this session.
