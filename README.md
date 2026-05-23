@@ -69,7 +69,8 @@ reliability ledger, zero escalations in the last 3 runs.
 
 ## Directory Structure
 
-\CLAIRE/
+```
+CLAIRE/
 +-- claire_ingest.py           # Reddit + HackerNews + dev.to ingest
 +-- claire_triage.py           # Haiku classification, three-track routing
 +-- claire_synthesize.py       # Sonnet synthesis, parallel tracks
@@ -106,7 +107,9 @@ reliability ledger, zero escalations in the last 3 runs.
 +-- docs/
     +-- claire_pipeline_flow.jsx
     +-- reddit_app_setup.md
-\
+```
+`
+\\n\\n\
 ## Setup
 
 ### Prerequisites
