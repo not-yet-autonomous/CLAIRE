@@ -17,7 +17,7 @@
 | CI/CD | GitHub Actions — `.github/workflows/claire_weekly.yml` |
 | GHA trigger | Cron `0 14 * * 0` (Sundays 14:00 UTC) + `workflow_dispatch` |
 | Execution (automated) | GitHub Actions — .github/workflows/claire_weekly.yml |
-| GitHub repo | https://github.com/shamblingshade/CLAIRE |
+| GitHub repo | https://github.com/not-yet-autonomous/CLAIRE |
 
 ---
 
@@ -270,7 +270,7 @@ Cycle 5 complete (2026-05-21). Git history sanitized for public release (2026-05
 
 **Git sanitization (2026-05-22):**
 - filter-repo pass complete. 3 commits dropped. 65 clean commits + 1 HANDOFF fix = 66 total.
-- Remote: https://github.com/shamblingshade/CLAIRE.git
+- Remote: https://github.com/not-yet-autonomous/CLAIRE.git
 - Repo is public-release ready pending force-push from restored working copy.
 - Cascade failure documented in friction_log.txt (2026-05-22 entry).
 
