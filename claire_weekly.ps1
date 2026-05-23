@@ -10,15 +10,8 @@ Set-Location "C:\DEV\CLAIRE"
 
 Set-Location "C:\DEV\CLAIRE"
 & "C:\DEV\envs\CLAIRE\.venv\Scripts\Activate.ps1"
-
 # Explicitly load API key from .env into the process environment
 # Ensures all Python scripts see it regardless of dotenv working directory
->>>>>>> 236a62f (Sanitize: fix hardcoded OneDrive paths in ps1 and scheduler XML)
-$envFile = "C:\DEV\CLAIRE\.env"
-Get-Content $envFile | Where-Object { $_ -match "^[^#].*=.*" } | ForEach-Object {
-    $parts = $_ -split "=", 2
-    [System.Environment]::SetEnvironmentVariable($parts[0].Trim(), $parts[1].Trim(), "Process")
-}
 
 Write-Host "$(Get-Date -Format 'HH:mm:ss')  Starting CLAIRE weekly pipeline..."
 python claire_ingest.py --source $source
