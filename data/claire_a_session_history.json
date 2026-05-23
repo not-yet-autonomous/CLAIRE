@@ -395,5 +395,14 @@
     "sessions": [
       "dc07c2d3-cfa1-4de9-9310-c1aef338d9cf"
     ]
+  },
+  "8b9ca5fe4f1b347a": {
+    "appearances": 1,
+    "first_seen": "2026-05-23T03:14:17.676357+00:00",
+    "last_seen": "2026-05-23T03:14:17.676357+00:00",
+    "last_decision": "apply",
+    "sessions": [
+      "44bd8045-886f-4c6a-8bb9-6ee83f0c166f"
+    ]
   }
 }

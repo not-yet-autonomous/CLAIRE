@@ -1,8 +1,8 @@
 {
   "meta": {
-    "total_runs": 18,
-    "cumulative_cost_usd": 5.7299,
-    "last_updated": "2026-05-21T20:56:14.198880+00:00"
+    "total_runs": 21,
+    "cumulative_cost_usd": 5.8689,
+    "last_updated": "2026-05-23T03:13:13.209531+00:00"
   },
   "runs": [
     {
@@ -396,6 +396,39 @@
         "total_cost_usd": 0.6641
       },
       "total_cost_usd": 0.6641
+    },
+    {
+      "run_id": "2026-05-23T03:12:41.887984+00:00",
+      "_match_key": "20260523",
+      "triage_cost_usd": 0.0919,
+      "synthesis_cost_usd": 0.0,
+      "assembler_cost_usd": 0.0,
+      "total_cost_usd": 0.0919,
+      "track_a_alert": false,
+      "posts_processed": 127,
+      "last_updated": "2026-05-23T03:12:41.887984+00:00"
+    },
+    {
+      "run_id": "2026-05-23T03:13:12.735946+00:00",
+      "_match_key": "20260523",
+      "triage_cost_usd": 0.0,
+      "synthesis_cost_usd": 0.0471,
+      "assembler_cost_usd": 0.0,
+      "total_cost_usd": 0.0471,
+      "track_a_alert": false,
+      "posts_processed": 19,
+      "last_updated": "2026-05-23T03:13:12.735946+00:00"
+    },
+    {
+      "run_id": "2026-05-23T03:13:13.209531+00:00",
+      "_match_key": "20260523",
+      "triage_cost_usd": 0.0,
+      "synthesis_cost_usd": 0.0,
+      "assembler_cost_usd": 0.0,
+      "total_cost_usd": 0.0,
+      "track_a_alert": false,
+      "posts_processed": 0,
+      "last_updated": "2026-05-23T03:13:13.209531+00:00"
     }
   ]
 }

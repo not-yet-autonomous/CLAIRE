@@ -1,72 +1,11 @@
 {
   "meta": {
     "track": "c",
-    "run_at": "2026-05-21T20:51:20.402373+00:00",
-    "posts_input": 11,
+    "run_at": "2026-05-23T03:12:44.334929+00:00",
+    "posts_input": 1,
     "model": "claude-sonnet-4-6"
   },
   "candidates": {
-    "technique_candidates": [
-      {
-        "technique_name": "Portable Context File (profile.md)",
-        "description": "Maintaining a personal context document (e.g., profile.md or a Notion/Obsidian page) that summarizes preferences, background, and ongoing project state, then pasting it into each new AI chat session to bootstrap context. This compensates for the lack of cross-platform memory sync by giving every tool the same starting knowledge about the user.",
-        "test_suggestion": "Create a short markdown file with your key context (role, goals, style preferences, active projects) and paste it at the start of your next session with any AI tool before asking your main question.",
-        "change_target": "user_behavior",
-        "confidence": "HIGH",
-        "source_posts": [
-          "/r/ArtificialInteligence/comments/1sslxr7/is_there_a_way_to_sync_memory_across_chatgpt/",
-          "/r/AIToolBench/comments/1ssly2l/is_there_a_way_to_sync_memory_across_chatgpt/",
-          "/r/productivity/comments/1t1qqgl/notion_a_memory_layer_for_claude_as_a/"
-        ]
-      },
-      {
-        "technique_name": "Brief-Style Prompting with Role, Goals, Tone, and Exclusions",
-        "description": "Structuring prompts like a creative or professional brief rather than a single vague sentence \u2014 explicitly stating the goal, target audience or context, desired tone, and things to avoid. Multiple users across platforms report this pattern consistently produces better outputs than either vague prompts or excessively padded ones.",
-        "test_suggestion": "On your next content or writing task, write your prompt in four labeled sections: Goal, Context, Tone, and Avoid \u2014 then compare the output to your usual single-sentence prompt.",
-        "change_target": "user_behavior",
-        "confidence": "HIGH",
-        "source_posts": [
-          "/r/ClaudeAI/comments/1t9ye9o/i_ran_the_same_vague_prompt_through_chatgpt/",
-          "/r/ClaudeAI/comments/1tdlvgy/stopped_padding_my_prompts_and_told_the_ai_to/",
-          "/r/IndiaGrowthStocks/comments/1tb0kjd/compounder_or_trap_run_the_twoengine_math_before/"
-        ]
-      },
-      {
-        "technique_name": "First-Principles Self-Definition Before Output",
-        "description": "Instead of over-specifying all constraints in the prompt, adding a single line instructing the AI to surface its own assumptions and define its terms before proceeding (e.g., 'use first-principles reasoning \u2014 before you proceed, break this down to its core assumptions and state them explicitly'). This externalizes the model's reasoning frame so the user can inspect and correct it early, reducing hallucination and misalignment.",
-        "test_suggestion": "Add the sentence 'Before you begin, state the core assumptions you are making about this task' to your next complex prompt and review whether the surfaced assumptions match your intent.",
-        "change_target": "user_behavior",
-        "confidence": "HIGH",
-        "source_posts": [
-          "/r/ClaudeAI/comments/1tdlvgy/stopped_padding_my_prompts_and_told_the_ai_to/",
-          "/r/ClaudeAI/comments/1t9ye9o/i_ran_the_same_vague_prompt_through_chatgpt/",
-          "/r/LocalLLaMA/comments/1tjbhjk/same_task_in_githubcopilot_pi_claudecode_and/"
-        ]
-      },
-      {
-        "technique_name": "Tool-Layer Segmentation by Task Depth",
-        "description": "Deliberately assigning AI tools to task categories by depth rather than defaulting to one tool for everything: using a capable model (e.g., Claude, GPT-4) for deep, long-form work requiring extended focus, and a faster or lighter tool for high-volume shallow tasks (quick emails, lookups, brief rewrites). Users report this eliminates the friction of forcing a single tool into mismatched modes.",
-        "test_suggestion": "For one week, categorize every AI task before starting as either 'deep work' (>15 min focus) or 'quick task' (<5 min), and route them to different tools or interfaces, then assess whether output quality and session friction differ.",
-        "change_target": "user_behavior",
-        "confidence": "HIGH",
-        "source_posts": [
-          "/r/ClaudeAI/comments/1thjemx/claude_vs_wingman_after_1_month_theyre_not_really/",
-          "/r/ClaudeAI/comments/1t9ye9o/i_ran_the_same_vague_prompt_through_chatgpt/",
-          "/r/SunoAI/comments/1sw1mil/how_i_build_concept_albums_with_no_musical/"
-        ]
-      },
-      {
-        "technique_name": "Framework-as-Prompt: Paste a Full Mental Model Then Apply It",
-        "description": "Copying an entire analytical framework or article into the AI prompt and then asking the model to apply it to specific data (e.g., your portfolio, your document, your codebase). This offloads framework design to a trusted external source and uses the AI purely for application, which multiple users find produces more rigorous and consistent analysis than asking the AI to construct the framework itself.",
-        "test_suggestion": "Find a decision framework or analytical template you trust, paste it in full into a new chat, then ask the AI to apply it to a specific case you are currently evaluating.",
-        "change_target": "user_behavior",
-        "confidence": "HIGH",
-        "source_posts": [
-          "/r/IndiaGrowthStocks/comments/1tb0kjd/compounder_or_trap_run_the_twoengine_math_before/",
-          "/r/ClaudeAI/comments/1tdlvgy/stopped_padding_my_prompts_and_told_the_ai_to/",
-          "/r/SunoAI/comments/1sw1mil/how_i_build_concept_albums_with_no_musical/"
-        ]
-      }
-    ]
+    "technique_candidates": []
   }
 }
