@@ -162,9 +162,10 @@ included -- Reddit blocks datacenter IPs, so GHA can never reach it. If you
 only use the GHA path, your digest has no Reddit signal.
 
 **Local pipeline** runs on your machine via `claire_weekly.ps1`. It can ingest
-all three sources including Reddit. Reddit signal is never committed to the
-repo (Reddit ToS) -- it lives only in your local `raw_posts.json`. The local
-pipeline produces its own digest independently of GHA.
+all three sources including Reddit. After Monday ingest, commit and push
+`raw_posts.json` -- GHA picks it up from the repo at triage on Sunday. The
+local pipeline can also produce a digest for development review, but the
+canonical digest is the one GHA generates.
 
 **Which path should you use?**
 
@@ -191,8 +192,17 @@ or the current week's Reddit signal will be missing from your digest.
 python claire_ingest.py --source reddit
 ```
 
-Reddit signal stays on your machine. `raw_posts.json` is gitignored and never
-committed.
+Reddit signal is ingested locally. Commit and push `raw_posts.json` after each
+Monday ingest run. GHA picks it up from the repo at triage on Sunday. Skip
+Monday and the Sunday digest runs on HackerNews + dev.to only -- still valid,
+but Reddit-free. `raw_posts.json` is not gitignored; it is intentionally
+committed as the Reddit signal handoff to GHA.
+
+```powershell
+git add data/raw_posts.json
+git commit -m "ingest: reddit update $(Get-Date -Format yyyy-MM-dd)"
+git push
+```
 
 **Before Sunday** (manual, 10 minutes)
 
@@ -278,6 +288,10 @@ One entry per applied change. Schema version 1.1.
 **Every applied change requires a human-written hypothesis before application.
 This is not optional.** The eval loop has nothing to measure against without it.
 
+> **Pull discipline:** GHA commits `change_log.json` and `friction_log.txt`
+> back to the repo on every run. Always `git pull` before editing either file
+> locally or your next push will conflict.
+
 ---
 
 ## Locked Pipeline Decisions
@@ -360,16 +374,4 @@ authorizes every applied change until you explicitly decide otherwise.
 
 CLAIRE is built on three constraints that are not negotiable:
 
-**Human-in-the-loop.** Every applied change requires a human-written hypothesis
-before application. CLAIRE generates candidates. You decide.
-
-**Audit trail.** `change_log.json` records every applied change with its
-hypothesis, source signal, and eval status. If you can't explain why a change
-was made, it shouldn't be in the log.
-
-**Evidence threshold.** Three corroborating posts minimum for Track A
-candidates. One enthusiastic post does not make a configuration change.
-
-These are not preferences. They are the difference between an optimization
-system and a pipeline that randomly edits your AI configuration based on
-whatever Reddit was complaining about this week.
+**Human-in-the-loop.** Every 
