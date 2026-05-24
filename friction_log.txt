@@ -146,3 +146,11 @@ are understated - a second independent confidence gap alongside the
 friction_log path bug documented 2026-05-19. Applied changes are
 directionally sound but Reddit-unverified. Monday ingest will be the first
 full-corpus run.
+
+2026-05-24 | GHA email delivery | Outlook.com SMTP | MEDIUM
+Attempted email digest delivery via Outlook.com SMTP (ports 465 and 587).
+Both failed -- Microsoft has disabled basic authentication on personal
+Outlook.com accounts. App passwords do not bypass this restriction.
+Feature removed. Local digest delivery via Task Scheduler git pull
+(claire_pull.ps1, Sunday 09:30 local) implemented as replacement.
+No pipeline impact -- email step was non-fatal throughout.

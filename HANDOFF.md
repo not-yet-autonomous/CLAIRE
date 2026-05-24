@@ -298,9 +298,18 @@ CLAIRE\
 
 ## Current Session Task
 
-Cycle 5 complete (2026-05-21). Git history sanitized for public release (2026-05-22).
+Build 10 complete (2026-05-24). Repo at public-release state on main.
 
-**Cycle 5 applied:**
+**Build 10 applied (2026-05-24):**
+- Email delivery removed from GHA workflow — Outlook.com basic auth disabled, app passwords non-functional
+- `claire_pull.ps1` added — Task Scheduler git pull for local digest delivery (Sunday 09:30 local)
+- `claire_pull.xml` added — Task Scheduler import file; register with `schtasks /create /xml claire_pull.xml /tn "CLAIRE Digest Pull"`
+- `raw_posts.json` gitignore negation rule added (`!data/raw_posts.json`) — Reddit signal now committtable to repo
+- README Optional Email section removed; After GHA section updated with pull script docs
+- HANDOFF directory structure updated with new files
+- SMTP friction entry added to friction_log.txt (2026-05-24)
+
+**Cycle 5 applied (carried forward):**
 - c5-mem-001: Suppress session-termination suggestions
 - c5-mem-002: Suppress session/token limit caveats
 - c5-mem-003: Proactive prompt injection flagging
@@ -318,19 +327,13 @@ Cycle 5 complete (2026-05-21). Git history sanitized for public release (2026-05
 - Reliability ledger hypotheses scored: 7 of 10 required
 - Escalations in last 3 runs: 0 (clean)
 
-**Git sanitization (2026-05-22):**
-- filter-repo pass complete. 3 commits dropped. 65 clean commits + 1 HANDOFF fix = 66 total.
-- Remote: https://github.com/not-yet-autonomous/CLAIRE.git
-- Repo is public-release ready pending force-push from restored working copy.
-- Cascade failure documented in friction_log.txt (2026-05-22 entry).
-
-**Build 10 / next session candidates:**
+**Build 11 / next session candidates:**
 - Same-day memory filtering in triage (cross-reference gate gap — c3, c5 friction logs)
 - feature_praise repurpose or scope reduction (dead weight at 27% corpus volume)
-- Technique candidates separate output stream
 - Session notes pre-commit workflow (required before each Sunday GHA run)
 - Substack RSS ingest (identify target feeds first)
 - X/Twitter ingest (blocked — API access/cost unresolved)
+- Evaluate moving raw_posts.json to project root to eliminate gitignore dependency
 
 
 ---
