@@ -120,3 +120,14 @@ Unresolved merge conflict markers (<<<<<<< HEAD / >>>>>>> 236a62f) present in cl
 
 2026-05-23 | pre-publish scan | claire_output.py + claire_weekly.ps1 | MEDIUM
 PDF was specified as the digest output format in architecture documentation since Build 8 reportlab migration, but claire_weekly.ps1 was calling claire_output.py without --format pdf, and the argparse default remained "docx". Pipeline produced .docx digests for every cycle since Build 8 without detection. Fixed by setting default="pdf" in claire_output.py and adding --format pdf to claire_weekly.ps1. Spec/behavior mismatch persisted across multiple cycles — add output format verification to post-run checklist.
+
+2026-05-24 | pre-publish scan | README encoding | MEDIUM
+Three encoding corruptions (em dash U+2014, en dash U+2013, arrow U+2192)
+survived into the public v0.5.0 release. Caught post-publish during manual
+review. Root cause: README drafted or edited through a non-UTF-8-aware
+pipeline (likely Word or rich-text paste). Pre-publish checklist has a
+conflict marker check but no encoding scan step. Add
+`Select-String -Path "README.md" -Pattern "Ã¢|â€"` to pre-publish checklist
+before next release.
+
+
