@@ -91,12 +91,14 @@ Two execution environments run the same pipeline. GHA is canonical.
 | Reddit signal | Yes (Monday ingest) | Only if Monday push completed |
 | HackerNews + dev.to | Yes | Yes |
 | Trigger | Manual | Cron Sunday 14:00 UTC |
-| Canonical digest | No -- development only | Yes |
+| Canonical digest | Yes - review and apply from local combined run | No - fallback and notification only |
 
 **Rules:**
 
-1. **GHA digest is the canonical review artifact.** Apply candidates from the
-   Sunday digest only. Local runs are for development and testing.
+1. **Local combined digest is the canonical review artifact.** Run Reddit
+   ingest locally, push raw_posts.json, let GHA fire, pull, then run the
+   full local pipeline with --source all. The digest in output/ after that
+   run is what you review and apply from.
 
 2. **Reddit signal requires Monday discipline.** Run Monday ingest locally,
    commit and push `raw_posts.json` before Sunday 14:00 UTC. GHA picks it up
@@ -243,7 +245,7 @@ CLAIRE\
 | Triage model | claude-haiku-4-5-20251001 |
 | Synthesis model | claude-sonnet-4-6 |
 | Noise prefilter | score < 5 AND comments < 2 → drop |
-| Scheduling | Reddit local Monday 07:00, GHA Sunday 14:00 UTC |
+| Scheduling | Reddit local - run and push before Sunday 14:00 UTC; GHA Sunday 14:00 UTC |
 | Cost log entries | Single upsert per run keyed by YYYYMMDD — triage + synthesis + assembler accumulated |
 | Opus exclusion | exclude_keywords in config.json — config-driven |
 | Shared utilities | claire_utils.py — home for all cross-script helpers |
@@ -316,4 +318,39 @@ Cycle 5 complete (2026-05-21). Git history sanitized for public release (2026-05
 **Git sanitization (2026-05-22):**
 - filter-repo pass complete. 3 commits dropped. 65 clean commits + 1 HANDOFF fix = 66 total.
 - Remote: https://github.com/not-yet-autonomous/CLAIRE.git
-- Repo is public-release ready pending force-push from resto
+- Repo is public-release ready pending force-push from restored working copy.
+- Cascade failure documented in friction_log.txt (2026-05-22 entry).
+
+**Build 10 / next session candidates:**
+- Same-day memory filtering in triage (cross-reference gate gap — c3, c5 friction logs)
+- feature_praise repurpose or scope reduction (dead weight at 27% corpus volume)
+- Technique candidates separate output stream
+- Session notes pre-commit workflow (required before each Sunday GHA run)
+- Substack RSS ingest (identify target feeds first)
+- X/Twitter ingest (blocked — API access/cost unresolved)
+- Pushover notification pattern fix: workflow looks for output/claire_digest_*.pdf but output is .docx — update pattern or add PDF output step
+
+---
+
+## Key Rules for This Project
+
+1. **Never hardcode credentials** — always via .env
+2. **Never append to raw_posts.json** — always overwrite ("w" mode confirmed)
+3. **Never run synthesis before triage completes**
+4. **Never apply a config change without a human-written hypothesis**
+5. **Always use `python -m pip`** not bare `pip`
+6. **Always use PowerShell syntax** not bash
+7. **Design decisions happen in browser Project** — execute only here
+8. **Update this file** at the end of every build
+9. **CLAIRE-A is shadow only** — never wire its output to live config without human review
+10. **Score hypotheses before applying deferred candidates** — eval data should inform the next batch
+
+---
+
+## Browser Project
+
+All architecture, prompt design, and build scaffolding lives in the
+Claude browser Project named CLAIRE. When in doubt about a design
+decision, stop and check the browser Project before proceeding.
+
+Do not make ar

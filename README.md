@@ -40,7 +40,7 @@ you decide whether to allow it.
 ## Architecture
 
 ```
-Reddit public JSON (local, Monday)
+Reddit public JSON (local, before Sunday 14:00 UTC)
 HackerNews API (GHA, Sunday)          -->  Ingest  -->  raw_posts.json
 dev.to API - 6 tags, per-tag thresholds (GHA, Sunday)
 raw_posts.json  -->  Triage (Haiku)  -->  Track A / B / C queues
@@ -162,10 +162,10 @@ included -- Reddit blocks datacenter IPs, so GHA can never reach it. If you
 only use the GHA path, your digest has no Reddit signal.
 
 **Local pipeline** runs on your machine via `claire_weekly.ps1`. It can ingest
-all three sources including Reddit. After Monday ingest, commit and push
-`raw_posts.json` -- GHA picks it up from the repo at triage on Sunday. The
-local pipeline can also produce a digest for development review, but the
-canonical digest is the one GHA generates.
+all three sources including Reddit. Commit and push `raw_posts.json` before
+Sunday 14:00 UTC -- GHA picks it up from the repo at triage on Sunday. The
+local pipeline with --source all produces the canonical digest; GHA is
+fallback and notification only.
 
 **Which path should you use?**
 
@@ -310,7 +310,7 @@ This is not optional.** The eval loop has nothing to measure against without it.
 | CLAIRE-A mode | Shadow only -- reads everything, writes nothing to live config |
 | Reddit ingest | Unauthenticated public JSON -- no OAuth credentials required |
 | HackerNews + dev.to | GitHub Actions, Sunday 14:00 UTC |
-| Reddit | Local scheduled task, Monday 07:00 |
+| Reddit | Local - run and push before Sunday 14:00 UTC |
 
 Changes to locked decisions require a hypothesis and explicit session approval.
 Do not modify `config.json` items without documenting the rationale.
@@ -366,7 +366,7 @@ authorizes every applied change until you explicitly decide otherwise.
 
 **GitHub Actions.** The weekly workflow consumes GHA minutes. Normal runs complete in under 5 minutes. Free tier accounts receive 2,000 minutes/month -- CLAIRE will not exhaust this under normal use.
 
-**Reddit terms of service.** Reddit ingest uses public JSON endpoints without authentication. This is technically outside Reddit's current ToS for automated access. Reddit signal stays on your machine and is never committed to the repo. Users are responsible for ensuring their usage complies with Reddit's current terms of service.
+**Reddit terms of service.** Reddit ingest uses public JSON endpoints without authentication. This is technically outside Reddit's current ToS for automated access. `raw_posts.json` is committed to the repo as the signal handoff mechanism to GHA -- this means Reddit content is stored in your git history. Users are responsible for ensuring their usage complies with Reddit's current terms of service and for evaluating whether repo storage of Reddit content is appropriate for their situation.
 
 **Configuration changes.** CLAIRE proposes edits to Claude memory, profile, and skills. Applying candidates without reviewing them can degrade your Claude configuration. Every applied change requires a human-written hypothesis. The eval loop exists to catch changes that do not perform as expected. Do not apply candidates in bulk.
 
@@ -374,4 +374,16 @@ authorizes every applied change until you explicitly decide otherwise.
 
 CLAIRE is built on three constraints that are not negotiable:
 
-**Human-in-the-loop.** Every 
+**Human-in-the-loop.** Every applied change requires a human-written hypothesis
+before application. CLAIRE generates candidates. You decide.
+
+**Audit trail.** `change_log.json` records every applied change with its
+hypothesis, source signal, and eval status. If you can't explain why a change
+was made, it shouldn't be in the log.
+
+**Evidence threshold.** Three corroborating posts minimum for Track A
+candidates. One enthusiastic post does not make a configuration change.
+
+These are not preferences. They are the difference between an optimization
+system and a pipeline that randomly edits your AI configuration based on
+whatever Reddit was complaining about this week.

@@ -130,4 +130,19 @@ conflict marker check but no encoding scan step. Add
 `Select-String -Path "README.md" -Pattern "Ã¢|â€"` to pre-publish checklist
 before next release.
 
+2026-05-24 | pre-publish review | raw_posts.json gitignore | HIGH
+data/ excluded globally at .gitignore line 26. raw_posts.json was never
+committed in any cycle. Monday Reddit ingest ritual was documented as the
+GHA handoff mechanism but GHA has never received Reddit signal. Fix applied
+2026-05-24 - negation rule added (!data/raw_posts.json). Build 10 candidate:
+evaluate moving raw_posts.json to project root to eliminate gitignore
+dependency. Two encoding corruptions also found in .gitignore comments
+(lines 20-21) - fixed in same pass.
 
+2026-05-24 | post-fix analysis | Reddit signal absence | MEDIUM
+All Cycles 2-5 digests ran on HN + dev.to only. Reddit signal was never
+ingested by GHA. Candidate corroboration counts across all applied changes
+are understated - a second independent confidence gap alongside the
+friction_log path bug documented 2026-05-19. Applied changes are
+directionally sound but Reddit-unverified. Monday ingest will be the first
+full-corpus run.
