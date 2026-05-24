@@ -76,47 +76,6 @@ jobs:
             --form "attachment=@$PDF;type=application/pdf" \
             https://api.pushover.net/1/messages.json
 
-      - name: Email digest
-        run: |
-          if [ -z "${{ secrets.EMAIL_FROM }}" ]; then
-            echo "Email secrets not configured -- skipping"
-            exit 0
-          fi
-          PDF=$(ls output/claire_digest_*.pdf 2>/dev/null | sort | tail -1)
-          if [ -z "$PDF" ]; then
-            echo "No digest PDF found -- skipping email"
-            exit 0
-          fi
-          FILENAME=$(basename "$PDF")
-          ENCODED=$(base64 -w 0 "$PDF")
-          BOUNDARY="CLAIRE_BOUNDARY_$(date +%s)"
-          {
-            echo "From: ${{ secrets.EMAIL_FROM }}"
-            echo "To: ${{ secrets.EMAIL_TO }}"
-            echo "Subject: CLAIRE Digest $(date -u +%Y-%m-%d)"
-            echo "MIME-Version: 1.0"
-            echo "Content-Type: multipart/mixed; boundary=\"$BOUNDARY\""
-            echo ""
-            echo "--$BOUNDARY"
-            echo "Content-Type: text/plain"
-            echo ""
-            echo "CLAIRE weekly digest attached."
-            echo ""
-            echo "--$BOUNDARY"
-            echo "Content-Type: application/pdf"
-            echo "Content-Transfer-Encoding: base64"
-            echo "Content-Disposition: attachment; filename=\"$FILENAME\""
-            echo ""
-            echo "$ENCODED"
-            echo "--$BOUNDARY--"
-          } | curl -v --url "smtp://smtp-mail.outlook.com:587" \
-            --ssl \
-            --mail-from "${{ secrets.EMAIL_FROM }}" \
-            --mail-rcpt "${{ secrets.EMAIL_TO }}" \
-            --user "${{ secrets.EMAIL_FROM }}:${{ secrets.EMAIL_PASSWORD }}" \
-            --upload-file - \
-            2>&1 || echo "Email send failed -- non-fatal"
-
       - name: Add workflow to git if new
         run: |
           git add .github/

@@ -145,6 +145,8 @@ CLAIRE\
 ├── change_log.json           ✅ CANONICAL — Applied changes + eval loop (v1.1 schema, Cycles 2-4)
 ├── friction_log.txt          ✅ CANONICAL — Weekly friction notes, human-maintained (Cycles 1-4)
 ├── claire_weekly.ps1         ✅ Build 6 — scheduled pipeline wrapper [local dev only — Task Scheduler entry retired]
+├── claire_pull.ps1           ✅ Build 10 — Task Scheduler git pull (Sunday 09:30 local, pulls GHA digest)
+├── claire_pull.xml           ✅ Build 10 — Task Scheduler import (schtasks /create /xml claire_pull.xml /tn "CLAIRE Digest Pull")
 ├── claire_notify.py          ✅ Build 8 — Pushover dispatch with PDF attachment
 ├── activate.bat              ✅ Venv activation shortcut
 ├── claire.bat                ✅ Pipeline launcher (CMD)

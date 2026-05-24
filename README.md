@@ -137,25 +137,6 @@ Four secrets required in your repo settings:
 | `PUSHOVER_APP_TOKEN` | Pushover delivery |
 | `PUSHOVER_USER_KEY` | Pushover delivery |
 
-### Optional: Email delivery
-To receive the digest as an email attachment after each run, add three
-additional secrets:
-
-| Secret | Purpose |
-|--------|---------|
-| `EMAIL_FROM` | Sending address (Outlook.com or Gmail) |
-| `EMAIL_TO` | Destination address |
-| `EMAIL_PASSWORD` | App password — never your account password |
-
-For Outlook.com: account.microsoft.com → Security → Advanced security
-options → App passwords. Requires 2FA enabled.
-
-For Gmail: myaccount.google.com → Security → 2-Step Verification →
-App passwords.
-
-Email delivery is non-fatal — a send failure will not break the pipeline.
-If these secrets are not configured the step skips silently.
-
 ### Personalize before first run
 CLAIRE synthesizes candidates against *your* configuration. Before running,
 populate:
@@ -252,6 +233,14 @@ git pull
 
 This merges the current week's Reddit signal with whatever HN and dev.to
 produced. The local digest in `output/` is the one you review.
+
+`claire_pull.ps1` automates the `git pull` step. Register it with Task
+Scheduler via `claire_pull.xml` (Sunday 09:30 local / ~14:30 UTC) and the
+digest lands in your repo automatically after each GHA run. Import once:
+
+```powershell
+schtasks /create /xml "C:\DEV\CLAIRE\claire_pull.xml" /tn "CLAIRE Digest Pull"
+```
 
 **After digest review** (manual, 10-20 minutes)
 
