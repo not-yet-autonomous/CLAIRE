@@ -150,35 +150,79 @@ them, candidates are generic community signal with no personal filtering.
 
 ---
 
+## Your Weekly Workflow
+
+CLAIRE has two execution paths. Understanding which one to use determines
+whether Reddit signal reaches your digest.
+
+**GitHub Actions (automatic)** runs every Sunday at 14:00 UTC. It ingests
+HackerNews and dev.to, runs the full pipeline, and commits a PDF digest to
+`output/`. You get a Pushover notification when it completes. Reddit is not
+included -- Reddit blocks datacenter IPs, so GHA can never reach it. If you
+only use the GHA path, your digest has no Reddit signal.
+
+**Local pipeline** runs on your machine via `claire_weekly.ps1`. It can ingest
+all three sources including Reddit. Reddit signal is never committed to the
+repo (Reddit ToS) -- it lives only in your local `raw_posts.json`. The local
+pipeline produces its own digest independently of GHA.
+
+**Which path should you use?**
+
+If Reddit signal matters to your configuration -- and it should, it represents
+roughly 25-30% of available corpus volume -- run the local pipeline as your
+canonical weekly run. GHA becomes a fallback and notification mechanism.
+
+If you only want HN and dev.to signal, GHA alone is sufficient.
+
+Most users will want to run both: let GHA fire automatically, then run the
+local pipeline after Reddit ingest to produce a combined digest for review.
+Review the local digest, not the GHA one.
+
+---
+
 ## Weekly Ritual
 
-Reddit blocks datacenter IPs, so ingest runs locally before the pipeline fires.
+**Sunday morning, before your pipeline run or 14:00 UTC GHA trigger** (manual)
 
-**Sunday, before your pipeline run or 14:00 UTC GHA trigger** (manual, or Task Scheduler/launchd)
+Run Reddit ingest locally. This must happen before you run the local pipeline
+or the current week's Reddit signal will be missing from your digest.
+
 ```
 python claire_ingest.py --source reddit
 ```
-Reddit signal is ingested locally only. `raw_posts.json` is gitignored and never
-committed - Reddit's ToS prohibits republishing scraped content. Run this before
-the GHA cron fires so the current week's Reddit signal is available when you run
-the local pipeline. If you skip it, Reddit signal in your digest is one week stale.
+
+Reddit signal stays on your machine. `raw_posts.json` is gitignored and never
+committed.
 
 **Before Sunday** (manual, 10 minutes)
 
-1. Update `friction_log.txt` with 2-4 behavioral observations from the past week.
-   Commit and push. This is the cross-reference gate's ground truth - skip it
-   and all candidates score MEDIUM regardless of relevance.
+1. Update `friction_log.txt` with 2-4 behavioral observations from the past
+   week. Commit and push. This is the cross-reference gate's ground truth --
+   skip it and all candidates score MEDIUM regardless of relevance.
 
-2. Update `data/session_notes.txt` with behavioral observations from recent Claude
-   sessions - what held, what regressed, anything new. Commit and push. The
-   CLAIRE-A scorer requires this file at runtime. Blank or missing content will
-   cause the scorer to exit with error code 1 and fail the GHA run.
+2. Update `data/session_notes.txt` with behavioral observations from recent
+   Claude sessions -- what held, what regressed, anything new. Commit and
+   push. The CLAIRE-A scorer requires this file at runtime. Blank or missing
+   content will cause the scorer to exit with error code 1 and fail the GHA
+   run.
 
 **Sunday 14:00 UTC** (automatic, GitHub Actions)
 
 GHA fires `.github/workflows/claire_weekly.yml`, runs HackerNews and dev.to
 ingest, triage, synthesis, CLAIRE-A pipeline, digest generation, commit-back,
-and Pushover notification.
+and Pushover notification. The committed digest appears in `output/`.
+
+**After GHA completes** (manual, if running local pipeline)
+
+Pull the latest commits, then run the full local pipeline with all sources:
+
+```
+git pull
+python claire_weekly.ps1 --source all
+```
+
+This merges the current week's Reddit signal with whatever HN and dev.to
+produced. The local digest in `output/` is the one you review.
 
 **After digest review** (manual, 10-20 minutes)
 
@@ -187,6 +231,10 @@ For each candidate you decide to apply:
 2. Add an entry to `change_log.json` (schema below) before applying anything
 3. Apply the change to your Claude configuration
 4. Set `eval_status: "pending"` and the applicable eval window
+
+CLAIRE-A shadow decisions appear in Section 6 of the digest. They are
+reference only -- CLAIRE-A authorizes nothing. Your hypothesis and your
+decision are what get logged.
 
 ---
 
