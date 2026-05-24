@@ -109,13 +109,13 @@ jobs:
             echo ""
             echo "$ENCODED"
             echo "--$BOUNDARY--"
-          } | curl -s --url "smtp://smtp-mail.outlook.com:587" \
+          } | curl -v --url "smtp://smtp-mail.outlook.com:587" \
             --ssl \
             --mail-from "${{ secrets.EMAIL_FROM }}" \
             --mail-rcpt "${{ secrets.EMAIL_TO }}" \
             --user "${{ secrets.EMAIL_FROM }}:${{ secrets.EMAIL_PASSWORD }}" \
             --upload-file - \
-            || echo "Email send failed -- non-fatal"
+            2>&1 || echo "Email send failed -- non-fatal"
 
       - name: Add workflow to git if new
         run: |
