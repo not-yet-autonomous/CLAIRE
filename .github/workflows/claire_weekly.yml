@@ -109,8 +109,8 @@ jobs:
             echo ""
             echo "$ENCODED"
             echo "--$BOUNDARY--"
-          } | curl -s --url "smtps://smtp-mail.outlook.com:465" \
-            --ssl-reqd \
+          } | curl -s --url "smtp://smtp-mail.outlook.com:587" \
+            --ssl \
             --mail-from "${{ secrets.EMAIL_FROM }}" \
             --mail-rcpt "${{ secrets.EMAIL_TO }}" \
             --user "${{ secrets.EMAIL_FROM }}:${{ secrets.EMAIL_PASSWORD }}" \
