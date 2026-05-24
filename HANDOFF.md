@@ -59,6 +59,12 @@ Expected output: `(.venv)` in prompt + `Deps OK`
 If venv fails: use `.\.venv\Scripts\activate.bat` instead
 If deps fail: `python -m pip install -r requirements.txt`
 
+**Pre-push verification (run before every commit that touches data/ or git state):**
+```powershell
+git ls-files data/
+```
+Expected: no output. Any filenames returned = tracked data files still in index — run `git rm --cached data/ -r` before pushing. The pre-push hook at `.git/hooks/pre-push` enforces this automatically, but verify manually if hook behavior is in doubt.
+
 ```powershell
 # Strip FUSE null-byte corruption from key files before working:
 python -c "
