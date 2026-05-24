@@ -103,8 +103,7 @@ CLAIRE/
     -- claire_pipeline_flow.jsx
     -- reddit_app_setup.md
 ```
-`
-\\n\\n\
+
 ## Setup
 
 ### Prerequisites
@@ -153,13 +152,16 @@ them, candidates are generic community signal with no personal filtering.
 
 ## Weekly Ritual
 
-Reddit blocks datacenter IPs, so ingest is split across two jobs:
+Reddit blocks datacenter IPs, so ingest runs locally before the pipeline fires.
 
-**Monday 07:00 local** (automatic, Task Scheduler or launchd)
+**Sunday, before your pipeline run or 14:00 UTC GHA trigger** (manual, or Task Scheduler/launchd)
 ```
 python claire_ingest.py --source reddit
 ```
-Reddit signal is ingested locally only. raw_posts.json is gitignored and does not get committed. GHA generates its own corpus from HackerNews and dev.to on Sunday. To include Reddit signal in a local pipeline run, execute claire_weekly.ps1 after the Monday ingest completes.
+Reddit signal is ingested locally only. `raw_posts.json` is gitignored and never
+committed - Reddit's ToS prohibits republishing scraped content. Run this before
+the GHA cron fires so the current week's Reddit signal is available when you run
+the local pipeline. If you skip it, Reddit signal in your digest is one week stale.
 
 **Before Sunday** (manual, 10 minutes)
 
