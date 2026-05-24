@@ -193,8 +193,8 @@ python claire_ingest.py --source reddit
 ```
 
 Reddit signal is ingested locally. Commit and push `raw_posts.json` after each
-Monday ingest run. GHA picks it up from the repo at triage on Sunday. Skip
-Monday and the Sunday digest runs on HackerNews + dev.to only -- still valid,
+pre-Sunday ingest run. GHA picks it up from the repo at triage. Skip the pre-Sunday
+push and the GHA digest runs on HackerNews + dev.to only -- still valid,
 but Reddit-free. `raw_posts.json` is not gitignored; it is intentionally
 committed as the Reddit signal handoff to GHA.
 
@@ -228,7 +228,7 @@ Pull the latest commits, then run the full local pipeline with all sources:
 
 ```
 git pull
-python claire_weekly.ps1 --source all
+.\claire_weekly.ps1 --source all
 ```
 
 This merges the current week's Reddit signal with whatever HN and dev.to

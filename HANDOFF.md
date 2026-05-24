@@ -63,7 +63,7 @@ If deps fail: `python -m pip install -r requirements.txt`
 ```powershell
 git ls-files data/
 ```
-Expected: no output. Any filenames returned = tracked data files still in index — run `git rm --cached data/ -r` before pushing. The pre-push hook at `.git/hooks/pre-push` enforces this automatically, but verify manually if hook behavior is in doubt.
+Expected: only `data/raw_posts.json`. Any other filenames = tracked data files still in index — run `git rm --cached <file>` before pushing. The pre-push hook at `.git/hooks/pre-push` enforces this automatically, but verify manually if hook behavior is in doubt.
 
 ```powershell
 # Strip FUSE null-byte corruption from key files before working:
@@ -84,11 +84,11 @@ Expected output after all four steps: `(.venv)` in prompt + `Deps OK` + `Null-by
 
 ## Local vs. GHA -- Operational Discipline
 
-Two execution environments run the same pipeline. GHA is canonical.
+Two execution environments run the same pipeline. Local combined is canonical.
 
 | Item | Local | GHA |
 |------|-------|-----|
-| Reddit signal | Yes (Monday ingest) | Only if Monday push completed |
+| Reddit signal | Yes - run and push before Sunday 14:00 UTC | Only if pre-Sunday push completed |
 | HackerNews + dev.to | Yes | Yes |
 | Trigger | Manual | Cron Sunday 14:00 UTC |
 | Canonical digest | Yes - review and apply from local combined run | No - fallback and notification only |
@@ -100,9 +100,9 @@ Two execution environments run the same pipeline. GHA is canonical.
    full local pipeline with --source all. The digest in output/ after that
    run is what you review and apply from.
 
-2. **Reddit signal requires Monday discipline.** Run Monday ingest locally,
+2. **Reddit signal requires pre-Sunday discipline.** Run Reddit ingest locally,
    commit and push `raw_posts.json` before Sunday 14:00 UTC. GHA picks it up
-   from the repo at triage. Skip Monday and the Sunday digest is HN + dev.to
+   from the repo at triage. Skip it and the Sunday digest is HN + dev.to
    only -- still valid, just Reddit-free.
 
 3. **Pull before editing `change_log.json` or `friction_log.txt`.** GHA commits
@@ -117,9 +117,10 @@ Two execution environments run the same pipeline. GHA is canonical.
    requires current content. Stale notes produce low-quality scorer output --
    not a pipeline failure, a signal quality failure.
 
-6. **One digest per cycle.** If you run locally after Sunday, you have two
-   digests for the same cycle. Ignore the local one. `change_log.json` has no
-   field to distinguish source -- ambiguity compounds at quarterly review.
+6. **One digest per cycle.** If GHA produces a digest and you also run locally,
+   you have two digests for the same cycle. The local combined digest is
+   canonical -- ignore the GHA one. `change_log.json` has no field to
+   distinguish source -- ambiguity compounds at quarterly review.
 
 ---
 
@@ -328,7 +329,7 @@ Cycle 5 complete (2026-05-21). Git history sanitized for public release (2026-05
 - Session notes pre-commit workflow (required before each Sunday GHA run)
 - Substack RSS ingest (identify target feeds first)
 - X/Twitter ingest (blocked — API access/cost unresolved)
-- Pushover notification pattern fix: workflow looks for output/claire_digest_*.pdf but output is .docx — update pattern or add PDF output step
+
 
 ---
 
