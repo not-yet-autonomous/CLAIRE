@@ -137,6 +137,25 @@ Four secrets required in your repo settings:
 | `PUSHOVER_APP_TOKEN` | Pushover delivery |
 | `PUSHOVER_USER_KEY` | Pushover delivery |
 
+### Optional: Email delivery
+To receive the digest as an email attachment after each run, add three
+additional secrets:
+
+| Secret | Purpose |
+|--------|---------|
+| `EMAIL_FROM` | Sending address (Outlook.com or Gmail) |
+| `EMAIL_TO` | Destination address |
+| `EMAIL_PASSWORD` | App password — never your account password |
+
+For Outlook.com: account.microsoft.com → Security → Advanced security
+options → App passwords. Requires 2FA enabled.
+
+For Gmail: myaccount.google.com → Security → 2-Step Verification →
+App passwords.
+
+Email delivery is non-fatal — a send failure will not break the pipeline.
+If these secrets are not configured the step skips silently.
+
 ### Personalize before first run
 CLAIRE synthesizes candidates against *your* configuration. Before running,
 populate:
