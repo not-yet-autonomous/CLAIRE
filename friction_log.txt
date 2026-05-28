@@ -159,3 +159,9 @@ No pipeline impact -- email step was non-fatal throughout.
 
 2026-05-28 | manual pipeline run | claire_weekly.ps1 merge conflict | MEDIUM
 Conflict markers from Cycle 5 pre-publish scan (<<<<<<< HEAD / >>>>>>> 236a62f) still present in claire_weekly.ps1 at lines 5-16 despite being flagged in the Cycle 5 friction log. Regex strip failed silently -- file was not modified. Resolved by full file rewrite via WriteAllText heredoc. Root cause: the Cycle 5 fix was documented but not committed. Add conflict marker check to session start checklist, not just pre-publish checklist.
+2026-05-28 | digest review session | CLAIRE-A dependency resolution | LOW
+CLAIRE-A correctly identified c6-mem-004 as dependent on c6-prof-004 and deferred it with DEPENDENCY_UNRESOLVED flag. First cycle where the engine caught a cross-candidate dependency without human prompting. Both candidates address context compaction -- profile version is more complete; memory edit would be redundant if profile lands. Pattern worth tracking: engine is beginning to reason about candidate interactions, not just individual candidates.
+2026-05-28 | digest review session | confidence score normalization | MEDIUM
+Engine session notes flagged uniform 0.86 confidence across 10 of 12 candidates. Synthesis pipeline normalizing scores rather than differentiating. Same structural gap as the friction_log path bug -- cross-reference gate not injecting enough source-quality variance. Build 10 candidate: source reliability weighting in synthesis confidence scoring.
+2026-05-28 | pipeline run | claire_a_runner.py missing load_dotenv | MEDIUM
+claire_a_runner.py had no dotenv loading -- relied on process-level env var that was not set. All other pipeline scripts load .env correctly. Patched 2026-05-28. Root cause: .env was lost in git sanitization recovery and not detected until live run. Add .env presence check to session start checklist.
