@@ -298,12 +298,42 @@ CLAIRE\
 
 ## Current Session Task
 
-Build 10 complete (2026-05-24). Repo at public-release state on main.
+Cycle 6 complete (2026-05-28).
 
-**Build 10 applied (2026-05-24):**
-- Email delivery removed from GHA workflow — Outlook.com basic auth disabled, app passwords non-functional
-- `claire_pull.ps1` added — Task Scheduler git pull for local digest delivery (Sunday 09:30 local)
-- `claire_pull.xml` added — Task Scheduler import file; register with `schtasks /create /xml claire_pull.xml /tn "CLAIRE Digest Pull"`
-- `raw_posts.json` gitignore negation rule added (`!data/raw_posts.json`) — Reddit signal now committtable to repo
-- README Optional Email section removed; After GHA section updated with pull script docs
--
+**Cycle 6 applied:**
+- c6-mem-001: Word/Excel tabular verification — row/column parity flag on uploaded Office file edits
+- c6-mem-005: No unsolicited wellness check-ins — respond to content, not inferred tone
+- c6-mem-006: External data integrity notice — flag tabular/statistical output from external sources
+- c6-prof-002: Shadow IT governance pattern recognition — proactive compliance exposure surfacing
+- c6-prof-004: Context compaction status line — disclose what was compacted before continuing
+- c6-prof-005: Mode definitions: no wellness interruptions — Frenemy/Steelman insulated from safety redirects
+
+**Held (dependency or low signal):**
+- c6-mem-002: Flag degraded Anthropic service periods — covered by c4-mem-001
+- c6-mem-003: Shadow IT memory edit — held pending c6-prof-002 application
+- c6-mem-004: Flag context compaction — held pending c6-prof-004 application
+- c6-prof-001: Upload document edit scope — covered by c4-mem-003 + c4-prof-001
+- c6-prof-003: Hierarchical content structural fidelity — low signal, one post
+- c6-prof-006: Model deprecation tracking — low signal, covered by c4-mem-001
+
+**Queued (observation gate, carried from prior cycles):**
+- c5-prof-003: Distinguish document-grounded vs training-derived conclusions (one live doc synthesis session required)
+- c3-prof-002: Task-completion anti-collapse (observe 4.7 in live session first)
+- c3-prof-003: Effort transparency disclosure (observe 4.7 in live session first)
+- c4-prof-001 through c4-prof-004: queued, no gates
+
+**CLAIRE-A graduation criteria (3 of 6):**
+- Consecutive eval runs logged: 3 of 6 required
+- Reliability ledger hypotheses scored: 7 of 10 required
+- Escalations in last 3 runs: 0 (clean)
+
+**Build 10 / next session candidates:**
+- Same-day memory filtering in triage (cross-reference gate gap — c3, c5, c6 friction logs)
+- feature_praise repurpose or scope reduction (dead weight at 27% corpus volume)
+- Source reliability weighting in synthesis confidence scoring (uniform 0.86 normalization — c6 friction log)
+- Inter-candidate dependency reasoning eval metric for CLAIRE-A (first observed instance c6)
+- Technique candidates separate output stream
+- Session notes pre-commit workflow (required before each Sunday GHA run)
+- .env presence check added to session start checklist
+- Substack RSS ingest (identify target feeds first)
+- X/Twitter ingest (blocked — API access/cost unresolved)
