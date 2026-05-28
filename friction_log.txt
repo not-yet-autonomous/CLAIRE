@@ -154,3 +154,8 @@ Outlook.com accounts. App passwords do not bypass this restriction.
 Feature removed. Local digest delivery via Task Scheduler git pull
 (claire_pull.ps1, Sunday 09:30 local) implemented as replacement.
 No pipeline impact -- email step was non-fatal throughout.
+
+# === CYCLE 6 (pre-run, 2026-05-28) ===
+
+2026-05-28 | manual pipeline run | claire_weekly.ps1 merge conflict | MEDIUM
+Conflict markers from Cycle 5 pre-publish scan (<<<<<<< HEAD / >>>>>>> 236a62f) still present in claire_weekly.ps1 at lines 5-16 despite being flagged in the Cycle 5 friction log. Regex strip failed silently -- file was not modified. Resolved by full file rewrite via WriteAllText heredoc. Root cause: the Cycle 5 fix was documented but not committed. Add conflict marker check to session start checklist, not just pre-publish checklist.

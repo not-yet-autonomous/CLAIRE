@@ -1,18 +1,11 @@
-﻿param([string]$source = "all")
+param([string]$source = "all")
 # claire_weekly.ps1
 # CLAIRE + CLAIRE-A weekly pipeline runner
 # Scheduled via Windows Task Scheduler
-<<<<<<< HEAD
-Set-Location "C:\DEV\CLAIRE"
-& "C:\DEV\envs\CLAIRE\.venv\Scripts\Activate.ps1"
-
-=======
-
 Set-Location "C:\DEV\CLAIRE"
 & "C:\DEV\envs\CLAIRE\.venv\Scripts\Activate.ps1"
 # Explicitly load API key from .env into the process environment
 # Ensures all Python scripts see it regardless of dotenv working directory
-
 Write-Host "$(Get-Date -Format 'HH:mm:ss')  Starting CLAIRE weekly pipeline..."
 python claire_ingest.py --source $source
 if ($LASTEXITCODE -ne 0) { Write-Host "claire_ingest.py failed"; exit 1 }
@@ -22,11 +15,9 @@ python claire_synthesize.py
 if ($LASTEXITCODE -ne 0) { Write-Host "claire_synthesize.py failed"; exit 1 }
 python claire_output.py --format pdf
 if ($LASTEXITCODE -ne 0) { Write-Host "claire_output.py failed"; exit 1 }
-
 Write-Host "$(Get-Date -Format 'HH:mm:ss')  CLAIRE complete. Starting CLAIRE-A shadow run..."
 python claire_a_assembler.py
 if ($LASTEXITCODE -ne 0) { Write-Host "claire_a_assembler.py failed"; exit 1 }
-
 # -- Build 8: Track A cost alert check --------------------------------------
 $costLogPath = "data\cost_log.json"
 if (Test-Path $costLogPath) {
@@ -42,10 +33,8 @@ if (Test-Path $costLogPath) {
     }
 }
 # ---------------------------------------------------------------------------
-
 python claire_a_runner.py
 if ($LASTEXITCODE -ne 0) { Write-Host "claire_a_runner.py failed"; exit 1 }
 python claire_a_scorer.py
 if ($LASTEXITCODE -ne 0) { Write-Host "claire_a_scorer.py failed"; exit 1 }
 Write-Host "$(Get-Date -Format 'HH:mm:ss')  CLAIRE-A complete. Weekly run done."
-
