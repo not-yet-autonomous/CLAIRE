@@ -2,7 +2,7 @@
 """
 claire_a_runner.py
 ------------------
-CLAIRE-A Build 5 — Decision Engine Runner
+CLAIRE-A Build 5 â€” Decision Engine Runner
 
 Loads an assembler input payload, calls Opus with the decision engine
 prompt, parses the structured response, and writes the shadow decision
@@ -23,7 +23,10 @@ import argparse
 from datetime import datetime, timezone
 from pathlib import Path
 
+import os
+from dotenv import load_dotenv
 import anthropic
+load_dotenv()
 
 # ---------------------------------------------------------------------------
 # PATHS
@@ -65,15 +68,15 @@ OPERATING CONSTRAINTS
 
 YOUR INPUTS
 You will receive a JSON payload containing:
-  1. candidates — proposed changes or additions from the CLAIRE digest pipeline
-  2. memory_state — current applied CLAIRE configuration (derived from change_log)
-  3. change_log — history of prior decisions with hypotheses and eval notes
-  4. eval_history — metric scores correlated with past changes
+  1. candidates â€” proposed changes or additions from the CLAIRE digest pipeline
+  2. memory_state â€” current applied CLAIRE configuration (derived from change_log)
+  3. change_log â€” history of prior decisions with hypotheses and eval notes
+  4. eval_history â€” metric scores correlated with past changes
 
 YOUR JOB
 For each candidate, produce:
   - A decision: apply | skip | defer
-  - A confidence score: 0.0–1.0
+  - A confidence score: 0.0â€“1.0
   - Structured reasoning across four dimensions
   - A falsifiable hypothesis tied to the decision
   - Any risk flags
@@ -89,7 +92,7 @@ apply
 skip
   The candidate does not warrant action. Reasons: noise, contradiction with
   strong eval history, duplicate of existing memory, source reliability too
-  low, or signal below threshold. Skipping is a decision — record the reason.
+  low, or signal below threshold. Skipping is a decision â€” record the reason.
 
 defer
   The signal is real but the conditions for action are not met. Reasons:
@@ -99,7 +102,7 @@ defer
 
 REASONING PROTOCOL
 Before assigning a decision for each candidate, reason through these four
-dimensions. This reasoning is part of the output — do not suppress it.
+dimensions. This reasoning is part of the output â€” do not suppress it.
 
   1. SIGNAL ASSESSMENT
      What is the candidate actually proposing? Is the signal genuine or
@@ -130,19 +133,19 @@ Required fields per hypothesis:
   - metric: which eval metric to watch
   - expected_direction: increase | decrease | no_change
   - expected_magnitude: numeric estimate with unit (e.g. "+0.05 on coherence")
-  - eval_window_days: integer — how long before this is measurable
+  - eval_window_days: integer â€” how long before this is measurable
   - falsification_condition: one sentence stating what would disprove it
 
 For skip decisions: hypothesize the absence of harm from inaction.
 For defer decisions: hypothesize the condition that would resolve to apply or skip.
 
 CONFIDENCE CALIBRATION
-  0.90–1.00  High. Evidence strong and consistent. Decide cleanly.
-  0.70–0.89  Moderate. Signal present; some uncertainty. Note what would move this.
-  0.50–0.69  Low. Lean defer unless strong asymmetry argument exists.
-  0.00–0.49  Do not apply. Skip or defer with full reasoning.
+  0.90â€“1.00  High. Evidence strong and consistent. Decide cleanly.
+  0.70â€“0.89  Moderate. Signal present; some uncertainty. Note what would move this.
+  0.50â€“0.69  Low. Lean defer unless strong asymmetry argument exists.
+  0.00â€“0.49  Do not apply. Skip or defer with full reasoning.
 
-RISK FLAGS — use zero or more per candidate
+RISK FLAGS â€” use zero or more per candidate
   HIGH_VARIANCE           Signal strength varies significantly across appearances
   CONTRADICTS_MEMORY      Directly conflicts with established memory entry
   DEPENDENCY_UNRESOLVED   Requires another candidate in this batch first
@@ -290,7 +293,7 @@ def write_outputs(
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    # Reasoning scratchpad — plain text, human-readable audit trail
+    # Reasoning scratchpad â€” plain text, human-readable audit trail
     reasoning_path = DATA_DIR / f"claire_a_reasoning_{ts}.txt"
     with open(reasoning_path, "w", encoding="utf-8") as f:
         f.write(f"CLAIRE-A Reasoning Scratchpad\n")
@@ -298,9 +301,9 @@ def write_outputs(
         f.write(f"Generated: {datetime.now(timezone.utc).isoformat()}\n")
         f.write("=" * 72 + "\n\n")
         f.write(reasoning if reasoning else "[No reasoning block extracted]")
-    log.info(f"Reasoning written → {reasoning_path.name}")
+    log.info(f"Reasoning written â†’ {reasoning_path.name}")
 
-    # Decision record — structured JSON
+    # Decision record â€” structured JSON
     decisions_path = DATA_DIR / f"claire_a_decisions_{ts}.json"
     output = {
         "_meta": {
@@ -317,7 +320,7 @@ def write_outputs(
 
     with open(decisions_path, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2, ensure_ascii=False)
-    log.info(f"Decision record written → {decisions_path.name}")
+    log.info(f"Decision record written â†’ {decisions_path.name}")
 
     return reasoning_path, decisions_path
 
@@ -336,7 +339,7 @@ def update_session_history(
 ) -> None:
     """Writes fingerprint appearances and last decision to the session history.
 
-    Called after every successful run — even if the decision record parse
+    Called after every successful run â€” even if the decision record parse
     failed (in which case decisions are unknown but appearances still count).
 
     The assembler reads this file on the next run to resolve prior_appearances.
@@ -387,13 +390,13 @@ def update_session_history(
     total_fingerprints = len(history)
     updated = len(payload.get("candidates", []))
     log.info(
-        f"Session history updated — {updated} fingerprints this session, "
+        f"Session history updated â€” {updated} fingerprints this session, "
         f"{total_fingerprints} total tracked"
     )
 
 
 def run(input_path: Path, dry_run: bool = False) -> None:
-    log.info("── CLAIRE-A Decision Engine Runner ──────────────────────")
+    log.info("â”€â”€ CLAIRE-A Decision Engine Runner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")
     log.info(f"Input: {input_path.name}")
     log.info(f"Model: {DECISION_ENGINE_MODEL}")
 
@@ -407,14 +410,14 @@ def run(input_path: Path, dry_run: bool = False) -> None:
     log.info(f"Candidates to evaluate: {candidate_count}")
 
     if dry_run:
-        log.info("DRY RUN — skipping Opus call. Input payload looks valid.")
-        log.info("─────────────────────────────────────────────────────")
+        log.info("DRY RUN â€” skipping Opus call. Input payload looks valid.")
+        log.info("â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")
         return
 
     client       = anthropic.Anthropic()
     user_message = build_user_message(payload)
 
-    log.info("Calling Opus — this may take 30–90 seconds for 15 candidates…")
+    log.info("Calling Opus â€” this may take 30â€“90 seconds for 15 candidatesâ€¦")
 
     response = client.messages.create(
         model=DECISION_ENGINE_MODEL,
@@ -426,7 +429,7 @@ def run(input_path: Path, dry_run: bool = False) -> None:
     raw_text = response.content[0].text
     usage    = response.usage
 
-    log.info(f"Response received — {usage.input_tokens} in / {usage.output_tokens} out tokens")
+    log.info(f"Response received â€” {usage.input_tokens} in / {usage.output_tokens} out tokens")
 
     reasoning, decision_record = parse_response(raw_text)
 
@@ -439,16 +442,16 @@ def run(input_path: Path, dry_run: bool = False) -> None:
         if escalation:
             log.warning(f"ESCALATION REQUIRED: {decision_record.get('escalation_reason', '')}")
     else:
-        log.error("Decision record parse failed — raw response saved for inspection")
+        log.error("Decision record parse failed â€” raw response saved for inspection")
 
     reasoning_path, decisions_path = write_outputs(
         session_id, reasoning, decision_record, raw_text, usage
     )
 
-    # Write session history — always, even on parse failure
+    # Write session history â€” always, even on parse failure
     update_session_history(session_id, payload, decision_record)
 
-    log.info("─────────────────────────────────────────────────────────")
+    log.info("â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")
     log.info(f"Complete. Review: {decisions_path.name}")
 
 # ---------------------------------------------------------------------------
