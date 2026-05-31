@@ -6,30 +6,7 @@
     "run_day": "sunday"
   },
   "ingestion": {
-    "subreddits_native": [
-      "ClaudeAI",
-      "Anthropic"
-    ],
-    "subreddits_comparative": [
-      "ChatGPT",
-      "Gemini",
-      "perplexity_ai",
-      "LocalLLaMA"
-    ],
-    "posts_per_subreddit_hot": 100,
-    "posts_per_subreddit_top_week": 50,
     "comments_per_post": 10,
-    "keyword_searches": [
-      "Claude frustrating",
-      "Claude broken",
-      "Claude wish",
-      "Claude better",
-      "Claude refuses",
-      "Claude inconsistent",
-      "Claude formatting",
-      "Claude memory",
-      "Claude instructions"
-    ],
     "hn_search_terms": [
       "Claude AI",
       "Anthropic Claude",
@@ -142,7 +119,10 @@
       { "name": "claude",          "min_reactions": 5  },
       { "name": "llm",             "min_reactions": 15 },
       { "name": "aitools",         "min_reactions": 10 },
-      { "name": "machinelearning", "min_reactions": 20 }
+      { "name": "machinelearning", "min_reactions": 20 },
+      { "name": "ai",             "min_reactions": 25 },
+      { "name": "chatgpt",        "min_reactions": 10 },
+      { "name": "productivity",   "min_reactions": 10 }
     ],
     "pages_per_tag": 2
   },

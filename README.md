@@ -3,8 +3,8 @@
 # CLAIRE
 **Claude Learns and Improves Iteratively from Real Engagement**
 
-A personal AI optimization pipeline. Mines community signal from Reddit,
-HackerNews, and dev.to. Filters it against your behavioral friction patterns.
+A personal AI optimization pipeline. Mines community signal from HackerNews
+and dev.to. Filters it against your behavioral friction patterns.
 Synthesizes actionable configuration candidates for Claude memory edits,
 profile diffs, and skill installs. Delivers a weekly PDF digest via GitHub
 Actions with Pushover notification.
@@ -18,8 +18,7 @@ as infrastructure.
 
 Every week, CLAIRE:
 
-1. Ingests posts from Reddit (local, unauthenticated), HackerNews API, and
-   dev.to API
+1. Ingests posts from HackerNews API and dev.to API
 2. Classifies each post into Track A (memory/profile candidates), Track B
    (skill candidates), or Track C (technique candidates) using Haiku
 3. Synthesizes configuration candidates across all three tracks in parallel
@@ -40,9 +39,8 @@ you decide whether to allow it.
 ## Architecture
 
 ```
-Reddit public JSON (local, before Sunday 14:00 UTC)
-HackerNews API (GHA, Sunday)          -->  Ingest  -->  raw_posts.json
-dev.to API - 6 tags, per-tag thresholds (GHA, Sunday)
+HackerNews API (GHA, Sunday)
+dev.to API - 9 tags, per-tag thresholds (GHA, Sunday)  -->  Ingest  -->  raw_posts.json
 raw_posts.json  -->  Triage (Haiku)  -->  Track A / B / C queues
 Track A (memory/profile)  -
 Track B (skill candidates)  -->  Synthesis (Sonnet, parallel)  -->  candidates
@@ -66,7 +64,7 @@ reliability ledger, zero escalations in the last 3 runs.
 
 ```
 CLAIRE/
--- claire_ingest.py           # Reddit + HackerNews + dev.to ingest
+-- claire_ingest.py           # HackerNews + dev.to ingest
 -- claire_triage.py           # Haiku classification, three-track routing
 -- claire_synthesize.py       # Sonnet synthesis, parallel tracks
 -- claire_output.py           # reportlab PDF digest builder
@@ -101,7 +99,7 @@ CLAIRE/
     -- profile_intent_summary.txt
 -- docs/
     -- claire_pipeline_flow.jsx
-    -- reddit_app_setup.md
+    -- reddit_app_setup.md    # Retired — Reddit ingest removed Build 10
 ```
 
 ## Setup
@@ -152,57 +150,17 @@ them, candidates are generic community signal with no personal filtering.
 
 ## Your Weekly Workflow
 
-CLAIRE has two execution paths. Understanding which one to use determines
-whether Reddit signal reaches your digest.
-
 **GitHub Actions (automatic)** runs every Sunday at 14:00 UTC. It ingests
 HackerNews and dev.to, runs the full pipeline, and commits a PDF digest to
-`output/`. You get a Pushover notification when it completes. Reddit is not
-included -- Reddit blocks datacenter IPs, so GHA can never reach it. If you
-only use the GHA path, your digest has no Reddit signal.
+`output/`. You get a Pushover notification when it completes.
 
-**Local pipeline** runs on your machine via `claire_weekly.ps1`. It can ingest
-all three sources including Reddit. Commit and push `raw_posts.json` before
-Sunday 14:00 UTC -- GHA picks it up from the repo at triage on Sunday. The
-local pipeline with --source all produces the canonical digest; GHA is
-fallback and notification only.
-
-**Which path should you use?**
-
-If Reddit signal matters to your configuration -- and it should, it represents
-roughly 25-30% of available corpus volume -- run the local pipeline as your
-canonical weekly run. GHA becomes a fallback and notification mechanism.
-
-If you only want HN and dev.to signal, GHA alone is sufficient.
-
-Most users will want to run both: let GHA fire automatically, then run the
-local pipeline after Reddit ingest to produce a combined digest for review.
-Review the local digest, not the GHA one.
+**Local pipeline** runs on your machine via `claire_weekly.ps1`. Use it when
+you want to run synthesis interactively or test config changes before GHA fires.
+GHA is the canonical production path.
 
 ---
 
 ## Weekly Ritual
-
-**Sunday morning, before your pipeline run or 14:00 UTC GHA trigger** (manual)
-
-Run Reddit ingest locally. This must happen before you run the local pipeline
-or the current week's Reddit signal will be missing from your digest.
-
-```
-python claire_ingest.py --source reddit
-```
-
-Reddit signal is ingested locally. Commit and push `raw_posts.json` after each
-pre-Sunday ingest run. GHA picks it up from the repo at triage. Skip the pre-Sunday
-push and the GHA digest runs on HackerNews + dev.to only -- still valid,
-but Reddit-free. `raw_posts.json` is not gitignored; it is intentionally
-committed as the Reddit signal handoff to GHA.
-
-```powershell
-git add data/raw_posts.json
-git commit -m "ingest: reddit update $(Get-Date -Format yyyy-MM-dd)"
-git push
-```
 
 **Before Sunday** (manual, 10 minutes)
 
@@ -224,15 +182,12 @@ and Pushover notification. The committed digest appears in `output/`.
 
 **After GHA completes** (manual, if running local pipeline)
 
-Pull the latest commits, then run the full local pipeline with all sources:
+Pull the latest commits, then run the full local pipeline:
 
 ```
 git pull
 .\claire_weekly.ps1 --source all
 ```
-
-This merges the current week's Reddit signal with whatever HN and dev.to
-produced. The local digest in `output/` is the one you review.
 
 `claire_pull.ps1` automates the `git pull` step. Register it with Task
 Scheduler via `claire_pull.xml` (Sunday 09:30 local / ~14:30 UTC) and the
@@ -316,9 +271,7 @@ This is not optional.** The eval loop has nothing to measure against without it.
 | CLAIRE-A batch ceiling | 15 candidates per decision engine run |
 | Hypothesis authorship | Human-written for applied changes; Opus-written for shadow decisions |
 | CLAIRE-A mode | Shadow only -- reads everything, writes nothing to live config |
-| Reddit ingest | Unauthenticated public JSON -- no OAuth credentials required |
-| HackerNews + dev.to | GitHub Actions, Sunday 14:00 UTC |
-| Reddit | Local - run and push before Sunday 14:00 UTC |
+| Ingest sources | HackerNews + dev.to (GHA, Sunday 14:00 UTC) |
 
 Changes to locked decisions require a hypothesis and explicit session approval.
 Do not modify `config.json` items without documenting the rationale.
@@ -373,8 +326,6 @@ authorizes every applied change until you explicitly decide otherwise.
 **API costs.** CLAIRE makes live Anthropic API calls on every run. A normal weekly cycle costs approximately $0.70-1.00 (triage + synthesis + CLAIRE-A). At current pricing: Haiku for triage (~$0.25), Sonnet for synthesis (~$0.45), Opus for CLAIRE-A shadow decisions (~$0.20). Costs scale with corpus size -- a large ingest week can push synthesis toward $0.70 on its own. Monitor `cost_log.json` and the Track A cost alert in `claire_weekly.ps1`.
 
 **GitHub Actions.** The weekly workflow consumes GHA minutes. Normal runs complete in under 5 minutes. Free tier accounts receive 2,000 minutes/month -- CLAIRE will not exhaust this under normal use.
-
-**Reddit terms of service.** Reddit ingest uses public JSON endpoints without authentication. This is technically outside Reddit's current ToS for automated access. `raw_posts.json` is committed to the repo as the signal handoff mechanism to GHA -- this means Reddit content is stored in your git history. Users are responsible for ensuring their usage complies with Reddit's current terms of service and for evaluating whether repo storage of Reddit content is appropriate for their situation.
 
 **Configuration changes.** CLAIRE proposes edits to Claude memory, profile, and skills. Applying candidates without reviewing them can degrade your Claude configuration. Every applied change requires a human-written hypothesis. The eval loop exists to catch changes that do not perform as expected. Do not apply candidates in bulk.
 

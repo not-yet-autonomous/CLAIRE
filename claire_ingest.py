@@ -1,23 +1,22 @@
 # Copyright (c) 2026 James Cole. Licensed under the MIT License.
 """
-CLAIRE — Build 1: Ingestion Layer
-Sources: Reddit public JSON + HackerNews API
+CLAIRE — Build 10: Ingestion Layer
+Sources: HackerNews API + dev.to API
 Output:  data/raw_posts.json
 
 Run:     python claire_ingest.py
          python claire_ingest.py --dry-run   (fetch counts only, no write)
-         python claire_ingest.py --source reddit
          python claire_ingest.py --source hackernews
+         python claire_ingest.py --source forum
+         python claire_ingest.py --source all
 """
 
 import json
 import os
-import re
 import time
 import argparse
 import hashlib
 import logging
-import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -41,11 +40,8 @@ RAW_POSTS_PATH  = DATA_DIR / "raw_posts.json"
 RUN_LOG_PATH    = DATA_DIR / "ingest_run_log.json"
 LOCK_PATH       = DATA_DIR / "ingest.lock"
 
-REDDIT_HEADERS  = {"User-Agent": "CLAIRE/0.1 personal-use-signal-pipeline"}
-REDDIT_RSS_NS   = "http://www.w3.org/2005/Atom"
 HN_HEADERS      = {"User-Agent": "CLAIRE/0.1 personal-use-signal-pipeline"}
 
-REDDIT_DELAY    = 3.5   # seconds between Reddit requests (unauthenticated limit)
 HN_DELAY        = 0.5   # HackerNews is more permissive
 
 # Load full config
@@ -58,12 +54,7 @@ except json.JSONDecodeError as e:
     raise SystemExit(f"CLAIRE: config.json is malformed — {e}")
 
 _REQUIRED_KEYS = [
-    ("ingestion", "subreddits_native"),
-    ("ingestion", "subreddits_comparative"),
-    ("ingestion", "posts_per_subreddit_hot"),
-    ("ingestion", "posts_per_subreddit_top_week"),
     ("ingestion", "comments_per_post"),
-    ("ingestion", "keyword_searches"),
     ("ingestion", "hn_search_terms"),
     ("ingestion", "hn_results_per_query"),
     ("ingestion", "hn_min_points"),
@@ -77,12 +68,7 @@ for _path in _REQUIRED_KEYS:
             raise SystemExit(f"CLAIRE: config.json missing required key: {' > '.join(_path)}")
         _node = _node[_key]
 
-REDDIT_NATIVE       = CONFIG["ingestion"]["subreddits_native"]
-REDDIT_COMPARATIVE  = CONFIG["ingestion"]["subreddits_comparative"]
-HOT_LIMIT           = CONFIG["ingestion"]["posts_per_subreddit_hot"]
-TOP_LIMIT           = CONFIG["ingestion"]["posts_per_subreddit_top_week"]
 COMMENTS_PER_POST   = CONFIG["ingestion"]["comments_per_post"]
-KEYWORD_SEARCHES    = CONFIG["ingestion"]["keyword_searches"]
 
 # HackerNews: search terms to query via Algolia API
 HN_SEARCH_TERMS      = CONFIG["ingestion"]["hn_search_terms"]
@@ -118,10 +104,6 @@ logging.root.addHandler(_console_handler)
 logging.root.addHandler(_file_handler)
 
 log = logging.getLogger("claire.ingest")
-
-# ─────────────────────────────────────────────────────────────────────────────
-# UTILITIES
-# ─────────────────────────────────────────────────────────────────────────────
 
 # ─────────────────────────────────────────────────────────────────────────────
 # LOCK
@@ -200,20 +182,6 @@ def noise_prefilter(score: int, comment_count: int) -> bool:
     return score < MIN_SCORE and comment_count < MIN_COMMENTS
 
 
-def relevance_check(post: dict) -> bool:
-    """
-    For comparative subreddit posts, require Claude/Anthropic
-    mention in title or body. Native posts always pass.
-    """
-    if post["subreddit_category"] == "native":
-        return True
-
-    text = f"{post['title']} {post['body']}".lower()
-    return any(term in text for term in [
-        "claude", "anthropic", "sonnet", "opus", "haiku"
-    ])
-
-
 def stable_id(*parts) -> str:
     """Generate a stable post_id from source-specific identifiers."""
     raw = "|".join(str(p) for p in parts)
@@ -262,280 +230,6 @@ def safe_get(url, headers, params=None, delay=2.1, retries=3, raw=False):
         log.warning(f"HTTP {r.status_code} for {url}")
         time.sleep(delay)
     return None
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# REDDIT INGESTION
-# ─────────────────────────────────────────────────────────────────────────────
-
-def fetch_reddit_listing(subreddit: str, sort: str, limit: int, time_filter: str = "week") -> list:
-    """Fetch a subreddit listing (hot or top). Returns list of raw post dicts."""
-    url = f"https://www.reddit.com/r/{subreddit}/{sort}.json"
-    params = {"limit": limit}
-    if sort == "top":
-        params["t"] = time_filter
-
-    log.info(f"Reddit r/{subreddit}/{sort} (limit={limit})")
-    data = safe_get(url, REDDIT_HEADERS, params=params, delay=REDDIT_DELAY)
-    if not data:
-        return []
-
-    posts = []
-    for child in data.get("data", {}).get("children", []):
-        p = child.get("data", {})
-        posts.append(p)
-    return posts
-
-
-def fetch_reddit_rss(subreddit: str, sort: str, limit: int) -> list:
-    """Fetch a subreddit listing via Atom RSS feed (no auth, no JSON API).
-
-    Returns list of partial post dicts compatible with normalize_reddit_post().
-    score and num_comments are None — not present in the RSS feed.
-    created_utc is an ISO 8601 string; normalize_reddit_post() converts it.
-    """
-    limit = min(limit, 100)
-    url   = f"https://www.reddit.com/r/{subreddit}/{sort}.rss"
-    log.info(f"Reddit RSS r/{subreddit}/{sort} (limit={limit})")
-
-    try:
-        text = safe_get(url, REDDIT_HEADERS, params={"limit": limit},
-                        delay=REDDIT_DELAY, raw=True)
-    except requests.HTTPError as e:
-        log.warning(f"Reddit RSS r/{subreddit}/{sort} HTTP error: {e} — skipping")
-        return []
-
-    if not text:
-        return []
-
-    try:
-        root = ET.fromstring(text)
-    except ET.ParseError as e:
-        log.warning(f"Reddit RSS parse error for r/{subreddit}/{sort}: {e}")
-        return []
-
-    ns      = {"atom": REDDIT_RSS_NS}
-    posts   = []
-
-    for entry in root.findall("atom:entry", ns):
-        try:
-            # <id> format: https://www.reddit.com/r/sub/comments/ID/slug/
-            entry_id = (entry.findtext("atom:id", default="", namespaces=ns) or "").strip()
-            post_id  = ""
-            if "/comments/" in entry_id:
-                parts = entry_id.rstrip("/").split("/")
-                try:
-                    ci       = parts.index("comments")
-                    post_id  = parts[ci + 1]
-                except (ValueError, IndexError):
-                    pass
-            if not post_id:
-                continue
-
-            title = (entry.findtext("atom:title", default="", namespaces=ns) or "").strip()
-
-            author_el = entry.find("atom:author", ns)
-            author    = ""
-            if author_el is not None:
-                author = (author_el.findtext("atom:name", default="",
-                          namespaces=ns) or "").strip()
-                if author.startswith("/u/"):
-                    author = author[3:]
-
-            link_el   = entry.find("atom:link", ns)
-            permalink = ""
-            if link_el is not None:
-                permalink = link_el.get("href", "")
-            if permalink.startswith("https://www.reddit.com"):
-                permalink = permalink[len("https://www.reddit.com"):]
-
-            content_el = entry.find("atom:content", ns)
-            selftext   = ""
-            if content_el is not None and content_el.text:
-                selftext = re.sub(r"<[^>]+>", " ", content_el.text).strip()[:2000]
-
-            published = (entry.findtext("atom:published", default="",
-                         namespaces=ns) or "").strip()
-
-            posts.append({
-                "id":            post_id,
-                "title":         title[:500],
-                "selftext":      selftext,
-                "score":         None,
-                "num_comments":  None,
-                "author":        author,
-                "permalink":     permalink,
-                "url":           permalink,
-                "created_utc":   published,   # ISO 8601 string
-                "subreddit":     subreddit,
-                "_rss_ingested": True,
-            })
-        except Exception as e:
-            log.warning(f"Reddit RSS entry parse error: {e}")
-            continue
-
-    log.info(f"Reddit RSS r/{subreddit}/{sort}: {len(posts)} entries parsed")
-    return posts
-
-
-def fetch_reddit_comments(post_id: str, subreddit: str) -> list:
-    """Fetch top comments for a post. Returns flat list of comment strings."""
-    url = f"https://www.reddit.com/r/{subreddit}/comments/{post_id}.json"
-    try:
-        data = safe_get(url, REDDIT_HEADERS, delay=REDDIT_DELAY)
-        if not data or len(data) < 2:
-            return []
-
-        comments = []
-        for child in data[1]["data"]["children"][:COMMENTS_PER_POST]:
-            c = child.get("data", {})
-            body = c.get("body", "").strip()
-            if body and body != "[deleted]" and body != "[removed]":
-                comments.append({
-                    "author": c.get("author", ""),
-                    "score":  c.get("score", 0),
-                    "body":   body[:800],  # cap comment length
-                })
-        return comments
-    except requests.HTTPError as e:
-        if e.response is not None and e.response.status_code == 403:
-            log.warning(f"Reddit comments 403 for {post_id} — skipping")
-            return []
-        raise
-    except (KeyError, IndexError, TypeError):
-        return []
-
-
-def fetch_reddit_search(query: str, limit: int = 25) -> list:
-    """Search Reddit for keyword across all subreddits."""
-    url    = "https://www.reddit.com/search.json"
-    params = {"q": query, "sort": "relevance", "t": "week", "limit": limit}
-    log.info(f"Reddit search: '{query}'")
-    try:
-        data = safe_get(url, REDDIT_HEADERS, params=params, delay=REDDIT_DELAY)
-        if not data:
-            return []
-        return [child.get("data", {})
-                for child in data.get("data", {}).get("children", [])]
-    except requests.HTTPError as e:
-        if e.response is not None and e.response.status_code == 403:
-            log.warning(f"Reddit search 403 for '{query}' — skipping")
-            return []
-        raise
-
-
-def normalize_reddit_post(raw: dict, subreddit_category: str, source_type: str) -> dict | None:
-    """Convert raw Reddit post dict to CLAIRE normalized format.
-
-    Handles two shapes:
-      - JSON API posts: score/num_comments are ints, created_utc is a float.
-      - RSS posts (_rss_ingested=True): score/num_comments are None,
-        created_utc is an ISO 8601 string. Noise prefilter is skipped.
-    """
-    post_id      = raw.get("id", "")
-    score        = raw.get("score", 0) or 0
-    num_comments = raw.get("num_comments", 0) or 0
-    subreddit    = raw.get("subreddit", "")
-    rss_ingested = raw.get("_rss_ingested", False)
-
-    if not post_id:
-        return None
-
-    # RSS posts have no score/comment metadata — skip the noise prefilter
-    if not rss_ingested and noise_prefilter(score, num_comments):
-        return None
-
-    # created_utc: float (JSON API) or ISO 8601 string (RSS)
-    created_utc_raw = raw.get("created_utc", 0)
-    if isinstance(created_utc_raw, str) and created_utc_raw:
-        try:
-            created_utc = datetime.fromisoformat(
-                created_utc_raw.replace("Z", "+00:00")).timestamp()
-        except ValueError:
-            created_utc = 0.0
-    else:
-        created_utc = float(created_utc_raw) if created_utc_raw else 0.0
-
-    post = {
-        "post_id":            f"reddit_{post_id}",
-        "source_platform":    "reddit",
-        "source_type":        source_type,        # native | comparative | search
-        "subreddit_category": subreddit_category, # native | comparative
-        "subreddit":          subreddit,
-        "title":              raw.get("title", "")[:500],
-        "body":               (raw.get("selftext", "") or "")[:2000],
-        "score":              score,
-        "comment_count":      num_comments,
-        "url":                f"https://reddit.com{raw.get('permalink', '')}",
-        "permalink":          raw.get("permalink", ""),
-        "author_flair":       raw.get("author_flair_text", ""),
-        "created_utc":        created_utc,
-        "fetched_at":         datetime.now(timezone.utc).isoformat(),
-        "comments":           [],  # populated in second pass
-        "triage":             {},  # populated by claire_triage.py
-    }
-
-    if not relevance_check(post):
-        return None
-
-    return post
-
-
-def ingest_reddit(existing_cache: dict, dry_run: bool) -> dict:
-    """Full Reddit ingestion pass. Returns dict of new + updated posts."""
-    new_posts = {}
-    stats = {"fetched": 0, "prefiltered": 0, "deduplicated": 0, "new": 0}
-
-    # 1. Subreddit listings — native (via RSS to avoid JSON API 403s)
-    for sub in REDDIT_NATIVE:
-        for sort, limit in [("hot", HOT_LIMIT), ("top", TOP_LIMIT)]:
-            raw_list = fetch_reddit_rss(sub, sort, limit)
-            for raw in raw_list:
-                stats["fetched"] += 1
-                post = normalize_reddit_post(raw, "native", "subreddit_listing")
-                if post is None:
-                    stats["prefiltered"] += 1
-                    continue
-                pid = post["post_id"]
-                if pid in existing_cache:
-                    stats["deduplicated"] += 1
-                    continue
-                new_posts[pid] = post
-                stats["new"] += 1
-
-    # 2. Keyword searches
-    for query in KEYWORD_SEARCHES:
-        raw_list = fetch_reddit_search(query, limit=25)
-        for raw in raw_list:
-            stats["fetched"] += 1
-            # Determine category by subreddit
-            sub = raw.get("subreddit", "")
-            category = "native" if sub in REDDIT_NATIVE else "comparative"
-            post = normalize_reddit_post(raw, category, "keyword_search")
-            if post is None:
-                stats["prefiltered"] += 1
-                continue
-            pid = post["post_id"]
-            if pid in existing_cache or pid in new_posts:
-                stats["deduplicated"] += 1
-                continue
-            new_posts[pid] = post
-            stats["new"] += 1
-
-    log.info(f"Reddit stats: {stats}")
-
-    # 3. Comment fetch — only for new posts
-    if not dry_run:
-        total = len(new_posts)
-        for i, (pid, post) in enumerate(new_posts.items(), 1):
-            raw_id = pid.replace("reddit_", "")
-            log.info(f"Comments [{i}/{total}] {pid}")
-            post["comments"] = fetch_reddit_comments(raw_id, post["subreddit"])
-            if i % 10 == 0:
-                log.info(f"Burst protection — sleeping 15s after {i} comment fetches.")
-                time.sleep(15)
-
-    return new_posts
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -807,7 +501,7 @@ def append_run_log(meta: dict):
 def main():
     parser = argparse.ArgumentParser(description="CLAIRE ingestion layer")
     parser.add_argument("--dry-run",  action="store_true", help="Fetch metadata only, skip comments, no write")
-    parser.add_argument("--source",   choices=["reddit", "hackernews", "forum", "both", "all", "gha"], default="all")
+    parser.add_argument("--source",   choices=["hackernews", "forum", "both", "all", "gha"], default="all")
     args = parser.parse_args()
 
     _acquire_lock()
@@ -825,11 +519,6 @@ def _main(args):
     log.info(f"Loaded {len(existing_cache)} existing posts from cache")
 
     all_new = {}
-
-    if args.source in ("reddit", "both", "all"):
-        reddit_posts = ingest_reddit(existing_cache, args.dry_run)
-        all_new.update(reddit_posts)
-        log.info(f"Reddit: {len(reddit_posts)} new posts")
 
     if args.source in ("hackernews", "both", "all", "gha"):
         hn_posts = ingest_hackernews(existing_cache, args.dry_run)
@@ -851,7 +540,6 @@ def _main(args):
         "existing_posts": len(existing_cache),
         "new_posts":      len(all_new),
         "total_posts":    len(merged),
-        "reddit_new":     len([p for p in all_new.values() if p["source_platform"] == "reddit"]),
         "hn_new":         len([p for p in all_new.values() if p["source_platform"] == "hackernews"]),
         "forum_new":      len([p for p in all_new.values() if p["source_platform"] == "devto"]),
     }

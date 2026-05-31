@@ -30,7 +30,7 @@
 | `PUSHOVER_APP_TOKEN` | Pushover CLAIRE app token |
 | `PUSHOVER_USER_KEY` | Pushover account user key |
 
-Reddit credentials are not required — ingest uses unauthenticated public endpoints.
+Reddit ingest retired in Build 10 — no Reddit credentials required or used.
 
 ---
 
@@ -88,39 +88,23 @@ Two execution environments run the same pipeline. Local combined is canonical.
 
 | Item | Local | GHA |
 |------|-------|-----|
-| Reddit signal | Yes - run and push before Sunday 14:00 UTC | Only if pre-Sunday push completed |
 | HackerNews + dev.to | Yes | Yes |
 | Trigger | Manual | Cron Sunday 14:00 UTC |
-| Canonical digest | Yes - review and apply from local combined run | No - fallback and notification only |
+| Canonical digest | GHA is canonical — pull after run completes | Yes - primary production path |
 
 **Rules:**
 
-1. **Local combined digest is the canonical review artifact.** Run Reddit
-   ingest locally, push raw_posts.json, let GHA fire, pull, then run the
-   full local pipeline with --source all. The digest in output/ after that
-   run is what you review and apply from.
-
-2. **Reddit signal requires pre-Sunday discipline.** Run Reddit ingest locally,
-   commit and push `raw_posts.json` before Sunday 14:00 UTC. GHA picks it up
-   from the repo at triage. Skip it and the Sunday digest is HN + dev.to
-   only -- still valid, just Reddit-free.
-
-3. **Pull before editing `change_log.json` or `friction_log.txt`.** GHA commits
+1. **Pull before editing `change_log.json` or `friction_log.txt`.** GHA commits
    both files back on every run. A local edit without a prior pull will
    conflict on push.
 
-4. **Push `config.json` before Saturday.** GHA runs whatever `config.json` is on
+2. **Push `config.json` before Saturday.** GHA runs whatever `config.json` is on
    main at 14:00 UTC Sunday. A local edit that isn't pushed runs silently
    against last week's config with no warning.
 
-5. **Push `session_notes.txt` before Sunday 14:00 UTC.** The CLAIRE-A scorer
+3. **Push `session_notes.txt` before Sunday 14:00 UTC.** The CLAIRE-A scorer
    requires current content. Stale notes produce low-quality scorer output --
    not a pipeline failure, a signal quality failure.
-
-6. **One digest per cycle.** If GHA produces a digest and you also run locally,
-   you have two digests for the same cycle. The local combined digest is
-   canonical -- ignore the GHA one. `change_log.json` has no field to
-   distinguish source -- ambiguity compounds at quarterly review.
 
 ---
 
@@ -128,7 +112,7 @@ Two execution environments run the same pipeline. Local combined is canonical.
 
 ```
 CLAIRE\
-├── claire_ingest.py          ✅ Build 9 — dev.to tag expansion (per-tag thresholds; llm, aitools, machinelearning added)
+├── claire_ingest.py          ✅ Build 10 — Reddit retired; dev.to expanded (ai/25, chatgpt/10, productivity/10)
 ├── claire_triage.py          ✅ Build 2 — triage complete
 ├── claire_synthesize.py      ✅ Build 5 — fingerprints + change_target field added
 ├── claire_output.py          ✅ Build 8 — digest generation (docx default; --format pdf for GHA)
@@ -136,7 +120,7 @@ CLAIRE\
 ├── claire_a_runner.py        ✅ Build 5 — decision engine runner (Opus)
 ├── claire_a_scorer.py        ✅ Build 5/6 — eval scoring layer (Sonnet)
 ├── claire_utils.py           ✅ Build 4 — shared compute_cost, append_cost_log
-├── config.json               ✅ Pipeline config — locked decisions
+├── config.json               ✅ Build 10 — Reddit keys removed; dev.to tags expanded to 9
 ├── requirements.txt          ✅ requests, anthropic, python-dotenv
 ├── .env                      ✅ ANTHROPIC_API_KEY (never touch)
 ├── .gitignore                ✅ Secrets and data excluded
@@ -191,7 +175,7 @@ CLAIRE\
 ├── archive\                  ⬜ Quarterly review artifacts (directory to be created)
 └── docs\
     ├── claire_pipeline_flow.jsx   ✅ Decision flow diagram
-    └── reddit_app_setup.md        ✅ Reddit API reference
+    └── reddit_app_setup.md        ⬜ Retired — Reddit ingest removed Build 10
 ```
 
 **Path rule:** `change_log.json` and `friction_log.txt` live at **project root**. The `data/` directory does not contain canonical versions of either. `data/change_log_v1_legacy.json` is a read-only archive of the v1.0 schema.
@@ -234,6 +218,8 @@ CLAIRE\
 | 8 | `claire_utils.py` | ✅ Complete | Cost log merge — upsert by run_id, Track A alert at $0.65 |
 | 9 | `claire_ingest.py` | ✅ Complete | dev.to tag expansion — per-tag thresholds; llm (15), aitools (10), machinelearning (20) |
 | 9 | `config.json` | ✅ Complete | devto.tags migrated to object array; DEVTO_MIN_REACTIONS constant removed |
+| 10 | `claire_ingest.py` | ✅ Complete | Reddit ingest retired — all Reddit functions and constants removed; --source reddit exits with retirement message |
+| 10 | `config.json` | ✅ Complete | Reddit config keys removed (subreddits_native/comparative, posts limits, keyword_searches); dev.to tags expanded: ai (25), chatgpt (10), productivity (10) |
 
 ---
 
@@ -248,7 +234,7 @@ CLAIRE\
 | Triage model | claude-haiku-4-5-20251001 |
 | Synthesis model | claude-sonnet-4-6 |
 | Noise prefilter | score < 5 AND comments < 2 → drop |
-| Scheduling | Reddit local - run and push before Sunday 14:00 UTC; GHA Sunday 14:00 UTC |
+| Scheduling | GHA Sunday 14:00 UTC (all ingest sources) |
 | Cost log entries | Single upsert per run keyed by YYYYMMDD — triage + synthesis + assembler accumulated |
 | Opus exclusion | exclude_keywords in config.json — config-driven |
 | Shared utilities | claire_utils.py — home for all cross-script helpers |
@@ -261,9 +247,9 @@ CLAIRE\
 | Signal strength | Source-post-weighted within confidence tier (HIGH: 0.80–0.90, MEDIUM: 0.55–0.65) |
 | Hypothesis authorship | Decision engine (Opus) — all three decision types require one |
 | Eval window | 14d (format/behavior changes), 21d (behavioral/memory changes) |
-| Ingest sources | Reddit (native + search) + HackerNews + dev.to (--source all) |
-| dev.to tags | anthropic, claudeai, claude |
-| dev.to min reactions | 5 (raise from 2 after Build 7 validation) |
+| Ingest sources | HackerNews + dev.to (GHA, Sunday 14:00 UTC) |
+| dev.to tags | anthropic, claudeai, claude, llm, aitools, machinelearning, ai, chatgpt, productivity |
+| dev.to min reactions | per-tag (5–25); see config.json devto.tags |
 | dev.to pages per tag | 2 (60 candidates per tag before dedup) |
 | Commit-back strategy | GHA pipeline commits data/, output/, logs/, change_log.json, friction_log.txt after each run |
 | PDF output | reportlab, six-section mirror of docx digest; filename `claire_digest_YYYY-MM-DD.pdf` |
@@ -274,8 +260,7 @@ CLAIRE\
 | State persistence | Commit-back — data files committed to repo at end of each GHA run |
 | Digest format (production) | reportlab PDF — docx retained for local dev only |
 | Pushover oversize fallback | Summary notification + repo commit if PDF > 2.5MB |
-| Reddit ingestion | Manual — run locally, commit raw_posts.json, GHA picks up from triage |
-| GHA ingest sources | HN + dev.to only (--source forum) — Reddit blocked from datacenter IPs |
+| GHA ingest sources | HN + dev.to (--source all) |
 
 ---
 
@@ -289,7 +274,6 @@ CLAIRE\
 | synthesis_queue JSON corruption | synthesis_queue_track_a/b/c.json all have JSON parse errors — truncated writes from a previous pipeline run. Regenerate by re-running triage on current raw_posts.json. |
 | candidates_track JSON corruption | candidates_track_a.json and candidates_track_c.json have JSON parse errors. Regenerate by re-running synthesis. |
 | claire_a_source_reliability.json missing | Expected by Build 6 scorer but never written. Created on first successful scorer run — not a bug, just never run to completion with scorer active. |
-| Reddit GHA IP block | Reddit returns 403 on JSON endpoints and empty RSS feeds from GHA datacenter IPs. Manual ingest is permanent architecture — not a bug to fix. |
 | git null-byte corruption | .git/config and .git/index had null-byte padding appended (62 and 130 bytes) — likely OneDrive FUSE mount. Strip with: `python -c "open('.git/config','wb').write(open('.git/config','rb').read().rstrip(b'\\x00'))"` Same fix applies to .git/index. Symptoms: 'bad config line' or 'index file corrupt'. |
 | OneDrive FUSE mount write behavior | Silently truncates large file writes. Do not write config.json or other large files through Cowork file tools. Use Windows-side editor or bash heredoc. |
 | Git index corruption (2026-05-23) | Null sha1 cache entry in .git/index — resolved by deleting index.lock and index, then running `git reset HEAD` to rebuild from HEAD before restaging. Root cause: FUSE mount null-byte padding. |
@@ -327,13 +311,16 @@ Cycle 6 complete (2026-05-28).
 - Reliability ledger hypotheses scored: 7 of 10 required
 - Escalations in last 3 runs: 0 (clean)
 
-**Build 10 / next session candidates:**
+**Build 10 complete (2026-05-31):**
+- Reddit ingest retired — RSS feeds returning 0 entries from residential IPs; JSON endpoints 403 locally; new app registration blocked
+- dev.to tags expanded: ai (25), chatgpt (10), productivity (10) — 9 tags total
+- Substack evaluated and deferred (no public API; scraping fragile)
+
+**Build 11 / next session candidates:**
 - Same-day memory filtering in triage (cross-reference gate gap — c3, c5, c6 friction logs)
 - feature_praise repurpose or scope reduction (dead weight at 27% corpus volume)
 - Source reliability weighting in synthesis confidence scoring (uniform 0.86 normalization — c6 friction log)
 - Inter-candidate dependency reasoning eval metric for CLAIRE-A (first observed instance c6)
-- Technique candidates separate output stream
 - Session notes pre-commit workflow (required before each Sunday GHA run)
 - .env presence check added to session start checklist
-- Substack RSS ingest (identify target feeds first)
 - X/Twitter ingest (blocked — API access/cost unresolved)
