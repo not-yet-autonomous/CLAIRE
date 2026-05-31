@@ -135,7 +135,7 @@ CLAIRE\
 ├── activate.bat              ✅ Venv activation shortcut
 ├── claire.bat                ✅ Pipeline launcher (CMD)
 ├── claire_runner.bat         ✅ Alternative pipeline runner
-├── claire_scheduler.xml      ✅ Windows Task Scheduler import file [local dev only]
+├── claire_scheduler.xml      ❌ Removed Build 10 — replaced by GHA in Build 8
 ├── .github\
 │   └── workflows\
 │       └── claire_weekly.yml ✅ Build 8 — GHA workflow (replaces Task Scheduler)
@@ -175,7 +175,7 @@ CLAIRE\
 ├── archive\                  ⬜ Quarterly review artifacts (directory to be created)
 └── docs\
     ├── claire_pipeline_flow.jsx   ✅ Decision flow diagram
-    └── reddit_app_setup.md        ⬜ Retired — Reddit ingest removed Build 10
+    └── reddit_app_setup.md        ❌ Removed Build 10 — Reddit ingest retired
 ```
 
 **Path rule:** `change_log.json` and `friction_log.txt` live at **project root**. The `data/` directory does not contain canonical versions of either. `data/change_log_v1_legacy.json` is a read-only archive of the v1.0 schema.
@@ -277,50 +277,36 @@ CLAIRE\
 | git null-byte corruption | .git/config and .git/index had null-byte padding appended (62 and 130 bytes) — likely OneDrive FUSE mount. Strip with: `python -c "open('.git/config','wb').write(open('.git/config','rb').read().rstrip(b'\\x00'))"` Same fix applies to .git/index. Symptoms: 'bad config line' or 'index file corrupt'. |
 | OneDrive FUSE mount write behavior | Silently truncates large file writes. Do not write config.json or other large files through Cowork file tools. Use Windows-side editor or bash heredoc. |
 | Git index corruption (2026-05-23) | Null sha1 cache entry in .git/index — resolved by deleting index.lock and index, then running `git reset HEAD` to rebuild from HEAD before restaging. Root cause: FUSE mount null-byte padding. |
+| Assembler memory filter auth errors | All candidates pass through on error — Haiku dedup filter silently inactive on local runs. API key present (synthesis runs clean); assembler loads credentials via different path. Non-blocking. Build 11 fix. |
 
 ---
 
 ## Current Session Task
 
-Cycle 6 complete (2026-05-28).
+Build 10 complete (2026-05-31). Reddit ingest retired. dev.to expanded to 9 tags.
+Cycle 6 local pipeline run complete. GHA validation run in progress.
 
-**Cycle 6 applied:**
-- c6-mem-001: Word/Excel tabular verification — row/column parity flag on uploaded Office file edits
-- c6-mem-005: No unsolicited wellness check-ins — respond to content, not inferred tone
-- c6-mem-006: External data integrity notice — flag tabular/statistical output from external sources
-- c6-prof-002: Shadow IT governance pattern recognition — proactive compliance exposure surfacing
-- c6-prof-004: Context compaction status line — disclose what was compacted before continuing
-- c6-prof-005: Mode definitions: no wellness interruptions — Frenemy/Steelman insulated from safety redirects
+**Build 10 applied:**
+- Reddit ingest retired permanently (`--source reddit` exits with retirement message)
+- dev.to tags expanded: ai (25), chatgpt (10), productivity (10) — 9 tags total
+- `docs/reddit_app_setup.md` removed
+- `claire_scheduler.xml` removed
+- Local pipeline is now dev-only — GHA is canonical weekly execution path
+- README fully updated — no Reddit references except retired docs/ entry
+- Release v0.10.0 published on GitHub
 
-**Held (dependency or low signal):**
-- c6-mem-002: Flag degraded Anthropic service periods — covered by c4-mem-001
-- c6-mem-003: Shadow IT memory edit — held pending c6-prof-002 application
-- c6-mem-004: Flag context compaction — held pending c6-prof-004 application
-- c6-prof-001: Upload document edit scope — covered by c4-mem-003 + c4-prof-001
-- c6-prof-003: Hierarchical content structural fidelity — low signal, one post
-- c6-prof-006: Model deprecation tracking — low signal, covered by c4-mem-001
-
-**Queued (observation gate, carried from prior cycles):**
-- c5-prof-003: Distinguish document-grounded vs training-derived conclusions (one live doc synthesis session required)
-- c3-prof-002: Task-completion anti-collapse (observe 4.7 in live session first)
-- c3-prof-003: Effort transparency disclosure (observe 4.7 in live session first)
-- c4-prof-001 through c4-prof-004: queued, no gates
+**Known issue (Build 11):**
+- Assembler memory filter auth errors on local runs — non-blocking, Build 11 fix
 
 **CLAIRE-A graduation criteria (3 of 6):**
 - Consecutive eval runs logged: 3 of 6 required
 - Reliability ledger hypotheses scored: 7 of 10 required
 - Escalations in last 3 runs: 0 (clean)
 
-**Build 10 complete (2026-05-31):**
-- Reddit ingest retired — RSS feeds returning 0 entries from residential IPs; JSON endpoints 403 locally; new app registration blocked
-- dev.to tags expanded: ai (25), chatgpt (10), productivity (10) — 9 tags total
-- Substack evaluated and deferred (no public API; scraping fragile)
-
-**Build 11 / next session candidates:**
-- Same-day memory filtering in triage (cross-reference gate gap — c3, c5, c6 friction logs)
-- feature_praise repurpose or scope reduction (dead weight at 27% corpus volume)
-- Source reliability weighting in synthesis confidence scoring (uniform 0.86 normalization — c6 friction log)
-- Inter-candidate dependency reasoning eval metric for CLAIRE-A (first observed instance c6)
-- Session notes pre-commit workflow (required before each Sunday GHA run)
-- .env presence check added to session start checklist
-- X/Twitter ingest (blocked — API access/cost unresolved)
+**Build 11 candidates:**
+- Assembler memory filter auth error fix (confirmed local and likely GHA)
+- Same-day memory filtering in triage (cross-reference gate gap — c3, c5 friction logs)
+- feature_praise repurpose or scope reduction (dead weight at ~27% corpus volume)
+- Technique candidates separate output stream
+- Substack RSS: evaluated, deferred indefinitely
+- X/Twitter: blocked on API cost
