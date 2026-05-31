@@ -282,8 +282,8 @@ Do not modify `config.json` items without documenting the rationale.
 
 `friction_log.txt` -- if you stop updating it, the cross-reference gate has no
 ground truth. Signal scores MEDIUM across the board. Candidates stop being
-filtered against your actual friction patterns. CLAIRE becomes a Reddit-to-
-config pipeline with no personal calibration.
+filtered against your actual friction patterns. CLAIRE becomes an uncalibrated
+signal pipeline with no personal filtering.
 
 `change_log.json` hypotheses -- if you apply changes without hypotheses, the
 quarterly eval has nothing to measure against. You lose the eval loop entirely.
@@ -345,4 +345,4 @@ candidates. One enthusiastic post does not make a configuration change.
 
 These are not preferences. They are the difference between an optimization
 system and a pipeline that randomly edits your AI configuration based on
-whatever Reddit was complaining about this week.
+whatever the loudest voices in the corpus were complaining about this week.
