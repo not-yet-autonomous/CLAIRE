@@ -173,3 +173,9 @@ only GHA datacenter IPs were blocked. Search JSON endpoints returning 403
 locally. New Reddit app registration blocked. Reddit ingest retired permanently
 in Build 10. Replacement: dev.to tag expansion (ai/25, chatgpt/10,
 productivity/10). Substack previously evaluated and deferred.
+
+2026-05-31 | local pipeline run | assembler memory filter | MEDIUM
+Memory filter auth errors on all 12 candidates — Haiku never ran, all passed
+through. API key present (synthesis ran clean). Assembler memory filter
+loading credentials via different path than other scripts. Non-blocking but
+deduplication filter is silently inactive. Build 11 fix required.
