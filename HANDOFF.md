@@ -115,8 +115,8 @@ CLAIRE\
 ├── claire_ingest.py          ✅ Build 10 — Reddit retired; dev.to expanded (ai/25, chatgpt/10, productivity/10)
 ├── claire_triage.py          ✅ Build 2 — triage complete
 ├── claire_synthesize.py      ✅ Build 5 — fingerprints + change_target field added
-├── claire_output.py          ✅ Build 8 — digest generation (docx default; --format pdf for GHA)
-├── claire_a_assembler.py     ✅ Build 5 — CLAIRE-A input assembler
+├── claire_output.py          ✅ Build 8 — digest generation (PDF default fixed 2026-05-23; docx retained for local dev)
+├── claire_a_assembler.py     ✅ Build 11 — load_dotenv fix (memory filter auth); Build 5 assembler base
 ├── claire_a_runner.py        ✅ Build 5 — decision engine runner (Opus)
 ├── claire_a_scorer.py        ✅ Build 5/6 — eval scoring layer (Sonnet)
 ├── claire_utils.py           ✅ Build 4 — shared compute_cost, append_cost_log
@@ -126,8 +126,8 @@ CLAIRE\
 ├── .gitignore                ✅ Secrets and data excluded
 ├── HANDOFF.md                ✅ This file
 ├── README.md                 ✅ Repo readme
-├── change_log.json           ✅ CANONICAL — Applied changes + eval loop (v1.1 schema, Cycles 2-4)
-├── friction_log.txt          ✅ CANONICAL — Weekly friction notes, human-maintained (Cycles 1-4)
+├── change_log.json           ✅ CANONICAL — Applied changes + eval loop (v1.1 schema, Cycles 2-5)
+├── friction_log.txt          ✅ CANONICAL — Weekly friction notes, human-maintained (Cycles 1-5)
 ├── claire_weekly.ps1         ✅ Build 6 — scheduled pipeline wrapper [local dev only — Task Scheduler entry retired]
 ├── claire_pull.ps1           ✅ Build 10 — Task Scheduler git pull (Sunday 09:30 local, pulls GHA digest)
 ├── claire_pull.xml           ✅ Build 10 — Task Scheduler import (schtasks /create /xml claire_pull.xml /tn "CLAIRE Digest Pull")
@@ -218,6 +218,7 @@ CLAIRE\
 | 8 | `claire_utils.py` | ✅ Complete | Cost log merge — upsert by run_id, Track A alert at $0.65 |
 | 9 | `claire_ingest.py` | ✅ Complete | dev.to tag expansion — per-tag thresholds; llm (15), aitools (10), machinelearning (20) |
 | 9 | `config.json` | ✅ Complete | devto.tags migrated to object array; DEVTO_MIN_REACTIONS constant removed |
+| 11 | `claire_a_assembler.py` | ✅ Complete | load_dotenv fix — memory filter auth error resolved; first suppression confirmed (c4-mem-006, score=0.850); Haiku pricing key verified |
 | 10 | `claire_ingest.py` | ✅ Complete | Reddit ingest retired — all Reddit functions and constants removed; --source reddit exits with retirement message |
 | 10 | `config.json` | ✅ Complete | Reddit config keys removed (subreddits_native/comparative, posts limits, keyword_searches); dev.to tags expanded: ai (25), chatgpt (10), productivity (10) |
 
@@ -283,30 +284,19 @@ CLAIRE\
 
 ## Current Session Task
 
-Build 10 complete (2026-05-31). Reddit ingest retired. dev.to expanded to 9 tags.
-Cycle 6 local pipeline run complete. GHA validation run confirmed clean (2026-05-31).
+Build 11 complete (2026-05-31). Memory filter auth error resolved.
 
-**Build 10 applied:**
-- Reddit ingest retired permanently (`--source reddit` exits with retirement message)
-- dev.to tags expanded: ai (25), chatgpt (10), productivity (10) — 9 tags total
-- `docs/reddit_app_setup.md` removed
-- `claire_scheduler.xml` removed
-- Local pipeline is now dev-only — GHA is canonical weekly execution path
-- README fully updated — no Reddit references except retired docs/ entry
-- Release v0.10.0 published on GitHub
-
-**Known issue (Build 11):**
-- Assembler memory filter auth errors on local runs — non-blocking, Build 11 fix
+**Build 11 applied:**
+- claire_a_assembler.py: load_dotenv added after anthropic import. Memory filter was silently inactive on all local runs since Build 8. GHA unaffected (secrets injected as real env vars). First confirmed suppression: fingerprint 801f5b65eb24f8ff, score=0.850. Haiku pricing key claude-haiku-4-5-20251001 verified in compute_cost.
+- Memory filter JSON parse fix: code-fence stripping added; raise on empty response with stop_reason/output_tokens in error message.
 
 **CLAIRE-A graduation criteria (3 of 6):**
 - Consecutive eval runs logged: 3 of 6 required
 - Reliability ledger hypotheses scored: 7 of 10 required
 - Escalations in last 3 runs: 0 (clean)
 
-**Build 11 candidates:**
-- Assembler memory filter auth error fix (confirmed local and likely GHA)
-- Same-day memory filtering in triage (cross-reference gate gap — c3, c5 friction logs)
-- feature_praise repurpose or scope reduction (dead weight at ~27% corpus volume)
+**Build 12 candidates (priority order):**
+- Same-day memory filtering in assembler (cross-reference gate gap — c3, c5 friction logs; design question open: triage vs assembler path)
+- feature_praise scope reduction (dead weight at ~27% corpus volume — remove from ingest tags or drop at triage)
 - Technique candidates separate output stream
-- Substack RSS: evaluated, deferred indefinitely
-- X/Twitter: blocked on API cost
+- Add load_dotenv presence check to build integration checklist for any script instantiating Anthropic client
