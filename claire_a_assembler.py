@@ -414,6 +414,17 @@ def _semantic_similarity(
     )
 
     raw = response.content[0].text.strip()
+    # Strip markdown code fences if the model wraps its JSON output
+    if raw.startswith(b"```" if isinstance(raw, bytes) else "```"):
+        raw = raw.split("```")[1]
+        if raw.startswith("json"):
+            raw = raw[4:]
+        raw = raw.strip()
+    if not raw:
+        raise ValueError(
+            f"empty response from model (stop_reason={response.stop_reason!r}, "
+            f"output_tokens={response.usage.output_tokens})"
+        )
     score = float(json.loads(raw)["score"])
     cost = compute_cost(model, response.usage.input_tokens, response.usage.output_tokens)
     return score, cost
@@ -495,6 +506,7 @@ def filter_candidates_by_memory(
                 f"Memory filter error for {candidate['fingerprint']}: {e} "
                 f"â€” passing through"
             )
+            log.debug(f"  candidate summary: {candidate['content'].get('summary','?')[:80]!r}")
             unsuppressed.append(candidate)
 
     log.info(
