@@ -31,6 +31,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import anthropic as _anthropic
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from claire_utils import compute_cost, append_cost_log
 
