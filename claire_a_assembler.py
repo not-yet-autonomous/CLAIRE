@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2026 James Cole. Licensed under the MIT License.
+# Copyright (c) 2026 James Cole. Licensed under the MIT License.
 """
 claire_a_assembler.py
 ---------------------
@@ -433,8 +433,13 @@ def _semantic_similarity(
 def filter_candidates_by_memory(
     candidates: list,
     config: dict,
+    change_log_entries: list | None = None,
 ) -> tuple[list, list, float]:
-    """Suppress candidates semantically similar to memory_edits_snapshot.txt.
+    """Suppress candidates semantically similar to current memory state.
+
+    Comparison text is built from memory_edits_snapshot.txt (when current) and
+    change_log_entries (always runtime-current). Suppressed entries record
+    filter_source: snapshot_only | change_log_only | combined.
 
     Sequential Haiku calls â€” one per candidate, fine at â‰¤15 candidates.
     Returns (unsuppressed, suppressed_log_entries, total_cost_usd).
@@ -465,13 +470,32 @@ def filter_candidates_by_memory(
         return candidates, [], 0.0
 
     memory_text = MEMORY_SNAPSHOT_PATH.read_text(encoding="utf-8").strip()
-    if not memory_text:
-        log.warning("memory_edits_snapshot.txt is empty â€” memory filter skipped")
+
+    cl_text = ""
+    if change_log_entries:
+        cl_text = "\n".join(
+            f"{e['type']}: {e['summary']}"
+            for e in change_log_entries
+            if e.get("summary")
+        )
+
+    if not memory_text and not cl_text:
+        log.warning("memory_edits_snapshot.txt empty and no change_log entries — memory filter skipped")
         _write_suppressed([])
         return candidates, [], 0.0
 
+    comparison_parts = [p for p in [memory_text, cl_text] if p]
+    comparison_text = "\n\n".join(comparison_parts)
+
+    if memory_text and cl_text:
+        filter_source = "combined"
+    elif memory_text:
+        filter_source = "snapshot_only"
+    else:
+        filter_source = "change_log_only"
+
     log.info(f"Memory filter: scoring {len(candidates)} candidates "
-             f"(model={model}, threshold={threshold})")
+             f"(model={model}, threshold={threshold}, source={filter_source})")
 
     client = _anthropic.Anthropic()
     unsuppressed = []
@@ -480,7 +504,7 @@ def filter_candidates_by_memory(
 
     for candidate in candidates:
         try:
-            score, cost = _semantic_similarity(candidate, memory_text, model, client)
+            score, cost = _semantic_similarity(candidate, comparison_text, model, client)
             total_cost += cost
 
             if score >= threshold:
@@ -489,12 +513,13 @@ def filter_candidates_by_memory(
                     "change_target":    candidate["content"]["type"],
                     "similarity_score": round(score, 4),
                     "reason":           "semantic_duplicate",
+                    "filter_source":    filter_source,
                     "suppressed_at":    datetime.now(timezone.utc).isoformat(),
                 }
                 suppressed.append(entry)
                 log.info(
                     f"Suppressed {candidate['fingerprint']} "
-                    f"(score={score:.3f} >= {threshold}) â€” "
+                    f"(score={score:.3f} >= {threshold}, source={filter_source}) — "
                     f"{candidate['content']['summary'][:60]!r}"
                 )
             else:
@@ -570,7 +595,7 @@ def assemble(output_path: Path | None = None, max_batch: int = MAX_BATCH_SIZE) -
     candidates                       = resolve_prior_appearances(candidates, change_log_entries)
 
     # â”€â”€ Build 8: semantic memory filter â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    candidates, suppressed, assembler_cost = filter_candidates_by_memory(candidates, config)
+    candidates, suppressed, assembler_cost = filter_candidates_by_memory(candidates, config, change_log_entries)
     # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     selected, deferred               = apply_priority_filter(candidates, max_batch)
