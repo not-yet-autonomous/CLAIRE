@@ -219,6 +219,7 @@ CLAIRE\
 | 9 | `claire_ingest.py` | ✅ Complete | dev.to tag expansion — per-tag thresholds; llm (15), aitools (10), machinelearning (20) |
 | 9 | `config.json` | ✅ Complete | devto.tags migrated to object array; DEVTO_MIN_REACTIONS constant removed |
 | 11 | `claire_a_assembler.py` | ✅ Complete | load_dotenv fix — memory filter auth error resolved; first suppression confirmed (c4-mem-006, score=0.850); Haiku pricing key verified |
+| 11 | `claire_a_assembler.py` | ✅ Complete | memory filter extended to compare against change_log_entries at runtime (combined source); 9/12 suppressed on first combined run vs 1/12 snapshot-only |
 | 10 | `claire_ingest.py` | ✅ Complete | Reddit ingest retired — all Reddit functions and constants removed; --source reddit exits with retirement message |
 | 10 | `config.json` | ✅ Complete | Reddit config keys removed (subreddits_native/comparative, posts limits, keyword_searches); dev.to tags expanded: ai (25), chatgpt (10), productivity (10) |
 
@@ -278,6 +279,7 @@ CLAIRE\
 | git null-byte corruption | .git/config and .git/index had null-byte padding appended (62 and 130 bytes) — likely OneDrive FUSE mount. Strip with: `python -c "open('.git/config','wb').write(open('.git/config','rb').read().rstrip(b'\\x00'))"` Same fix applies to .git/index. Symptoms: 'bad config line' or 'index file corrupt'. |
 | OneDrive FUSE mount write behavior | Silently truncates large file writes. Do not write config.json or other large files through Cowork file tools. Use Windows-side editor or bash heredoc. |
 | Git index corruption (2026-05-23) | Null sha1 cache entry in .git/index — resolved by deleting index.lock and index, then running `git reset HEAD` to rebuild from HEAD before restaging. Root cause: FUSE mount null-byte padding. |
+| claire_a_assembler.py mojibake | File contains cp1252 mojibake throughout (em-dashes, box-drawing chars). Caused string replacement failures during Build 11 edits. One-time cleanup: replace known sequences with clean UTF-8. No logic changes required. Low priority. |
 | Assembler memory filter auth errors | All candidates pass through on error — Haiku dedup filter silently inactive on local runs. API key present (synthesis runs clean); assembler loads credentials via different path. Non-blocking. Build 11 fix. |
 
 ---
@@ -287,7 +289,7 @@ CLAIRE\
 Build 11 complete (2026-05-31). Memory filter auth error resolved.
 
 **Build 11 applied:**
-- claire_a_assembler.py: load_dotenv added after anthropic import. Memory filter was silently inactive on all local runs since Build 8. GHA unaffected (secrets injected as real env vars). First confirmed suppression: fingerprint 801f5b65eb24f8ff, score=0.850. Haiku pricing key claude-haiku-4-5-20251001 verified in compute_cost.
+- claire_a_assembler.py: load_dotenv fix (memory filter auth). Combined source filter: change_log_entries injected at runtime alongside memory_edits_snapshot.txt. filter_source field added to suppressed entries. First combined run: 9/12 suppressed (source=combined), 3 passed. Suppression rate 8% -> 75%. Haiku pricing key verified.
 - Memory filter JSON parse fix: code-fence stripping added; raise on empty response with stop_reason/output_tokens in error message.
 
 **CLAIRE-A graduation criteria (3 of 6):**
@@ -296,7 +298,7 @@ Build 11 complete (2026-05-31). Memory filter auth error resolved.
 - Escalations in last 3 runs: 0 (clean)
 
 **Build 12 candidates (priority order):**
-- Same-day memory filtering in assembler (cross-reference gate gap — c3, c5 friction logs; design question open: triage vs assembler path)
+- Eyeball suppressed_candidates_20260531_185610.json -- confirm 9 suppressions are true duplicates, no false positives at 0.850/0.870 threshold edge
 - feature_praise scope reduction (dead weight at ~27% corpus volume — remove from ingest tags or drop at triage)
 - Technique candidates separate output stream
 - Add load_dotenv presence check to build integration checklist for any script instantiating Anthropic client
