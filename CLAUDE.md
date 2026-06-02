@@ -1,7 +1,8 @@
 # CLAIRE — Claude Code Context File
 
 > Read this before touching anything. No exceptions.
-> Last synced: Cycle 5 complete / Build 9 (2026-05-23)
+> Last synced: Cycle 6 complete / Build 11 (2026-06-02)
+> Also read: PROFILE.md -- behavioral rules for all work in this repo.
 
 ---
 
@@ -210,6 +211,7 @@ Configured in `claire_notify.py`. Standard Pushover API.
 
 | File | Path | Notes |
 |------|------|-------|
+| `PROFILE.md` | project root | Operator behavioral rules. Read alongside this file. |
 | `HANDOFF.md` | project root | Current state, build status, locked decisions. Read before any session. |
 | `change_log.json` | **project root** | Applied changes + eval loop. v1.1 schema. NOT in `data/`. |
 | `friction_log.txt` | **project root** | Weekly behavioral observations. Human-maintained. NOT in `data/`. |
