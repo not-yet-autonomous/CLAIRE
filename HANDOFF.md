@@ -275,7 +275,7 @@ CLAIRE\
 | Digest format (production) | reportlab PDF — docx retained for local dev only |
 | Pushover oversize fallback | Summary notification + repo commit if PDF > 2.5MB |
 | GHA ingest sources | HN + dev.to (--source all) |
-| Profile snapshot injection | data/profile_snapshot.txt injected into Track A cross-reference gate alongside claire_session_context.txt |
+| Profile snapshot injection | data/profile_snapshot.txt injected into Track A cross-reference gate; gitignored — GHA writes placeholder if missing; gate logs warning when running on placeholder |
 
 ---
 
@@ -295,6 +295,7 @@ CLAIRE\
 | claire_a_assembler.py mojibake | File contains cp1252 mojibake throughout (em-dashes, box-drawing chars). Caused string replacement failures during Build 11 edits. One-time cleanup: replace known sequences with clean UTF-8. No logic changes required. Low priority. |
 | Assembler memory filter auth errors | All candidates pass through on error — Haiku dedup filter silently inactive on local runs. API key present (synthesis runs clean); assembler loads credentials via different path. Non-blocking. Build 11 fix. |
 | Decision record source field missing | Fixed Build 12. Decisions written before 2026-06-02 have source="unknown" in ledger — historical entries cannot be retroactively attributed. Future runs will key correctly by track (claire_synthesize:track_a, etc.). |
+| profile_snapshot.txt GHA degradation | File is gitignored — GHA runs use a placeholder; cross-reference gate runs without profile context on automated runs. Update locally after each profile revision and push to restore full precision. Not a pipeline failure — a signal quality degradation. |
 
 ---
 

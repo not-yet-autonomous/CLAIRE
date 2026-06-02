@@ -95,13 +95,17 @@ def load_friction_log() -> str:
 
 def load_profile_snapshot() -> str:
     """Load profile snapshot for cross-reference gate scoring."""
-    profile_snapshot_path = BASE_DIR / "data" / "claire_session_context.txt"
-    profile_snapshot_v2_path = BASE_DIR / "data" / "profile_snapshot.txt"
-    # Load profile_snapshot.txt (global behavioral defaults)
+    profile_snapshot_path = BASE_DIR / "data" / "profile_snapshot.txt"
     profile_text = ""
-    if profile_snapshot_v2_path.exists():
-        with open(profile_snapshot_v2_path, encoding="utf-8") as f:
+    if profile_snapshot_path.exists():
+        with open(profile_snapshot_path, encoding="utf-8") as f:
             profile_text = f.read().strip()
+        if not profile_text or "Profile snapshot placeholder" in profile_text[:100]:
+            log.warning(
+                "data/profile_snapshot.txt is placeholder — cross-reference gate running without profile context; "
+                "update locally and push for full precision"
+            )
+            return ""
     else:
         log.warning("data/profile_snapshot.txt not found — cross-reference gate running without profile context")
     return profile_text

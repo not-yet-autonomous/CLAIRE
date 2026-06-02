@@ -29,6 +29,15 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python claire_ingest.py --source gha
 
+      - name: Write profile snapshot placeholder
+        run: |
+          if [ ! -f data/profile_snapshot.txt ]; then
+            echo "# Profile snapshot placeholder — GHA environment" > data/profile_snapshot.txt
+            echo "# Live profile_snapshot.txt is gitignored and maintained locally." >> data/profile_snapshot.txt
+            echo "# Cross-reference gate running without profile context this run." >> data/profile_snapshot.txt
+            echo "# Update data/profile_snapshot.txt locally and push to include profile context." >> data/profile_snapshot.txt
+          fi
+
       - name: Triage
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
