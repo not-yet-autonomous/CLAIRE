@@ -112,7 +112,7 @@ Two execution environments run the same pipeline. Local combined is canonical.
 
 ```
 CLAIRE\
-├── claire_ingest.py          ✅ Build 10 — Reddit retired; dev.to expanded (ai/25, chatgpt/10, productivity/10)
+├── claire_ingest.py          ✅ Build 13 — HN url set to permalink; external_url added; Build 10: Reddit retired, dev.to expanded
 ├── claire_triage.py          ✅ Build 2 — triage complete
 ├── claire_synthesize.py      ✅ Build 5 — fingerprints + change_target field added
 ├── claire_output.py          ✅ Build 8 — digest generation (PDF default fixed 2026-05-23; docx retained for local dev)
@@ -228,6 +228,7 @@ CLAIRE\
 | 12 | `config.json` | ✅ Complete | feature_praise keywords cleared from signal_keyword_map (praise/works/good/excellent were weak friction matches) |
 | 12 | `claire_output.py` | ✅ Complete | Track C removed from main digest (PDF + docx); techniques PDF is sole Track C output |
 | 12 | `CLAUDE.md` | ✅ Complete | load_dotenv rule added to silent failures table; stale Reddit row removed; version bumped to Build 12 |
+| 13 | `claire_ingest.py` | ✅ Complete | HN citation URL fix -- `url` field set to HN permalink (`https://news.ycombinator.com/item?id={id}`); linked content preserved in new `external_url` field; `data/raw_posts.json` reset to empty corpus |
 
 ---
 
@@ -320,6 +321,7 @@ Build 12 complete (2026-06-02).
 - DONE: load_dotenv presence check added to CLAUDE.md silent failures table
 
 **Build 13 candidates (priority order):**
+- DONE: HN citation URL fix -- `url` field set to HN permalink; `external_url` field added; `data/raw_posts.json` corpus reset (commit 210ae16)
 - PRIORITY 1: CLAIRE-A graduation decision -- pull after June 14 GHA run; verify ledger reaches 10+ observations with source-attributed entries; evaluate all three criteria; document outcome in change_log.json
 - PRIORITY 2: GHA commit-back scope gap -- workflow only commits PDFs; data/, logs/, change_log.json, friction_log.txt not committed back despite HANDOFF stating they are; CLAIRE-A decision files, cost logs, session history not persisting between runs; affects ledger continuity
 - .claude/ directory untracked -- showing in git status; needs gitignore entry or explicit decision to track
