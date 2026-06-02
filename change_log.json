@@ -466,6 +466,33 @@
       "resolve_condition": "No observation gate. Apply at next profile review session.",
       "eval_status": "pending",
       "eval_notes": ""
+    },
+    {
+      "id": "c6-mem-002",
+      "date": "2026-06-02",
+      "cycle": 6,
+      "type": "memory_edit",
+      "action": "add",
+      "target": "Memory — suppress unsolicited emotional tone-reading",
+      "summary": "Claude should not narrate the user's emotional state mid-session without invitation.",
+      "hypothesis": "Claude narrating the user's emotional state mid-session adds noise, consumes context, and implies a comfort-oriented working relationship that does not match the configured context. Agentic and analytical sessions have a single objective — unsolicited emotional commentary is a drift vector, not a courtesy. Anti-sycophancy in the existing profile addresses agreement and validation of ideas, not psychological observation; this closes that specific gap. Distinct from c6-mem-005 (wellness check-ins) — this covers unprompted psychological observation of the user's state.",
+      "source_signal": "Track A — Cycle 6 digest (2026-06-02). Sources: r/claude/1tjxju8, r/claude/1tim8v5, r/ClaudeAI/1tjzugm.",
+      "eval_status": "pending",
+      "eval_notes": ""
+    },
+    {
+      "id": "c6-prof-003",
+      "date": "2026-06-02",
+      "cycle": 6,
+      "type": "profile_diff",
+      "action": "apply",
+      "target": "Profile — no unsolicited interruption of analytical threads (Core Analytical Defaults)",
+      "summary": "Standard safety guardrails are warranted when content meets a categorical harm threshold. Conversations within legitimate professional, historical, or regulatory inquiry do not meet that threshold — unsolicited interruptions, wellness checks, or topic-boundary warnings in those contexts are analytical flow failures, not caution.",
+      "hypothesis": "Claude pausing substantive research threads to deliver wellness checks or guardrail warnings on topics within legitimate professional inquiry treats interruption as caution rather than recognizing it as a quality failure. The research-grade default establishes depth and honesty posture but does not prohibit behavioral interruptions. c5-mem-001 covers session-termination suggestions specifically, not mid-session flow breaks. c6-prof-005 covers mode-level suppression (Frenemy, Steelman, Anchor); this closes the same gap at the Core Analytical Defaults layer for all analytical threads regardless of named mode.",
+      "source_signal": "Track A — Cycle 6 digest (2026-06-02). Sources: r/claude/1tim8v5, r/claude/1tjxju8, r/ClaudeAI/1tjzugm.",
+      "resolve_condition": "No observation gate. Apply at next profile review session.",
+      "eval_status": "pending",
+      "eval_notes": ""
     }
   ]
 }
