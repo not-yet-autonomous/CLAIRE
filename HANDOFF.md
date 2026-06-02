@@ -234,6 +234,8 @@ CLAIRE\
 | 12 | `claire_output.py` | ✅ Complete | Track C removed from main digest (PDF + docx); techniques PDF is sole Track C output |
 | 12 | `CLAUDE.md` | ✅ Complete | load_dotenv rule added to silent failures table; stale Reddit row removed; version bumped to Build 12 |
 | 13 | `claire_ingest.py` | ✅ Complete | HN citation URL fix -- `url` field set to HN permalink (`https://news.ycombinator.com/item?id={id}`); linked content preserved in new `external_url` field; `data/raw_posts.json` reset to empty corpus |
+| 13 | README.md | ✅ Complete | v2.0.0 output scope architecture, profile diff primacy, ritual update |
+| 13 | release v2.0.0 | ✅ Complete | Tagged — global optimization architecture |
 
 ---
 
@@ -301,38 +303,36 @@ CLAIRE\
 
 ## Current Session Task
 
-Build 12 complete (2026-06-02).
+Build 13 complete (2026-06-02). v2.0.0 released.
 
-**Build 11 applied:**
-- claire_a_assembler.py: load_dotenv fix (memory filter auth). Combined source filter: change_log_entries injected at runtime alongside memory_edits_snapshot.txt. filter_source field added to suppressed entries. First combined run: 9/12 suppressed (source=combined), 3 passed. Suppression rate 8% -> 75%. Haiku pricing key verified.
-- Memory filter JSON parse fix: code-fence stripping added; raise on empty response with stop_reason/output_tokens in error message.
+**Build 13 applied:**
+- HN citation URL fix (commit 210ae16)
+- Profile sync architecture: scope field (schema v1.2), profile_snapshot.txt,
+  claire_session_context.txt rename, Track A type selection rule,
+  cross-reference gate profile injection, GHA placeholder step
+- Profile v13 applied globally -- 19 change_log entries (c6-prof-006 through
+  c6-prof-022, c6-skill-001, c6-skill-002)
+- README.md updated for v2.0.0 scope architecture
+- v2.0.0 tagged and released
 
-**Claude Code migration (2026-06-02):**
-- CLAUDE.md added to project root
-- PROFILE.md added to project root (behavioral rules for all Claude Code work)
-- MIGRATION_CHECKLIST.md produced (browser session) -- not yet committed
+**Pending -- human action:**
+- Write hypotheses for c6-prof-006 through c6-prof-012, c6-skill-001,
+  c6-skill-002 (hypothesis_prompt field in each change_log entry has the prompt)
+- friction_log.txt -- 4 entries from Build 13 / profile audit session to commit
 
-**CLAIRE-A graduation criteria (6 of 6 runs complete -- graduation in progress):**
-- Consecutive eval runs logged: 6 of 6 -- criterion met
-- Reliability ledger: CREATED 2026-06-02. 5 observations, score=0.700. Scorer run manually against 4 eligible decision files (April 26 x2, May 19, May 21). 3 held + 2 partial outcomes contributed; remainder insufficient_data (no null scores in ledger).
-- Escalations in last 3 runs: not yet assessable -- ledger source field is "unknown" on all entries (decisions files lack source field; see known issue below). Escalation check requires source-attributed entries.
-- Remaining 3 decision files (May 23, 28, 31) within eval window. Pass window June 6/11/14. GHA scorer will pick up naturally. 10-observation threshold expected by June 14.
-- Next action: pull after June 14 GHA run; verify ledger reaches 10+ observations; graduation decision follows.
-
-**Build 12 items (priority order):**
-- DONE: Verify claire_a_source_reliability.json writes -- ledger created, mechanism verified
-- DONE: Eyeball suppressed_candidates_20260531_185610.json -- 9 suppressions confirmed legitimate (0.92-0.95 clear duplicates; two at 0.85 threshold match combined source)
-- DONE: source field missing on decision records -- fixed in claire_a_runner.py (Build 12); future decisions will key by track
-- DONE: feature_praise scope reduction -- drop feature_praise+claude_native to IGNORE at gate (16 Track A polluters eliminated); feature_praise keywords removed from signal_keyword_map (weak matches: praise/works/good/excellent); cross_platform feature_praise retained as technique signal; actual corpus volume was 37% not 27%
-- DONE: Technique candidates separate output stream -- Track C removed from main digest (PDF + docx); techniques PDF is now sole output for Track C
-- DONE: load_dotenv presence check added to CLAUDE.md silent failures table
-
-**Build 13 candidates (priority order):**
-- DONE: HN citation URL fix -- `url` field set to HN permalink; `external_url` field added; `data/raw_posts.json` corpus reset (commit 210ae16)
-- PRIORITY 1: CLAIRE-A graduation decision -- pull after June 14 GHA run; verify ledger reaches 10+ observations with source-attributed entries; evaluate all three criteria; document outcome in change_log.json
-- PRIORITY 2: GHA commit-back scope gap -- workflow only commits PDFs; data/, logs/, change_log.json, friction_log.txt not committed back despite HANDOFF stating they are; CLAIRE-A decision files, cost logs, session history not persisting between runs; affects ledger continuity
-- .claude/ directory untracked -- showing in git status; needs gitignore entry or explicit decision to track
-- Assembler mojibake cleanup -- claire_a_assembler.py contains cp1252 encoding throughout (em-dashes, box-drawing chars); one-time cleanup, no logic changes; low priority
-- DONE: Profile sync architecture -- scope field added to change_log.json (v1.2); data/profile_snapshot.txt created (Profile v12 canonical); data/memory_edits_snapshot.txt renamed to claire_session_context.txt; Track A type selection rule added to synthesis prompt; cross-reference gate updated to inject profile snapshot; HANDOFF updated
-- PENDING: 9 new entries (c6-prof-006 through c6-prof-012, c6-skill-001, c6-skill-002) require human-written hypotheses before applying -- see hypothesis_prompt field in each change_log entry
-- PENDING: 10 promoted entries (c6-prof-013 through c6-prof-022) ready to apply to Profile v12 in claude.ai settings -- hypotheses populated by reference to source entries
+**Pending -- next Claude Code session (Build 14 candidates):**
+- PRIORITY 1: CLAIRE-A graduation decision -- pull after June 14 GHA run;
+  verify ledger reaches 10+ observations with source-attributed entries;
+  evaluate all three criteria; document outcome in change_log.json
+- PRIORITY 2: GHA commit-back scope gap -- workflow only commits PDFs; data/,
+  logs/, change_log.json, friction_log.txt not committed back despite HANDOFF
+  stating they are; CLAIRE-A decision files, cost logs, session history not
+  persisting between runs; affects ledger continuity
+- c6-skill-001: business-case-builder -- BAA/FedRAMP blocking disqualifier
+  addition to Compliance/General Counsel/Board section
+- c6-skill-002: internal-comms -- doc-generation-theme + docx-env co-trigger
+  for document deliverables
+- .claude/ directory untracked -- gitignore entry or explicit decision to track
+- Assembler mojibake cleanup -- cp1252 encoding in claire_a_assembler.py
+- Skills audit sessions 3+ -- remaining installed skills not yet audited
+  against Profile v13
