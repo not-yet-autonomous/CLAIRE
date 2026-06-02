@@ -5,9 +5,12 @@
 
 A personal AI optimization pipeline. Mines community signal from HackerNews
 and dev.to. Filters it against your behavioral friction patterns.
-Synthesizes actionable configuration candidates for Claude memory edits,
-profile diffs, and skill installs. Delivers a weekly PDF digest via GitHub
-Actions with Pushover notification.
+Synthesizes configuration candidates across three output types: profile
+diffs (global — apply in claude.ai Settings, take effect across all sessions),
+memory edits (project-scoped — CLAIRE sessions only), and skill installs
+(scoped to sessions where skills are loaded). Profile diffs are the primary
+output type for behavioral improvement intended to work everywhere. Delivers
+a weekly PDF digest via GitHub Actions with Pushover notification.
 
 MIT licensed. Built for Claude power users who treat their AI configuration
 as infrastructure.
@@ -51,6 +54,26 @@ candidates  -->  CLAIRE-A Assembler
 candidates + shadow decisions  -->  Output (reportlab PDF)  -->  output/
 GHA commit-back + Pushover notification
 ```
+
+## Output Scope
+
+CLAIRE produces three candidate types with different scope:
+
+| Type | Where it applies | How to apply |
+|------|-----------------|--------------|
+| `profile_diff` | All Claude sessions globally | claude.ai Settings → Profile |
+| `memory_edit` | This CLAIRE project only | Claude memory in project context |
+| `skill_install` | Sessions where the skill file is loaded | `skills/user/` directory |
+
+**Profile diffs are the primary mechanism for global behavioral improvement.**
+Memory edits are for CLAIRE-specific operational context only — pipeline state,
+session protocol, build awareness. If a behavioral change is intended to work
+outside this project, it must be a profile diff.
+
+This distinction is enforced in the synthesis prompt and tracked via the `scope`
+field in `change_log.json` (schema v1.2).
+
+---
 
 **CLAIRE-A is shadow only.** It reads everything and authorizes nothing.
 It writes shadow decisions to the digest so you can compare its calls against
@@ -173,6 +196,12 @@ GHA is the canonical production path.
    push. The CLAIRE-A scorer requires this file at runtime. Blank or missing
    content will cause the scorer to exit with error code 1 and fail the GHA
    run.
+
+3. If your Claude profile changed since the last run: update
+   `data/profile_snapshot.txt` to match the current profile content,
+   commit, and push. The cross-reference gate uses this file to suppress
+   candidates already covered by your profile. Running on a stale snapshot
+   produces redundant candidates — not a pipeline failure, a precision failure.
 
 **Sunday 14:00 UTC** (automatic, GitHub Actions)
 
