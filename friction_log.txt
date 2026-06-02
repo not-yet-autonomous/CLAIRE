@@ -195,3 +195,37 @@ First Claude Code session -- no behavioral friction observed.
 
 2026-06-02 | Claude Code session | build 12 | LOW
 All Build 12 items closed cleanly.
+
+2026-06-02 | digest review session | Track C source contamination | MEDIUM
+r/JEEAdv26dailyupdates and r/VAClaims appearing as corroborating sources for
+technique candidates. Posts are topically adjacent (AI tool usage) but source
+communities have no relevance to Claude power user or RIA context. Triage
+classifying on topic match only — community context not filtered. All 5
+Track C candidates this cycle are already-implemented or inapplicable. Source
+quality is degrading candidate quality before synthesis even runs. Evaluate
+subreddit allowlist or community relevance filter for Build 10.
+
+2026-06-02 | digest review session | Track C novelty rate | LOW
+0 of 5 technique candidates this cycle actionable against current profile/memory
+state. All either already implemented or too generic. Single-cycle observation —
+not a threshold trigger yet. Watch next cycle before logging as structural.
+
+2026-06-02 | digest review | corpus contamination | HIGH
+Reddit sources confirmed in main digest despite Build 10 retirement. Same posts
+re-synthesizing as semantic duplicates of already-applied candidates - 87.5%
+redundancy rate per CLAIRE-A engine notes. Root cause: raw_posts.json in repo
+is pre-retirement committed version; GHA ingest may be failing or corpus not
+being properly refreshed. Structural fix required before next cycle.
+
+2026-06-02 | digest review | CLAIRE-A eval history empty | MEDIUM
+Reliability ledger created Build 12 (2026-06-02) but CLAIRE-A session notes
+report eval history empty on same-day run. Assembler payload built before ledger
+existed, or assembler not reading ledger into engine input. CLAIRE-A graduating
+blind this cycle. Verify sequencing before June 14 graduation run.
+
+2026-06-02 | digest review | CLAIRE-A ALREADY_APPLIED confidence calibration | MEDIUM
+CLAIRE-A called ALREADY_APPLIED on profile diff 3 (safety interruption) and
+profile diff 5 (shadow IT flagging) at 88-93% confidence. Neither appears
+covered by current profile on examination. Possible over-generalization from
+broad accuracy-over-comfort framing. CLAIRE-A may be suppressing genuine
+signal. Watch for pattern across cycles.
