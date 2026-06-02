@@ -117,6 +117,12 @@ def score_against_friction_log(triage_result: dict, friction_log: str) -> str:
             and triage_result.get("persona") == "developer"):
         return "IGNORE"
 
+    # feature_praise on claude_native is dead weight — no config change signal.
+    # cross_platform_workflow feature_praise (technique candidates) is kept.
+    if (triage_result.get("signal_type") == "feature_praise"
+            and triage_result.get("source") == "claude_native"):
+        return "IGNORE"
+
     # No friction log — everything is MEDIUM
     if not friction_log:
         return "MEDIUM"

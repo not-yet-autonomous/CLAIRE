@@ -64,12 +64,7 @@
         "section",
         "numbering"
       ],
-      "feature_praise": [
-        "praise",
-        "works",
-        "good",
-        "excellent"
-      ],
+      "feature_praise": [],
       "competitor_gap": [
         "chatgpt",
         "gemini",
