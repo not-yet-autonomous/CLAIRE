@@ -227,6 +227,7 @@ CLAIRE\
 | 12 | `claire_triage.py` | ✅ Complete | feature_praise+claude_native dropped to IGNORE at cross-reference gate; eliminates Track A pollution (16 posts / 37% corpus) |
 | 12 | `config.json` | ✅ Complete | feature_praise keywords cleared from signal_keyword_map (praise/works/good/excellent were weak friction matches) |
 | 12 | `claire_output.py` | ✅ Complete | Track C removed from main digest (PDF + docx); techniques PDF is sole Track C output |
+| 12 | `CLAUDE.md` | ✅ Complete | load_dotenv rule added to silent failures table; stale Reddit row removed; version bumped to Build 12 |
 
 ---
 
@@ -316,4 +317,4 @@ Build 12 in progress (2026-06-02).
 - DONE: source field missing on decision records -- fixed in claire_a_runner.py (Build 12); future decisions will key by track
 - DONE: feature_praise scope reduction -- drop feature_praise+claude_native to IGNORE at gate (16 Track A polluters eliminated); feature_praise keywords removed from signal_keyword_map (weak matches: praise/works/good/excellent); cross_platform feature_praise retained as technique signal; actual corpus volume was 37% not 27%
 - DONE: Technique candidates separate output stream -- Track C removed from main digest (PDF + docx); techniques PDF is now sole output for Track C
-- OPEN: Add load_dotenv presence check to build integration checklist for any script instantiating Anthropic client
+- DONE: load_dotenv presence check added to CLAUDE.md silent failures table

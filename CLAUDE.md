@@ -1,7 +1,7 @@
 # CLAIRE — Claude Code Context File
 
 > Read this before touching anything. No exceptions.
-> Last synced: Cycle 6 complete / Build 11 (2026-06-02)
+> Last synced: Cycle 6 complete / Build 12 (2026-06-02)
 > Also read: PROFILE.md -- behavioral rules for all work in this repo.
 
 ---
@@ -312,7 +312,7 @@ Expected: `(.venv)` in prompt + `Deps OK` + `Null-byte check OK`
 |-------|---------|-----|
 | `data/session_notes.txt` blank | Scorer exits code 1, GHA fails | Update before Sunday push |
 | `friction_log.txt` not updated | All candidates score MEDIUM | Update 2-4 entries per cycle |
-| Reddit not ingested before GHA | Reddit signal is one week stale | Run `claire_ingest.py --source reddit` Monday |
+| `load_dotenv()` missing from new script | Anthropic client auth fails silently -- all candidates pass filter unscored | Any script calling `anthropic.Anthropic()` must call `load_dotenv()` before instantiation. Check on every new script. |
 | Conflict markers in scripts | Script may fail or produce wrong output silently | `grep -n "<<<" *.ps1 *.py` before push |
 | `--format pdf` missing | Digest is .docx, Pushover notify looks for .pdf | Verify `claire_weekly.ps1` and GHA workflow have flag |
 
