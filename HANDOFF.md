@@ -296,12 +296,14 @@ Build 11 complete (2026-05-31). Memory filter auth error resolved.
 - CLAUDE.md added to project root
 - MIGRATION_CHECKLIST.md produced (browser session) -- not yet committed
 
-**CLAIRE-A graduation criteria (3 of 6):**
-- Consecutive eval runs logged: 3 of 6 required
-- Reliability ledger hypotheses scored: 7 of 10 required
-- Escalations in last 3 runs: 0 (clean)
+**CLAIRE-A graduation criteria (6 of 6 runs complete -- graduation blocked):**
+- Consecutive eval runs logged: 6 of 6 -- criterion met
+- Reliability ledger hypotheses scored: unverifiable -- claire_a_source_reliability.json never written (scorer auth fix landed Build 11; first successful ledger write expected next GHA run)
+- Escalations in last 3 runs: unverifiable -- depends on ledger
+- Next action: confirm ledger writes clean on next GHA run; graduation decision follows
 
 **Build 12 candidates (priority order):**
+- PRIORITY 1: Verify claire_a_source_reliability.json writes on next GHA run -- required before graduation decision
 - Eyeball suppressed_candidates_20260531_185610.json -- confirm 9 suppressions are true duplicates, no false positives at 0.850/0.870 threshold edge
 - feature_praise scope reduction (dead weight at ~27% corpus volume — remove from ingest tags or drop at triage)
 - Technique candidates separate output stream
