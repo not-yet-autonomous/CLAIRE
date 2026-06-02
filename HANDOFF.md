@@ -298,6 +298,7 @@ CLAIRE\
 | Assembler memory filter auth errors | All candidates pass through on error — Haiku dedup filter silently inactive on local runs. API key present (synthesis runs clean); assembler loads credentials via different path. Non-blocking. Build 11 fix. |
 | Decision record source field missing | Fixed Build 12. Decisions written before 2026-06-02 have source="unknown" in ledger — historical entries cannot be retroactively attributed. Future runs will key correctly by track (claire_synthesize:track_a, etc.). |
 | profile_snapshot.txt GHA degradation | File is gitignored — GHA runs use a placeholder; cross-reference gate runs without profile context on automated runs. Update locally after each profile revision and push to restore full precision. Not a pipeline failure — a signal quality degradation. |
+| CLAIRE-A ledger pre-Build 12 | All 8 existing decision files predate Build 12 source field injection. Ledger keys everything as "unknown" until first post-Build 12 GHA run. Not a bug — expected aggregation of pre-attribution observations. Source-attributed entries begin after June 15 GHA run. |
 
 ---
 
@@ -321,9 +322,15 @@ Build 13 complete (2026-06-02). v2.0.0 released.
 - friction_log.txt -- 4 entries from Build 13 / profile audit session to commit
 
 **Pending -- next Claude Code session (Build 14 candidates):**
-- PRIORITY 1: CLAIRE-A graduation decision -- pull after June 14 GHA run;
-  verify ledger reaches 10+ observations with source-attributed entries;
-  evaluate all three criteria; document outcome in change_log.json
+- PRIORITY 1: CLAIRE-A graduation decision -- target June 22 (revised from
+  June 14). Eval windows: May 23 file closes June 13 (GHA June 15 scores),
+  May 28 closes June 18 (GHA June 22 scores), May 31 closes June 21 (GHA
+  June 22 scores). Ledger will reach 10+ observations after June 22 GHA run.
+  Pull June 22-23, verify all three criteria: 80% agreement rate (manual
+  calculation from decision files vs change_log.json), 10+ ledger observations,
+  zero escalations in last 3 runs. Document outcome in change_log.json.
+  Do not use --force on scorer to accelerate -- eval windows exist for signal
+  quality reasons.
 - PRIORITY 2: GHA commit-back scope gap -- workflow only commits PDFs; data/,
   logs/, change_log.json, friction_log.txt not committed back despite HANDOFF
   stating they are; CLAIRE-A decision files, cost logs, session history not
