@@ -172,10 +172,19 @@ Reddit RSS feeds began returning 0 entries from residential IPs — previously
 only GHA datacenter IPs were blocked. Search JSON endpoints returning 403
 locally. New Reddit app registration blocked. Reddit ingest retired permanently
 in Build 10. Replacement: dev.to tag expansion (ai/25, chatgpt/10,
-productivity/10). Substack previously evaluated and deferred.
+productivity/10). Substack previously evaluat
 
-2026-05-31 | local pipeline run | assembler memory filter | MEDIUM
-Memory filter auth errors on all 12 candidates — Haiku never ran, all passed
-through. API key present (synthesis ran clean). Assembler memory filter
-loading credentials via different path than other scripts. Non-blocking but
-deduplication filter is silently inactive. Build 11 fix required.
+2026-05-31 | Build 11 / assembler debug | memory filter auth | HIGH
+load_dotenv absent from claire_a_assembler.py. All candidates passed through
+silently on local runs since Build 8. Filter appeared active (no errors raised)
+because AuthenticationError was caught by per-candidate except block and treated
+as pass-through. Suppressed log showed zero entries — indistinguishable from
+"no duplicates found." Fixed Build 11. Add load_dotenv presence to build
+integration checklist for any script that instantiates an Anthropic client.
+
+2026-05-31 | Build 11 / assembler debug | dotenv inheritance assumption | MEDIUM
+Implicit assumption that claire_utils load_dotenv would cover dependent scripts
+was never validated. If claire_utils doesn't call load_dotenv (likely), each
+script is responsible for its own env load. No mechanism currently enforces this.
+Consider a module-level guard in claire_utils or a pre-run checklist item.
+

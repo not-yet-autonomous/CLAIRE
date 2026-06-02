@@ -292,6 +292,10 @@ Build 11 complete (2026-05-31). Memory filter auth error resolved.
 - claire_a_assembler.py: load_dotenv fix (memory filter auth). Combined source filter: change_log_entries injected at runtime alongside memory_edits_snapshot.txt. filter_source field added to suppressed entries. First combined run: 9/12 suppressed (source=combined), 3 passed. Suppression rate 8% -> 75%. Haiku pricing key verified.
 - Memory filter JSON parse fix: code-fence stripping added; raise on empty response with stop_reason/output_tokens in error message.
 
+**Claude Code migration (2026-06-02):**
+- CLAUDE.md added to project root
+- MIGRATION_CHECKLIST.md produced (browser session) -- not yet committed
+
 **CLAIRE-A graduation criteria (3 of 6):**
 - Consecutive eval runs logged: 3 of 6 required
 - Reliability ledger hypotheses scored: 7 of 10 required
