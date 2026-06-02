@@ -226,6 +226,7 @@ CLAIRE\
 | 12 | `claire_a_scorer.py` | ✅ Complete | reliability ledger created manually (2026-06-02); 5 observations, score=0.700; 3 held + 2 partial across 4 eligible decision files |
 | 12 | `claire_triage.py` | ✅ Complete | feature_praise+claude_native dropped to IGNORE at cross-reference gate; eliminates Track A pollution (16 posts / 37% corpus) |
 | 12 | `config.json` | ✅ Complete | feature_praise keywords cleared from signal_keyword_map (praise/works/good/excellent were weak friction matches) |
+| 12 | `claire_output.py` | ✅ Complete | Track C removed from main digest (PDF + docx); techniques PDF is sole Track C output |
 
 ---
 
@@ -314,5 +315,5 @@ Build 12 in progress (2026-06-02).
 - DONE: Eyeball suppressed_candidates_20260531_185610.json -- 9 suppressions confirmed legitimate (0.92-0.95 clear duplicates; two at 0.85 threshold match combined source)
 - DONE: source field missing on decision records -- fixed in claire_a_runner.py (Build 12); future decisions will key by track
 - DONE: feature_praise scope reduction -- drop feature_praise+claude_native to IGNORE at gate (16 Track A polluters eliminated); feature_praise keywords removed from signal_keyword_map (weak matches: praise/works/good/excellent); cross_platform feature_praise retained as technique signal; actual corpus volume was 37% not 27%
-- OPEN: Technique candidates separate output stream
+- DONE: Technique candidates separate output stream -- Track C removed from main digest (PDF + docx); techniques PDF is now sole output for Track C
 - OPEN: Add load_dotenv presence check to build integration checklist for any script instantiating Anthropic client

@@ -1273,7 +1273,6 @@ def generate_pdf(
     pdf_build_signal_summary(story, triage_data, styles)
     pdf_build_track_a_section(story, candidates.get("a", {}), styles)
     pdf_build_track_b_section(story, candidates.get("b", {}), styles)
-    pdf_build_track_c_section(story, candidates.get("c", {}), styles)
     pdf_build_eval_section(story, date_str, styles)
     pdf_build_claire_a_section(story, claire_a_dr, styles)
 
@@ -1458,7 +1457,6 @@ def main():
         build_signal_summary(doc, triage_data)
         build_track_a_section(doc, candidates.get("a", {}))
         build_track_b_section(doc, candidates.get("b", {}))
-        build_track_c_section(doc, candidates.get("c", {}))
         build_eval_section(doc, date_str)
         build_claire_a_section(doc, claire_a_dr)
 
