@@ -1,7 +1,7 @@
 # CLAIRE — Claude Code Context File
 
 > Read this before touching anything. No exceptions.
-> Last synced: Cycle 6 complete / Build 12 (2026-06-02)
+> Last synced: Cycle 6 complete / Build 13 (2026-06-02)
 > Also read: PROFILE.md -- behavioral rules for all work in this repo.
 
 ---
