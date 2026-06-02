@@ -318,3 +318,9 @@ Build 12 complete (2026-06-02).
 - DONE: feature_praise scope reduction -- drop feature_praise+claude_native to IGNORE at gate (16 Track A polluters eliminated); feature_praise keywords removed from signal_keyword_map (weak matches: praise/works/good/excellent); cross_platform feature_praise retained as technique signal; actual corpus volume was 37% not 27%
 - DONE: Technique candidates separate output stream -- Track C removed from main digest (PDF + docx); techniques PDF is now sole output for Track C
 - DONE: load_dotenv presence check added to CLAUDE.md silent failures table
+
+**Build 13 candidates (priority order):**
+- PRIORITY 1: CLAIRE-A graduation decision -- pull after June 14 GHA run; verify ledger reaches 10+ observations with source-attributed entries; evaluate all three criteria; document outcome in change_log.json
+- PRIORITY 2: GHA commit-back scope gap -- workflow only commits PDFs; data/, logs/, change_log.json, friction_log.txt not committed back despite HANDOFF stating they are; CLAIRE-A decision files, cost logs, session history not persisting between runs; affects ledger continuity
+- .claude/ directory untracked -- showing in git status; needs gitignore entry or explicit decision to track
+- Assembler mojibake cleanup -- claire_a_assembler.py contains cp1252 encoding throughout (em-dashes, box-drawing chars); one-time cleanup, no logic changes; low priority
