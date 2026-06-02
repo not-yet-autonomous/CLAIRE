@@ -3,7 +3,7 @@
 CLAIRE — Build 3a: Synthesis Layer
 Input:   data/synthesis_queue_track_a/b/c.json
          prompts/profile_intent_summary.txt
-         data/memory_edits_snapshot.txt
+         data/claire_session_context.txt
 Output:  data/candidates_track_a.json
          data/candidates_track_b.json
          data/candidates_track_c.json
@@ -41,7 +41,7 @@ LOGS_DIR.mkdir(exist_ok=True)
 
 SYNTHESIS_LOG_PATH      = LOGS_DIR / "synthesis.log"
 PROFILE_SUMMARY_PATH    = BASE_DIR / "prompts" / "profile_intent_summary.txt"
-MEMORY_EDITS_PATH       = DATA_DIR / "memory_edits_snapshot.txt"
+MEMORY_EDITS_PATH       = DATA_DIR / "claire_session_context.txt"
 
 QUEUE_PATHS = {
     "a": DATA_DIR / "synthesis_queue_track_a.json",
@@ -92,7 +92,7 @@ def load_profile_summary() -> str:
 
 def load_memory_edits() -> str:
     if not MEMORY_EDITS_PATH.exists():
-        log.warning("memory_edits_snapshot.txt not found — synthesis runs without memory context")
+        log.warning("claire_session_context.txt not found — synthesis runs without memory context")
         return "(no memory edits on file)"
     with open(MEMORY_EDITS_PATH, encoding="utf-8") as f:
         content = f.read().strip()

@@ -85,7 +85,7 @@ CLAIRE/
     -- synthesis_queue_track_b.json
     -- synthesis_queue_track_c.json
     -- archive.json
-    -- memory_edits_snapshot.txt
+    -- claire_session_context.txt
     -- claire_a_input_[timestamp].json
     -- claire_a_decisions_[timestamp].json
     -- claire_a_reasoning_[timestamp].txt
@@ -139,7 +139,7 @@ Four secrets required in your repo settings:
 CLAIRE synthesizes candidates against *your* configuration. Before running,
 populate:
 
-* `data/memory_edits_snapshot.txt` - paste your current Claude memory edits
+* `data/claire_session_context.txt` - paste your current Claude memory edits
 * `prompts/profile_intent_summary.txt` - 200-400 word summary of your Claude profile goals and behavioral priorities
 * `friction_log.txt` - at least one cycle of behavioral observations (format below)
 

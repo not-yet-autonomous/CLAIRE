@@ -9,7 +9,7 @@ produces the structured JSON payload the decision engine prompt expects.
 
 Build 8 additions:
   - Semantic memory filter: candidates with similarity >= 0.85 against
-    memory_edits_snapshot.txt are suppressed before engine payload assembly.
+    claire_session_context.txt are suppressed before engine payload assembly.
     Suppressed candidates logged to data/suppressed_candidates_[timestamp].json.
   - Assembler cost appended to the daily merged cost_log.json entry.
 
@@ -51,7 +51,7 @@ CANDIDATE_PATHS = {
 }
 CHANGE_LOG_PATH      = Path(__file__).parent / "change_log.json"
 SESSION_HISTORY_PATH = DATA_DIR / "claire_a_session_history.json"
-MEMORY_SNAPSHOT_PATH = DATA_DIR / "memory_edits_snapshot.txt"
+MEMORY_SNAPSHOT_PATH = DATA_DIR / "claire_session_context.txt"  # renamed from memory_edits_snapshot.txt 2026-06-02
 
 # ---------------------------------------------------------------------------
 # LOGGING
@@ -437,7 +437,7 @@ def filter_candidates_by_memory(
 ) -> tuple[list, list, float]:
     """Suppress candidates semantically similar to current memory state.
 
-    Comparison text is built from memory_edits_snapshot.txt (when current) and
+    Comparison text is built from claire_session_context.txt (when current) and
     change_log_entries (always runtime-current). Suppressed entries record
     filter_source: snapshot_only | change_log_only | combined.
 
@@ -465,7 +465,7 @@ def filter_candidates_by_memory(
         return candidates, [], 0.0
 
     if not MEMORY_SNAPSHOT_PATH.exists():
-        log.warning("memory_edits_snapshot.txt not found â€” memory filter skipped")
+        log.warning("claire_session_context.txt not found â€” memory filter skipped")
         _write_suppressed([])
         return candidates, [], 0.0
 
@@ -480,7 +480,7 @@ def filter_candidates_by_memory(
         )
 
     if not memory_text and not cl_text:
-        log.warning("memory_edits_snapshot.txt empty and no change_log entries — memory filter skipped")
+        log.warning("claire_session_context.txt empty and no change_log entries — memory filter skipped")
         _write_suppressed([])
         return candidates, [], 0.0
 

@@ -93,7 +93,7 @@
       "mode syntax"
     ],
     "profile_intent_summary_path": "prompts/profile_intent_summary.txt",
-    "memory_edit_list_path": "data/memory_edits_snapshot.txt",
+    "memory_edit_list_path": "data/claire_session_context.txt",
     "track_a_cost_alert_usd": 0.65
   },
   "assembler": {

@@ -93,17 +93,32 @@ def load_friction_log() -> str:
     return "\n".join(lines)
 
 
-def score_against_friction_log(triage_result: dict, friction_log: str) -> str:
+def load_profile_snapshot() -> str:
+    """Load profile snapshot for cross-reference gate scoring."""
+    profile_snapshot_path = BASE_DIR / "data" / "claire_session_context.txt"
+    profile_snapshot_v2_path = BASE_DIR / "data" / "profile_snapshot.txt"
+    # Load profile_snapshot.txt (global behavioral defaults)
+    profile_text = ""
+    if profile_snapshot_v2_path.exists():
+        with open(profile_snapshot_v2_path, encoding="utf-8") as f:
+            profile_text = f.read().strip()
+    else:
+        log.warning("data/profile_snapshot.txt not found — cross-reference gate running without profile context")
+    return profile_text
+
+
+def score_against_friction_log(triage_result: dict, friction_log: str,
+                               profile_snapshot: str = "") -> str:
     """
-    Score a classified post against the friction log.
+    Score a classified post against the friction log and profile snapshot.
     Returns: HIGH | MEDIUM | LOW | IGNORE
 
     Logic:
     - drop_flag=True → IGNORE
     - developer persona + filter_out action → IGNORE
     - signal_type=noise → IGNORE
-    - friction log empty → MEDIUM for all non-ignored
-    - keyword match between post signal and friction log → HIGH
+    - friction log empty + profile snapshot empty → MEDIUM for all non-ignored
+    - keyword match between post signal and friction log OR profile snapshot → HIGH
     - no match → MEDIUM
     """
     # Hard drops
@@ -123,18 +138,13 @@ def score_against_friction_log(triage_result: dict, friction_log: str) -> str:
             and triage_result.get("source") == "claude_native"):
         return "IGNORE"
 
-    # No friction log — everything is MEDIUM
-    if not friction_log:
+    # No friction log and no profile snapshot — everything is MEDIUM
+    if not friction_log and not profile_snapshot:
         return "MEDIUM"
 
-    # Keyword matching: extract meaningful words from classifier_note
-    # and signal_type, check against friction log entries
-    signal_text = " ".join([
-        triage_result.get("signal_type", ""),
-        triage_result.get("classifier_note", ""),
-    ]).lower()
-
+    # Keyword matching: check against friction log and profile snapshot
     friction_lower = friction_log.lower()
+    profile_lower = profile_snapshot.lower()
 
     # High-signal keywords that bridge triage tags to friction log language
     SIGNAL_KEYWORD_MAP = CONFIG["cross_reference_gate"]["signal_keyword_map"]
@@ -145,6 +155,9 @@ def score_against_friction_log(triage_result: dict, friction_log: str) -> str:
     for keyword in keywords:
         if keyword in friction_lower:
             log.debug(f"Friction match: '{keyword}' in friction log")
+            return "HIGH"
+        if profile_snapshot and keyword in profile_lower:
+            log.debug(f"Profile match: '{keyword}' in profile snapshot")
             return "HIGH"
 
     return "MEDIUM"
@@ -320,9 +333,11 @@ def main():
         return
 
     # Load supporting resources
-    system_prompt = load_triage_prompt()
-    friction_log  = load_friction_log()
+    system_prompt    = load_triage_prompt()
+    friction_log     = load_friction_log()
+    profile_snapshot = load_profile_snapshot()
     log.info(f"Friction log loaded: {len(friction_log)} chars")
+    log.info(f"Profile snapshot loaded: {len(profile_snapshot)} chars")
 
     # Initialize Anthropic client
     client = anthropic.Anthropic()
@@ -367,8 +382,8 @@ def main():
                 triage_stats["failed"] += 1
                 continue
 
-            # Score against friction log
-            confidence = score_against_friction_log(triage, friction_log)
+            # Score against friction log and profile snapshot
+            confidence = score_against_friction_log(triage, friction_log, profile_snapshot)
 
             # Attach triage to post
             post["triage"] = {

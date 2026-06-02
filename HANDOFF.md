@@ -106,6 +106,10 @@ Two execution environments run the same pipeline. Local combined is canonical.
    requires current content. Stale notes produce low-quality scorer output --
    not a pipeline failure, a signal quality failure.
 
+11. Memory edits are scoped to this project only. Behavioral changes intended to apply globally must be profile diffs. Use data/profile_snapshot.txt as the global config baseline for synthesis cross-reference.
+
+12. Hypothesis prompts for pending entries live in the hypothesis_prompt field of each change_log.json entry. If the field is absent, the prompt is lost — add it at entry creation time, not after.
+
 ---
 
 ## Directory Structure
@@ -150,7 +154,8 @@ CLAIRE\
 │   ├── candidates_track_b.json       ✅ Build 5 — synthesis output, assembler input
 │   ├── candidates_track_c.json       ✅ Build 8 — Track C candidates for techniques PDF
 │   ├── archive.json          ✅ Build 2 output — LOW-confidence post accumulator. Revisit size quarterly.
-│   ├── memory_edits_snapshot.txt     ✅ Current Claude memory baseline (human-maintained)
+│   ├── claire_session_context.txt  ✅ Claude memory snapshot (CLAIRE session scope only — renamed from memory_edits_snapshot.txt 2026-06-02)
+│   ├── profile_snapshot.txt        ✅ Profile v12 canonical snapshot — injected into Track A cross-reference gate alongside claire_session_context.txt; human-maintained
 │   ├── cost_log.json         ✅ Build 4 — per-run API cost tracking
 │   ├── ingest_run_log.json   ✅ Ingest run history — source counts per run
 │   ├── claire_a_input_[timestamp].json     ✅ Build 5 — assembler output, engine input payload
@@ -270,6 +275,7 @@ CLAIRE\
 | Digest format (production) | reportlab PDF — docx retained for local dev only |
 | Pushover oversize fallback | Summary notification + repo commit if PDF > 2.5MB |
 | GHA ingest sources | HN + dev.to (--source all) |
+| Profile snapshot injection | data/profile_snapshot.txt injected into Track A cross-reference gate alongside claire_session_context.txt |
 
 ---
 
@@ -326,3 +332,6 @@ Build 12 complete (2026-06-02).
 - PRIORITY 2: GHA commit-back scope gap -- workflow only commits PDFs; data/, logs/, change_log.json, friction_log.txt not committed back despite HANDOFF stating they are; CLAIRE-A decision files, cost logs, session history not persisting between runs; affects ledger continuity
 - .claude/ directory untracked -- showing in git status; needs gitignore entry or explicit decision to track
 - Assembler mojibake cleanup -- claire_a_assembler.py contains cp1252 encoding throughout (em-dashes, box-drawing chars); one-time cleanup, no logic changes; low priority
+- DONE: Profile sync architecture -- scope field added to change_log.json (v1.2); data/profile_snapshot.txt created (Profile v12 canonical); data/memory_edits_snapshot.txt renamed to claire_session_context.txt; Track A type selection rule added to synthesis prompt; cross-reference gate updated to inject profile snapshot; HANDOFF updated
+- PENDING: 9 new entries (c6-prof-006 through c6-prof-012, c6-skill-001, c6-skill-002) require human-written hypotheses before applying -- see hypothesis_prompt field in each change_log entry
+- PENDING: 10 promoted entries (c6-prof-013 through c6-prof-022) ready to apply to Profile v12 in claude.ai settings -- hypotheses populated by reference to source entries

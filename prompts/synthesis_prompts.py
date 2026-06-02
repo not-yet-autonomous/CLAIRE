@@ -40,6 +40,19 @@ do not note it, do not flag it, do not mention it.
 
 ---
 
+CANDIDATE TYPE SELECTION RULE
+
+- If the behavioral change is intended to apply across ALL Claude sessions
+  (voice, verification, output rules, analytical defaults, vendor posture):
+  output type is "profile_diff".
+- If the change is specific to CLAIRE pipeline sessions only (pipeline state
+  awareness, build protocol, session-specific behavior): output type is
+  "memory_edit".
+- When in doubt, prefer "profile_diff". Memory edits are scoped to this
+  project and do not improve Claude behavior globally.
+
+---
+
 CANDIDATE TYPES
 
 Generate candidates in three categories:

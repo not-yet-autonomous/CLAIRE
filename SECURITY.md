@@ -80,14 +80,14 @@ application. The human review step is the primary mitigation.
 - Review synthesis output for anomalous or out-of-character
   candidates before applying anything
 
-### memory_edits_snapshot.txt
+### claire_session_context.txt
 
 This file contains a snapshot of your live Claude memory
 configuration. If committed to a public repository, it exposes
 your personal AI configuration state to anyone who views the repo.
 
 **Mitigations:**
-- Add `data/memory_edits_snapshot.txt` to `.gitignore` before
+- Add `data/claire_session_context.txt` to `.gitignore` before
   pushing to a public repository
 - Review `git status` before any push to confirm the file is not
   staged

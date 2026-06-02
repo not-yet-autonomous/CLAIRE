@@ -228,7 +228,7 @@ Configured in `claire_notify.py`. Standard Pushover API.
 | `claire_weekly.ps1` | root | Local scheduled pipeline wrapper |
 | `data/raw_posts.json` | data/ | Current ingest corpus (gitignored) |
 | `data/session_notes.txt` | data/ | Weekly scorer input — manual update required before each run |
-| `data/memory_edits_snapshot.txt` | data/ | Current Claude memory baseline — update when memory changes are applied |
+| `data/claire_session_context.txt` | data/ | Current Claude memory baseline — update when memory changes are applied |
 | `data/claire_a_source_reliability.json` | data/ | Reliability ledger; created on first successful scorer run |
 | `data/claire_a_session_history.json` | data/ | Cross-run fingerprint tracking for prior_appearances |
 | `data/cost_log.json` | data/ | Per-run API cost tracking; upsert by YYYYMMDD run_id |
@@ -401,7 +401,7 @@ These files require the operator's input. Do not auto-generate content for them.
 | `friction_log.txt` | 2-4 entries per cycle | `YYYY-MM-DD \| [context] \| [component] \| [severity: LOW/MEDIUM/HIGH]` |
 | `change_log.json` | One entry per applied change | Hypothesis required before change is applied; `eval_status: pending` on entry |
 | `data/session_notes.txt` | Before each Sunday GHA run | Free-form behavioral observations; blank content causes scorer failure |
-| `data/memory_edits_snapshot.txt` | When memory changes are applied | Paste of current Claude memory state |
+| `data/claire_session_context.txt` | When memory changes are applied | Paste of current Claude memory state |
 | `prompts/profile_intent_summary.txt` | When profile changes | 200-400 word summary of Claude profile goals |
 
 ---
