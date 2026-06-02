@@ -293,7 +293,7 @@ CLAIRE\
 
 ## Current Session Task
 
-Build 12 in progress (2026-06-02).
+Build 12 complete (2026-06-02).
 
 **Build 11 applied:**
 - claire_a_assembler.py: load_dotenv fix (memory filter auth). Combined source filter: change_log_entries injected at runtime alongside memory_edits_snapshot.txt. filter_source field added to suppressed entries. First combined run: 9/12 suppressed (source=combined), 3 passed. Suppression rate 8% -> 75%. Haiku pricing key verified.
