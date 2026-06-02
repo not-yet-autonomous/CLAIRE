@@ -433,6 +433,16 @@ def run(input_path: Path, dry_run: bool = False) -> None:
 
     reasoning, decision_record = parse_response(raw_text)
 
+    # Inject source field into each decision from the input payload.
+    # The scorer uses this to key the reliability ledger by track.
+    if decision_record:
+        candidate_source_map = {
+            c["id"]: c.get("source", "unknown")
+            for c in payload.get("candidates", [])
+        }
+        for d in decision_record.get("decisions", []):
+            d["source"] = candidate_source_map.get(d.get("candidate_id"), "unknown")
+
     if decision_record:
         apply_count = decision_record.get("apply_count", 0)
         skip_count  = decision_record.get("skip_count", 0)

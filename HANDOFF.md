@@ -222,6 +222,8 @@ CLAIRE\
 | 11 | `claire_a_assembler.py` | ✅ Complete | memory filter extended to compare against change_log_entries at runtime (combined source); 9/12 suppressed on first combined run vs 1/12 snapshot-only |
 | 10 | `claire_ingest.py` | ✅ Complete | Reddit ingest retired — all Reddit functions and constants removed; --source reddit exits with retirement message |
 | 10 | `config.json` | ✅ Complete | Reddit config keys removed (subreddits_native/comparative, posts limits, keyword_searches); dev.to tags expanded: ai (25), chatgpt (10), productivity (10) |
+| 12 | `claire_a_runner.py` | ✅ Complete | source field injected into each decision from input payload; ledger now keys by track (claire_synthesize:track_a, etc.) instead of "unknown" |
+| 12 | `claire_a_scorer.py` | ✅ Complete | reliability ledger created manually (2026-06-02); 5 observations, score=0.700; 3 held + 2 partial across 4 eligible decision files |
 
 ---
 
@@ -281,12 +283,13 @@ CLAIRE\
 | Git index corruption (2026-05-23) | Null sha1 cache entry in .git/index — resolved by deleting index.lock and index, then running `git reset HEAD` to rebuild from HEAD before restaging. Root cause: FUSE mount null-byte padding. |
 | claire_a_assembler.py mojibake | File contains cp1252 mojibake throughout (em-dashes, box-drawing chars). Caused string replacement failures during Build 11 edits. One-time cleanup: replace known sequences with clean UTF-8. No logic changes required. Low priority. |
 | Assembler memory filter auth errors | All candidates pass through on error — Haiku dedup filter silently inactive on local runs. API key present (synthesis runs clean); assembler loads credentials via different path. Non-blocking. Build 11 fix. |
+| Decision record source field missing | Fixed Build 12. Decisions written before 2026-06-02 have source="unknown" in ledger — historical entries cannot be retroactively attributed. Future runs will key correctly by track (claire_synthesize:track_a, etc.). |
 
 ---
 
 ## Current Session Task
 
-Build 11 complete (2026-05-31). Memory filter auth error resolved.
+Build 12 in progress (2026-06-02).
 
 **Build 11 applied:**
 - claire_a_assembler.py: load_dotenv fix (memory filter auth). Combined source filter: change_log_entries injected at runtime alongside memory_edits_snapshot.txt. filter_source field added to suppressed entries. First combined run: 9/12 suppressed (source=combined), 3 passed. Suppression rate 8% -> 75%. Haiku pricing key verified.
@@ -294,17 +297,20 @@ Build 11 complete (2026-05-31). Memory filter auth error resolved.
 
 **Claude Code migration (2026-06-02):**
 - CLAUDE.md added to project root
+- PROFILE.md added to project root (behavioral rules for all Claude Code work)
 - MIGRATION_CHECKLIST.md produced (browser session) -- not yet committed
 
-**CLAIRE-A graduation criteria (6 of 6 runs complete -- graduation blocked):**
+**CLAIRE-A graduation criteria (6 of 6 runs complete -- graduation in progress):**
 - Consecutive eval runs logged: 6 of 6 -- criterion met
-- Reliability ledger hypotheses scored: unverifiable -- claire_a_source_reliability.json never written (scorer auth fix landed Build 11; first successful ledger write expected next GHA run)
-- Escalations in last 3 runs: unverifiable -- depends on ledger
-- Next action: confirm ledger writes clean on next GHA run; graduation decision follows
+- Reliability ledger: CREATED 2026-06-02. 5 observations, score=0.700. Scorer run manually against 4 eligible decision files (April 26 x2, May 19, May 21). 3 held + 2 partial outcomes contributed; remainder insufficient_data (no null scores in ledger).
+- Escalations in last 3 runs: not yet assessable -- ledger source field is "unknown" on all entries (decisions files lack source field; see known issue below). Escalation check requires source-attributed entries.
+- Remaining 3 decision files (May 23, 28, 31) within eval window. Pass window June 6/11/14. GHA scorer will pick up naturally. 10-observation threshold expected by June 14.
+- Next action: pull after June 14 GHA run; verify ledger reaches 10+ observations; graduation decision follows.
 
-**Build 12 candidates (priority order):**
-- PRIORITY 1: Verify claire_a_source_reliability.json writes on next GHA run -- required before graduation decision
-- Eyeball suppressed_candidates_20260531_185610.json -- confirm 9 suppressions are true duplicates, no false positives at 0.850/0.870 threshold edge
-- feature_praise scope reduction (dead weight at ~27% corpus volume — remove from ingest tags or drop at triage)
-- Technique candidates separate output stream
-- Add load_dotenv presence check to build integration checklist for any script instantiating Anthropic client
+**Build 12 items (priority order):**
+- DONE: Verify claire_a_source_reliability.json writes -- ledger created, mechanism verified
+- DONE: Eyeball suppressed_candidates_20260531_185610.json -- 9 suppressions confirmed legitimate (0.92-0.95 clear duplicates; two at 0.85 threshold match combined source)
+- DONE: source field missing on decision records -- fixed in claire_a_runner.py (Build 12); future decisions will key by track
+- OPEN: feature_praise scope reduction (dead weight at ~27% corpus volume -- remove from ingest tags or drop at triage)
+- OPEN: Technique candidates separate output stream
+- OPEN: Add load_dotenv presence check to build integration checklist for any script instantiating Anthropic client
