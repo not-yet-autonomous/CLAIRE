@@ -5,6 +5,9 @@ on:
     - cron: '0 14 * * 0'  # Sunday 14:00 UTC
   workflow_dispatch:       # Manual trigger for testing
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
