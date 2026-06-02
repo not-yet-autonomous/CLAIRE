@@ -188,3 +188,10 @@ was never validated. If claire_utils doesn't call load_dotenv (likely), each
 script is responsible for its own env load. No mechanism currently enforces this.
 Consider a module-level guard in claire_utils or a pre-run checklist item.
 
+# === BUILD 12 (2026-06-02) ===
+
+2026-06-02 | Claude Code session | friction_log | LOW
+First Claude Code session -- no behavioral friction observed.
+
+2026-06-02 | Claude Code session | build 12 | LOW
+All Build 12 items closed cleanly.
