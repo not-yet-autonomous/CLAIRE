@@ -289,7 +289,8 @@ def normalize_hn_post(hit: dict) -> dict | None:
     if noise_prefilter(score, num_comments):
         return None
 
-    url = hit.get("url") or f"https://news.ycombinator.com/item?id={story_id}"
+    hn_permalink = f"https://news.ycombinator.com/item?id={story_id}"
+    external_url = hit.get("url") or ""
 
     return {
         "post_id":            f"hn_{story_id}",
@@ -301,8 +302,9 @@ def normalize_hn_post(hit: dict) -> dict | None:
         "body":               (hit.get("story_text") or "")[:2000],
         "score":              score,
         "comment_count":      num_comments,
-        "url":                url,
-        "permalink":          f"https://news.ycombinator.com/item?id={story_id}",
+        "url":                hn_permalink,
+        "external_url":       external_url,
+        "permalink":          hn_permalink,
         "author_flair":       "",
         "created_utc":        hit.get("created_at_i", 0),
         "fetched_at":         datetime.now(timezone.utc).isoformat(),
