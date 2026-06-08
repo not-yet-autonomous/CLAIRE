@@ -326,7 +326,7 @@
       "hypothesis": "Claude 4.7 has a documented pattern of unsolicited session-termination nudges. For a senior executive running late-night governance or architecture sessions, a mid-task suggestion to stop working is an active interruption, not a courtesy. The behavior has no upside in this context and conflicts with the profile’s brief-and-direct baseline. Memory-level instruction is the correct intervention — profile-level is unnecessary given the specificity.",
       "source_signal": "Track A — Cycle 5 digest. Sources: r/ClaudeAI/1t32rzn, r/ClaudeAI/1sztk86, r/Anthropic/1t0xd1i.",
       "eval_status": "pending",
-      "eval_notes": ""
+      "eval_notes": "Not yet observable as of 2026-06-08. No session-termination nudges to confirm or deny."
     },
     {
       "id": "c5-mem-002",
@@ -340,7 +340,7 @@
       "hypothesis": "Explaining usage limits to a Max-tier technical user running production workflows is noise, not signal. The user already understands the constraint architecture. Unsolicited limit commentary clutters analytical outputs and implies a level of unfamiliarity that does not match the configured context. Memory-level suppression is appropriate.",
       "source_signal": "Track A — Cycle 5 digest. Sources: r/ClaudeAI/1sv6m1o, r/Anthropic/1sy9r59, r/ClaudeCode/1t3o4qv.",
       "eval_status": "pending",
-      "eval_notes": ""
+      "eval_notes": "Not yet observable as of 2026-06-08. No usage limit commentary to confirm or deny."
     },
     {
       "id": "c5-mem-003",
@@ -354,7 +354,7 @@
       "hypothesis": "This is already partially covered in memory but the framing is passive. The RIA context involves regular processing of adversarially-framed external content - vendor documents, pasted email, web-sourced material. Explicit proactive flagging as a default behavior, not an incidental capability, is the correct posture for a regulated environment where a successful injection could compromise a governance output.",
       "source_signal": "Track A — Cycle 5 digest. Sources: r/ClaudeAI/1t56zqw, r/ClaudeAI/1t5hjs5, r/ClaudeAI/1t4ncbj.",
       "eval_status": "pending",
-      "eval_notes": ""
+      "eval_notes": "Not yet observable as of 2026-06-08. No external document processing sessions since application."
     },
     {
       "id": "c5-prof-001",
@@ -369,7 +369,7 @@
       "source_signal": "Track A — Cycle 5 digest. Sources: r/ClaudeAI/1t3m78f, r/ClaudeAI/1sw6mv2, r/Anthropic/1t24xe6.",
       "resolve_condition": "No observation gate. Apply at next profile review session.",
       "eval_status": "pending",
-      "eval_notes": ""
+      "eval_notes": "Not yet observable as of 2026-06-08. No document production sessions since application."
     },
     {
       "id": "c5-prof-002",
@@ -384,7 +384,7 @@
       "source_signal": "Track A — Cycle 5 digest. Sources: r/ClaudeAI/1t4fd4f, r/ClaudeAI/1t4rkwe, r/ClaudeAI/1szgpao.",
       "resolve_condition": "No observation gate. Apply at next profile review session.",
       "eval_status": "pending",
-      "eval_notes": ""
+      "eval_notes": "Not yet observable as of 2026-06-08. No conflicting instruction context encountered."
     },
     {
       "id": "c5-prof-004",
@@ -398,7 +398,7 @@
       "hypothesis": "The user's existing vendor due diligence profile language addresses AI dependency risk broadly but does not specify an evaluation methodology for AI-assisted development tools entering enterprise procurement. These tools (Claude Code, Cursor, Copilot) now route code through third-party LLM infrastructure at evaluation speeds that outpace compliance review. For an SEC-registered RIA, a BAA-less cloud-only tool with opaque data routing is presumptively non-compliant - a blocking finding, not a caveat for follow-up. The existing profile would surface this as a trade-off; this change makes it a leading disqualifier, matching how a CISO or compliance officer actually evaluates these tools. Three independent HN threads confirm this is active practitioner pattern, not theoretical.",
       "source_signal": "Track A - Cycle 5 digest. HN/47043484, HN/47227647, HN/47753643.",
       "eval_status": "pending",
-      "eval_notes": ""
+      "eval_notes": "Not yet observable as of 2026-06-08. No AI vendor evaluation sessions since application."
     },
     {
       "id": "c5-prof-003",
