@@ -282,6 +282,7 @@ CLAIRE\
 | Decision engine model | claude-opus-4-5 |
 | Eval scoring model | claude-sonnet-4-6 |
 | Batch size ceiling | 15 candidates per decision engine run |
+| CLAIRE-A graduation criteria | 10 consecutive eval runs — clock resets 2026-06-14 (first post-change run after c7-config-001) |
 | Signal strength | Source-post-weighted within confidence tier (HIGH: 0.80–0.90, MEDIUM: 0.55–0.65) |
 | Hypothesis authorship | Decision engine (Opus) — all three decision types require one |
 | Eval window | 14d (format/behavior changes), 21d (behavioral/memory changes) |
