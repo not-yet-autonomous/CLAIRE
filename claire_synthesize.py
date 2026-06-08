@@ -140,7 +140,7 @@ def serialize_posts_for_synthesis(posts: list) -> str:
 
 def build_track_a_prompt(profile_summary: str, memory_edits: str) -> str:
     return f"""You are the synthesis layer of CLAIRE, a personal AI configuration
-improvement pipeline. Your job is to analyze filtered Reddit signal
+improvement pipeline. Your job is to analyze filtered community signal
 about Claude AI and generate structured improvement candidates for
 a specific user's configuration.
 
@@ -232,7 +232,7 @@ OUTPUT FORMAT — JSON only, no preamble, no markdown fences.
 
 
 def build_track_b_prompt(profile_summary: str, memory_edits: str) -> str:
-    return f"""You are analyzing Reddit signal where users praise ChatGPT, Gemini,
+    return f"""You are analyzing community signal where users praise ChatGPT, Gemini,
 or other AI tools for capabilities that imply Claude lacks them.
 Your job is to identify genuine capability gaps and generate
 skill or profile addition candidates.
@@ -292,7 +292,7 @@ OUTPUT FORMAT — JSON only, no markdown fences.
 
 
 def build_track_c_prompt() -> str:
-    return f"""You are identifying portable AI workflow techniques from Reddit discussions.
+    return f"""You are identifying portable AI workflow techniques from community discussions.
 These are prompting patterns, structural approaches, or interaction techniques
 that users describe as effective across AI tools, not Claude-specific.
 
@@ -340,7 +340,7 @@ def run_synthesis(client: anthropic.Anthropic,
         return {}, None
 
     user_message = (
-        f"Analyze the following {len(posts)} Reddit posts and generate "
+        f"Analyze the following {len(posts)} community posts and generate "
         f"improvement candidates per the schema above.\n\n"
         f"{serialize_posts_for_synthesis(posts)}"
     )

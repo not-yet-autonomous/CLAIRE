@@ -1,4 +1,4 @@
-# CLAIRE Reddit AI Project
+# CLAIRE
 # Requirements — updated incrementally per build
 #
 # Build 1: HTTP requests + process management

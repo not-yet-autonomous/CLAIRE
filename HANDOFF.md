@@ -30,7 +30,7 @@
 | `PUSHOVER_APP_TOKEN` | Pushover CLAIRE app token |
 | `PUSHOVER_USER_KEY` | Pushover account user key |
 
-Reddit ingest retired in Build 10 — no Reddit credentials required or used.
+No Reddit credentials required or used.
 
 ---
 

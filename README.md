@@ -122,7 +122,7 @@ CLAIRE/
     -- profile_intent_summary.txt
 -- docs/
     -- claire_pipeline_flow.jsx
-    -- reddit_app_setup.md    # Retired — Reddit ingest removed Build 10
+
 ```
 
 ## Setup

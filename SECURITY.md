@@ -3,7 +3,7 @@
 ## Scope
 
 This policy covers the CLAIRE pipeline codebase. It does not cover
-Anthropic's API, GitHub Actions infrastructure, Pushover, or Reddit/
+Anthropic's API, GitHub Actions infrastructure, Pushover, or
 HackerNews/dev.to as upstream data sources. Vulnerabilities in those
 services should be reported directly to their respective owners.
 
@@ -61,8 +61,8 @@ contents, including the workflow file itself.
 
 ### Prompt Injection via Ingest
 
-CLAIRE ingests posts from Reddit, HackerNews, and dev.to and feeds
-them into Claude synthesis prompts. A maliciously crafted post could
+CLAIRE ingests posts from HackerNews and dev.to and feeds them into
+Claude synthesis prompts. A maliciously crafted post could
 attempt to influence synthesis output -- for example, by embedding
 instruction-like text designed to generate a specific configuration
 candidate or override pipeline behavior.

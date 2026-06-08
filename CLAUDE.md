@@ -10,7 +10,7 @@
 
 CLAIRE (Claude Learns and Improves Iteratively from Real Engagement) is a weekly AI
 optimization pipeline for a single operator at an SEC-registered RIA. It ingests
-community signal from Reddit, HackerNews, and dev.to; filters it against the
+community signal from HackerNews and dev.to; filters it against the
 operator's documented behavioral friction; synthesizes configuration candidates for
 Claude memory edits, profile diffs, and skill installs; and delivers a PDF digest
 via GitHub Actions with a Pushover notification.
@@ -99,17 +99,15 @@ and are not needed for local runs. Local pipeline runs do not fire the notify st
 | `PUSHOVER_APP_TOKEN` | Pushover CLAIRE app token |
 | `PUSHOVER_USER_KEY` | Pushover account user key |
 
-Four secrets. Not eight. Reddit credentials are not required — ingest uses
-unauthenticated public JSON endpoints. Any documentation saying otherwise is stale.
+Four secrets. No Reddit credentials required.
 
 ---
 
 ## Pipeline Architecture
 
 ```
-Reddit public JSON  (local manual run, before Sunday)
-HackerNews API      (GHA, Sunday 14:00 UTC)           →  Ingest  →  raw_posts.json
-dev.to API          (GHA, Sunday 14:00 UTC)
+HackerNews API  (GHA, Sunday 14:00 UTC)  →  Ingest  →  raw_posts.json
+dev.to API      (GHA, Sunday 14:00 UTC)
   - tags: anthropic, claudeai, claude, llm, aitools, machinelearning
   - per-tag thresholds configured in config.json
 
@@ -154,19 +152,14 @@ without explicit written approval.
 Trigger: cron `0 14 * * 0` (Sundays 14:00 UTC) + manual `workflow_dispatch`  
 Monitor: https://github.com/not-yet-autonomous/CLAIRE/actions
 
-GHA runs HN + dev.to ingest only (`--source forum`). Reddit signal comes from the
-locally-committed `raw_posts.json`.
+GHA runs HN + dev.to ingest (`--source all`).
 
 ### Pre-run ritual (manual, before GHA fires each Sunday)
 
 These steps are required. Skipping them degrades output quality or breaks the run.
 
 ```powershell
-# 1. Reddit ingest (Monday, or any time before Sunday 14:00 UTC)
-cd "C:\DEV\CLAIRE"
-C:\DEV\envs\CLAIRE\.venv\Scripts\Activate.ps1
-python claire_ingest.py --source reddit
-# raw_posts.json is gitignored — do not commit it
+# 1. Increment current_cycle in config.json
 
 # 2. Update friction_log.txt with 2-4 behavioral observations from the past week
 # Format: YYYY-MM-DD | [context] | [component] | [severity: LOW/MEDIUM/HIGH]
@@ -175,9 +168,9 @@ python claire_ingest.py --source reddit
 # 3. Update data/session_notes.txt with Claude session observations
 # Skipping this causes the scorer to exit with error code 1 and fail the GHA run.
 
-# 4. Commit and push
-git add data/session_notes.txt friction_log.txt
-git commit -m "pre-run cycle N"
+# 4. Commit and push both together
+git add config.json data/session_notes.txt friction_log.txt
+git commit -m "pre-run cycle N: session notes + cycle increment"
 git push
 ```
 
@@ -216,7 +209,7 @@ Configured in `claire_notify.py`. Standard Pushover API.
 | `change_log.json` | **project root** | Applied changes + eval loop. v1.1 schema. NOT in `data/`. |
 | `friction_log.txt` | **project root** | Weekly behavioral observations. Human-maintained. NOT in `data/`. |
 | `config.json` | project root | Locked pipeline decisions. Do not modify without documented hypothesis. |
-| `claire_ingest.py` | root | Reddit + HN + dev.to ingest |
+| `claire_ingest.py` | root | HN + dev.to ingest |
 | `claire_triage.py` | root | Haiku classification, three-track routing |
 | `claire_synthesize.py` | root | Sonnet synthesis, parallel tracks via ThreadPoolExecutor |
 | `claire_output.py` | root | reportlab PDF digest builder (--format pdf default) |
@@ -335,13 +328,6 @@ corrupted the live repo HEAD. The working tree was deleted during recovery.
 Recovered from a sanitized clone in the sandbox (65 commits). If you need to
 test git operations, clone to a separate directory first.
 
-### Reddit ingest
-
-Reddit returns 403 from GHA datacenter IPs. Empty RSS feeds from GHA IPs despite
-working locally. **This is permanent architecture, not a bug to fix.** Manual
-ingest is the design. Do not attempt to re-automate Reddit ingest through GHA
-without evaluating a residential proxy solution first and documenting the approach.
-
 ### claire_a_scorer.py stdin
 
 Reads session notes interactively via stdin when `--notes` is not provided. This
@@ -368,7 +354,7 @@ but not corroboration-weighted.
 | `friction_log.txt` format | The cross-reference gate parses this file; format change breaks scoring |
 | Hypothesis authorship | For applied changes, hypotheses must be human-written. Do not generate them. |
 | Pre-push hook at `.git/hooks/pre-push` | Blocks accidental data/ commits to public repo |
-| `data/` gitignore rules | Reddit ToS prohibits republishing scraped content |
+| `data/` gitignore rules | Scraped content must not be republished |
 | CLAIRE-A graduation criteria | Current thresholds are part of the audit trail design |
 
 ---
