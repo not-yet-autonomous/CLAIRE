@@ -45,6 +45,11 @@ Reddit ingest retired in Build 10 — no Reddit credentials required or used.
 | 5 | 2026-05-21 / 2026-05-23 | 2026-05-17 | Not tracked (local rebuild: claire_digest_2026-05-23.pdf committed same day) |
 | 6 | 2026-06-02 | 2026-05-31 | claire_digest_2026-05-31.pdf |
 | 7 | 2026-06-08 | 2026-06-07 | claire_digest_2026-06-07.pdf |
+| 8 | — | 2026-06-14 | claire_digest_2026-06-14_c8.pdf |
+| 9 | — | 2026-06-21 | claire_digest_2026-06-21_c9.pdf |
+| 10 | — | 2026-06-28 | claire_digest_2026-06-28_c10.pdf |
+| 11 | — | 2026-07-05 | claire_digest_2026-07-05_c11.pdf |
+| 12 | — | 2026-07-12 | claire_digest_2026-07-12_c12.pdf |
 
 ---
 
