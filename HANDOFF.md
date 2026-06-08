@@ -34,6 +34,20 @@ Reddit ingest retired in Build 10 — no Reddit credentials required or used.
 
 ---
 
+## Cycle Log
+
+| Cycle | Review Date | GHA Run Date | Digest Filename |
+|-------|-------------|--------------|-----------------|
+| 1 | — | — | Pipeline validation only |
+| 2 | 2026-05-05 | 2026-05-03 | Not tracked |
+| 3 | 2026-05-10 | 2026-05-10 | Not tracked |
+| 4 | 2026-05-19 | 2026-05-17 | Not tracked |
+| 5 | 2026-05-21 / 2026-05-23 | 2026-05-17 | Not tracked (local rebuild: claire_digest_2026-05-23.pdf committed same day) |
+| 6 | 2026-06-02 | 2026-05-31 | claire_digest_2026-05-31.pdf |
+| 7 | 2026-06-08 | 2026-06-07 | claire_digest_2026-06-07.pdf (not yet pulled) |
+
+---
+
 ## Session Start Checklist
 
 **GitHub Actions runs require no manual start** — the pipeline triggers
