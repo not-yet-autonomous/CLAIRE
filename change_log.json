@@ -138,8 +138,8 @@
       "hypothesis": "Opus 4.7 documented pattern of abandoning multi-step tasks mid-sequence, marking untested items as rejected after early failures, and collapsing long planning tasks into confident-but-inaccurate summaries. For governance documentation and vendor due diligence with structured analytical steps, premature task collapse produces outputs requiring complete rework before entering any review process. Observation gate warranted because the failure pattern needs to be confirmed against existing profile instructions before adding more.",
       "source_signal": "Track A profile diff candidate #3 (HIGH) — 2026-05-10 digest. Sources: r/ClaudeAI/1sozmn5, r/claude/1straqe, r/ClaudeAI/1su5air.",
       "resolve_condition": "Apply if 4.7 observed overriding existing profile instructions on task completion in live session.",
-      "eval_status": "queued",
-      "eval_notes": ""
+      "eval_status": "no",
+      "eval_notes": "Retired 2026-06-08. Gated on 4.7-specific task-collapse failure. Observation gate never triggered across 7 cycles. Underlying behavior addressed by profile v13 without version specificity."
     },
     {
       "id": "c3-prof-003",
@@ -153,8 +153,8 @@
       "hypothesis": "Anthropic-confirmed silent effort reduction produces outputs that enter formal review at medium quality while appearing research-grade. This directly violates the accuracy-over-comfort principle — the harm is not degraded quality per se but undisclosed degraded quality, which is undetectable until review fails. Observation gate warranted to confirm the current profile's research-grade default is being overridden before adding explicit disclosure language.",
       "source_signal": "Track A profile diff candidate #4 (HIGH) — 2026-05-10 digest. Sources: HN/47778035, HN/45282390, HN/44111298.",
       "resolve_condition": "Apply if 4.7 observed delivering degraded output without disclosure in live session.",
-      "eval_status": "queued",
-      "eval_notes": ""
+      "eval_status": "no",
+      "eval_notes": "Retired 2026-06-08. Gated on 4.7-specific effort transparency failure. Observation gate never triggered across 7 cycles. Underlying behavior addressed by profile v13 without version specificity."
     },
     {
       "id": "c4-mem-001",
@@ -413,7 +413,7 @@
       "source_signal": "Track A — Cycle 5 digest. Sources: r/ClaudeAI/1sw8giq, r/ClaudeAI/1szm5l3, r/LLMDevs/1soiatd.",
       "resolve_condition": "Observe in one live document synthesis session before applying — change alters inline output structure.",
       "eval_status": "queued",
-      "eval_notes": ""
+      "eval_notes": "Not yet observable as of 2026-06-08. No document synthesis session since application. Gate remains open."
     },
     {
       "id": "c6-mem-001",
