@@ -229,3 +229,38 @@ profile diff 5 (shadow IT flagging) at 88-93% confidence. Neither appears
 covered by current profile on examination. Possible over-generalization from
 broad accuracy-over-comfort framing. CLAIRE-A may be suppressing genuine
 signal. Watch for pattern across cycles.
+
+# === CYCLE 7 (2026-06-08) ===
+
+2026-06-08 | cycle 7 review | eval baseline tracking | MEDIUM
+No cycle manifest existed — reconstructing which digest
+corresponded to which cycle required git log archaeology.
+Eval hypotheses referencing "Cycle 5/6 baseline" were not
+verifiable without it. Fixed: cycle log added to HANDOFF.md
+(Option A), cycle number embedded in digest filenames
+(Option B). Lesson: eval baselines must be recorded at
+hypothesis write time, not assumed reconstructable later.
+
+2026-06-08 | cycle 7 review | observation gate staleness | MEDIUM
+c3-prof-002 and c3-prof-003 sat queued for 7 cycles with
+observation gates that never triggered. No staleness
+threshold existed to force a decision. Retired this session
+as superseded by profile v13. Lesson: observation gates
+need a 3-cycle staleness limit — force retire-or-apply
+decision at that threshold.
+
+2026-06-08 | cycle 7 review | dead-weight signal category | HIGH
+feature_praise carried at 27-37% corpus volume across 4
+cycles with zero candidates generated. Decision to retire
+was deferred one cycle too long — the threshold should be
+3 consecutive zero-yield cycles, not 4. Retired as
+c7-config-001. CLAIRE-A graduation clock reset to 10 runs
+from June 14 due to signal composition change.
+
+2026-06-08 | cycle 7 review | retired step persistence | LOW
+Reddit ingest references persisted in HANDOFF.md, README.md,
+and session task specs after retirement. Appeared in Option B
+task spec drafted this session before correction. Cleared
+via doc cleanup task and memory edit. Root cause: retirement
+was documented in friction_log and locked decisions but not
+scrubbed from procedural sections at time of decision.

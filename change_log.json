@@ -805,6 +805,20 @@
       "source_signal": "Promotion of c5-mem-002 to global scope. Track A Cycle 5.",
       "eval_status": "pending",
       "eval_notes": ""
+    },
+    {
+      "id": "c7-process-001",
+      "date": "2026-06-08",
+      "cycle": 7,
+      "type": "pipeline_change",
+      "action": "add",
+      "scope": "process",
+      "target": "Process — observation gate staleness rule",
+      "summary": "Observation gates that go untriggered for 3 consecutive cycles require a retire-or-apply decision before the next digest review. No indefinite queueing.",
+      "hypothesis": "c3-prof-002 and c3-prof-003 queued for 7 cycles without triggering. A staleness threshold forces the decision that should have been made at cycle 4. Three cycles is sufficient time to encounter the triggering condition — if it has not appeared in three cycles it is either rare enough to be low-priority or the failure mode no longer exists.",
+      "source_signal": "Internal — Cycle 7 review session. c3-prof-002 and c3-prof-003 retirement.",
+      "eval_status": "n/a",
+      "eval_notes": ""
     }
   ]
 }
