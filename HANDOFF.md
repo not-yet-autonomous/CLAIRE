@@ -60,8 +60,11 @@ For local Cowork sessions, run these three lines before doing anything else:
 > sessions only.
 >
 > **Pre-Sunday ritual (manual, before cron fires):**
-> 1. Update `data/session_notes.txt` with behavioral observations from the week
-> 2. `git add data/session_notes.txt && git commit -m "session notes cycle N" && git push`
+> 1. Increment `current_cycle` in `config.json` (7 → 8 for the June 14 run, then +1 each week).
+>    Commit with session notes in the same commit:
+>    `git commit -m "pre-run cycle N: session notes + cycle increment"`
+> 2. Update `data/session_notes.txt` with behavioral observations from the week
+> 3. Commit and push both together
 
 ```powershell
 cd "C:\DEV\CLAIRE"

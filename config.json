@@ -3,7 +3,8 @@
   "pipeline": {
     "version": "0.1.0",
     "run_schedule": "weekly",
-    "run_day": "sunday"
+    "run_day": "sunday",
+    "current_cycle": 7
   },
   "ingestion": {
     "comments_per_post": 10,

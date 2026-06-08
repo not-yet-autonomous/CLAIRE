@@ -68,6 +68,11 @@ CANDIDATE_PATHS = {
 
 TRIAGE_TAGGED_PATH = DATA_DIR / "tagged_posts.json"
 
+# Pipeline config
+with open(BASE_DIR / "config.json", encoding="utf-8") as _f:
+    _config = json.load(_f)
+current_cycle = _config.get("pipeline", {}).get("current_cycle", 0)
+
 # Waterton brand colors
 NAVY        = RGBColor(0x1E, 0x3A, 0x5F)
 GOLD        = RGBColor(0xC5, 0xA0, 0x30)
@@ -1165,7 +1170,7 @@ def generate_techniques_pdf(date_str: str, technique_candidates: list) -> Path:
     Returns the output path.
     """
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_path = OUTPUT_DIR / f"claire_techniques_{ts}.pdf"
+    output_path = OUTPUT_DIR / f"claire_techniques_{ts}_c{current_cycle}.pdf"
 
     doc = SimpleDocTemplate(
         str(output_path),
@@ -1242,7 +1247,7 @@ def generate_pdf(
     claire_a_dr: dict | None,
 ) -> Path:
     """Build the six-section CLAIRE digest as a PDF and return the output path."""
-    output_path = OUTPUT_DIR / f"claire_digest_{date_str}.pdf"
+    output_path = OUTPUT_DIR / f"claire_digest_{date_str}_c{current_cycle}.pdf"
 
     doc = SimpleDocTemplate(
         str(output_path),
@@ -1265,7 +1270,7 @@ def generate_pdf(
     story.append(Paragraph("Weekly Intelligence Digest", styles["eyebrow"]))
     story.append(Paragraph("CLAIRE", styles["title"]))
     story.append(Paragraph(
-        f"Claude Configuration Signal Report — {date_str}", styles["subtitle"]))
+        f"Claude Configuration Signal Report — {date_str} — Cycle {current_cycle}", styles["subtitle"]))
     story.append(HRFlowable(width="100%", thickness=3, color=PDF_GOLD,
                             spaceAfter=16, spaceBefore=0))
 
