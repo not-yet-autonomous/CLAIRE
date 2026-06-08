@@ -36,3 +36,17 @@ runs. No new profile or memory changes applied this session.
 2026-06-02 — No unsolicited session-termination suggestions (c5-mem-001). Extended technical session across multiple commits without stop-work nudges.
 
 2026-06-02 — Hallucination guard (c3-mem-001) not triggered. No challenged claims required retraction. Feature_praise corpus volume corrected from estimated 27% to observed 37% when actual data was checked -- self-correction on first verification.
+
+2026-06-02 — Pre-graduation scorer run. Scoring remaining 3 pre-Build 12 decision files (May 23, May 28, May 31) to complete the 8-file manual eval pass. All files predate the Build 12 source field injection — observations will key as "unknown" in ledger. Purpose: close out the 6-of-6 consecutive run criterion and assess escalation rate before graduation decision.
+
+2026-06-08 — Cycle 7 review session. Build 13 audit and housekeeping: cycle log added to HANDOFF.md, cycle number embedded in digest filename and PDF header (c7-option-b), config.json current_cycle field added, pre-Sunday ritual updated, c5 eval notes written, memory updated. Seven commits across session.
+
+2026-06-08 — Em dash suppression (c2-mem-003) holding. Zero instances across all written output including HANDOFF edits, commit messages, session notes, and inline responses.
+
+2026-06-08 — Surgical edit behavior (c4-mem-003, c4-prof-001) consistent. Six targeted file edits across change_log.json, config.json, claire_output.py, HANDOFF.md. No full-file regeneration on any partial edit.
+
+2026-06-08 — No unsolicited session-termination suggestions (c5-mem-001). Extended multi-commit session without stop-work nudges.
+
+2026-06-08 — Hallucination guard (c3-mem-001) not triggered. No challenged claims this session.
+
+2026-06-08 — c5-prof-001, c5-prof-002, c5-prof-004, c5-mem-002, c5-mem-003: no observable context this session. No document production, no conflicting instruction scenario, no vendor evaluation, no usage limit commentary, no external document processing. Eval notes written to reflect this.
