@@ -2,10 +2,10 @@ Session notes — Cycle 7 pre-run observations
 Updated: 2026-06-09
 
 APPLIED CHANGES HOLDING:
-- c5-prof-001 (no reasoning scaffolding in deliverables): holding. No
-  methodology narration observed in document outputs this cycle.
-- c5-prof-002 (surface conflicting instructions explicitly): holding.
-  Conflict surfacing observed correctly in layered-context sessions.
+- c5-prof-001 (no reasoning scaffolding in deliverables): No qualifying
+  sessions observed this cycle - eval window open.
+- c5-prof-002 (surface conflicting instructions explicitly): No qualifying
+  sessions observed this cycle - eval window open.
 - c4-prof-001 (surgical edits default): holding. No full-document
   regeneration on section edits observed.
 - c4-mem-005 (/compact before 50% context): holding. Proactive quality

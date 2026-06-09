@@ -358,15 +358,12 @@ Build 13 complete (2026-06-02). v2.0.0 released.
 - friction_log.txt -- 4 entries from Build 13 / profile audit session to commit
 
 **Pending -- next Claude Code session (Build 14 candidates):**
-- PRIORITY 1: CLAIRE-A graduation decision -- target June 22 (revised from
-  June 14). Eval windows: May 23 file closes June 13 (GHA June 15 scores),
-  May 28 closes June 18 (GHA June 22 scores), May 31 closes June 21 (GHA
-  June 22 scores). Ledger will reach 10+ observations after June 22 GHA run.
-  Pull June 22-23, verify all three criteria: 80% agreement rate (manual
-  calculation from decision files vs change_log.json), 10+ ledger observations,
-  zero escalations in last 3 runs. Document outcome in change_log.json.
-  Do not use --force on scorer to accelerate -- eval windows exist for signal
-  quality reasons.
+- PRIORITY 1: CLAIRE-A graduation timeline -- two distinct checkpoints:
+  - June 22 = first post-fix run review: verify pipeline health, confirm
+    ledger is growing, confirm first qualifying run scored correctly. Not
+    a graduation decision.
+  - Graduation review = after 10 consecutive qualifying runs from June 14.
+    No fixed date. Weekly cadence puts earliest graduation late October.
 - PRIORITY 2: GHA commit-back scope gap -- RESOLVED Build 14 Phase 1
   (2026-06-09). Workflow now force-adds the enumerated CLAIRE-A state files
   (decisions, session history, reliability ledger, cost log, suppressed
