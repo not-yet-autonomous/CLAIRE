@@ -1,14 +1,18 @@
 # Copyright (c) 2026 James Cole. Licensed under the MIT License.
 """
 CLAIRE — Shared utilities
-compute_cost:     Calculate API call cost from token usage and pricing config.
-append_cost_log:  Persist run cost data to data/cost_log.json (one entry per run,
-                  upserted by run_id — multiple callers in the same pipeline merge
-                  into a single record).
+compute_cost:      Calculate API call cost from token usage and pricing config.
+append_cost_log:   Persist run cost data to data/cost_log.json (one entry per run,
+                   upserted by run_id — multiple callers in the same pipeline merge
+                   into a single record).
+atomic_write_json: Write JSON via temp file + os.replace so an interrupted
+                   write never leaves a truncated file at the final path.
 """
 
 import json
 import logging
+import os
+import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -17,6 +21,26 @@ DATA_DIR      = BASE_DIR / "data"
 COST_LOG_PATH = DATA_DIR / "cost_log.json"
 
 log = logging.getLogger("claire.utils")
+
+
+def atomic_write_json(path, obj, *, indent: int = 2, ensure_ascii: bool = True) -> None:
+    """Write JSON atomically: dump to a temp file in the same directory,
+    then os.replace() onto the final path.
+
+    A direct open(path, "w") + json.dump leaves a truncated file if the
+    write is interrupted — the OneDrive FUSE mount is a documented offender.
+    os.replace() is atomic on the same filesystem, so readers see either
+    the old complete file or the new complete file, never a partial write.
+    """
+    path = Path(path)
+    tmp_path = path.with_name(f"{path.name}.{uuid.uuid4().hex[:8]}.tmp")
+    try:
+        with open(tmp_path, "w", encoding="utf-8") as f:
+            json.dump(obj, f, indent=indent, ensure_ascii=ensure_ascii)
+        os.replace(tmp_path, path)
+    except Exception:
+        tmp_path.unlink(missing_ok=True)
+        raise
 
 
 def compute_cost(model: str, input_tokens: int, output_tokens: int) -> float:
@@ -151,8 +175,7 @@ def append_cost_log(
     )
     existing["meta"]["last_updated"] = now_iso
 
-    with open(COST_LOG_PATH, "w", encoding="utf-8") as f:
-        json.dump(existing, f, indent=2)
+    atomic_write_json(COST_LOG_PATH, existing)
 
     alert_flag = " [TRACK A ALERT]" if entry["track_a_alert"] else ""
     log.info(

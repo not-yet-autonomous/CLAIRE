@@ -24,7 +24,7 @@ from pathlib import Path
 import anthropic
 from dotenv import load_dotenv
 
-from claire_utils import compute_cost, append_cost_log
+from claire_utils import compute_cost, append_cost_log, atomic_write_json
 
 load_dotenv()
 
@@ -463,28 +463,26 @@ def main():
 
     # ── Write outputs ─────────────────────────────────────────────────────────
     # All tagged posts
-    with open(TAGGED_POSTS_PATH, "w", encoding="utf-8") as f:
-        json.dump({
-            "meta": {
-                "run_at":    run_start.isoformat(),
-                "total":     len(tagged_posts),
-                "stats":     triage_stats,
-            },
-            "posts": list(tagged_posts.values()),
-        }, f, indent=2)
+    atomic_write_json(TAGGED_POSTS_PATH, {
+        "meta": {
+            "run_at":    run_start.isoformat(),
+            "total":     len(tagged_posts),
+            "stats":     triage_stats,
+        },
+        "posts": list(tagged_posts.values()),
+    })
     log.info(f"Wrote {len(tagged_posts)} tagged posts → {TAGGED_POSTS_PATH}")
 
     # Synthesis queues
     for track, path in SYNTHESIS_QUEUE_PATHS.items():
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump({
-                "meta": {
-                    "track":   track,
-                    "run_at":  run_start.isoformat(),
-                    "count":   len(queues[track]),
-                },
-                "posts": queues[track],
-            }, f, indent=2)
+        atomic_write_json(path, {
+            "meta": {
+                "track":   track,
+                "run_at":  run_start.isoformat(),
+                "count":   len(queues[track]),
+            },
+            "posts": queues[track],
+        })
         log.info(f"Wrote {len(queues[track])} posts → {path.name}")
 
     # Archive
@@ -495,12 +493,11 @@ def main():
         archive_data = existing_archive.get("posts", [])
 
     archive_data.extend(queues["archive"])
-    with open(ARCHIVE_PATH, "w", encoding="utf-8") as f:
-        json.dump({
-            "meta": {"last_updated": run_start.isoformat(),
-                     "total": len(archive_data)},
-            "posts": archive_data,
-        }, f, indent=2)
+    atomic_write_json(ARCHIVE_PATH, {
+        "meta": {"last_updated": run_start.isoformat(),
+                 "total": len(archive_data)},
+        "posts": archive_data,
+    })
     log.info(f"Archive: {len(archive_data)} total posts → {ARCHIVE_PATH}")
 
     run_id = run_start.strftime("%Y%m%d")   # daily key — merges with synthesis + assembler

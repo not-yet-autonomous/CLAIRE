@@ -35,7 +35,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from claire_utils import compute_cost, append_cost_log
+from claire_utils import compute_cost, append_cost_log, atomic_write_json
 
 # ---------------------------------------------------------------------------
 # PATHS  (relative to this script's location)
@@ -130,8 +130,15 @@ def _load_track(path: Path, track: str) -> list:
         log.warning(f"Track {track.upper()} file not found: {path.name} â€” skipping")
         return []
 
-    with open(path, encoding="utf-8") as f:
-        data = json.load(f)
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+    except json.JSONDecodeError as e:
+        log.error(
+            f"{path.name} is corrupt and cannot be parsed: {e}. "
+            f"Delete or repair {path} and re-run claire_synthesize.py."
+        )
+        raise SystemExit(1)
 
     raw_candidates = data.get("candidates", {})
     posts_input    = data.get("meta", {}).get("posts_input", 0)
@@ -634,8 +641,7 @@ def assemble(output_path: Path | None = None, max_batch: int = MAX_BATCH_SIZE) -
         output_path = DATA_DIR / f"claire_a_input_{ts}.json"
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(payload, f, indent=2, ensure_ascii=False)
+    atomic_write_json(output_path, payload, ensure_ascii=False)
 
     log.info(f"Engine input written â†’ {output_path.name}")
     log.info(f"Session ID: {payload['session_id']}")

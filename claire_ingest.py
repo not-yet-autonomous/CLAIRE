@@ -24,6 +24,8 @@ import psutil
 import requests
 from dotenv import load_dotenv
 
+from claire_utils import atomic_write_json
+
 load_dotenv()
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -172,8 +174,7 @@ def save_cache(posts_by_id: dict, run_meta: dict):
         "meta": run_meta,
         "posts": list(posts_by_id.values()),
     }
-    with open(RAW_POSTS_PATH, "w") as f:
-        json.dump(output, f, indent=2)
+    atomic_write_json(RAW_POSTS_PATH, output)
     log.info(f"Saved {len(posts_by_id)} posts → {RAW_POSTS_PATH}")
 
 

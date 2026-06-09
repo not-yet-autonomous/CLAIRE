@@ -25,7 +25,7 @@ from pathlib import Path
 import anthropic
 from dotenv import load_dotenv
 
-from claire_utils import compute_cost, append_cost_log
+from claire_utils import compute_cost, append_cost_log, atomic_write_json
 
 load_dotenv()
 
@@ -414,8 +414,7 @@ def save_candidates(track: str, candidates: dict, posts_input: int) -> None:
         },
         "candidates": candidates,
     }
-    with open(CANDIDATE_PATHS[track], "w", encoding="utf-8") as f:
-        json.dump(output, f, indent=2)
+    atomic_write_json(CANDIDATE_PATHS[track], output)
     log.info(f"Wrote candidates → {CANDIDATE_PATHS[track].name}")
 
 

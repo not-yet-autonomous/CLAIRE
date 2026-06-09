@@ -31,6 +31,8 @@ load_dotenv()
 
 import anthropic
 
+from claire_utils import atomic_write_json
+
 # ---------------------------------------------------------------------------
 # PATHS
 # ---------------------------------------------------------------------------
@@ -351,8 +353,7 @@ def run(
     wrapper["_meta"]["last_scored_at"] = datetime.now(timezone.utc).isoformat()
 
     # Write updated decision record
-    with open(decisions_path, "w", encoding="utf-8") as f:
-        json.dump(wrapper, f, indent=2, ensure_ascii=False)
+    atomic_write_json(decisions_path, wrapper, ensure_ascii=False)
     log.info(f"Decision record updated → {decisions_path.name}")
 
     # Update reliability ledger

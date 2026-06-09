@@ -26,6 +26,9 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import anthropic
+
+from claire_utils import atomic_write_json
+
 load_dotenv()
 
 # ---------------------------------------------------------------------------
@@ -318,8 +321,7 @@ def write_outputs(
         "raw_response":    raw_response if decision_record is None else None,
     }
 
-    with open(decisions_path, "w", encoding="utf-8") as f:
-        json.dump(output, f, indent=2, ensure_ascii=False)
+    atomic_write_json(decisions_path, output, ensure_ascii=False)
     log.info(f"Decision record written â†’ {decisions_path.name}")
 
     return reasoning_path, decisions_path
@@ -384,8 +386,7 @@ def update_session_history(
         if session_id not in entry["sessions"]:
             entry["sessions"].append(session_id)
 
-    with open(SESSION_HISTORY_PATH, "w", encoding="utf-8") as f:
-        json.dump(history, f, indent=2, ensure_ascii=False)
+    atomic_write_json(SESSION_HISTORY_PATH, history, ensure_ascii=False)
 
     total_fingerprints = len(history)
     updated = len(payload.get("candidates", []))
