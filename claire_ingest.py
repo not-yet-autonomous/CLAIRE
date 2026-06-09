@@ -523,15 +523,25 @@ def _main(args):
 
     all_new = {}
 
+    # safe_get re-raises on 403 (not retriable). Catch per source so a block
+    # from one API logs the failure and the run continues with the other.
     if args.source in ("hackernews", "both", "all", "gha"):
-        hn_posts = ingest_hackernews(existing_cache, args.dry_run)
-        all_new.update(hn_posts)
-        log.info(f"HackerNews: {len(hn_posts)} new posts")
+        try:
+            hn_posts = ingest_hackernews(existing_cache, args.dry_run)
+            all_new.update(hn_posts)
+            log.info(f"HackerNews: {len(hn_posts)} new posts")
+        except requests.HTTPError as e:
+            log.error(f"HackerNews ingest failed with HTTP error: {e} - "
+                      f"skipping source, continuing run")
 
     if args.source in ("forum", "all", "gha"):
-        forum_posts = ingest_devto(existing_cache, args.dry_run)
-        all_new.update(forum_posts)
-        log.info(f"dev.to: {len(forum_posts)} new posts")
+        try:
+            forum_posts = ingest_devto(existing_cache, args.dry_run)
+            all_new.update(forum_posts)
+            log.info(f"dev.to: {len(forum_posts)} new posts")
+        except requests.HTTPError as e:
+            log.error(f"dev.to ingest failed with HTTP error: {e} - "
+                      f"skipping source, continuing run")
 
     # Merge new posts into existing cache
     merged = {**existing_cache, **all_new}
