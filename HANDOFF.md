@@ -260,6 +260,13 @@ CLAIRE\
 | 13 | `claire_ingest.py` | ✅ Complete | HN citation URL fix -- `url` field set to HN permalink (`https://news.ycombinator.com/item?id={id}`); linked content preserved in new `external_url` field; `data/raw_posts.json` reset to empty corpus |
 | 13 | README.md | ✅ Complete | v2.0.0 output scope architecture, profile diff primacy, ritual update |
 | 13 | release v2.0.0 | ✅ Complete | Tagged — global optimization architecture |
+| 14 | `claire_utils.py` | ✅ Complete | atomic_write_json helper (temp file + os.replace); adopted by every JSON writer in the pipeline — closes the truncated-write corruption class |
+| 14 | `claire_a_assembler.py` | ✅ Complete | JSONDecodeError handling in _load_track — corrupt candidates file now fails with a repair message instead of a traceback |
+| 14 | `claire_triage.py` | ✅ Complete | archive.json deduped by post_id on write — stops duplicate accumulation from full-cache re-routing |
+| 14 | `.github/workflows/claire_weekly.yml` | ✅ Complete | commit-back extended to CLAIRE-A state files (decisions, session history, reliability ledger, cost log, suppressed candidates) + logs/ — enumerated adds, no blanket data/ |
+| 14 | `claire_weekly.ps1` | ✅ Complete | --notes data/session_notes.txt passed to scorer — unattended local runs no longer fail at the scorer step |
+| 14 | `claire_ingest.py` | ✅ Complete | per-source HTTPError handling — a 403 from one API logs and skips that source instead of aborting the run |
+| 14 | `claire_a_scorer.py` | ✅ Complete | missing --notes file path now errors out instead of being silently treated as inline notes text |
 
 ---
 
@@ -313,8 +320,6 @@ CLAIRE\
 | Opus filter log count | Reports against full corpus not just new posts — misleading log line, triage behavior correct |
 | change_log.json corruption | Root file truncated mid-write on 2026-05-10 (ends with dangling `{` after c3-prof-003). Repaired 2026-05-19 — trailing `{` removed, JSON closed. Cycle 4 entries appended in same session. 21 entries total. |
 | Cycle 2-4 confidence scores understated | `FRICTION_LOG_PATH` in `claire_triage.py` pointed to `data/friction_log.txt` (original April template) instead of root `friction_log.txt` (live log). Cross-reference gate ran against example data for all three live cycles. Signals matching documented friction scored MEDIUM instead of HIGH. Fix applied 2026-05-19 — takes effect Cycle 5. Historical scores not retroactively adjusted; directionally correct but not corroboration-weighted. |
-| synthesis_queue JSON corruption | synthesis_queue_track_a/b/c.json all have JSON parse errors — truncated writes from a previous pipeline run. Regenerate by re-running triage on current raw_posts.json. |
-| candidates_track JSON corruption | candidates_track_a.json and candidates_track_c.json have JSON parse errors. Regenerate by re-running synthesis. |
 | claire_a_source_reliability.json missing | Expected by Build 6 scorer but never written. Created on first successful scorer run — not a bug, just never run to completion with scorer active. |
 | git null-byte corruption | .git/config and .git/index had null-byte padding appended (62 and 130 bytes) — likely OneDrive FUSE mount. Strip with: `python -c "open('.git/config','wb').write(open('.git/config','rb').read().rstrip(b'\\x00'))"` Same fix applies to .git/index. Symptoms: 'bad config line' or 'index file corrupt'. |
 | OneDrive FUSE mount write behavior | Silently truncates large file writes. Do not write config.json or other large files through Cowork file tools. Use Windows-side editor or bash heredoc. |
@@ -328,6 +333,12 @@ CLAIRE\
 ---
 
 ## Current Session Task
+
+Build 14 Phase 1 complete (2026-06-09): pipeline reliability fixes — atomic
+JSON writes everywhere, GHA commit-back extended to CLAIRE-A state files,
+local scorer --notes fix, archive dedup, per-source 403 handling, scorer
+notes-path check. Not logged in change_log.json — reliability fixes, not
+applied configuration candidates.
 
 Build 13 complete (2026-06-02). v2.0.0 released.
 
@@ -356,10 +367,12 @@ Build 13 complete (2026-06-02). v2.0.0 released.
   zero escalations in last 3 runs. Document outcome in change_log.json.
   Do not use --force on scorer to accelerate -- eval windows exist for signal
   quality reasons.
-- PRIORITY 2: GHA commit-back scope gap -- workflow only commits PDFs; data/,
-  logs/, change_log.json, friction_log.txt not committed back despite HANDOFF
-  stating they are; CLAIRE-A decision files, cost logs, session history not
-  persisting between runs; affects ledger continuity
+- PRIORITY 2: GHA commit-back scope gap -- RESOLVED Build 14 Phase 1
+  (2026-06-09). Workflow now force-adds the enumerated CLAIRE-A state files
+  (decisions, session history, reliability ledger, cost log, suppressed
+  candidates) and logs/. change_log.json and friction_log.txt are
+  human-maintained at root and are not modified by the pipeline, so there
+  is nothing for GHA to commit back for them. First run to verify: June 14.
 - c6-skill-001: business-case-builder -- BAA/FedRAMP blocking disqualifier
   addition to Compliance/General Counsel/Board section
 - c6-skill-002: internal-comms -- doc-generation-theme + docx-env co-trigger
