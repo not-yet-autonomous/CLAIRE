@@ -264,3 +264,37 @@ task spec drafted this session before correction. Cleared
 via doc cleanup task and memory edit. Root cause: retirement
 was documented in friction_log and locked decisions but not
 scrubbed from procedural sections at time of decision.
+
+# === CYCLE 7 — Build 14 session (2026-06-09) ===
+
+2026-06-09 | Fable 5 code audit | GHA commit-back scope | HIGH
+Confirmed: GHA workflow committed only PDF digests. All CLAIRE-A state
+files (decision records, session history, reliability ledger, cost log,
+suppressed candidates) were discarded at job end. Compounding consequence:
+scorer auto-selects the just-created decisions file whose eval windows have
+not elapsed, scores nothing, and older eligible files never existed on the
+runner. Reliability ledger structurally unable to grow from GHA runs. Fix
+applied Build 14 — explicit force-adds for enumerated state files in
+claire_weekly.yml. Takes effect June 14 run.
+
+2026-06-09 | Fable 5 code audit | atomic write pattern | HIGH
+Confirmed: every JSON writer across all nine scripts wrote directly to
+final path with no atomic pattern. Root cause of all synthesis_queue and
+candidates JSON corruption entries in friction log since Cycle 4. Scorer
+rewrote decision records in place, making truncation a single-point audit
+trail failure. atomic_write_json helper added to claire_utils.py, adopted
+at all write sites. JSONDecodeError handling added to _load_track.
+Fix applied Build 14.
+
+2026-06-09 | Fable 5 code audit | local scorer --notes | HIGH
+claire_weekly.ps1 invoked claire_a_scorer.py with no --notes flag. On Task
+Scheduler stdin is closed, scorer raised EOFError and exited 1 on every
+unattended local run. In interactive console it blocked indefinitely. Local
+path also never grew the reliability ledger. --notes data/session_notes.txt
+added to local wrapper, matching GHA invocation. Fix applied Build 14.
+
+2026-06-09 | Fable 5 code audit | archive deduplication | MEDIUM
+archive.json accumulated duplicates every run — full historical corpus
+re-entered synthesis queues weekly. Clear bug driving gradual synthesis
+cost increase. Dedup by post_id on write applied Build 14. Queue routing
+age window question deferred — requires hypothesis before touching.

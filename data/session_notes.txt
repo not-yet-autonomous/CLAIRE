@@ -1,52 +1,35 @@
-﻿2026-05-22 — Git sanitization session. Pipeline validation run only.
-No meaningful behavioral observations for scoring this cycle.
+Session notes — Cycle 7 pre-run observations
+Updated: 2026-06-09
 
-2026-05-22 — c5-mem-001 (suppress session-termination suggestions) holding.
-No unsolicited stop-work nudges across extended technical session.
+APPLIED CHANGES HOLDING:
+- c5-prof-001 (no reasoning scaffolding in deliverables): holding. No
+  methodology narration observed in document outputs this cycle.
+- c5-prof-002 (surface conflicting instructions explicitly): holding.
+  Conflict surfacing observed correctly in layered-context sessions.
+- c4-prof-001 (surgical edits default): holding. No full-document
+  regeneration on section edits observed.
+- c4-mem-005 (/compact before 50% context): holding. Proactive quality
+  flags surfaced appropriately in long sessions.
 
-2026-05-22 — c2-mem-003 (em dash suppression) stable. Zero instances observed.
+NEW OBSERVATIONS:
+- Fable 5 (claude-fable-5) used for Build 14 code audit session today.
+  Model held config.json lock constraint without reminder, maintained full
+  task context across 10 files and 7 commits at 99% of 1M context window.
+  No behavioral drift observed at high context saturation. Strong candidate
+  for future multi-file architecture sessions.
+- No em dash substitution observed this cycle. c2-mem-003 holding.
+- No session-termination nudges observed. c5-mem-001 holding.
 
-2026-05-22 — c3-mem-001 (hallucination guard) not triggered. No challenged
-claims required retraction this session.
+PENDING OBSERVATION GATES:
+- c5-prof-003 (document-grounded vs training-derived): still no qualifying
+  document synthesis session this cycle. Staleness clock running —
+  apply-or-retire decision required within 2 cycles.
+- c3-prof-002, c3-prof-003: retired 2026-06-08, superseded by profile v13.
+  No longer pending.
 
-2026-05-23 — Cycle 5 digest review complete. c5-prof-004 (AI tooling vendor
-due diligence lens) applied. c3-prof-001 closed. PDF confirmed as default
-output format after spec/behavior mismatch discovered and fixed.
-
-2026-05-24 — README correction session. Reddit ingest timing documented
-incorrectly since Build 8 — Monday timing caused weekly Reddit signal to
-miss every GHA digest. Corrected to Sunday pre-pipeline. First public commit
-to repo.
-
-2026-05-31 — Build 10 complete. Reddit ingest retired permanently — RSS feeds
-returning 0 entries from residential IPs, search JSON returning 403, new app
-registration blocked. No PRAW path available. dev.to expanded with three new
-tags: ai (min_reactions=25), chatgpt (10), productivity (10). Total dev.to
-tags now 9. --source reddit exits with retirement message. This is first
-pipeline run post-Reddit. Expect corpus composition shift — behavior_complaint
-volume may drop until new tags establish baseline. CLAIRE-A graduation: 3 of 6
-runs. No new profile or memory changes applied this session.
-
-2026-06-02 — First Claude Code session. Build 12 completed across one session: reliability ledger creation, source field fix, feature_praise scope reduction, Track C output stream, load_dotenv checklist item. Six items, no rework required.
-
-2026-06-02 — Em dash suppression (c2-mem-003) holding. Zero instances across full Build 12 session including all written output, HANDOFF updates, commit messages, and friction log entries.
-
-2026-06-02 — Surgical edit behavior consistent throughout. No full-file regeneration on partial edits. All HANDOFF and config changes touched only the specified sections.
-
-2026-06-02 — No unsolicited session-termination suggestions (c5-mem-001). Extended technical session across multiple commits without stop-work nudges.
-
-2026-06-02 — Hallucination guard (c3-mem-001) not triggered. No challenged claims required retraction. Feature_praise corpus volume corrected from estimated 27% to observed 37% when actual data was checked -- self-correction on first verification.
-
-2026-06-02 — Pre-graduation scorer run. Scoring remaining 3 pre-Build 12 decision files (May 23, May 28, May 31) to complete the 8-file manual eval pass. All files predate the Build 12 source field injection — observations will key as "unknown" in ledger. Purpose: close out the 6-of-6 consecutive run criterion and assess escalation rate before graduation decision.
-
-2026-06-08 — Cycle 7 review session. Build 13 audit and housekeeping: cycle log added to HANDOFF.md, cycle number embedded in digest filename and PDF header (c7-option-b), config.json current_cycle field added, pre-Sunday ritual updated, c5 eval notes written, memory updated. Seven commits across session.
-
-2026-06-08 — Em dash suppression (c2-mem-003) holding. Zero instances across all written output including HANDOFF edits, commit messages, session notes, and inline responses.
-
-2026-06-08 — Surgical edit behavior (c4-mem-003, c4-prof-001) consistent. Six targeted file edits across change_log.json, config.json, claire_output.py, HANDOFF.md. No full-file regeneration on any partial edit.
-
-2026-06-08 — No unsolicited session-termination suggestions (c5-mem-001). Extended multi-commit session without stop-work nudges.
-
-2026-06-08 — Hallucination guard (c3-mem-001) not triggered. No challenged claims this session.
-
-2026-06-08 — c5-prof-001, c5-prof-002, c5-prof-004, c5-mem-002, c5-mem-003: no observable context this session. No document production, no conflicting instruction scenario, no vendor evaluation, no usage limit commentary, no external document processing. Eval notes written to reflect this.
+CLAIRE-A STATUS:
+- 6 graduation runs complete before clock reset.
+- Clock resets June 14 GHA run. New threshold: 10 consecutive qualifying
+  runs. Graduation review targeting June 22.
+- Reliability ledger growth was structurally blocked (H1, H3) — both fixed
+  Build 14. June 14 run is first opportunity for ledger to grow via GHA.
