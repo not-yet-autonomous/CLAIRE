@@ -35,6 +35,6 @@ if (Test-Path $costLogPath) {
 # ---------------------------------------------------------------------------
 python claire_a_runner.py
 if ($LASTEXITCODE -ne 0) { Write-Host "claire_a_runner.py failed"; exit 1 }
-python claire_a_scorer.py
+python claire_a_scorer.py --notes data/session_notes.txt
 if ($LASTEXITCODE -ne 0) { Write-Host "claire_a_scorer.py failed"; exit 1 }
 Write-Host "$(Get-Date -Format 'HH:mm:ss')  CLAIRE-A complete. Weekly run done."
