@@ -406,6 +406,17 @@ def _load_notes(notes_arg: str | None) -> str:
     if path.exists():
         return path.read_text(encoding="utf-8")
 
+    # Looks like a file path but the file is missing - fail loudly rather
+    # than silently scoring hypotheses against the literal path string.
+    looks_like_path = (
+        "/" in notes_arg
+        or "\\" in notes_arg
+        or notes_arg.lower().endswith(".txt")
+    )
+    if looks_like_path:
+        log.error(f"--notes points to a file that does not exist: {notes_arg}")
+        raise SystemExit(1)
+
     # Treat as inline text
     return notes_arg
 
