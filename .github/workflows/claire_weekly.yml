@@ -70,6 +70,15 @@ jobs:
           git config user.email "claire@noreply"
           git add -f output/claire_digest_*.pdf || true
           git add -f output/claire_techniques_*.pdf || true
+          # CLAIRE-A state files — enumerated explicitly. Do NOT widen to a
+          # blanket "git add -f data/": scraped content (raw_posts.json and
+          # derivatives) must not be republished to this public repo.
+          git add -f data/claire_a_decisions_*.json || true
+          git add -f data/claire_a_session_history.json || true
+          git add -f data/claire_a_source_reliability.json || true
+          git add -f data/cost_log.json || true
+          git add -f data/suppressed_candidates_*.json || true
+          git add -f logs/ || true
           git diff --staged --quiet || git commit -m "CLAIRE digest $(date -u +%Y-%m-%d)"
           git push
 

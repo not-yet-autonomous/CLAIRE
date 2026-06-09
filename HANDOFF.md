@@ -85,7 +85,9 @@ If deps fail: `python -m pip install -r requirements.txt`
 ```powershell
 git ls-files data/
 ```
-Expected: only `data/raw_posts.json`. Any other filenames = tracked data files still in index — run `git rm --cached <file>` before pushing. The pre-push hook at `.git/hooks/pre-push` enforces this automatically, but verify manually if hook behavior is in doubt.
+Expected: `data/raw_posts.json`, `data/profile_snapshot.txt`, `data/session_notes.txt`, plus the CLAIRE-A state files committed back by GHA since Build 14 (`claire_a_decisions_*.json`, `claire_a_session_history.json`, `claire_a_source_reliability.json`, `cost_log.json`, `suppressed_candidates_*.json`). Any other filename = a tracked data file that should not be in the index — run `git rm --cached <file>` before pushing.
+
+**Pre-push hook scope (Build 14):** The hook at `.git/hooks/pre-push` blocks local pushes with staged `data/` files. It is local-only — git hooks are not versioned, so it does not exist on the GHA runner and does not block the GHA commit-back of the state files listed above. Locally it will also block staged changes to the now-tracked state files; this is intentional — state files are written by the pipeline and committed back by GHA, not edited and pushed by hand. If a local pipeline run legitimately updates them, let the next GHA run commit the fresh versions rather than pushing local copies.
 
 ```powershell
 # Strip FUSE null-byte corruption from key files before working:
