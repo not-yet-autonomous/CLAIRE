@@ -493,6 +493,12 @@ def main():
         archive_data = existing_archive.get("posts", [])
 
     archive_data.extend(queues["archive"])
+
+    # Dedupe by post_id — the routing loop re-routes the full tagged cache
+    # every run, so previously archived posts come around again each cycle.
+    # Last occurrence wins (carries the freshest triage block).
+    archive_data = list({p["post_id"]: p for p in archive_data}.values())
+
     atomic_write_json(ARCHIVE_PATH, {
         "meta": {"last_updated": run_start.isoformat(),
                  "total": len(archive_data)},
