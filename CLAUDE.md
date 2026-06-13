@@ -159,7 +159,7 @@ GHA runs HN + dev.to ingest (`--source all`).
 These steps are required. Skipping them degrades output quality or breaks the run.
 
 ```powershell
-# 1. Increment current_cycle in config.json
+# 1. Increment pipeline.current_cycle in config.json (authoritative cycle counter)
 
 # 2. Update friction_log.txt with 2-4 behavioral observations from the past week
 # Format: YYYY-MM-DD | [context] | [component] | [severity: LOW/MEDIUM/HIGH]
@@ -173,6 +173,12 @@ git add config.json data/session_notes.txt friction_log.txt
 git commit -m "pre-run cycle N: session notes + cycle increment"
 git push
 ```
+
+**Cycle source of truth:** `config.json` `pipeline.current_cycle` is the authoritative
+cycle counter. Consumers read it; do not derive cycle from artifact counts or
+`change_log.json`. KNOWN LIVE EXCEPTION: `read_cycle_number()` in `claire_notify.py`
+derives max `change_log` cycle and lags `current_cycle` for any cycle with no applied
+entry -- fix pending (Build 10).
 
 ### Local full run
 
@@ -206,7 +212,7 @@ Configured in `claire_notify.py`. Standard Pushover API.
 |------|------|-------|
 | `PROFILE.md` | project root | Operator behavioral rules. Read alongside this file. |
 | `HANDOFF.md` | project root | Current state, build status, locked decisions. Read before any session. |
-| `change_log.json` | **project root** | Applied changes + eval loop. v1.1 schema. NOT in `data/`. |
+| `change_log.json` | **project root** | Applied changes + eval loop. v1.2 schema. NOT in `data/`. |
 | `friction_log.txt` | **project root** | Weekly behavioral observations. Human-maintained. NOT in `data/`. |
 | `config.json` | project root | Locked pipeline decisions. Do not modify without documented hypothesis. |
 | `claire_ingest.py` | root | HN + dev.to ingest |
@@ -392,7 +398,7 @@ These files require the operator's input. Do not auto-generate content for them.
 
 ---
 
-## change_log.json Schema (v1.1)
+## change_log.json Schema (v1.2)
 
 ```json
 {
@@ -401,11 +407,13 @@ These files require the operator's input. Do not auto-generate content for them.
   "cycle": N,
   "type": "memory_edit | profile_diff | skill_install",
   "action": "add | apply | queued",
+  "scope": "global (profile_diff / behavior-everywhere changes) | project (CLAIRE-operational memory_edit or skill_install)",
   "target": "Human-readable description of what is being changed",
   "summary": "One sentence. What the change does.",
   "hypothesis": "What the operator expects this change to do and why. Operator's words.",
   "source_signal": "Track and source posts that motivated this candidate.",
   "eval_status": "pending | held | partial | no | queued | n/a",
+  "eval_window": "OPTIONAL -- eval-clock duration; see HANDOFF locked decisions for the 14d/21d rule",
   "eval_notes": ""
 }
 ```
