@@ -9,7 +9,8 @@
       "add summary field to memory_edit entries — CLAIRE-A session note 2026-05-10",
       "Cycle 4 entries appended 2026-05-19 after change_log repair. Entries were documented in HANDOFF.md but never written due to truncation on prior session.",
       "Cycles 2-4 confidence scores are understated — friction_log path bug caused cross-reference gate to run against example data rather than live friction log. Fix applied 2026-05-19; takes effect Cycle 5. Historical scores directionally correct but not retroactively adjusted.",
-      "Schema v1.2: scope field added to all entries. Values: global (profile_diff — applies all sessions) | project (memory_edit or skill_install — CLAIRE sessions and skill-loaded sessions only). Backfilled 2026-06-02 by type: profile_diff -> global, memory_edit -> project, skill_install -> project."
+      "Schema v1.2: scope field added to all entries. Values: global (profile_diff — applies all sessions) | project (memory_edit or skill_install — CLAIRE sessions and skill-loaded sessions only). Backfilled 2026-06-02 by type: profile_diff -> global, memory_edit -> project, skill_install -> project.",
+      "eval_window (optional): eval-clock duration on an entry; see HANDOFF locked decisions for the 14d/21d rule. First used on c8-prof-001 (2026-06-13)."
     ]
   },
   "changes": [
