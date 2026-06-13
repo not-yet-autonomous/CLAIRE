@@ -256,7 +256,7 @@ before escalating to profile-level hard rule.
 ```
 
 ### `change_log.json`
-One entry per applied change. Schema version 1.1.
+One entry per applied change. Schema version 1.2.
 
 ```json
 {
@@ -273,6 +273,8 @@ One entry per applied change. Schema version 1.1.
   "eval_notes": ""
 }
 ```
+
+*Simplified for illustration. The canonical schema, including the `scope` and `eval_window` fields, lives in `change_log.json` under `_meta`.*
 
 `type` values: `memory_edit`, `profile_diff`, `skill_install`
 `eval_status` values: `pending`, `held`, `partial`, `no`, `queued`, `n/a`
