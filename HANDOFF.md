@@ -267,6 +267,23 @@ CLAIRE\
 | 14 | `claire_weekly.ps1` | ✅ Complete | --notes data/session_notes.txt passed to scorer — unattended local runs no longer fail at the scorer step |
 | 14 | `claire_ingest.py` | ✅ Complete | per-source HTTPError handling — a 403 from one API logs and skips that source instead of aborting the run |
 | 14 | `claire_a_scorer.py` | ✅ Complete | missing --notes file path now errors out instead of being silently treated as inline notes text |
+| 14 | `claire_official_signal.py` | ✅ Built (dormant) | Official-signal lane (Proposal 1, capability-delta). Haiku for release-notes prose (ADD + prose-WITHDRAW); regex for the deprecations table; block-level gate anchored to change_log c8-prof-001; dedup via official_signal_seen.json. Ships enabled:false; switch-on logs c8-process-002. 30 tests + live extraction + fabrication check pass. |
+| 14 | `claire_output.py` | ✅ Complete | Capability-delta digest section -- own labeled section, WITHDRAW first, coverage-boundary line every run, non-fatal unavailable/disabled/not-run states |
+| 14 | `config.json` | ✅ Complete | official_signal block (enabled:false, source URLs, seen filename, token caps) -- additive top-level key, no existing config touched |
+| 14 | `.github/workflows/claire_weekly.yml` | ✅ Complete | Official-signal lane step before digest (non-fatal, || true); official_signal_seen.json added to enumerated commit-back (no blanket data/) |
+| 14 | `claire_weekly.ps1` | ✅ Complete | Official-signal lane step before digest, self-gating on enabled, non-fatal |
+
+### Official-signal lane -- switch-on pending
+
+Built and committed dormant (enabled:false). Switch-on is operator-gated and requires:
+1. Flip `config.official_signal.enabled` to true.
+2. Provide the ratified c8-process-002 hypothesis (operator-authored; held from the 2026-06-13 design session).
+On switch-on, log together: c8-process-002 change_log entry (date = switch-on; type pipeline_change; scope process;
+eval_status pending; eval_window per-model-event); extend change_log _meta.notes eval_window definition to
+duration-or-cadence; friction_log "lane live, baseline 0/3" note.
+Carried Forward (not chased this session): audit any consumer doing date math on eval_window to branch on the
+cadence token (cf. cycle-5 "eval window elapsed"); refresh data/profile_snapshot.txt to carry the MODEL ROUTING
+block (still stale at the retired "Opus 4.6 > 4.7" preference -- standing debt, gate does not depend on it).
 
 ---
 

@@ -13,6 +13,11 @@ python claire_triage.py
 if ($LASTEXITCODE -ne 0) { Write-Host "claire_triage.py failed"; exit 1 }
 python claire_synthesize.py
 if ($LASTEXITCODE -ne 0) { Write-Host "claire_synthesize.py failed"; exit 1 }
+# Official-signal lane (capability-delta) -- separate from triage/synthesis.
+# Self-gates on config.official_signal.enabled; no-ops while dormant. Non-fatal:
+# a failure is logged and the digest reports lane status rather than aborting.
+python claire_official_signal.py
+if ($LASTEXITCODE -ne 0) { Write-Host "claire_official_signal.py failed (non-fatal) -- digest reports lane status" }
 python claire_output.py --format pdf
 if ($LASTEXITCODE -ne 0) { Write-Host "claire_output.py failed"; exit 1 }
 Write-Host "$(Get-Date -Format 'HH:mm:ss')  CLAIRE complete. Starting CLAIRE-A shadow run..."

@@ -346,3 +346,29 @@ ingests memory state as ground truth inherits summary-layer fabrications. The
 assembler's memory snapshot input should be treated as operator-confirmable, not
 authoritative. Scan remaining summary portfolio claims (SCHD/SCHG barbell, options
 positions) against actual book before trusting them as inputs.
+
+2026-06-13 | official-signal lane build (Proposal 1, dormant) | capability-delta lane + gate decisions | MEDIUM
+Lane built and verified (30 tests incl. live Haiku extraction + fabrication check); ships dormant (enabled:false).
+Four gate decisions recorded here because they were made in chat and would otherwise be lost:
+- Gate target: domain heuristic anchored to change_log c8-prof-001, NOT profile_snapshot.txt (snapshot is
+  gitignored, placeholder-prone on GHA, currently stale at "Opus 4.6 > 4.7", the text c8-prof-001 retired).
+  Intersection is block-level/domain-based per the ratified hypothesis, not per-slot; a per-slot test would
+  have stayed silent on the Fable launch. Snapshot refresh is separate standing debt; the gate does not depend on it.
+- WITHDRAW coverage (CORRECTED): the gate-time scope note assumed suspensions arrive only by email/status page
+  and scoped them out. The build revealed release-notes prose carries some suspensions -- Fable June 12 was caught
+  via prose and is a true positive, kept not suppressed. Corrected out-of-scope case is narrower: withdrawals
+  announced ONLY via email/status page with no release-note or deprecations-table entry. This correction-against-
+  the-code is itself the friction worth logging.
+- Parser: deterministic regex for the structured deprecations table (WITHDRAW rows by announcement-date subsection,
+  no API); Haiku for release-notes prose (ADD + prose-announced WITHDRAW). Regex rejected for prose -- release-note
+  phrasing is unstable and pattern-match catches only anticipated forms. Haiku emits a constrained event schema with
+  verbatim raw_excerpt for audit; Step 6 adds a fabrication check (model + excerpt must trace to source), not recall alone.
+- eval_window: single field holds the eval clock as a duration-or-cadence token (14d/21d/per-model-event); split
+  rejected. Two conditions deferred to switch-on -- extend _meta.notes definition to duration-or-cadence, and audit
+  any consumer doing date math on eval_window to branch on the cadence token (cf. cycle-5 "eval window elapsed").
+  Carried Forward, not chased this session.
+Baseline model-event detection rate pre-lane: 0/3 (Opus 4.8 launch, Fable launch, Fable suspension -- all missed
+before this lane existed).
+Meta-lesson: gate-decision rationale belongs in canonical files, not the tool's ephemeral note prompt. This session
+produced four un-noted decisions recovered from chat, and one recorded decision (the WITHDRAW scope) was found wrong
+against the code at write time. Record decisions in friction_log/HANDOFF at decision time.

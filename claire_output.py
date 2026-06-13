@@ -69,6 +69,7 @@ CANDIDATE_PATHS = {
 }
 
 TRIAGE_TAGGED_PATH = DATA_DIR / "tagged_posts.json"
+CAPABILITY_DELTA_PATH = DATA_DIR / "candidates_capability_delta.json"
 
 # Pipeline config
 with open(BASE_DIR / "config.json", encoding="utf-8") as _f:
@@ -1040,6 +1041,104 @@ def pdf_build_track_c_section(story: list, candidates: dict, styles: dict):
     story.append(pdf_rule(styles))
 
 
+def _pdf_esc(s) -> str:
+    """Escape XML-significant chars so web-derived text is safe in a reportlab Paragraph."""
+    return (str(s) if s is not None else "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def load_capability_delta() -> dict:
+    """Load the official-signal lane output (data/candidates_capability_delta.json).
+
+    Returns a 'not-run' status payload if the file is absent or unreadable, so the
+    digest section can report silence explicitly rather than vanish.
+    """
+    if not CAPABILITY_DELTA_PATH.exists():
+        return {"meta": {"status": "not-run"}, "candidates": []}
+    try:
+        with open(CAPABILITY_DELTA_PATH, encoding="utf-8") as f:
+            return json.load(f)
+    except (json.JSONDecodeError, OSError) as e:
+        log.warning(f"capability-delta file unreadable: {e}")
+        return {"meta": {"status": "not-run"}, "candidates": []}
+
+
+def pdf_build_capability_delta_section(story: list, capability_data: dict, styles: dict):
+    """PDF Section — Official Signal (capability-delta).
+
+    Authoritative Anthropic model events, distinct from the community Track A/B/C
+    candidates. Non-fatal: an unavailable/disabled/not-run lane says so rather than
+    leaving a silent gap. A WITHDRAW intersecting the routing block is the
+    highest-attention item the lane can produce (a routing call may point at a
+    withdrawn model), so it is surfaced first and flagged.
+    """
+    story.append(Paragraph("Official Signal — Capability Deltas", styles["h1"]))
+
+    meta       = (capability_data or {}).get("meta", {})
+    candidates = (capability_data or {}).get("candidates", [])
+    status     = meta.get("status", "not-run")
+
+    if status == "unavailable":
+        story.append(pdf_callout(
+            f"Official-signal lane unavailable this run: {_pdf_esc(meta.get('error', 'unknown error'))}. "
+            f"Model events were not checked — treat routing calls as unverified this cycle.",
+            styles))
+        story.append(pdf_rule(styles))
+        return
+    if status == "disabled":
+        story.append(Paragraph("Official-signal lane disabled in config this run.", styles["small"]))
+        story.append(pdf_rule(styles))
+        return
+    if status != "ok":
+        story.append(pdf_callout(
+            "Official-signal lane did not run this cycle — no capability-delta data. "
+            "Silent absence is a failure mode; confirm the lane step ran before the digest.",
+            styles))
+        story.append(pdf_rule(styles))
+        return
+
+    story.append(Paragraph(
+        f"official-signal: {meta.get('events', 0)} events, {meta.get('new', 0)} new, "
+        f"{meta.get('suppressed', 0)} suppressed, {meta.get('candidates', 0)} candidates "
+        f"(${meta.get('cost_usd', 0):.4f}).",
+        styles["small"]))
+    story.append(Paragraph(
+        "WITHDRAW coverage: release notes + deprecations table. NOT covered when a "
+        "withdrawal is announced only via email/status page with no published entry.",
+        styles["small"]))
+
+    if not candidates:
+        story.append(Paragraph(
+            "No capability-delta candidates this cycle — no new model event intersected "
+            "the routing block or a change_log entry.", styles["normal"]))
+        story.append(pdf_rule(styles))
+        return
+
+    # WITHDRAW first — highest attention.
+    ordered = sorted(candidates, key=lambda c: 0 if c.get("event_sign") == "WITHDRAW" else 1)
+    for c in ordered:
+        name = _pdf_esc(c.get("model_name", ""))
+        date = _pdf_esc(c.get("event_date", ""))
+        if c.get("event_sign") == "WITHDRAW":
+            story.append(Paragraph(f"[WITHDRAW] {name} — {date}", styles["body_bold"]))
+            story.append(pdf_callout(
+                f"HIGH ATTENTION: a routing call may point at a withdrawn model. "
+                f"Verify routing slots against {name}. Intersects {_pdf_esc(c.get('intersects', ''))}.",
+                styles))
+        else:
+            story.append(Paragraph(f"[ADD] {name} — {date}", styles["body_bold"]))
+            story.append(Paragraph(
+                f"Confirmed: existence/default ({_pdf_esc(c.get('authority_tag', ''))}). "
+                f"Quality: {_pdf_esc(c.get('quality_status', ''))} — NOT a routing promotion. "
+                f"{_pdf_esc(c.get('routing_action', ''))}",
+                styles["small"]))
+        story.append(Paragraph(
+            f"Intersects {_pdf_esc(c.get('intersects', ''))} | source: {_pdf_esc(c.get('source_url', ''))}",
+            styles["small"]))
+        story.append(pdf_callout(_pdf_esc(c.get("raw_excerpt", "")), styles))
+
+    story.append(pdf_rule(styles))
+
+
 def pdf_build_eval_section(story: list, date_str: str, styles: dict):
     """PDF Section 5 — Eval Status."""
     story.append(Paragraph("Eval Loop Status", styles["h1"]))
@@ -1284,6 +1383,7 @@ def generate_pdf(
 
     # Six sections
     pdf_build_signal_summary(story, triage_data, styles)
+    pdf_build_capability_delta_section(story, load_capability_delta(), styles)
     pdf_build_track_a_section(story, candidates.get("a", {}), styles)
     pdf_build_track_b_section(story, candidates.get("b", {}), styles)
     pdf_build_eval_section(story, date_str, styles)

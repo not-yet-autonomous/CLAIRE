@@ -122,6 +122,14 @@
     ],
     "pages_per_tag": 2
   },
+  "official_signal": {
+    "enabled": false,
+    "release_notes_url": "https://platform.claude.com/docs/en/release-notes/api",
+    "deprecations_url": "https://platform.claude.com/docs/en/docs/about-claude/model-deprecations",
+    "seen_filename": "official_signal_seen.json",
+    "max_extract_tokens": 4096,
+    "max_source_chars": 24000
+  },
   "api_pricing": {
     "claude-haiku-4-5-20251001": {
       "input_per_mtok": 1.0,
