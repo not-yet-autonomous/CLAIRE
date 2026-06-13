@@ -819,6 +819,21 @@
       "source_signal": "Internal — Cycle 7 review session. c3-prof-002 and c3-prof-003 retirement.",
       "eval_status": "n/a",
       "eval_notes": ""
+    },
+    {
+      "id": "c8-prof-001",
+      "date": "2026-06-13",
+      "cycle": 8,
+      "scope": "global",
+      "type": "profile_diff",
+      "action": "add",
+      "target": "Profile — model-routing block (single dated source of truth)",
+      "summary": "Replace per-version model preferences with one dated routing block keyed by task type. CLAIRE flags the block for review on every model launch or deprecation. Supersedes the rotting per-version edits. Scope is the operator's Claude browser profile, not pipeline stage assignments.",
+      "hypothesis": "The failure I am preventing is silent guidance rot due to engine versioning changes. Community signal complains about a model's effects but never announces a deprecation, a version change, or a move to a higher tier, so a hardcoded preference outlives the model it names. If the block goes unreviewed for a cycle, it degrades to exactly the failure it replaces: one stale preference, but with a worse property, it now looks current because it is dated and centralized, so a stale block is more trusted than a stale scatter of edits would have been.",
+      "source_signal": "Design session 2026-06-13. Release-notes verification: Opus 4.8 (May 28), Fable 5 launch/suspension (Jun 9/12). Profile model guidance predates 4.8.",
+      "eval_status": "pending",
+      "eval_window": "21d",
+      "eval_notes": "Baseline at write: profile model guidance names only 4.6/4.7; 4.8 shipped May 28 and is unaccounted for. Falsification target: did routing guidance get acted on after a model event had already invalidated it (stale-but-trusted), not whether the block was fresh."
     }
   ]
 }
