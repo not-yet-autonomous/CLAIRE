@@ -78,6 +78,7 @@ jobs:
           git add -f data/claire_a_source_reliability.json || true
           git add -f data/cost_log.json || true
           git add -f data/suppressed_candidates_*.json || true
+          git add -f data/cycle_state.json || true
           git add -f logs/ || true
           git diff --staged --quiet || git commit -m "CLAIRE digest $(date -u +%Y-%m-%d)"
           git push

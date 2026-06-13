@@ -176,9 +176,7 @@ git push
 
 **Cycle source of truth:** `config.json` `pipeline.current_cycle` is the authoritative
 cycle counter. Consumers read it; do not derive cycle from artifact counts or
-`change_log.json`. KNOWN LIVE EXCEPTION: `read_cycle_number()` in `claire_notify.py`
-derives max `change_log` cycle and lags `current_cycle` for any cycle with no applied
-entry -- fix pending (Build 10).
+`change_log.json`.
 
 ### Local full run
 
