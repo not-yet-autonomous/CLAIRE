@@ -405,9 +405,9 @@ These files require the operator's input. Do not auto-generate content for them.
   "id": "cN-type-NNN",
   "date": "YYYY-MM-DD",
   "cycle": N,
-  "type": "memory_edit | profile_diff | skill_install",
-  "action": "add | apply | queued",
-  "scope": "global (profile_diff / behavior-everywhere changes) | project (CLAIRE-operational memory_edit or skill_install)",
+  "type": "memory_edit | profile_diff | skill_install | pipeline_change",
+  "action": "add | apply | queued | modify | retire",
+  "scope": "global | project | process",
   "target": "Human-readable description of what is being changed",
   "summary": "One sentence. What the change does.",
   "hypothesis": "What the operator expects this change to do and why. Operator's words.",
@@ -417,6 +417,14 @@ These files require the operator's input. Do not auto-generate content for them.
   "eval_notes": ""
 }
 ```
+
+Enum gloss:
+- `modify`: amend an applied entry in place.
+- `retire`: supersede/remove an applied entry (see c8-mem-001/002).
+- `pipeline_change`: a config or pipeline change, not a Claude-config change (see c7-process-001).
+- `process` (scope): pipeline-operational, distinct from global (Claude behavior everywhere) and project (CLAIRE sessions only).
+
+memory_edit defaults to project, profile_diff to global. EXCEPTION: retire entries for edits that were global behaviors misfiled in memory carry scope global to record actual reach (see c8-mem-001/002).
 
 Eval windows: 14d for format/behavior changes, 21d for memory/behavioral changes.
 
