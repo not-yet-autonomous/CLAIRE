@@ -835,6 +835,34 @@
       "eval_status": "pending",
       "eval_window": "21d",
       "eval_notes": "Baseline at write: profile model guidance names only 4.6/4.7; 4.8 shipped May 28 and is unaccounted for. Falsification target: did routing guidance get acted on after a model event had already invalidated it (stale-but-trusted), not whether the block was fresh."
+    },
+    {
+      "id": "c8-mem-001",
+      "date": "2026-06-13",
+      "cycle": 8,
+      "scope": "global",
+      "type": "memory_edit",
+      "action": "retire",
+      "target": "Retire c2-mem-002 — Claude 4.7 quality regression flag",
+      "summary": "Per-version 4.7 regression flag removed. Function absorbed into c8-prof-001 routing block as a rule, not a hardcoded fact. Entry was a global behavioral default misfiled as a memory edit; retirement corrects both the rot and the scope misplacement.",
+      "hypothesis": "Retirement rationale: c2-mem-002 hardcodes a per-version preference of exactly the kind c8-prof-001 was built to replace, and it lived in memory when behavioral defaults belong in profile. c8-prof-001 now owns this behavior globally by rule. Removing the memory edit closes the rot and the misplacement in one action.",
+      "source_signal": "Superseded by c8-prof-001 (2026-06-13).",
+      "eval_status": "n/a",
+      "eval_notes": ""
+    },
+    {
+      "id": "c8-mem-002",
+      "date": "2026-06-13",
+      "cycle": 8,
+      "scope": "global",
+      "type": "memory_edit",
+      "action": "retire",
+      "target": "Retire c4-mem-002 — Opus 4.6 preference for planning and document outputs",
+      "summary": "Per-version 4.6-preferred memory edit removed. Function absorbed into c8-prof-001, which resolves the planning/doc slot to the newest axis-confirmed tier by rule. Same global-default-misfiled-in-memory correction as c8-mem-001.",
+      "hypothesis": "Retirement rationale: c4-mem-002 hardcodes 4.6>4.7 as a memory fact. c8-prof-001 produces that same answer today by rule and self-promotes when signal changes, making the hardcoded version pure liability. Same scope misplacement as c8-mem-001: a global behavior held in memory.",
+      "source_signal": "Superseded by c8-prof-001 (2026-06-13).",
+      "eval_status": "n/a",
+      "eval_notes": ""
     }
   ]
 }
