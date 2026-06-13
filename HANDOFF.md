@@ -154,8 +154,8 @@ CLAIRE\
 ├── .gitignore                ✅ Secrets and data excluded
 ├── HANDOFF.md                ✅ This file
 ├── README.md                 ✅ Repo readme
-├── change_log.json           ✅ CANONICAL — Applied changes + eval loop (v1.1 schema, Cycles 2-5)
-├── friction_log.txt          ✅ CANONICAL — Weekly friction notes, human-maintained (Cycles 1-5)
+├── change_log.json           ✅ CANONICAL — Applied changes + eval loop (v1.2 schema w/ scope field, Cycles 2-8; 59 entries)
+├── friction_log.txt          ✅ CANONICAL — Weekly friction notes, human-maintained (Cycles 1-8)
 ├── claire_weekly.ps1         ✅ Build 6 — scheduled pipeline wrapper [local dev only — Task Scheduler entry retired]
 ├── claire_pull.ps1           ✅ Build 10 — Task Scheduler git pull (Sunday 09:30 local, pulls GHA digest)
 ├── claire_pull.xml           ✅ Build 10 — Task Scheduler import (schtasks /create /xml claire_pull.xml /tn "CLAIRE Digest Pull")
@@ -329,52 +329,127 @@ CLAIRE\
 | Decision record source field missing | Fixed Build 12. Decisions written before 2026-06-02 have source="unknown" in ledger — historical entries cannot be retroactively attributed. Future runs will key correctly by track (claire_synthesize:track_a, etc.). |
 | profile_snapshot.txt GHA degradation | File is gitignored — GHA runs use a placeholder; cross-reference gate runs without profile context on automated runs. Update locally after each profile revision and push to restore full precision. Not a pipeline failure — a signal quality degradation. |
 | CLAIRE-A ledger pre-Build 12 | All 8 existing decision files predate Build 12 source field injection. Ledger keys everything as "unknown" until first post-Build 12 GHA run. Not a bug — expected aggregation of pre-attribution observations. Source-attributed entries begin after June 15 GHA run. |
+| read_cycle_number cycle lag (HIGH — fix before Sunday) | notify's `read_cycle_number()` derives cycle from max change_log cycle. It lags `config.current_cycle` for any cycle with no applied entry. The pre-Sunday ritual increments config.current_cycle 7→8, so config is correct, but notify still derives independently: cycle 8 has zero applied entries (the 3 session-design entries below are tagged cycle 8 but the count query may exclude or include them depending on filter), so the June 14 run risks titling "Cycle 7". Fix: notify reads config.current_cycle for identity; queries change_log only for applied-count scoped to current_cycle, zero allowed. Confirmed live 2026-06-13. |
+| CLAUDE.md enum drift (RESOLVED 2026-06-13) | Schema doc lagged live enum values: action missing modify/retire, type missing pipeline_change, scope missing process. Reconciled (commit 0d0fc96) by reading live distinct values, not recalled ones. The first sync pass this session was itself incomplete — caught on a second pass. Lesson recorded: doc reconciliation must read live values. |
+| memory summary fabrication | Generated Claude memory summary recorded an NVDA Jan 2027 $185 put as a live holding (full entry price + thesis, formatted identically to real positions). Operator confirmed the position was never held — a worked analytical example promoted to a recorded holding during summarization. Structured memory edits were clean; fabrication lived only in the generated summary layer. Guarded by memory edit 20 (narrow: excludes NVDA holdings, preserves NVDA as analytical subject). Implication for CLAIRE: any stage ingesting memory state as ground truth (assembler memory snapshot, cross-reference gate) inherits summary-layer fabrications. Treat memory-snapshot inputs as operator-confirmable, not authoritative. |
 
 ---
 
 ## Current Session Task
 
-Build 14 Phase 1 complete (2026-06-09): pipeline reliability fixes — atomic
-JSON writes everywhere, GHA commit-back extended to CLAIRE-A state files,
-local scorer --notes fix, archive dedup, per-source 403 handling, scorer
-notes-path check. Not logged in change_log.json — reliability fixes, not
-applied configuration candidates.
+Cycle 8 design + execution session complete (2026-06-13). Focus: model-routing
+de-rot, doc-schema reconciliation, memory-fabrication catch.
 
-Build 13 complete (2026-06-02). v2.0.0 released.
+**Applied + committed this session:**
+- c8-prof-001 (commit 7e69481): MODEL ROUTING block. Replaced per-version model
+  preferences with one dated, self-maintaining rule. Applied in browser profile,
+  scope global. Resolves planning/doc slot to the newest axis-confirmed Opus tier
+  by rule (today: 4.6 — 4.7 confirmed worse, 4.8 launch-claim-only on doc-quality
+  axis). Governs browser profile routing ONLY; does not touch config.json locked
+  pipeline-stage models.
+- c8-mem-001 (commit f6afcb7): retire c2-mem-002 (4.7 regression flag). Scope global.
+- c8-mem-002 (commit f6afcb7): retire c4-mem-002 (4.6 preference). Scope global.
+  Both superseded by c8-prof-001. Targets confirmed removed from live memory.
 
-**Build 13 applied:**
-- HN citation URL fix (commit 210ae16)
-- Profile sync architecture: scope field (schema v1.2), profile_snapshot.txt,
-  claire_session_context.txt rename, Track A type selection rule,
-  cross-reference gate profile injection, GHA placeholder step
-- Profile v13 applied globally -- 19 change_log entries (c6-prof-006 through
-  c6-prof-022, c6-skill-001, c6-skill-002)
-- README.md updated for v2.0.0 scope architecture
-- v2.0.0 tagged and released
+**Doc reconciliation (3 surfaces synced to live v1.2 schema):**
+- CLAUDE.md: schema version, scope field, eval_window field, action/type/scope
+  enum lists, scope-convention exception (commits incl. 1635229, 0d0fc96).
+- README.md: Option B — illustrative sample retained, pointer added to canonical
+  _meta; version string 1.1 → 1.2.
+- change_log.json _meta.notes: eval_window field documented.
 
-**Pending -- human action:**
-- Write hypotheses for c6-prof-006 through c6-prof-012, c6-skill-001,
-  c6-skill-002 (hypothesis_prompt field in each change_log entry has the prompt)
-- friction_log.txt -- 4 entries from Build 13 / profile audit session to commit
+**Memory layer:**
+- Memory edit 20 added: holds no NVDA position; prior summary NVDA detail
+  (Jan 2027 $185 put) was analytical, not a holding; NVDA still permitted as
+  analytical subject. Structured edits were clean — fabrication was in the
+  generated summary, not the structured edits.
 
-**Pending -- next Claude Code session (Build 14 candidates):**
-- PRIORITY 1: CLAIRE-A graduation timeline -- two distinct checkpoints:
-  - June 22 = first post-fix run review: verify pipeline health, confirm
-    ledger is growing, confirm first qualifying run scored correctly. Not
-    a graduation decision.
-  - Graduation review = after 10 consecutive qualifying runs from June 14.
-    No fixed date. Weekly cadence puts earliest graduation late October.
-- PRIORITY 2: GHA commit-back scope gap -- RESOLVED Build 14 Phase 1
-  (2026-06-09). Workflow now force-adds the enumerated CLAIRE-A state files
-  (decisions, session history, reliability ledger, cost log, suppressed
-  candidates) and logs/. change_log.json and friction_log.txt are
-  human-maintained at root and are not modified by the pipeline, so there
-  is nothing for GHA to commit back for them. First run to verify: June 14.
-- c6-skill-001: business-case-builder -- BAA/FedRAMP blocking disqualifier
-  addition to Compliance/General Counsel/Board section
-- c6-skill-002: internal-comms -- doc-generation-theme + docx-env co-trigger
-  for document deliverables
-- .claude/ directory untracked -- gitignore entry or explicit decision to track
-- Assembler mojibake cleanup -- cp1252 encoding in claire_a_assembler.py
-- Skills audit sessions 3+ -- remaining installed skills not yet audited
-  against Profile v13
+**Schema enum reality (live audit confirmed 2026-06-13):**
+- action: add | apply | queued | modify | retire
+- type: memory_edit | profile_diff | skill_install | pipeline_change
+- scope: global | project | process
+- eval_status: pending | held | partial | no | queued | n/a
+  (held + partial documented but UNUSED across all 59 entries — quarterly question)
+
+**change_log entry count: 59** (57 pre-session + 2 retire entries).
+
+**HIGHEST-PRIORITY OPEN ITEM (live effect, deadline Sunday June 14):**
+read_cycle_number() in notify derives cycle from change_log and lags
+config.current_cycle for any cycle with no applied entry. See Known Issues.
+Fix before the June 14 run or the Pushover notification mistitles the cycle.
+
+---
+
+## Open Proposals (scoping started 2026-06-13, undecided)
+
+Three CLAIRE-improvement proposals were raised this session. Only the c8-prof-001
+artifact (a patch to the profile) was built. The proposals themselves remain open.
+
+1. **Official-signal ingest lane (Proposal 1 — highest leverage, NEEDS HYPOTHESIS).**
+   Authoritative Anthropic release-notes + news-blog source, separate from the
+   community-friction lane. New candidate type: capability-delta. No 3-post
+   evidence threshold (release note is authoritative n=1). Touch-test scoping: a
+   delta generates a candidate ONLY if it intersects an existing change_log entry
+   or a named profile block — this prevents it becoming a changelog summarizer.
+   Tonight was a manual demonstration of this lane's job (fetched release notes,
+   caught 4.6/4.7/4.8 staleness, reconciled the block by hand). Status: design
+   frames drafted, operator hypothesis not authored, no Code spec.
+
+2. **Model-routing enforcement (Proposal 2 — cheap once Proposal 1 exists).**
+   Launch-triggered review that flags the MODEL ROUTING block stale on any model
+   event. The staleness rule is written into the profile (c8-prof-001) but nothing
+   in CLAIRE enforces it; reconciliation is currently manual. Shares the
+   model-event signal with Proposal 1.
+
+3. **Skill-marketplace monitoring (Proposal 3 — lowest urgency).**
+   Discovery via first-party Anthropic directory (claude.com/connectors) + Agent
+   Skills standard. Third-party aggregators (skillsmp, claudemarketplaces, dev.to
+   roundups) are vet-only LEADS, never install sources — supply-chain + injection
+   risk. Add a trigger for when an attached skill is superseded by a first-party
+   equivalent. Do NOT auto-ingest third-party skills.
+
+---
+
+## Carried Forward — Still Open from Prior Sessions
+
+These predate cycle 8 and remain unresolved. Do not drop.
+
+**Pending — human action (from Build 13 / v2.0.0):**
+- Write hypotheses for c6-prof-006 through c6-prof-012, c6-skill-001, c6-skill-002
+  (hypothesis_prompt field in each change_log entry carries the prompt).
+
+**Build 14 / next Claude Code session candidates:**
+- PRIORITY 1: read_cycle_number cycle fix (HIGH — before June 14 Sunday run).
+  Read config.current_cycle for identity; query change_log only for applied-count
+  scoped to current_cycle, zero allowed. Add last_completed_cycle written at
+  digest completion.
+- CLAIRE-A graduation timeline — two checkpoints:
+  - June 22 = first post-fix run review: pipeline health, ledger growth, first
+    qualifying run scored correctly. NOT a graduation decision.
+  - Graduation review = after 10 consecutive qualifying runs from June 14 reset.
+    Weekly cadence puts earliest graduation late October.
+- c6-skill-001: business-case-builder — BAA/FedRAMP blocking disqualifier
+  addition to Compliance/General Counsel/Board section.
+- c6-skill-002: internal-comms — doc-generation-theme + docx-env co-trigger.
+- CLAUDE.md cycle-path correction: document config.current_cycle as authoritative;
+  include known-exception line for read_cycle_number until that fix lands, delete
+  the line in the same commit as the fix.
+- autocrlf awareness note: repo has LF/CRLF normalization; harmless until a
+  normalization churn is mistaken for a real diff.
+- held/partial eval_status quarterly question: unused across 59 entries — either
+  the eval loop never reaches them or the rubric is wrong.
+- .claude/ directory untracked — gitignore entry or explicit decision to track.
+- Assembler mojibake cleanup — cp1252 encoding in claire_a_assembler.py.
+- Skills audit sessions 3+ — remaining installed skills not yet audited against
+  Profile v13.
+- Memory-fabrication follow-up: scan remaining summary portfolio claims
+  (SCHD/SCHG barbell, options positions) against actual book; assembler memory
+  snapshot input should be treated as operator-confirmable, not authoritative.
+
+---
+
+## Session Close — Project Knowledge Refresh
+
+Refresh change_log.json, friction_log.txt, HANDOFF.md into Project knowledge so
+next session starts from cycle-8 truth (prior snapshot was cycle-5 stale, three
+cycles behind). Root canonical files ONLY — not data/ artifacts, not the profile.

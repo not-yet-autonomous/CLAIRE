@@ -298,3 +298,51 @@ archive.json accumulated duplicates every run — full historical corpus
 re-entered synthesis queues weekly. Clear bug driving gradual synthesis
 cost increase. Dedup by post_id on write applied Build 14. Queue routing
 age window question deferred — requires hypothesis before touching.
+
+# === CYCLE 8 (2026-06-13) ===
+ 
+2026-06-13 | design session | model-routing guidance rot | HIGH
+Profile hardcoded "Opus 4.6 preferred over 4.7" (profile block + c2-mem-002 +
+c4-mem-002) was two model generations stale and silent on Opus 4.8 (shipped
+May 28) entirely. Caught only by manually fetching Anthropic release notes
+mid-session. Per-version preferences rot silently: community signal complains
+about a model's effects but never announces a deprecation or a tier move, so a
+hardcoded preference outlives the model it names. Resolved by replacing all three
+with a single dated, self-maintaining MODEL ROUTING block (c8-prof-001) and
+retiring the two memory edits (c8-mem-001/002). Root cause of the rot is unaddressed
+at the pipeline level: nothing in CLAIRE ingests authoritative model events. See
+Open Proposal 1 (official-signal lane).
+ 
+2026-06-13 | pipeline audit | read_cycle_number cycle misreport | HIGH
+notify's read_cycle_number() derives cycle from max change_log cycle. It lags
+config.pipeline.current_cycle for any cycle with no applied entry. Cycle 8 has
+zero applied entries pre-run, so the June 14 GHA run will title "CLAIRE Cycle 7"
+and count "applied this cycle" against cycle 7 while the run is actually cycle 8.
+Structural, not transient: the two sources only agree in weeks where a change was
+applied before the run. Last session's cycle-reporting fixes aligned config-reading
+consumers but missed this deriving consumer. Fix is Build 10 priority — must land
+before Sunday or the notification ships wrong again.
+ 
+2026-06-13 | doc sync | CLAUDE.md schema/enum drift | MEDIUM
+CLAUDE.md documented change_log as v1.1 (live is v1.2 with scope field), described
+cycle as a flat config field (live is nested config.pipeline.current_cycle), and
+listed stale enum sets for action/type/scope. First sync attempt this session was
+itself incomplete — fixed schema version and scope/eval_window but left three enum
+lists stale (action modify/retire, type pipeline_change, scope process). Second pass
+read the live distinct values directly rather than from recall and reconciled fully
+(0d0fc96). Lesson: documenting drift from memory reproduces the drift. Read live
+values. Add a "doc reconciliation reads live, never recalled" line to the doc-sync
+checklist.
+ 
+2026-06-13 | memory audit | generated-summary fabrication | MEDIUM
+The generated Claude memory summary recorded an NVDA Jan 2027 $185 put (entry
+$16.10, full four-part thesis) as a live holding. Operator confirmed the position
+was never held — it was a worked analytical example promoted to a recorded holding
+during summarization, formatted identically to real positions. Structured memory
+edits were clean; the fabrication lived only in the generated summary layer.
+Guarded by memory edit 20 (narrow: excludes NVDA holdings, preserves NVDA as
+analytical subject). Data-integrity implication for CLAIRE: any pipeline stage that
+ingests memory state as ground truth inherits summary-layer fabrications. The
+assembler's memory snapshot input should be treated as operator-confirmable, not
+authoritative. Scan remaining summary portfolio claims (SCHD/SCHG barbell, options
+positions) against actual book before trusting them as inputs.
