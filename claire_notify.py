@@ -32,9 +32,16 @@ import requests
 BASE_DIR         = Path(__file__).parent
 DATA_DIR         = BASE_DIR / "data"
 OUTPUT_DIR       = BASE_DIR / "output"
+CONFIG_PATH      = BASE_DIR / "config.json"
 
 PUSHOVER_API_URL = "https://api.pushover.net/1/messages.json"
 PDF_SIZE_LIMIT   = 2_500_000   # 2.5 MB — Pushover attachment ceiling
+
+# Cycle identity is owned by config (config.pipeline.current_cycle), never the
+# change log. The applied-count queries change_log only for the count, scoped
+# to that cycle. APPLIED_ACTIONS are actions executed against live config;
+# 'queued' (proposed, not applied) is excluded.
+APPLIED_ACTIONS  = frozenset({"add", "apply", "modify", "retire"})
 
 logging.basicConfig(
     level=logging.INFO,
@@ -69,21 +76,23 @@ def read_latest_run_cost() -> float:
 
 
 def read_cycle_number() -> int:
-    """Return the highest cycle value in change_log.json changes array."""
-    path = BASE_DIR / "change_log.json"
-    if not path.exists():
-        log.warning("change_log.json not found — cycle will show as 0")
-        return 0
+    """Return cycle identity from config.pipeline.current_cycle — the sole
+    source of cycle identity. Never derived from change_log.
+
+    Cycle identity is owned by config. If the key is missing or unreadable,
+    fail loudly rather than fall back to a change_log-derived value: a silent
+    wrong cycle title is the exact failure this removes.
+    """
     try:
-        with open(path, encoding="utf-8") as f:
-            data = json.load(f)
-        changes = data.get("changes", [])
-        if not changes:
-            return 0
-        return max(int(c.get("cycle", 0)) for c in changes if "cycle" in c)
-    except (json.JSONDecodeError, KeyError, TypeError, ValueError) as e:
-        log.error(f"Failed to parse change_log.json: {e}")
-        return 0
+        with open(CONFIG_PATH, encoding="utf-8") as f:
+            cfg = json.load(f)
+        return int(cfg["pipeline"]["current_cycle"])
+    except (FileNotFoundError, json.JSONDecodeError, KeyError, TypeError, ValueError) as e:
+        log.error(
+            f"Cannot read config.pipeline.current_cycle — cycle identity "
+            f"unavailable, refusing to send a mistitled notification: {e}"
+        )
+        raise SystemExit(1)
 
 
 def read_graduation_run_count() -> int:
@@ -112,8 +121,14 @@ def read_graduation_run_count() -> int:
         return 0
 
 
-def count_candidates() -> tuple[int, int]:
-    """Return (total_candidates, applied_count) from the candidate files."""
+def count_candidates(cycle: int) -> tuple[int, int]:
+    """Return (total_candidates, applied_count).
+
+    `cycle` is the identity from read_cycle_number() (config-owned). The applied
+    count queries change_log ONLY for the count, scoped to that cycle and to
+    actions executed against live config (APPLIED_ACTIONS). Zero is a legal
+    result — a cycle with no applied entries returns 0, never a fallback.
+    """
     total    = 0
     applied  = 0
 
@@ -139,11 +154,11 @@ def count_candidates() -> tuple[int, int]:
         try:
             with open(clog_path, encoding="utf-8") as f:
                 data = json.load(f)
-            cycle = read_cycle_number()
             changes = data.get("changes", [])
             applied = sum(
                 1 for c in changes
                 if int(c.get("cycle", 0)) == cycle
+                and c.get("action") in APPLIED_ACTIONS
             )
         except (json.JSONDecodeError, ValueError, TypeError):
             pass
@@ -266,7 +281,7 @@ def main():
     cost      = read_latest_run_cost()
     cycle     = read_cycle_number()
     a_runs    = read_graduation_run_count()
-    total_c, applied_c = count_candidates()
+    total_c, applied_c = count_candidates(cycle)
 
     log.info(
         f"Stats — cycle={cycle} candidates={total_c} applied={applied_c} "

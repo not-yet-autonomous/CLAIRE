@@ -39,6 +39,8 @@ from reportlab.platypus import (
 )
 from reportlab.platypus.flowables import HRFlowable
 
+from claire_utils import atomic_write_json
+
 load_dotenv()
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -72,6 +74,12 @@ TRIAGE_TAGGED_PATH = DATA_DIR / "tagged_posts.json"
 with open(BASE_DIR / "config.json", encoding="utf-8") as _f:
     _config = json.load(_f)
 current_cycle = _config.get("pipeline", {}).get("current_cycle", 0)
+
+# Machine-written runtime state (v2.1.2). last_completed_cycle is written here
+# after a successful digest build — kept separate from config.json, whose
+# current_cycle is human-incremented in the pre-Sunday ritual. Mixing
+# human-authored and pipeline-written values in one object invites drift.
+CYCLE_STATE_PATH = DATA_DIR / "cycle_state.json"
 
 # Waterton brand colors
 NAVY        = RGBColor(0x1E, 0x3A, 0x5F)
@@ -1283,6 +1291,20 @@ def generate_pdf(
 
     doc.build(story)
     log.info(f"PDF digest saved → {output_path}")
+
+    # Record machine-written runtime cycle state after a successful build.
+    # Non-fatal: the digest is the primary artifact and is already saved, so a
+    # state-write failure is logged but does not fail the run.
+    try:
+        atomic_write_json(CYCLE_STATE_PATH, {
+            "last_completed_cycle": current_cycle,
+            "last_completed_at":    datetime.now(timezone.utc).isoformat(),
+            "digest":               output_path.name,
+        })
+        log.info(f"cycle_state.json updated → last_completed_cycle={current_cycle}")
+    except Exception as e:
+        log.error(f"Failed to write cycle_state.json: {e}")
+
     return output_path
 
 
