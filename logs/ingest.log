@@ -1,0 +1,185 @@
+15:43:11  INFO      Lock acquired — PID 2331
+15:43:11  INFO      CLAIRE ingest started — source=gha dry_run=False
+15:43:11  INFO      Loaded 0 existing posts from cache
+15:43:11  INFO      HackerNews search: 'Claude AI'
+15:43:12  INFO      HackerNews search: 'Anthropic Claude'
+15:43:13  INFO      HackerNews search: 'Claude assistant'
+15:43:14  INFO      HackerNews search: 'Claude vs ChatGPT'
+15:43:15  INFO      HackerNews search: 'Claude model'
+15:43:15  INFO      HackerNews stats: {'fetched': 145, 'prefiltered': 0, 'deduplicated': 8, 'new': 137}
+15:43:15  INFO      HN comments [1/137] hn_47033622
+15:43:16  INFO      HN comments [2/137] hn_47938097
+15:43:18  INFO      HN comments [3/137] hn_47779730
+15:43:19  INFO      HN comments [4/137] hn_42091043
+15:43:20  INFO      HN comments [5/137] hn_42164141
+15:43:21  INFO      HN comments [6/137] hn_47227647
+15:43:22  INFO      HN comments [7/137] hn_46736091
+15:43:23  INFO      HN comments [8/137] hn_47897790
+15:43:24  INFO      HN comments [9/137] hn_45200118
+15:43:25  INFO      HN comments [10/137] hn_47753643
+15:43:26  INFO      Burst protection — sleeping 15s after 10 comment fetches.
+15:43:41  INFO      HN comments [11/137] hn_47956895
+15:43:42  INFO      HN comments [12/137] hn_38382067
+15:43:43  INFO      HN comments [13/137] hn_45769901
+15:43:44  INFO      HN comments [14/137] hn_42106890
+15:43:45  INFO      HN comments [15/137] hn_47286236
+15:43:46  INFO      HN comments [16/137] hn_43805275
+15:43:47  INFO      HN comments [17/137] hn_47956890
+15:43:48  INFO      HN comments [18/137] hn_47924586
+15:43:48  INFO      HN comments [19/137] hn_46158275
+15:43:49  INFO      HN comments [20/137] hn_35154149
+15:43:50  INFO      Burst protection — sleeping 15s after 20 comment fetches.
+15:44:05  INFO      HN comments [21/137] hn_48340367
+15:44:06  INFO      HN comments [22/137] hn_43397664
+15:44:07  INFO      HN comments [23/137] hn_47601315
+15:44:07  INFO      HN comments [24/137] hn_41936248
+15:44:08  INFO      HN comments [25/137] hn_44111298
+15:44:09  INFO      HN comments [26/137] hn_44176321
+15:44:10  INFO      HN comments [27/137] hn_44062264
+15:44:10  INFO      HN comments [28/137] hn_41922605
+15:44:11  INFO      HN comments [29/137] hn_39612829
+15:44:12  INFO      HN comments [30/137] hn_47632805
+15:44:13  INFO      Burst protection — sleeping 15s after 30 comment fetches.
+15:44:28  INFO      HN comments [31/137] hn_41343826
+15:44:29  INFO      HN comments [32/137] hn_34423979
+15:44:30  INFO      HN comments [33/137] hn_40790911
+15:44:32  INFO      HN comments [34/137] hn_47880697
+15:44:32  INFO      HN comments [35/137] hn_34331396
+15:44:33  INFO      HN comments [36/137] hn_43461944
+15:44:34  INFO      HN comments [37/137] hn_48373544
+15:44:35  INFO      HN comments [38/137] hn_47718155
+15:44:36  INFO      HN comments [39/137] hn_47201028
+15:44:37  INFO      HN comments [40/137] hn_40974664
+15:44:37  INFO      Burst protection — sleeping 15s after 40 comment fetches.
+15:44:52  INFO      HN comments [41/137] hn_47009058
+15:44:53  INFO      HN comments [42/137] hn_41036078
+15:44:54  INFO      HN comments [43/137] hn_48043007
+15:44:55  INFO      HN comments [44/137] hn_35141867
+15:44:56  INFO      HN comments [45/137] hn_41915060
+15:44:56  INFO      HN comments [46/137] hn_47155342
+15:44:57  INFO      HN comments [47/137] hn_47225221
+15:44:58  INFO      HN comments [48/137] hn_44709840
+15:44:58  INFO      HN comments [49/137] hn_39619304
+15:44:59  INFO      HN comments [50/137] hn_43039272
+15:45:00  INFO      Burst protection — sleeping 15s after 50 comment fetches.
+15:45:15  INFO      HN comments [51/137] hn_47057294
+15:45:16  INFO      HN comments [52/137] hn_47151915
+15:45:16  INFO      HN comments [53/137] hn_39900730
+15:45:17  INFO      HN comments [54/137] hn_40765930
+15:45:18  INFO      HN comments [55/137] hn_41190184
+15:45:18  INFO      HN comments [56/137] hn_43495567
+15:45:19  INFO      HN comments [57/137] hn_35941920
+15:45:20  INFO      HN comments [58/137] hn_46086398
+15:45:21  INFO      HN comments [59/137] hn_47545824
+15:45:21  INFO      HN comments [60/137] hn_47721874
+15:45:22  INFO      Burst protection — sleeping 15s after 60 comment fetches.
+15:45:37  INFO      HN comments [61/137] hn_41482793
+15:45:38  INFO      HN comments [62/137] hn_48384393
+15:45:39  INFO      HN comments [63/137] hn_43410866
+15:45:40  INFO      HN comments [64/137] hn_43452508
+15:45:40  INFO      HN comments [65/137] hn_47372273
+15:45:41  INFO      HN comments [66/137] hn_45663045
+15:45:42  INFO      HN comments [67/137] hn_43933054
+15:45:43  INFO      HN comments [68/137] hn_39611400
+15:45:43  INFO      HN comments [69/137] hn_44696642
+15:45:44  INFO      HN comments [70/137] hn_43485113
+15:45:45  INFO      Burst protection — sleeping 15s after 70 comment fetches.
+15:46:00  INFO      HN comments [71/137] hn_47043484
+15:46:01  INFO      HN comments [72/137] hn_42611549
+15:46:01  INFO      HN comments [73/137] hn_47561773
+15:46:02  INFO      HN comments [74/137] hn_46728766
+15:46:03  INFO      HN comments [75/137] hn_44262410
+15:46:04  INFO      HN comments [76/137] hn_47309070
+15:46:05  INFO      HN comments [77/137] hn_43472297
+15:46:05  INFO      HN comments [78/137] hn_45128754
+15:46:06  INFO      HN comments [79/137] hn_47557166
+15:46:07  INFO      HN comments [80/137] hn_47220057
+15:46:08  INFO      Burst protection — sleeping 15s after 80 comment fetches.
+15:46:23  INFO      HN comments [81/137] hn_47895029
+15:46:24  INFO      HN comments [82/137] hn_43207942
+15:46:25  INFO      HN comments [83/137] hn_41029101
+15:46:25  INFO      HN comments [84/137] hn_41696153
+15:46:26  INFO      HN comments [85/137] hn_45198942
+15:46:27  INFO      HN comments [86/137] hn_44332975
+15:46:28  INFO      HN comments [87/137] hn_45351343
+15:46:28  INFO      HN comments [88/137] hn_46593419
+15:46:29  INFO      HN comments [89/137] hn_46907123
+15:46:30  INFO      HN comments [90/137] hn_44699762
+15:46:31  INFO      Burst protection — sleeping 15s after 90 comment fetches.
+15:46:46  INFO      HN comments [91/137] hn_44549209
+15:46:47  INFO      HN comments [92/137] hn_47877478
+15:46:47  INFO      HN comments [93/137] hn_36701982
+15:46:48  INFO      HN comments [94/137] hn_39669644
+15:46:49  INFO      HN comments [95/137] hn_37790782
+15:46:50  INFO      HN comments [96/137] hn_42342529
+15:46:50  INFO      HN comments [97/137] hn_48239117
+15:46:51  INFO      HN comments [98/137] hn_42226326
+15:46:52  INFO      HN comments [99/137] hn_46365105
+15:46:53  INFO      HN comments [100/137] hn_47835646
+15:46:54  INFO      Burst protection — sleeping 15s after 100 comment fetches.
+15:47:09  INFO      HN comments [101/137] hn_46206591
+15:47:10  INFO      HN comments [102/137] hn_47559143
+15:47:11  INFO      HN comments [103/137] hn_42207659
+15:47:11  INFO      HN comments [104/137] hn_47457472
+15:47:12  INFO      HN comments [105/137] hn_37200592
+15:47:13  INFO      HN comments [106/137] hn_47865161
+15:47:14  INFO      HN comments [107/137] hn_46314007
+15:47:15  INFO      HN comments [108/137] hn_42036180
+15:47:16  INFO      HN comments [109/137] hn_47096335
+15:47:16  INFO      HN comments [110/137] hn_45362416
+15:47:17  INFO      Burst protection — sleeping 15s after 110 comment fetches.
+15:47:32  INFO      HN comments [111/137] hn_44838896
+15:47:33  INFO      HN comments [112/137] hn_39590666
+15:47:34  INFO      HN comments [113/137] hn_47538795
+15:47:35  INFO      HN comments [114/137] hn_36681982
+15:47:37  INFO      HN comments [115/137] hn_44191634
+15:47:37  INFO      HN comments [116/137] hn_39590652
+15:47:38  INFO      HN comments [117/137] hn_42837946
+15:47:39  INFO      HN comments [118/137] hn_44179652
+15:47:39  INFO      HN comments [119/137] hn_48413883
+15:47:40  INFO      HN comments [120/137] hn_42449954
+15:47:41  INFO      Burst protection — sleeping 15s after 120 comment fetches.
+15:47:56  INFO      HN comments [121/137] hn_45282390
+15:47:57  INFO      HN comments [122/137] hn_46037637
+15:47:58  INFO      HN comments [123/137] hn_38040591
+15:47:59  INFO      HN comments [124/137] hn_47181471
+15:48:00  INFO      HN comments [125/137] hn_45466865
+15:48:01  INFO      HN comments [126/137] hn_41926067
+15:48:01  INFO      HN comments [127/137] hn_43330235
+15:48:02  INFO      HN comments [128/137] hn_47775389
+15:48:03  INFO      HN comments [129/137] hn_41389781
+15:48:04  INFO      HN comments [130/137] hn_41786584
+15:48:05  INFO      Burst protection — sleeping 15s after 130 comment fetches.
+15:48:20  INFO      HN comments [131/137] hn_44608901
+15:48:21  INFO      HN comments [132/137] hn_47778035
+15:48:22  INFO      HN comments [133/137] hn_39770565
+15:48:22  INFO      HN comments [134/137] hn_45528914
+15:48:23  INFO      HN comments [135/137] hn_48346958
+15:48:24  INFO      HN comments [136/137] hn_38559642
+15:48:24  INFO      HN comments [137/137] hn_37123863
+15:48:25  INFO      HackerNews: 137 new posts
+15:48:27  INFO      dev.to tag=anthropic page=1: 30 articles
+15:48:31  INFO      dev.to tag=anthropic page=2: 30 articles
+15:48:35  INFO      dev.to tag=claudeai page=1: 30 articles
+15:48:39  INFO      dev.to tag=claudeai page=2: 30 articles
+15:48:43  INFO      dev.to tag=claude page=1: 30 articles
+15:48:47  INFO      dev.to tag=claude page=2: 30 articles
+15:48:50  INFO      dev.to tag=llm page=1: 30 articles
+15:48:54  INFO      dev.to tag=llm page=2: 30 articles
+15:48:57  INFO      dev.to tag=aitools page=1: 30 articles
+15:49:01  INFO      dev.to tag=aitools page=2: 30 articles
+15:49:05  INFO      dev.to tag=machinelearning page=1: 30 articles
+15:49:08  INFO      dev.to tag=machinelearning page=2: 30 articles
+15:49:12  INFO      dev.to tag=ai page=1: 30 articles
+15:49:16  INFO      dev.to tag=ai page=2: 30 articles
+15:49:19  INFO      dev.to tag=chatgpt page=1: 30 articles
+15:49:23  INFO      dev.to tag=chatgpt page=2: 30 articles
+15:49:27  INFO      dev.to tag=productivity page=1: 30 articles
+15:49:30  INFO      dev.to tag=productivity page=2: 30 articles
+15:49:32  INFO      dev.to stats: {'fetched': 540, 'prefiltered': 486, 'deduplicated': 49, 'new': 5}
+15:49:32  INFO      dev.to: 5 new posts
+15:49:32  INFO      dev.to: 5 new posts
+15:49:32  INFO      Saved 142 posts → /home/runner/work/CLAIRE/CLAIRE/data/raw_posts.json
+15:49:32  INFO      CLAIRE ingest complete.
+15:49:32  INFO      Run summary: {'run_at': '2026-06-14T15:43:11.683174+00:00', 'source': 'gha', 'dry_run': False, 'existing_posts': 0, 'new_posts': 142, 'total_posts': 142, 'hn_new': 137, 'forum_new': 5}
+15:49:32  INFO      Lock released.
