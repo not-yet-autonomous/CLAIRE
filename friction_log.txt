@@ -372,3 +372,75 @@ before this lane existed).
 Meta-lesson: gate-decision rationale belongs in canonical files, not the tool's ephemeral note prompt. This session
 produced four un-noted decisions recovered from chat, and one recorded decision (the WITHDRAW scope) was found wrong
 against the code at write time. Record decisions in friction_log/HANDOFF at decision time.
+
+# === CYCLE 8 — Build 14 / wrap session owed writes (2026-06-13) ===
+
+2026-06-13 | wrap session | index.lock harness-guard conflict | MEDIUM
+The documented session-start prefix `Remove-Item .git\index.lock
+-ErrorAction SilentlyContinue` hit a path guard in the execution harness and
+aborted the first commit attempt this session. Commit succeeded once the prefix
+was dropped. Nothing lost. The session-start step now conflicts with this
+environment -- a cold next session hits it without warning. Candidate fix: make
+the prefix conditional (Test-Path before Remove-Item), or note in the checklist
+that the harness manages the lock. Logged so the next session does not
+rediscover it cold.
+
+2026-06-13 | wrap session | read_cycle_number pre-fix confirmation | LOW
+Pre-fix confirmation for the v2.1.2 notify cycle-identity fix. read_cycle_number()
+was max(int(c['cycle'])) across ALL change_log entries -- max-of-all, not
+action-filtered -- lagging config.pipeline.current_cycle for any cycle with no
+applied entry. The June 14 mistitle risk was REAL but MASKED this once: the three
+cycle-8 entries applied this session (c8-prof-001 add, c8-mem-001/002 retires)
+force max==8, so the old logic would have titled correctly by accident on June 14.
+A future cycle with no logged entry pre-run would have mistitled. Coupling removed
+in v2.1.2 (identity from config.pipeline.current_cycle); defect gone. NOTE
+appended post-June-14: this fix is in claire_notify.py, which the GHA path does
+not invoke -- see 2026-06-14 notify path divergence. The fix is correct and
+unreached in production; cycle_state.json (claire_output.py) is where it proves
+out on-path.
+
+# === CYCLE 8 — June 14 run verification (2026-06-14) ===
+
+2026-06-14 | cycle 8 verification | notify path divergence | HIGH
+GHA "Notify via Pushover" step is an inline curl with hardcoded title=CLAIRE
+and message="CLAIRE digest ready -- <date>". claire_notify.py is invoked by
+zero steps in claire_weekly.yml (confirmed against full workflow). The
+v2.1.2/v2.1.3 cycle-identity work (cycle in notification, applied-count
+scoping, 2.5MB oversize text-only fallback) lives entirely in claire_notify.py
+and therefore never runs on the production path. HANDOFF locked decisions and
+directory tree document claire_notify.py as the Pushover dispatcher; production
+uses the inline curl and has every prior cycle -- all past alerts were
+cycle-less. The cycle_state.json write (claire_output.py, generate_pdf) IS on
+the GHA path and is the only part of the cycle-identity fix that reaches
+production. Applied-count verification (June 14 point 2) is structurally
+unobservable until resolved. Decision owed: wire the workflow to
+claire_notify.py, or accept the inline curl and stop documenting
+claire_notify.py as the dispatcher. Ranks above official-signal switch-on as
+next-session lead: a shipped, twice-tagged capability that has never run in
+production is a worse state than a dormant lane awaiting a deliberate flip.
+
+2026-06-14 | cycle 8 verification | cost_log upsert not merging | MEDIUM
+cost_log.json wrote three separate run entries for the single run #29, all
+keyed _match_key 20260614 (timestamps within 20s: 15:51:01 triage, 15:51:21
+synthesis, 15:51:21 assembler). Locked decision specifies "single upsert per
+run keyed by YYYYMMDD -- triage + synthesis + assembler accumulated." Each stage
+appends its own entry rather than accumulating into one date-keyed row. Cost
+total is correct (0.1257 = 0.0951 + 0.0306 + 0.0, matches cumulative); the
+defect is row shape, not accounting. total_runs reads 3 for one weekly run
+because it counts entries, not runs. Build 14 atomic_write_json fixed the
+corruption class but the upsert-merge-by-key logic is either unimplemented or
+regressed. Verify against claire_utils append_cost_log / upsert path.
+
+2026-06-14 | cycle 8 verification | verification-spec fabrication (Claude) | MEDIUM
+The June 14 run-verification checklist asserted a Pushover title "reads CLAIRE
+Cycle 8" as a v2.1.2 pass condition, then successively located applied-count in
+the notification body and in claire_notify.py output. None existed: title is
+hardcoded CLAIRE, there is no notification body (title + timestamp + PDF
+thumbnail only), and claire_notify.py is not on the GHA path. Three consecutive
+assertions about where a value lived, each corrected only by reading raw output
+(alert, alert contents, notify step, full workflow YAML). The checklist carried
+unverified specifics dressed as requirements -- the same defect class
+hallucination-guard targets, originating in the verification spec rather than
+the pipeline. Lesson: verification conditions must be read from the code/output
+they assert against, not specified from recall. Confirmed-vs-recalled discipline
+applies to checklists, not only to digests.
