@@ -183,3 +183,53 @@
 15:49:32  INFO      CLAIRE ingest complete.
 15:49:32  INFO      Run summary: {'run_at': '2026-06-14T15:43:11.683174+00:00', 'source': 'gha', 'dry_run': False, 'existing_posts': 0, 'new_posts': 142, 'total_posts': 142, 'hn_new': 137, 'forum_new': 5}
 15:49:32  INFO      Lock released.
+15:46:17  INFO      Lock acquired — PID 2342
+15:46:17  INFO      CLAIRE ingest started — source=gha dry_run=False
+15:46:17  INFO      Loaded 0 existing posts from cache
+15:46:17  INFO      HackerNews search: 'Claude AI'
+15:46:18  WARNING   HTTP 400 for https://hn.algolia.com/api/v1/search
+15:46:18  WARNING   HTTP 400 for https://hn.algolia.com/api/v1/search
+15:46:19  WARNING   HTTP 400 for https://hn.algolia.com/api/v1/search
+15:46:20  INFO      HackerNews search: 'Anthropic Claude'
+15:46:20  WARNING   HTTP 400 for https://hn.algolia.com/api/v1/search
+15:46:21  WARNING   HTTP 400 for https://hn.algolia.com/api/v1/search
+15:46:21  WARNING   HTTP 400 for https://hn.algolia.com/api/v1/search
+15:46:22  INFO      HackerNews search: 'Claude assistant'
+15:46:22  WARNING   HTTP 400 for https://hn.algolia.com/api/v1/search
+15:46:23  WARNING   HTTP 400 for https://hn.algolia.com/api/v1/search
+15:46:24  WARNING   HTTP 400 for https://hn.algolia.com/api/v1/search
+15:46:24  INFO      HackerNews search: 'Claude vs ChatGPT'
+15:46:24  WARNING   HTTP 400 for https://hn.algolia.com/api/v1/search
+15:46:25  WARNING   HTTP 400 for https://hn.algolia.com/api/v1/search
+15:46:26  WARNING   HTTP 400 for https://hn.algolia.com/api/v1/search
+15:46:26  INFO      HackerNews search: 'Claude model'
+15:46:26  WARNING   HTTP 400 for https://hn.algolia.com/api/v1/search
+15:46:27  WARNING   HTTP 400 for https://hn.algolia.com/api/v1/search
+15:46:28  WARNING   HTTP 400 for https://hn.algolia.com/api/v1/search
+15:46:28  INFO      HackerNews stats: {'fetched': 0, 'prefiltered': 0, 'deduplicated': 0, 'new': 0}
+15:46:28  INFO      HackerNews: 0 new posts
+15:46:31  INFO      dev.to tag=anthropic page=1: 30 articles
+15:46:34  INFO      dev.to tag=anthropic page=2: 30 articles
+15:46:38  INFO      dev.to tag=claudeai page=1: 30 articles
+15:46:41  INFO      dev.to tag=claudeai page=2: 30 articles
+15:46:45  INFO      dev.to tag=claude page=1: 30 articles
+15:46:49  INFO      dev.to tag=claude page=2: 30 articles
+15:46:53  INFO      dev.to tag=llm page=1: 30 articles
+15:46:56  INFO      dev.to tag=llm page=2: 30 articles
+15:47:00  INFO      dev.to tag=aitools page=1: 30 articles
+15:47:04  INFO      dev.to tag=aitools page=2: 30 articles
+15:47:07  INFO      dev.to tag=machinelearning page=1: 30 articles
+15:47:11  INFO      dev.to tag=machinelearning page=2: 30 articles
+15:47:15  INFO      dev.to tag=ai page=1: 30 articles
+15:47:18  INFO      dev.to tag=ai page=2: 30 articles
+15:47:22  INFO      dev.to tag=chatgpt page=1: 30 articles
+15:47:26  INFO      dev.to tag=chatgpt page=2: 30 articles
+15:47:29  INFO      dev.to tag=productivity page=1: 30 articles
+15:47:33  INFO      dev.to tag=productivity page=2: 30 articles
+15:47:34  INFO      dev.to stats: {'fetched': 540, 'prefiltered': 466, 'deduplicated': 70, 'new': 4}
+15:47:34  INFO      dev.to: 4 new posts
+15:47:34  INFO      dev.to: 4 new posts
+15:47:34  INFO      Saved 4 posts → /home/runner/work/CLAIRE/CLAIRE/data/raw_posts.json
+15:47:34  INFO      CLAIRE ingest complete.
+15:47:34  INFO      Run summary: {'run_at': '2026-06-21T15:46:17.702552+00:00', 'source': 'gha', 'dry_run': False, 'existing_posts': 0, 'new_posts': 4, 'total_posts': 4, 'hn_new': 0, 'forum_new': 4}
+15:47:34  INFO      Lock released.

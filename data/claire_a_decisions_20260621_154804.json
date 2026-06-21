@@ -1,0 +1,26 @@
+{
+  "_meta": {
+    "generated_at": "2026-06-21T15:48:04.887024+00:00",
+    "session_id": "75cdb529-becb-4ca1-89d9-6db2c49afa9d",
+    "model": "claude-opus-4-5",
+    "input_tokens": 25198,
+    "output_tokens": 1014,
+    "parse_success": true
+  },
+  "decision_record": {
+    "session_id": "75cdb529-becb-4ca1-89d9-6db2c49afa9d",
+    "engine_version": "1.0.0",
+    "model": "claude-opus-4-5",
+    "evaluated_at": "2026-06-21T15:48:00.000000+00:00",
+    "memory_snapshot_hash": "af09f32fd720676a64cb60641e36fe810a902bb9ff118b7b513fc10e26291f85",
+    "input_candidate_count": 0,
+    "decisions": [],
+    "apply_count": 0,
+    "skip_count": 0,
+    "defer_count": 0,
+    "session_notes": "Empty candidate batch - no candidates passed assembler selection for this cycle. This is a valid no-action state after 8 cycles of active profile refinement. Memory state contains 63 entries covering major behavioral categories (epistemic discipline, document handling, compliance methodology, session management, model routing). Change log shows recent structural improvement (c8-prof-001 routing block) that reduces future maintenance burden on version-specific guidance. No eval history available to assess hypothesis outcomes from prior cycles - recommend prioritizing eval scoring integration before next digest to enable feedback loop. Pipeline healthy; no upstream failures indicated.",
+    "escalation_required": false,
+    "escalation_reason": null
+  },
+  "raw_response": null
+}

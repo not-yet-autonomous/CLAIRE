@@ -37,3 +37,30 @@
 15:51:01  INFO      Archive: 0 total posts → /home/runner/work/CLAIRE/CLAIRE/data/archive.json
 15:51:01  INFO      Cost log updated (run_id=20260614) — triage=$0.0951 | synthesis=$0.0000 | assembler=$0.0000 | total=$0.0951
 15:51:01  INFO      CLAIRE triage complete.
+15:47:35  INFO      CLAIRE triage started — dry_run=False
+15:47:35  INFO      Loaded 4 posts from raw_posts.json
+15:47:35  INFO      Keyword filter removed 0 posts (opus, claude opus). 4 remaining.
+15:47:35  INFO      4 posts need triage
+15:47:35  INFO      Friction log loaded: 33367 chars
+15:47:35  INFO      Profile snapshot loaded: 13551 chars
+15:47:35  INFO      Processing 1 batches of up to 20 posts
+15:47:35  INFO      Batch [1/1] — 4 posts
+15:47:38  INFO      HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+15:47:38  INFO      Classification complete: 4 tagged, 0 failed
+15:47:38  INFO      Signal breakdown: {'noise': 3, 'behavior_complaint': 1}
+15:47:38  INFO      Persona breakdown: {'developer': 3, 'enterprise': 1}
+15:47:38  INFO      Source breakdown: {'claude_native': 4}
+15:47:38  INFO      Triage API usage — input: 1,077 tokens | output: 374 tokens | batches: 1 | cost: $0.0029
+15:47:38  INFO      Gate routing complete:
+15:47:38  INFO        Track A (claude_native):     0
+15:47:38  INFO        Track B (competitor_gap):    0
+15:47:38  INFO        Track C (cross_platform):    0
+15:47:38  INFO        Archive (LOW confidence):    0
+15:47:38  INFO        Discard (IGNORE):            4
+15:47:38  INFO      Wrote 4 tagged posts → /home/runner/work/CLAIRE/CLAIRE/data/tagged_posts.json
+15:47:38  INFO      Wrote 0 posts → synthesis_queue_track_a.json
+15:47:38  INFO      Wrote 0 posts → synthesis_queue_track_b.json
+15:47:38  INFO      Wrote 0 posts → synthesis_queue_track_c.json
+15:47:38  INFO      Archive: 0 total posts → /home/runner/work/CLAIRE/CLAIRE/data/archive.json
+15:47:38  INFO      Cost log updated (run_id=20260621) — triage=$0.0029 | synthesis=$0.0000 | assembler=$0.0000 | total=$0.0029
+15:47:38  INFO      CLAIRE triage complete.
