@@ -1,0 +1,26 @@
+{
+  "_meta": {
+    "generated_at": "2026-06-28T18:32:35.395796+00:00",
+    "session_id": "a8fb6339-4f2a-4d74-8a93-bd5ce6a91193",
+    "model": "claude-opus-4-5",
+    "input_tokens": 25155,
+    "output_tokens": 1095,
+    "parse_success": true
+  },
+  "decision_record": {
+    "session_id": "a8fb6339-4f2a-4d74-8a93-bd5ce6a91193",
+    "engine_version": "1.0.0",
+    "model": "claude-opus-4-5",
+    "evaluated_at": "2026-06-28T18:35:00.000000+00:00",
+    "memory_snapshot_hash": "7fcd2f728b1f890cea0fdeb664b86120eddd2b8c48f4dd85fc94d11944870a1e",
+    "input_candidate_count": 0,
+    "decisions": [],
+    "apply_count": 0,
+    "skip_count": 0,
+    "defer_count": 0,
+    "session_notes": "Empty candidate batch received. No decisions to render. Memory state contains 63 entries with most recent changes dated 2026-06-13 (15 days prior). Eval history remains empty — no hypotheses have been measured against outcomes since pipeline inception. Two observations for pipeline monitoring: (1) If next batch is also empty, verify source feed health and digest pipeline execution. (2) The hypothesis-to-eval loop has never closed — 73 change_log entries exist with zero eval_history data points. Consider prioritizing eval infrastructure to enable hypothesis validation. No anomalies in memory state or change_log structure. Schema note from assembler acknowledged: memory_edit entries lack summary field, using hypothesis as proxy.",
+    "escalation_required": false,
+    "escalation_reason": null
+  },
+  "raw_response": null
+}
