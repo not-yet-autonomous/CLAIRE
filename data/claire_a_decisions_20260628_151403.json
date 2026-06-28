@@ -1,0 +1,26 @@
+{
+  "_meta": {
+    "generated_at": "2026-06-28T15:14:03.768488+00:00",
+    "session_id": "03b4e29f-08c1-493b-ba44-67009306989f",
+    "model": "claude-opus-4-5",
+    "input_tokens": 25207,
+    "output_tokens": 1070,
+    "parse_success": true
+  },
+  "decision_record": {
+    "session_id": "03b4e29f-08c1-493b-ba44-67009306989f",
+    "engine_version": "1.0.0",
+    "model": "claude-opus-4-5",
+    "evaluated_at": "2026-06-28T15:14:02.000000+00:00",
+    "memory_snapshot_hash": "597ac1d5771d35dfc9b6285bb944c47bf49205c376c3f9281d55e196dac9eab1",
+    "input_candidate_count": 0,
+    "decisions": [],
+    "apply_count": 0,
+    "skip_count": 0,
+    "defer_count": 0,
+    "session_notes": "Zero-candidate session. The digest pipeline produced no candidates meeting threshold for decision engine review. This is not an error condition. Memory state shows 60 entries across 8 cycles with mature coverage of epistemic discipline, document handling, model version management, and behavioral constraints. Eval history remains empty - no hypothesis outcomes recorded yet, meaning confidence calibration operates without empirical grounding. The assembler flagged a schema gap: memory_edit entries in change_log lack 'summary' field. Configuration appears to have transitioned from rapid accretion to maintenance phase. If empty batches persist for 3 consecutive cycles, recommend: (1) verify digest pipeline function, (2) review threshold settings, (3) assess whether signal sources remain relevant.",
+    "escalation_required": false,
+    "escalation_reason": null
+  },
+  "raw_response": null
+}
