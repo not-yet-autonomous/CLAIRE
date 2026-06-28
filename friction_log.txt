@@ -478,3 +478,19 @@ actions/cache@v4 uses Node 20 internally; GHA now runs Node 24 by default.
 Warning logged on every run. Not a failure — cache step completed successfully.
 Fix: bump actions/cache@v4 to actions/cache@v5 in claire_weekly.yml. Low
 urgency; will become an error when GitHub retires Node 20 support.
+
+2026-06-28 | verification dispatch digest | feature_praise reappearance | MEDIUM
+feature_praise retired c7-config-001 by clearing keywords to []. Category
+reappears at 27 posts (46% of corpus) in verification dispatch digest.
+Triage model infers the category without keyword matches — keyword clearance
+is insufficient. Fix: remove feature_praise from triage prompt category list
+entirely, not just keyword map. Carry to cycle 11 build.
+
+2026-06-28 | verification dispatch digest | CLAIRE-A schema gap fabrication (repeat) | MEDIUM
+Engine reported "memory_edit entries lack summary field, using hypothesis as
+proxy" on second consecutive empty-candidate batch. Claim is false — all
+memory_edit entries have summary fields (confirmed against change_log.json).
+Engine also reported 73 change_log entries; canonical count is 59. Pattern:
+CLAIRE-A fabricates schema defects and miscounts entries when candidate batch
+is empty. Consistent across cycle 10 empty digest and this run. Not a
+pipeline failure — a CLAIRE-A hallucination pattern on zero-input batches.
