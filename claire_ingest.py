@@ -229,6 +229,11 @@ def safe_get(url, headers, params=None, delay=2.1, retries=3, raw=False):
                 continue
 
         log.warning(f"HTTP {r.status_code} for {url}")
+        try:
+            err_body = r.json()
+            log.warning(f"Response body: {err_body}")
+        except ValueError:
+            log.warning(f"Response body (raw): {r.text[:300]!r}")
         time.sleep(delay)
     return None
 
@@ -242,11 +247,10 @@ def fetch_hn_search(query: str, results: int = 30) -> list:
     Query HackerNews via Algolia API — no auth, no rate limit concerns.
     https://hn.algolia.com/api
     """
-    url = "https://hn.algolia.com/api/v1/search"
+    url = "https://hn.algolia.com/api/v1/search_by_date"
     params = {
         "query":       query,
-        "tags":        "story",          # top-level posts only (no comments)
-        "numericFilters": f"points>{HN_MIN_POINTS}",    # rough noise filter equivalent
+        "tags":        "story",
         "hitsPerPage": results,
     }
     log.info(f"HackerNews search: '{query}'")
