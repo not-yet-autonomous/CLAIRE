@@ -444,3 +444,37 @@ hallucination-guard targets, originating in the verification spec rather than
 the pipeline. Lesson: verification conditions must be read from the code/output
 they assert against, not specified from recall. Confirmed-vs-recalled discipline
 applies to checklists, not only to digests.
+
+
+
+2026-06-28 | cycle 10 run | HN ingest — 400 on numericFilters encoding | HIGH
+requests.get(params=...) encodes > as %3E; Algolia HN API rejects encoded form.
+Fixed: numericFilters removed from fetch_hn_search (points gating retained via
+noise_prefilter downstream); switched to search_by_date endpoint. safe_get now
+logs response body on non-200. Fix unverified until cycle 11 run.
+
+2026-06-28 | cycle 10 run | raw_posts.json — cross-run dedup never working on GHA | MEDIUM
+GHA commit-back comment explicitly excluded raw_posts.json (scraped content,
+public repo). gitignore negation from 2026-05-24 was present but unused on GHA
+path. Fixed: GHA cache via actions/cache@v4, negation removed from .gitignore.
+Cache miss expected cycle 11; dedup effective cycle 12. Commit dfdd88a.
+
+2026-06-28 | verification dispatch | claire_ingest.py — fix not in initial commit | MEDIUM
+The ingest fix (numericFilters removal, search_by_date switch) was applied and
+tested offline but not staged in the pre-run commit (1773a52). First verification
+dispatch ran against unfixed code, returned 400s identically to cycle 10. Caught
+by checking git show on the pushed commit. Fix committed separately (75fbb0f).
+Second dispatch confirmed fix: HackerNews stats fetched=150, new=62.
+
+2026-06-28 | verification dispatch | HN 400 fix confirmed | LOW
+Second verification dispatch confirmed fix. HackerNews stats: fetched=150,
+prefiltered=71, deduplicated=17, new=62. search_by_date endpoint working.
+Points gating via noise_prefilter confirmed (71 dropped). Fix status updated:
+VERIFIED. actions/cache@v4 saved raw_posts corpus (62162 bytes, key
+raw-posts-Linux-28331796118). Cross-run dedup effective from cycle 12.
+
+2026-06-28 | verification dispatch | actions/cache Node 20 deprecation | LOW
+actions/cache@v4 uses Node 20 internally; GHA now runs Node 24 by default.
+Warning logged on every run. Not a failure — cache step completed successfully.
+Fix: bump actions/cache@v4 to actions/cache@v5 in claire_weekly.yml. Low
+urgency; will become an error when GitHub retires Node 20 support.
