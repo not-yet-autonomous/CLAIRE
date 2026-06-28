@@ -4,7 +4,7 @@
     "version": "0.1.0",
     "run_schedule": "weekly",
     "run_day": "sunday",
-    "current_cycle": 8
+    "current_cycle": 10
   },
   "ingestion": {
     "comments_per_post": 10,

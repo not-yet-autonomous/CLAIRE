@@ -1,35 +1,43 @@
-Session notes — Cycle 7 pre-run observations
-Updated: 2026-06-09
+# CLAIRE Session Notes — Cycle 10 (pre-run 2026-06-28)
+# Prior content (cycle 7, 2026-06-09) superseded.
 
-APPLIED CHANGES HOLDING:
-- c5-prof-001 (no reasoning scaffolding in deliverables): No qualifying
-  sessions observed this cycle - eval window open.
-- c5-prof-002 (surface conflicting instructions explicitly): No qualifying
-  sessions observed this cycle - eval window open.
-- c4-prof-001 (surgical edits default): holding. No full-document
-  regeneration on section edits observed.
-- c4-mem-005 (/compact before 50% context): holding. Proactive quality
-  flags surfaced appropriately in long sessions.
+## APPLIED CHANGES HOLDING
+No qualifying behavioral sessions this cycle. No applied change was exercised
+in a real session this week; nothing to mark held/partial/no. Holding status
+on all pending-eval entries carries forward unchanged from prior cycle.
 
-NEW OBSERVATIONS:
-- Fable 5 (claude-fable-5) used for Build 14 code audit session today.
-  Model held config.json lock constraint without reminder, maintained full
-  task context across 10 files and 7 commits at 99% of 1M context window.
-  No behavioral drift observed at high context saturation. Strong candidate
-  for future multi-file architecture sessions.
-- No em dash substitution observed this cycle. c2-mem-003 holding.
-- No session-termination nudges observed. c5-mem-001 holding.
+## NEW OBSERVATIONS
+No qualifying Claude behavioral sessions this week. The only operational event
+was the cycle-numbering correction (see below). No behavioral signal to record.
 
-PENDING OBSERVATION GATES:
-- c5-prof-003 (document-grounded vs training-derived): still no qualifying
-  document synthesis session this cycle. Staleness clock running —
-  apply-or-retire decision required within 2 cycles.
-- c3-prof-002, c3-prof-003: retired 2026-06-08, superseded by profile v13.
-  No longer pending.
+## PENDING GATES
+- notify path divergence (HIGH, open from c8 close): v2.1.2 cycle-identity fix
+  never runs in production — GHA notifies via inline curl, not claire_notify.py.
+  Fix is live in-file, dead on-path. Ranked above official-signal switch-on.
+- c5-prof-003 (doc-grounded vs training-derived markers): observation gate open,
+  3-cycle staleness limit applies, retire-or-apply decision owed.
+- official-signal lane switch-on: operator-gated, held for a clean notify run.
 
-CLAIRE-A STATUS:
-- 6 graduation runs complete before clock reset.
-- Clock resets June 14 GHA run. New threshold: 10 consecutive qualifying
-  runs. Graduation review targeting June 22.
-- Reliability ledger growth was structurally blocked (H1, H3) — both fixed
-  Build 14. June 14 run is first opportunity for ledger to grow via GHA.
+## CLAIRE-A STATUS
+- Graduation clock: run 3 of 10 from 06-14 reset (06-14, 06-21, 06-28).
+  Caveat: a run that scores zero observations may not be substantively
+  qualifying — see ledger note.
+- Eval ledger: 5 scored observations, all keyed `unknown` (pre-Build-12
+  attribution), last updated 2026-06-02. No growth across 06-14 or 06-21 GHA
+  runs — frozen at manual seed. Build 14 commit-back was meant to enable
+  GHA-persisted scoring; no post-06-14 entries present. Cause unconfirmed
+  (no scorable candidates on thin corpus vs. commit-back not landing vs.
+  windows not elapsed) — verify against GHA run logs next session.
+
+## OPERATIONAL NOTES (cycle-numbering correction)
+- 06-21 run shipped mislabeled c8. Mechanism: config.pipeline.current_cycle was
+  never advanced to 9 on main before the 06-21 cron, so claire_output read 8 and
+  stamped c8. Human-side ritual gap, Local-vs-GHA rule 2 (unpushed/skipped config
+  edit runs silently against last week's value). Not a code defect.
+- Correction this cycle: config bumped 8 → 10 (date-map decision — 06-21 recorded
+  as cycle 9 mislabeled c8; 06-28 = cycle 10 per HANDOFF cycle log). Quarantines
+  the error to 06-21, no forward renumber.
+- cost_log upsert bug persists: 6 rows for 2 runs (three per date, one per stage
+  — triage/synthesis/assembler — not upserted by _match_key). total_runs reads 6,
+  actual runs 2, overcount +4. Fix: group by _match_key, sum stages into one
+  dated row; count distinct _match_key for total_runs.
