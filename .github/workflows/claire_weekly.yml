@@ -27,6 +27,14 @@ jobs:
       - name: Install dependencies
         run: python -m pip install -r requirements.txt
 
+      - name: Restore raw_posts cache
+        uses: actions/cache@v4
+        with:
+          path: data/raw_posts.json
+          key: raw-posts-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: |
+            raw-posts-${{ runner.os }}-
+
       - name: Ingest HackerNews and dev.to
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
