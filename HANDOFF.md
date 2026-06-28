@@ -1,11 +1,20 @@
- # CLAIRE - Session Handoff
+---
 > Read this first. Every session. No exceptions.
-> State as of 2026-06-14 run-verification close (cycle 8). The Sunday 14:00 UTC GHA run (#29) is COMPLETE and verified.
-> Run is healthy on every observable point. THREE findings surfaced during verification (one HIGH): see "June 14 Run
-> Verification - CLOSED" below. Friction log brought to live match (five entries committed). The notify cycle-identity
-> fix (v2.1.2/v2.1.3) proved out ON-PATH via cycle_state.json, but its primary consumer (claire_notify.py) is NOT on
-> the GHA path - the notify divergence is the ranked next-session lead, ABOVE official-signal switch-on.
-> Next live event: Sun 2026-06-21 14:00 UTC GHA run (cycle 9) — increment config.pipeline.current_cycle to 9 first.
+> State as of 2026-06-28 post-verification-dispatch close (cycle 10).
+> v2.1.4 tagged and pushed. HN ingest fix VERIFIED: fetched=150, new=62
+> (commit 75fbb0f). raw_posts GHA cache operational (first save confirmed,
+> key raw-posts-Linux-28331796118). Node 20 deprecation warning in
+> actions/cache@v4 — LOW, not urgent.
+>
+> CYCLE-NUMBERING CORRECTION THIS SESSION: the 2026-06-21 run shipped MISLABELED
+> as c8 because the increment to 9 was never on main before that cron.
+> Decision: bump 8->10 (date-map). Quarantined to 06-21. See Known Issues.
+>
+> STILL OPEN, ranked: (1) notify path divergence HIGH — outranks switch-on.
+> (2) c8-process-003 build authorization (assembler code uncommitted, own commit).
+> (3) official-signal lane switch-on.
+> Next live event: Sun 2026-07-05 14:00 UTC GHA run (cycle 11) —
+> increment config.pipeline.current_cycle to 11 first.
 
 ---
 
@@ -52,10 +61,11 @@ No Reddit credentials required or used.
 | 6 | 2026-06-02 | 2026-05-31 | claire_digest_2026-05-31.pdf |
 | 7 | 2026-06-08 | 2026-06-07 | claire_digest_2026-06-07.pdf |
 | 8 | run verified 2026-06-14 | 2026-06-14 ✅ run #29 | claire_digest_2026-06-14_c8.pdf |
-| 9 | — | 2026-06-21 | claire_digest_2026-06-21_c9.pdf |
-| 10 | — | 2026-06-28 | claire_digest_2026-06-28_c10.pdf |
+| 9 | — | 2026-06-21 | claire_digest_2026-06-21_c8.pdf (MISLABELED — increment to 9 missed before cron; see Known Issues "06-21 cycle mislabel") |
+| 10 | — | 2026-06-28 | claire_digest_2026-06-28_c10.pdf (config bumped 8→10 pre-run, commit 23a196f) |
 | 11 | — | 2026-07-05 | claire_digest_2026-07-05_c11.pdf |
 | 12 | — | 2026-07-12 | claire_digest_2026-07-12_c12.pdf |
+| 13 | — | 2026-07-19 | claire_digest_2026-07-19_c13.pdf |
 
 ---
 
@@ -72,7 +82,10 @@ For local Cowork sessions, run these three lines before doing anything else:
 >
 > **Pre-Sunday ritual (manual, before cron fires):**
 > 1. Increment `config.pipeline.current_cycle` (nested, NOT flat config.current_cycle).
->    Cycle 8 is already set for the June 14 run; bump to 9 before the June 21 run, +1 each week.
+>    Currently 10 (on main for the June 28 run); bump to 11 before the July 5 run, +1 each week.
+>    THIS IS THE LOAD-BEARING KEYSTROKE — the 06-21 mislabel happened because it was skipped.
+>    If config's cycle is not advanced on main before the cron, claire_output stamps last week's
+>    number and the digest mislabels silently. Push to main, do not just edit locally.
 >    Commit with session notes in the same commit:
 >    `git commit -m "pre-run cycle N: session notes + cycle increment"`
 > 2. Update `data/session_notes.txt` with behavioral observations from the week
@@ -372,11 +385,13 @@ block (still stale at the retired "Opus 4.6 > 4.7" preference -- standing debt, 
 | CLAIRE-A ledger pre-Build 12 | All 8 existing decision files predate Build 12 source field injection. Ledger keys everything as "unknown" until first post-Build 12 GHA run. Not a bug — expected aggregation of pre-attribution observations. Source-attributed entries begin after June 15 GHA run. |
 | read_cycle_number cycle lag (RESOLVED ON-PATH 2026-06-13, v2.1.2/v2.1.3; notify-path UNREACHED) | Was: notify's `read_cycle_number()` derived cycle from `max(int(c['cycle']))` across ALL change_log entries (max-of-all, not action-filtered), lagging config for any cycle with no applied entry. Fixed v2.1.2 (74af5ef): identity from `config.pipeline.current_cycle` (confirmed nested), SystemExit(1) on missing key, applied-count scoped to current_cycle with zero allowed; last_completed_cycle to data/cycle_state.json at digest completion. v2.1.3 (38abf20): cycle_state.json persisted via enumerated GHA commit-back. CORRECTION after run #29: the fix lives in claire_notify.py, which the GHA path does NOT call. It proved out only via cycle_state.json (claire_output.py, on-path) == 8, persisted. The notify-side behavior (cycle in alert, applied-count surfacing) never runs on GHA. June 14 mistitle risk was real but masked this once (three cycle-8 entries forced max==8). See "notify path divergence" below. |
 | notify path divergence (run #29, 2026-06-14) - HIGH, OPEN | GHA "Notify via Pushover" step is an inline curl: hardcoded `title=CLAIRE`, `message="CLAIRE digest ready -- <date>"`, PDF attached. `claire_notify.py` is invoked by ZERO workflow steps (confirmed against full claire_weekly.yml). All claire_notify.py features - cycle in notification, applied-count surfacing, 2.5MB oversize text-only fallback - never run on the production path and presumably never have; all past alerts were cycle-less. HANDOFF locked decisions + directory tree document claire_notify.py as the dispatcher; production uses the inline curl. A twice-tagged (v2.1.2/v2.1.3) capability that has never run in production. DECISION OWED (ranked above switch-on): wire the workflow to claire_notify.py, OR accept the inline curl and stop documenting the script as the dispatcher. Applied-count verification stays impossible until resolved. |
+| 06-21 cycle mislabel (cycle 9 shipped as c8) - RESOLVED 2026-06-28 | The 2026-06-21 run shipped as claire_digest_2026-06-21_c8.pdf instead of c9. Mechanism: config.pipeline.current_cycle was never advanced to 9 on main before the 06-21 14:00 UTC cron, so claire_output read 8 and stamped c8. Human-side ritual gap (Local-vs-GHA rule 2: an unpushed/skipped config edit runs silently against last week's value with no warning), NOT a code defect — v2.1.2 reported config faithfully; the digest cover subtitle (claire_output.py, on-path) rendered exactly what config held. This is the downstream consequence of the same config-as-single-source design the notify fix introduced: correct mechanism, stale input. Detected 2026-06-28 by the cycle-label collision (06-21 PDF self-labeled c8 while the cycle log expected c9). Correction: config bumped 8→10 pre-run (commit 23a196f), a DATE-MAP decision — 06-21 recorded as "cycle 9, mislabeled c8", 06-28 = cycle 10 per the cycle log, no forward renumber. Quarantined to 06-21. Graduation clock unaffected (counts qualifying runs from the 06-14 reset, not labels). Standing exposure: the increment is a manual weekly keystroke with no guard; a skipped or unpushed bump repeats this silently. Candidate hardening (not built): a pre-run check that refuses to run if config.current_cycle equals the last digest's cycle — with a manual-backfill escape, since a legitimate re-run would trip it. |
 | cost_log upsert not merging (run #29, 2026-06-14) - MEDIUM, OPEN | cost_log.json wrote three separate rows for the single run #29, all keyed `_match_key 20260614` (timestamps within 20s). Locked decision specifies one upsert per run by date key. Each stage appends its own row instead of accumulating. Cost total correct (0.1257 = sum, matches cumulative); shape wrong; `total_runs` reads 3 for one weekly run because it counts rows. Build 14 atomic_write_json fixed corruption but the upsert-merge-by-key is unimplemented or regressed. Verify against claire_utils append_cost_log / upsert path. |
 | verification-spec fabrication (run #29, 2026-06-14) - MEDIUM, process | The June 14 verification checklist (authored in-session) asserted a Pushover title "reads CLAIRE Cycle 8" as a pass condition, then located applied-count successively in a notification body and in claire_notify.py output. None existed: title hardcoded CLAIRE, no body (title + timestamp + PDF thumbnail only), script not on GHA path. Three assertions about where a value lived, each corrected only by reading raw output. Same defect class hallucination-guard targets, originating in the verification spec not the pipeline. Lesson: verification conditions must be read from the code/output they assert, not specified from recall. Logged to friction 2026-06-14 under Claude error. |
 | CLAUDE.md enum drift (RESOLVED 2026-06-13) | Schema doc lagged live enum values: action missing modify/retire, type missing pipeline_change, scope missing process. Reconciled (commit 0d0fc96) by reading live distinct values, not recalled ones. The first sync pass this session was itself incomplete — caught on a second pass. Lesson recorded: doc reconciliation must read live values. |
 | memory summary fabrication | Generated Claude memory summary recorded an NVDA Jan 2027 $185 put as a live holding (full entry price + thesis, formatted identically to real positions). Operator confirmed the position was never held — a worked analytical example promoted to a recorded holding during summarization. Structured memory edits were clean; fabrication lived only in the generated summary layer. Guarded by memory edit 20 (narrow: excludes NVDA holdings, preserves NVDA as analytical subject). Implication for CLAIRE: any stage ingesting memory state as ground truth (assembler memory snapshot, cross-reference gate) inherits summary-layer fabrications. Treat memory-snapshot inputs as operator-confirmable, not authoritative. |
 | index.lock prefix vs harness guard (2026-06-13) | The `Remove-Item .git\index.lock` session-start prefix aborted the first commit attempt this session — hit a path guard in the execution harness. Commit succeeded once the prefix was dropped. The documented session-start step now conflicts with this environment. Next session will hit it cold. Candidate fix: make the prefix conditional, or note that the harness manages the lock. Logged to friction 2026-06-13. |
+| actions/cache Node 20 deprecation (LOW, open) | actions/cache@v4 uses Node 20; GHA runs Node 24. Warning on every run, not a failure. Fix: bump to actions/cache@v5 in claire_weekly.yml. |
 
 ---
 
@@ -515,18 +530,31 @@ memory-fabrication catch.
 
 ## Carried Forward — Still Open
 
-**NEXT SESSION (cycle 9 prep + lead items):**
+**NEXT SESSION (cycle 11 prep + lead items):**
 - LEAD (HIGH, outranks switch-on): resolve the notify path divergence. Decide whether to
   wire claire_weekly.yml's notification to claire_notify.py (restoring cycle-in-alert,
   applied-count surfacing, 2.5MB oversize fallback) OR accept the inline curl and strip
   claire_notify.py from the documented dispatcher role. Until resolved, applied-count
   (v2.1.2) is unverifiable and a twice-tagged capability sits unused. See Known Issues.
+- PIPELINE-HEALTH READS (owed, first actions next session): two frozen-artifact signals
+  surfaced 2026-06-28 that need confirmation, not assumption:
+  - ingest_run_log.json: CONFIRMED. Verification dispatch 2026-06-28 shows
+    HN was returning 0 posts due to numericFilters 400 (fixed 75fbb0f).
+    Cycles 9-10 ran on dev.to only. Not a Reddit/archive dedup artifact —
+    a code bug. Next cycle 11 run should show full dual-source corpus.
+  - CLAIRE-A ledger (claire_a_source_reliability.json): frozen at 5 observations, all keyed
+    `unknown`, last_updated 2026-06-02. No growth across 06-14 or 06-21 GHA runs despite the
+    Build 14 commit-back fix meant to enable it. Cause unconfirmed (no scorable candidates on
+    thin corpus vs. commit-back not landing vs. windows not elapsed). Graduation clock is
+    advancing over a ledger that hasn't moved in weeks — a run that scores zero observations
+    may not be substantively qualifying. Verify against GHA run logs.
 - c8-process-003 build authorization (source-URL suppression). Hypothesis approved; code
-  staged+verified offline in claire_a_assembler.py; task spec written. Authorize → Code
-  commits it as the NEXT single variable (its own commit, separate from notify-divergence
-  work and from switch-on). On commit: flip entry date off PENDING-AUTHORIZATION, add to
-  ledger, eval_window cadence "per source-duplicate occurrence; first assessment at first
-  flag fire" (NOT a 14/21d duration - same cadence-token class as c8-process-002).
+  staged+verified offline in claire_a_assembler.py (still UNCOMMITTED in the working tree);
+  task spec written. Authorize → Code commits it as the NEXT single variable (its own commit,
+  separate from notify-divergence work and from switch-on). On commit: flip entry date off
+  PENDING-AUTHORIZATION, add to ledger, eval_window cadence "per source-duplicate occurrence;
+  first assessment at first flag fire" (NOT a 14/21d duration - same cadence-token class as
+  c8-process-002).
 - Official-signal lane SWITCH-ON (operator decision, sequenced AFTER the notify-divergence
   call): flip config.official_signal.enabled to true; supply the ratified c8-process-002
   hypothesis (operator-authored, held from design - paste, do not re-derive); Code then
@@ -536,14 +564,26 @@ memory-fabrication catch.
   Reddit as a live source - stale since Build 10), document the official-signal lane,
   reconcile the version string. RESOLVE the README-"release"-string-vs-tags discrepancy
   (repo tags at v2.1.3; README lags - confirm canonical before bumping to v2.2.0).
-- Cycle 9 pre-run ritual before Sunday 2026-06-21 14:00 UTC: increment
-  config.pipeline.current_cycle to 9 (nested), update data/session_notes.txt, commit+push
-  both before cron.
+- Cycle 11 pre-run ritual before Sunday 2026-07-05 14:00 UTC: increment
+  config.pipeline.current_cycle to 11 (nested), update data/session_notes.txt, commit+push
+  both before cron. THE LOAD-BEARING KEYSTROKE — skipping it is exactly the 06-21 mislabel.
 
-**DONE this session (no longer carried):**
+**DONE this session (2026-06-28 cycle-10 pre-run, no longer carried):**
+- Cycle-numbering correction - COMPLETE. 06-21 mislabel diagnosed (config never advanced to
+  9 before the 06-21 cron, confirmed by direct config read == 8). Decision: bump 8→10
+  (date-map). config bumped, cycle-10 session_notes written with both file-backed numbers
+  read from disk (cost_log 6 rows/2 runs/+4 overcount; ledger 5 obs frozen at 06-02), gate
+  pushed before 14:00 UTC (commit 23a196f). HANDOFF cycle log + Known Issue updated.
+- Cycle 9 pre-run ritual - SUPERSEDED, not done as such. The 06-21 run already fired against
+  config=8; the missed increment is recorded as the mislabel, not re-run.
+
+**DONE prior session (2026-06-14, no longer carried):**
 - June 14 run verification - COMPLETE. Run healthy; three findings logged. See the
   verification-closed block above.
-- Friction writes - DONE. Log at live match through 2026-06-14 (five entries committed).
+- Friction writes - DONE through 2026-06-14. NOTE: this session (06-28) owes three more
+  friction entries not yet written at HANDOFF-update time — 06-21 mislabel mechanism, plus
+  the two carried from 06-13 (index.lock harness-guard, notify pre-fix max-of-all masked-once).
+  Pull-first; friction_log is in GHA commit-back. Write before the project-knowledge refresh.
 
 **Switch-on deferred-logging conditions (from the lane build):**
 - eval_window date-math consumer audit: any consumer doing date math on eval_window must
@@ -585,14 +625,30 @@ memory-fabrication catch.
 ## Session Close — Project Knowledge Refresh
 
 Refresh change_log.json, friction_log.txt, and this HANDOFF.md into Project knowledge so
-the next session (cycle 9 prep) starts from 2026-06-14 run-verified truth: run #29 healthy,
-three findings logged (notify path divergence HIGH is the next-session lead), friction at
-live match, notify cycle-identity fix proven ON-PATH only (cycle_state.json), official-signal
-lane gate verified held and switch-on sequenced behind the notify-divergence decision. Root
-canonical files ONLY — not data/ artifacts, not the profile.
+the next session (cycle 11 prep) starts from 2026-06-28 cycle-10 pre-run truth: config at 10
+on main (commit 23a196f), 06-21 mislabel diagnosed and quarantined (date-map bump 8→10),
+cycle-10 session_notes written from disk-read numbers, gate pushed before the 14:00 UTC cron.
+Root canonical files ONLY — not data/ artifacts, not the profile.
 
-Note: this HANDOFF reflects the 2026-06-14 run-verification close. The June 14 verification
-and all owed friction writes are DONE (no longer carried). Open work is the notify-divergence
-decision (lead), c8-process-003 build authorization, lane switch-on, and the README/version
-pass. change_log is unchanged through run #29 (59 entries); its next write is whichever lands
+SEQUENCING (do not refresh early): the project-knowledge refresh is the LAST act, AFTER the
+three owed friction writes (06-21 mislabel mechanism + the two carried from 06-13) land in
+friction_log.txt. Refreshing before those writes bakes a half-done state into project
+knowledge that reads as authoritative — the same stale-but-trusted shape that caused the
+06-21 mislabel. config.json also belongs in the refreshed set now (carries current_cycle);
+a stale project copy re-inherits the exact confusion this session resolved.
+Post-verification: HN fix confirmed (fetched=150, new=62). v2.1.4 tagged.
+raw_posts cache operational. friction_log at live match through 2026-06-28
+verification dispatch.
+
+Open work into cycle 11: notify-divergence decision (HIGH lead), the two pipeline-health
+reads (ingest_run_log.json source counts, frozen CLAIRE-A ledger), c8-process-003 build
+authorization, lane switch-on, README/version pass. change_log unchanged at 59 entries (a
+cycle bump is operational state, not a logged change); its next write is whichever lands
 first — c8-process-003 at build authorization or c8-process-002 at switch-on.
+
+POST-RUN VERIFY (after today's cron, read from artifacts NOT a pre-written checklist — the
+finding-C lesson): open the actual claire_digest_2026-06-28_c10.pdf cover subtitle (reads
+"Cycle 10"), read cycle_state.json off the run's bot commit-back (last_completed_cycle == 10),
+read cost_log rows for the run. Drop the Pushover-title and applied-count checks entirely —
+not observable on the GHA path (notify divergence). What the artifacts say is what happened;
+what you expected them to say is not evidence.
