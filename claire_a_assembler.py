@@ -282,6 +282,178 @@ def load_change_log() -> tuple[list, list]:
     return change_log_entries, eval_history_entries
 
 # ---------------------------------------------------------------------------
+# SOURCE-URL SUPPRESSION (Build 14 / c8-process-003)
+# ---------------------------------------------------------------------------
+#
+# Catches the same-source re-synthesis class (Type B): a candidate re-derived
+# from a post that already motivated an applied change. The Build 11/12 semantic
+# filter misses this when re-phrasing drops below the 0.85 threshold. Here we
+# match on the SOURCE ITSELF, not on phrasing.
+#
+# source_signal in change_log.json is FREE TEXT. candidate source_posts are
+# URLs/permalinks. Both are normalised to stable keys (hn:<id>, reddit:<id>,
+# devto:<slug>). A citation the normaliser cannot resolve is a SILENT FALSE
+# NEGATIVE — so every unresolved token is written to a parse-miss log, never
+# swallowed.
+
+_HN_URL_RE          = re.compile(r"news\.ycombinator\.com/item\?id=(\d+)", re.IGNORECASE)
+_HN_PREFIX_RE       = re.compile(r"^hn[/:]\s*(\d+)$", re.IGNORECASE)
+_DEVTO_URL_RE       = re.compile(r"dev\.to/[^/\s?#]+/([^/\s?#]+)", re.IGNORECASE)
+_DEVTO_PREFIX_RE    = re.compile(r"^dev\.?to[/:]\s*([^/\s?#]+)$", re.IGNORECASE)
+_REDDIT_COMMENTS_RE = re.compile(r"r/[A-Za-z0-9_]+/comments/([A-Za-z0-9]+)", re.IGNORECASE)
+_REDDIT_SHORT_RE    = re.compile(r"r/[A-Za-z0-9_]+/([A-Za-z0-9]+)", re.IGNORECASE)
+
+
+def _normalize_source_token(token: str) -> str | None:
+    """Normalise a single citation token to a stable cross-source key.
+
+    Returns 'hn:<id>' | 'reddit:<id>' | 'devto:<slug>' or None when the token
+    cannot be resolved (caller logs None results as parse-misses).
+
+    Handles every form observed in the live change_log and candidate files:
+        HN/47043484
+        https://news.ycombinator.com/item?id=47043484
+        r/automation/1tkejnh                       (short reddit form)
+        /r/automation/comments/1tkejnh/some_title/ (full reddit permalink)
+        https://dev.to/user/some-article-slug
+        devto/some-article-slug
+    """
+    t = (token or "").strip().strip(".,;:()[]{}<>\"'")
+    if not t:
+        return None
+
+    m = _HN_URL_RE.search(t)
+    if m:
+        return f"hn:{m.group(1)}"
+    m = _HN_PREFIX_RE.match(t)
+    if m:
+        return f"hn:{m.group(1)}"
+
+    m = _DEVTO_URL_RE.search(t)
+    if m:
+        return f"devto:{m.group(1).lower()}"
+    m = _DEVTO_PREFIX_RE.match(t)
+    if m:
+        return f"devto:{m.group(1).lower()}"
+
+    # Full permalink (.../comments/<id>/...) before short form, so we never
+    # capture the literal segment "comments" as a post id.
+    m = _REDDIT_COMMENTS_RE.search(t)
+    if m:
+        return f"reddit:{m.group(1).lower()}"
+    m = _REDDIT_SHORT_RE.search(t)
+    if m and m.group(1).lower() != "comments":
+        return f"reddit:{m.group(1).lower()}"
+
+    return None
+
+
+def _extract_source_keys_from_text(text: str) -> tuple[set, list]:
+    """Parse a free-text source_signal field.
+
+    Splits on whitespace/commas. A token is citation-like iff it contains '/'
+    (every observed citation form does; prose like 'Track', 'Cycle 5',
+    'Sources:' does not). Citation-like tokens that fail to normalise are
+    returned as misses — they are the silent-false-negative surface.
+
+    Returns (resolved_keys: set, unresolved_tokens: list).
+    """
+    keys: set = set()
+    misses: list = []
+    for raw in re.split(r"[\s,]+", text or ""):
+        cleaned = raw.strip().strip(".,;:()[]{}<>\"'")
+        if "/" not in cleaned:
+            continue  # prose, not a citation
+        key = _normalize_source_token(cleaned)
+        if key:
+            keys.add(key)
+        else:
+            misses.append(raw)
+    return keys, misses
+
+
+def _extract_source_keys_from_posts(source_posts: list) -> tuple[set, list]:
+    """Normalise a candidate's source_posts list (full URLs/permalinks).
+
+    Unlike source_signal these are dedicated citation fields, so every entry is
+    expected to resolve; any that does not is a miss.
+
+    Returns (resolved_keys: set, unresolved_tokens: list).
+    """
+    keys: set = set()
+    misses: list = []
+    for raw in source_posts or []:
+        if not isinstance(raw, str) or not raw.strip():
+            continue
+        key = _normalize_source_token(raw)
+        if key:
+            keys.add(key)
+        else:
+            misses.append(raw)
+    return keys, misses
+
+
+def build_change_log_source_index() -> tuple[dict, list]:
+    """Build {normalised_source_key -> sorted list of change_log ids} from the
+    raw change_log.json, preserving the real cN-... ids (load_change_log drops
+    them in favour of uuids).
+
+    Returns (index, parse_misses). parse_misses records every unresolved
+    citation token with its originating change_log id.
+    """
+    index: dict = {}
+    misses: list = []
+    if not CHANGE_LOG_PATH.exists():
+        log.warning("change_log.json not found — source index empty")
+        return index, misses
+
+    with open(CHANGE_LOG_PATH, encoding="utf-8") as f:
+        data = json.load(f)
+
+    for entry in data.get("changes", []):
+        cid    = entry.get("id", "unknown")
+        signal = _normalise_source(entry)
+        keys, entry_misses = _extract_source_keys_from_text(signal)
+        for k in keys:
+            index.setdefault(k, set()).add(cid)
+        for tok in entry_misses:
+            misses.append({
+                "origin":        "change_log",
+                "change_log_id": cid,
+                "token":         tok,
+                "source_signal": signal,
+            })
+
+    return {k: sorted(v) for k, v in index.items()}, misses
+
+
+def match_candidates_by_source(candidates: list, source_index: dict) -> tuple[dict, list]:
+    """Match each candidate's source_posts against the change_log source index.
+
+    Returns (matches, parse_misses) where matches maps candidate id ->
+    sorted list of change_log ids whose source_signal shares a citation.
+    """
+    matches: dict = {}
+    misses: list  = []
+    for c in candidates:
+        detail = c.get("content", {}).get("detail", {})
+        posts  = detail.get("source_posts", []) if isinstance(detail, dict) else []
+        keys, cand_misses = _extract_source_keys_from_posts(posts)
+        matched: set = set()
+        for k in keys:
+            matched.update(source_index.get(k, []))
+        if matched:
+            matches[c["id"]] = sorted(matched)
+        for tok in cand_misses:
+            misses.append({
+                "origin":      "candidate",
+                "candidate_id": c["id"],
+                "fingerprint":  c.get("fingerprint"),
+                "token":        tok,
+            })
+    return matches, misses
+
+# ---------------------------------------------------------------------------
 # MEMORY SNAPSHOT
 # ---------------------------------------------------------------------------
 
@@ -442,16 +614,35 @@ def filter_candidates_by_memory(
     config: dict,
     change_log_entries: list | None = None,
 ) -> tuple[list, list, float]:
-    """Suppress candidates semantically similar to current memory state.
+    """Suppress candidates that duplicate an already-applied change.
 
-    Comparison text is built from claire_session_context.txt (when current) and
-    change_log_entries (always runtime-current). Suppressed entries record
-    filter_source: snapshot_only | change_log_only | combined.
+    Two independent signals, COMBINED per candidate (neither replaces the other):
+
+    1. Semantic memory filter (Build 8): Haiku scores similarity between the
+       candidate and the current memory state (claire_session_context.txt +
+       change_log_entries). score >= threshold suppresses. filter_source records
+       the comparison basis: snapshot_only | change_log_only | combined.
+
+    2. Source-URL suppression (Build 14 / c8-process-003): the candidate's
+       source_posts are normalised and matched against every source_signal in
+       change_log.json. A match attaches SOURCE_ALREADY_PROCESSED plus the
+       matching change_log id(s). This catches the same-source re-synthesis
+       class (Type B) that the semantic filter misses when re-phrasing drops
+       below threshold. The flag is a pointer for human adjudication, NOT a
+       verdict: the candidate is routed to the suppressed log carrying its
+       matched ids so the operator can decide duplicate-vs-distinct. It is
+       never hard-dropped (a hard-drop on shared source would have killed the
+       distinct c6-prof-002).
+
+    A candidate is routed to suppressed_candidates if EITHER signal fires.
+    Source matching runs even when the semantic filter is disabled/unavailable.
 
     Sequential Haiku calls â€” one per candidate, fine at â‰¤15 candidates.
     Returns (unsuppressed, suppressed_log_entries, total_cost_usd).
 
-    Writes data/suppressed_candidates_{timestamp}.json (always, even if empty).
+    Writes data/suppressed_candidates_{timestamp}.json (always) and
+    data/source_parse_misses_{timestamp}.json (always â€” unresolved citations
+    are logged, never swallowed, so recall stays auditable).
     """
     assembler_cfg = config.get("assembler", {})
     enabled   = assembler_cfg.get("memory_filter_enabled", True)
@@ -460,90 +651,127 @@ def filter_candidates_by_memory(
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     suppressed_path = DATA_DIR / f"suppressed_candidates_{ts}.json"
+    parse_miss_path = DATA_DIR / f"source_parse_misses_{ts}.json"
 
     def _write_suppressed(entries: list):
-        with open(suppressed_path, "w", encoding="utf-8") as f:
-            json.dump(entries, f, indent=2)
+        atomic_write_json(suppressed_path, entries, ensure_ascii=False)
         log.info(f"Suppressed candidates log â†’ {suppressed_path.name} ({len(entries)} entries)")
 
+    # â”€â”€ Build 14 (c8-process-003): source-URL suppression â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    source_index, cl_parse_misses   = build_change_log_source_index()
+    source_matches, cand_parse_misses = match_candidates_by_source(candidates, source_index)
+    parse_misses = cl_parse_misses + cand_parse_misses
+    atomic_write_json(
+        parse_miss_path,
+        {
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "change_log":   CHANGE_LOG_PATH.name,
+            "miss_count":   len(parse_misses),
+            "misses":       parse_misses,
+        },
+        ensure_ascii=False,
+    )
+    log.info(
+        f"Source-URL matcher: {len(source_matches)} candidate(s) matched an "
+        f"applied source; {len(parse_misses)} unresolved citation(s) â†’ "
+        f"{parse_miss_path.name}"
+    )
+
+    # â”€â”€ Semantic filter availability â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    semantic_available = True
+    comparison_text = ""
+    filter_source   = "source_only"  # overwritten when semantic scoring runs
+
     if not enabled:
-        log.info("Memory filter disabled in config â€” skipping")
-        _write_suppressed([])
-        return candidates, [], 0.0
+        log.info("Memory filter disabled in config â€” semantic scoring skipped (source matching still runs)")
+        semantic_available = False
+    elif not MEMORY_SNAPSHOT_PATH.exists():
+        log.warning("claire_session_context.txt not found â€” semantic scoring skipped (source matching still runs)")
+        semantic_available = False
 
-    if not MEMORY_SNAPSHOT_PATH.exists():
-        log.warning("claire_session_context.txt not found â€” memory filter skipped")
-        _write_suppressed([])
-        return candidates, [], 0.0
+    if semantic_available:
+        memory_text = MEMORY_SNAPSHOT_PATH.read_text(encoding="utf-8").strip()
+        cl_text = ""
+        if change_log_entries:
+            cl_text = "\n".join(
+                f"{e['type']}: {e['summary']}"
+                for e in change_log_entries
+                if e.get("summary")
+            )
+        if not memory_text and not cl_text:
+            log.warning("claire_session_context.txt empty and no change_log entries — semantic scoring skipped (source matching still runs)")
+            semantic_available = False
+        else:
+            comparison_parts = [p for p in [memory_text, cl_text] if p]
+            comparison_text  = "\n\n".join(comparison_parts)
+            if memory_text and cl_text:
+                filter_source = "combined"
+            elif memory_text:
+                filter_source = "snapshot_only"
+            else:
+                filter_source = "change_log_only"
+        if semantic_available:
+            log.info(f"Memory filter: scoring {len(candidates)} candidates "
+                     f"(model={model}, threshold={threshold}, source={filter_source})")
 
-    memory_text = MEMORY_SNAPSHOT_PATH.read_text(encoding="utf-8").strip()
-
-    cl_text = ""
-    if change_log_entries:
-        cl_text = "\n".join(
-            f"{e['type']}: {e['summary']}"
-            for e in change_log_entries
-            if e.get("summary")
-        )
-
-    if not memory_text and not cl_text:
-        log.warning("claire_session_context.txt empty and no change_log entries — memory filter skipped")
-        _write_suppressed([])
-        return candidates, [], 0.0
-
-    comparison_parts = [p for p in [memory_text, cl_text] if p]
-    comparison_text = "\n\n".join(comparison_parts)
-
-    if memory_text and cl_text:
-        filter_source = "combined"
-    elif memory_text:
-        filter_source = "snapshot_only"
-    else:
-        filter_source = "change_log_only"
-
-    log.info(f"Memory filter: scoring {len(candidates)} candidates "
-             f"(model={model}, threshold={threshold}, source={filter_source})")
-
-    client = _anthropic.Anthropic()
+    client       = _anthropic.Anthropic() if semantic_available else None
     unsuppressed = []
     suppressed   = []
     total_cost   = 0.0
 
     for candidate in candidates:
-        try:
-            score, cost = _semantic_similarity(candidate, comparison_text, model, client)
-            total_cost += cost
-
-            if score >= threshold:
-                entry = {
-                    "id":               candidate["id"],
-                    "change_target":    candidate["content"]["type"],
-                    "similarity_score": round(score, 4),
-                    "reason":           "semantic_duplicate",
-                    "filter_source":    filter_source,
-                    "suppressed_at":    datetime.now(timezone.utc).isoformat(),
-                }
-                suppressed.append(entry)
-                log.info(
-                    f"Suppressed {candidate['fingerprint']} "
-                    f"(score={score:.3f} >= {threshold}, source={filter_source}) — "
-                    f"{candidate['content']['summary'][:60]!r}"
+        sem_score = None
+        if semantic_available:
+            try:
+                sem_score, cost = _semantic_similarity(candidate, comparison_text, model, client)
+                total_cost += cost
+            except Exception as e:
+                log.warning(
+                    f"Memory filter error for {candidate['fingerprint']}: {e} "
+                    f"â€” semantic score unavailable for this candidate"
                 )
-            else:
-                unsuppressed.append(candidate)
-                log.debug(f"Passed {candidate['fingerprint']} (score={score:.3f})")
+                log.debug(f"  candidate summary: {candidate['content'].get('summary','?')[:80]!r}")
+                sem_score = None
 
-        except Exception as e:
-            log.warning(
-                f"Memory filter error for {candidate['fingerprint']}: {e} "
-                f"â€” passing through"
+        matched_ids  = source_matches.get(candidate["id"], [])
+        sem_suppress = sem_score is not None and sem_score >= threshold
+        src_suppress = bool(matched_ids)
+
+        if sem_suppress or src_suppress:
+            reasons, flags = [], []
+            if sem_suppress:
+                reasons.append("semantic_duplicate")
+            if src_suppress:
+                reasons.append("source_already_processed")
+                flags.append("SOURCE_ALREADY_PROCESSED")
+            entry = {
+                "id":                       candidate["id"],
+                "fingerprint":              candidate["fingerprint"],
+                "change_target":            candidate["content"]["type"],
+                "summary":                  candidate["content"]["summary"][:80],
+                "similarity_score":         round(sem_score, 4) if sem_score is not None else None,
+                "reason":                   "+".join(reasons),
+                "flags":                    flags,
+                "source_already_processed": src_suppress,
+                "matched_change_log_ids":   matched_ids,
+                "filter_source":            filter_source,
+                "suppressed_at":            datetime.now(timezone.utc).isoformat(),
+            }
+            suppressed.append(entry)
+            sem_disp = f"{sem_score:.3f}" if sem_score is not None else "n/a"
+            log.info(
+                f"Suppressed {candidate['fingerprint']} "
+                f"(reason={entry['reason']}, sem={sem_disp}, matched={matched_ids or 'â€”'}) â€” "
+                f"{candidate['content']['summary'][:60]!r}"
             )
-            log.debug(f"  candidate summary: {candidate['content'].get('summary','?')[:80]!r}")
+        else:
             unsuppressed.append(candidate)
+            sem_disp = f"{sem_score:.3f}" if sem_score is not None else "n/a"
+            log.debug(f"Passed {candidate['fingerprint']} (sem={sem_disp})")
 
     log.info(
-        f"Memory filter complete: {len(unsuppressed)} pass, "
-        f"{len(suppressed)} suppressed, cost=${total_cost:.4f}"
+        f"Suppression complete: {len(unsuppressed)} pass, "
+        f"{len(suppressed)} suppressed, semantic_cost=${total_cost:.4f}"
     )
 
     _write_suppressed(suppressed)
