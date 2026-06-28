@@ -1,4 +1,4 @@
-# CLAIRE Session Notes — Cycle 10 (pre-run 2026-06-28)
+# CLAIRE Session Notes — Cycle 10 (2026-06-28, updated post-run)
 # Prior content (cycle 7, 2026-06-09) superseded.
 
 ## APPLIED CHANGES HOLDING
@@ -24,20 +24,29 @@ was the cycle-numbering correction (see below). No behavioral signal to record.
   qualifying — see ledger note.
 - Eval ledger: 5 scored observations, all keyed `unknown` (pre-Build-12
   attribution), last updated 2026-06-02. No growth across 06-14 or 06-21 GHA
-  runs — frozen at manual seed. Build 14 commit-back was meant to enable
-  GHA-persisted scoring; no post-06-14 entries present. Cause unconfirmed
-  (no scorable candidates on thin corpus vs. commit-back not landing vs.
-  windows not elapsed) — verify against GHA run logs next session.
+  runs — frozen at manual seed. Cause unconfirmed (no scorable candidates on
+  thin corpus vs. commit-back not landing vs. windows not elapsed) — verify
+  against GHA run logs next session.
 
 ## OPERATIONAL NOTES (cycle-numbering correction)
-- 06-21 run shipped mislabeled c8. Mechanism: config.pipeline.current_cycle was
-  never advanced to 9 on main before the 06-21 cron, so claire_output read 8 and
-  stamped c8. Human-side ritual gap, Local-vs-GHA rule 2 (unpushed/skipped config
-  edit runs silently against last week's value). Not a code defect.
-- Correction this cycle: config bumped 8 → 10 (date-map decision — 06-21 recorded
-  as cycle 9 mislabeled c8; 06-28 = cycle 10 per HANDOFF cycle log). Quarantines
-  the error to 06-21, no forward renumber.
-- cost_log upsert bug persists: 6 rows for 2 runs (three per date, one per stage
-  — triage/synthesis/assembler — not upserted by _match_key). total_runs reads 6,
-  actual runs 2, overcount +4. Fix: group by _match_key, sum stages into one
-  dated row; count distinct _match_key for total_runs.
+- 06-21 run shipped mislabeled c8. config.pipeline.current_cycle was never
+  advanced to 9 before the 06-21 cron. Human-side ritual gap. Not a code defect.
+- Correction this cycle: config bumped 8 → 10. Quarantines error to 06-21.
+- cost_log upsert bug persists: 6 rows for 2 runs (one per stage per run, not
+  upserted by _match_key). total_runs overcounts by 4. Open fix.
+
+## INGEST DEBUGGING SESSION (2026-06-28, post cycle 10 run)
+Cycle 10 produced 4 posts (all dev.to, 0 HN). Two root causes fixed:
+
+HN 400 — numericFilters encoding (HIGH):
+requests encodes > as %3E; Algolia HN API rejects encoded form. Fixed:
+numericFilters removed from fetch_hn_search; points gating retained via
+noise_prefilter; switched to search_by_date; safe_get now logs response body
+on non-200. This run is the verification dispatch.
+
+raw_posts persistence — cross-run dedup never working on GHA (MEDIUM):
+GHA commit-back correctly excluded raw_posts.json (public repo / scraped
+content). Fixed via actions/cache@v4 (not repo commit). gitignore negation
+removed. Cache miss expected this run; dedup effective cycle 12.
+
+Expected this run: HN stats fetched > 0 if fix holds. Cache miss on raw_posts.
