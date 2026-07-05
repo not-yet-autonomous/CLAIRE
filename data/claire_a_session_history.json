@@ -7,5 +7,23 @@
     "sessions": [
       "17b4eca9-722c-43f0-89f1-a84ecfa77cbd"
     ]
+  },
+  "26f65de1136d3208": {
+    "appearances": 1,
+    "first_seen": "2026-07-05T15:11:27.925862+00:00",
+    "last_seen": "2026-07-05T15:11:27.925862+00:00",
+    "last_decision": "apply",
+    "sessions": [
+      "c8cc85b6-9fd3-44b6-b3d2-5dea1afc82c7"
+    ]
+  },
+  "46c4f2bff6b0e672": {
+    "appearances": 1,
+    "first_seen": "2026-07-05T15:11:27.925862+00:00",
+    "last_seen": "2026-07-05T15:11:27.925862+00:00",
+    "last_decision": "apply",
+    "sessions": [
+      "c8cc85b6-9fd3-44b6-b3d2-5dea1afc82c7"
+    ]
   }
 }
