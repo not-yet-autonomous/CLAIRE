@@ -157,3 +157,42 @@
 15:09:34  INFO      Archive: 0 total posts → /home/runner/work/CLAIRE/CLAIRE/data/archive.json
 15:09:34  INFO      Cost log updated (run_id=20260705) — triage=$0.0688 | synthesis=$0.0000 | assembler=$0.0000 | total=$0.0688
 15:09:34  INFO      CLAIRE triage complete.
+14:49:38  INFO      CLAIRE triage started — dry_run=False
+14:49:38  INFO      Loaded 136 posts from raw_posts.json
+14:49:38  INFO      Keyword filter removed 10 posts (opus, claude opus). 126 remaining.
+14:49:38  INFO      126 posts need triage
+14:49:38  INFO      Friction log loaded: 36487 chars
+14:49:38  INFO      Profile snapshot loaded: 13551 chars
+14:49:38  INFO      Processing 7 batches of up to 20 posts
+14:49:38  INFO      Batch [1/7] — 20 posts
+14:49:51  INFO      HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+14:49:52  INFO      Batch [2/7] — 20 posts
+14:50:04  INFO      HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+14:50:05  INFO      Batch [3/7] — 20 posts
+14:50:17  INFO      HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+14:50:18  INFO      Batch [4/7] — 20 posts
+14:50:31  INFO      HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+14:50:32  INFO      Batch [5/7] — 20 posts
+14:50:44  INFO      HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+14:50:45  INFO      Batch [6/7] — 20 posts
+14:50:56  INFO      HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+14:50:57  INFO      Batch [7/7] — 6 posts
+14:51:01  INFO      HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+14:51:01  INFO      Classification complete: 126 tagged, 0 failed
+14:51:01  INFO      Signal breakdown: {'feature_praise': 30, 'noise': 61, 'workflow_gap': 17, 'behavior_complaint': 18}
+14:51:01  INFO      Persona breakdown: {'developer': 75, 'casual': 39, 'researcher': 8, 'enterprise': 4}
+14:51:01  INFO      Source breakdown: {'claude_native': 95, 'competitor_gap': 3, 'cross_platform_workflow': 28}
+14:51:01  INFO      Triage API usage — input: 33,290 tokens | output: 10,799 tokens | batches: 7 | cost: $0.0873
+14:51:01  INFO      Gate routing complete:
+14:51:01  INFO        Track A (claude_native):     8
+14:51:01  INFO        Track B (competitor_gap):    0
+14:51:01  INFO        Track C (cross_platform):    0
+14:51:01  INFO        Archive (LOW confidence):    0
+14:51:01  INFO        Discard (IGNORE):            118
+14:51:01  INFO      Wrote 126 tagged posts → /home/runner/work/CLAIRE/CLAIRE/data/tagged_posts.json
+14:51:01  INFO      Wrote 8 posts → synthesis_queue_track_a.json
+14:51:01  INFO      Wrote 0 posts → synthesis_queue_track_b.json
+14:51:01  INFO      Wrote 0 posts → synthesis_queue_track_c.json
+14:51:01  INFO      Archive: 0 total posts → /home/runner/work/CLAIRE/CLAIRE/data/archive.json
+14:51:01  INFO      Cost log updated (run_id=20260712) — triage=$0.0873 | synthesis=$0.0000 | assembler=$0.0000 | total=$0.0873
+14:51:01  INFO      CLAIRE triage complete.

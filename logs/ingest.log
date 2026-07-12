@@ -463,3 +463,67 @@
 15:08:22  INFO      CLAIRE ingest complete.
 15:08:22  INFO      Run summary: {'run_at': '2026-07-05T15:05:56.219970+00:00', 'source': 'gha', 'dry_run': False, 'existing_posts': 64, 'new_posts': 43, 'total_posts': 107, 'hn_new': 38, 'forum_new': 5}
 15:08:22  INFO      Lock released.
+14:47:37  INFO      Lock acquired — PID 2377
+14:47:37  INFO      CLAIRE ingest started — source=gha dry_run=False
+14:47:37  INFO      Loaded 107 existing posts from cache
+14:47:37  INFO      HackerNews search: 'Claude AI'
+14:47:37  INFO      HackerNews search: 'Anthropic Claude'
+14:47:38  INFO      HackerNews search: 'Claude assistant'
+14:47:39  INFO      HackerNews search: 'Claude vs ChatGPT'
+14:47:40  INFO      HackerNews search: 'Claude model'
+14:47:41  INFO      HackerNews stats: {'fetched': 150, 'prefiltered': 83, 'deduplicated': 40, 'new': 27}
+14:47:41  INFO      HN comments [1/27] hn_48876037
+14:47:41  INFO      HN comments [2/27] hn_48870928
+14:47:42  INFO      HN comments [3/27] hn_48867021
+14:47:43  INFO      HN comments [4/27] hn_48865667
+14:47:43  INFO      HN comments [5/27] hn_48858177
+14:47:44  INFO      HN comments [6/27] hn_48856350
+14:47:45  INFO      HN comments [7/27] hn_48847623
+14:47:45  INFO      HN comments [8/27] hn_48880537
+14:47:46  INFO      HN comments [9/27] hn_48845526
+14:47:47  INFO      HN comments [10/27] hn_48844796
+14:47:48  INFO      Burst protection — sleeping 15s after 10 comment fetches.
+14:48:03  INFO      HN comments [11/27] hn_48844002
+14:48:03  INFO      HN comments [12/27] hn_48832797
+14:48:04  INFO      HN comments [13/27] hn_48832208
+14:48:05  INFO      HN comments [14/27] hn_48832206
+14:48:05  INFO      HN comments [15/27] hn_48825315
+14:48:06  INFO      HN comments [16/27] hn_48821162
+14:48:07  INFO      HN comments [17/27] hn_48819808
+14:48:08  INFO      HN comments [18/27] hn_48786769
+14:48:08  INFO      HN comments [19/27] hn_48875730
+14:48:09  INFO      HN comments [20/27] hn_48875494
+14:48:10  INFO      Burst protection — sleeping 15s after 20 comment fetches.
+14:48:25  INFO      HN comments [21/27] hn_48872847
+14:48:26  INFO      HN comments [22/27] hn_48865093
+14:48:26  INFO      HN comments [23/27] hn_48852172
+14:48:27  INFO      HN comments [24/27] hn_48847526
+14:48:28  INFO      HN comments [25/27] hn_48842459
+14:48:29  INFO      HN comments [26/27] hn_48841502
+14:48:30  INFO      HN comments [27/27] hn_48824259
+14:48:30  INFO      HackerNews: 27 new posts
+14:48:33  INFO      dev.to tag=anthropic page=1: 30 articles
+14:48:36  INFO      dev.to tag=anthropic page=2: 30 articles
+14:48:40  INFO      dev.to tag=claudeai page=1: 30 articles
+14:48:44  INFO      dev.to tag=claudeai page=2: 30 articles
+14:48:48  INFO      dev.to tag=claude page=1: 30 articles
+14:48:51  INFO      dev.to tag=claude page=2: 30 articles
+14:48:55  INFO      dev.to tag=llm page=1: 30 articles
+14:48:59  INFO      dev.to tag=llm page=2: 30 articles
+14:49:02  INFO      dev.to tag=aitools page=1: 30 articles
+14:49:06  INFO      dev.to tag=aitools page=2: 30 articles
+14:49:10  INFO      dev.to tag=machinelearning page=1: 30 articles
+14:49:13  INFO      dev.to tag=machinelearning page=2: 30 articles
+14:49:17  INFO      dev.to tag=ai page=1: 30 articles
+14:49:21  INFO      dev.to tag=ai page=2: 30 articles
+14:49:25  INFO      dev.to tag=chatgpt page=1: 30 articles
+14:49:28  INFO      dev.to tag=chatgpt page=2: 30 articles
+14:49:32  INFO      dev.to tag=productivity page=1: 30 articles
+14:49:36  INFO      dev.to tag=productivity page=2: 30 articles
+14:49:37  INFO      dev.to stats: {'fetched': 540, 'prefiltered': 501, 'deduplicated': 37, 'new': 2}
+14:49:37  INFO      dev.to: 2 new posts
+14:49:37  INFO      dev.to: 2 new posts
+14:49:37  INFO      Saved 136 posts → /home/runner/work/CLAIRE/CLAIRE/data/raw_posts.json
+14:49:37  INFO      CLAIRE ingest complete.
+14:49:37  INFO      Run summary: {'run_at': '2026-07-12T14:47:37.077213+00:00', 'source': 'gha', 'dry_run': False, 'existing_posts': 107, 'new_posts': 29, 'total_posts': 136, 'hn_new': 27, 'forum_new': 2}
+14:49:37  INFO      Lock released.
