@@ -34,5 +34,41 @@
     "sessions": [
       "c62bea70-a546-4725-aa5e-e41bbf4d3678"
     ]
+  },
+  "62017cd88e9cf86d": {
+    "appearances": 1,
+    "first_seen": "2026-07-19T14:54:08.055449+00:00",
+    "last_seen": "2026-07-19T14:54:08.055449+00:00",
+    "last_decision": "apply",
+    "sessions": [
+      "da1b7201-566c-4ebe-a449-005c1aac5b45"
+    ]
+  },
+  "688d6d798526913b": {
+    "appearances": 1,
+    "first_seen": "2026-07-19T14:54:08.055449+00:00",
+    "last_seen": "2026-07-19T14:54:08.055449+00:00",
+    "last_decision": "apply",
+    "sessions": [
+      "da1b7201-566c-4ebe-a449-005c1aac5b45"
+    ]
+  },
+  "86bef9f53076f425": {
+    "appearances": 1,
+    "first_seen": "2026-07-19T14:54:08.055449+00:00",
+    "last_seen": "2026-07-19T14:54:08.055449+00:00",
+    "last_decision": "apply",
+    "sessions": [
+      "da1b7201-566c-4ebe-a449-005c1aac5b45"
+    ]
+  },
+  "4d0b8dc038843bde": {
+    "appearances": 1,
+    "first_seen": "2026-07-19T14:54:08.055449+00:00",
+    "last_seen": "2026-07-19T14:54:08.055449+00:00",
+    "last_decision": "skip",
+    "sessions": [
+      "da1b7201-566c-4ebe-a449-005c1aac5b45"
+    ]
   }
 }
