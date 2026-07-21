@@ -10,7 +10,8 @@
       "Cycle 4 entries appended 2026-05-19 after change_log repair. Entries were documented in HANDOFF.md but never written due to truncation on prior session.",
       "Cycles 2-4 confidence scores are understated — friction_log path bug caused cross-reference gate to run against example data rather than live friction log. Fix applied 2026-05-19; takes effect Cycle 5. Historical scores directionally correct but not retroactively adjusted.",
       "Schema v1.2: scope field added to all entries. Values: global (profile_diff — applies all sessions) | project (memory_edit or skill_install — CLAIRE sessions and skill-loaded sessions only). Backfilled 2026-06-02 by type: profile_diff -> global, memory_edit -> project, skill_install -> project.",
-      "eval_window (optional): eval-clock duration on an entry; see HANDOFF locked decisions for the 14d/21d rule. First used on c8-prof-001 (2026-06-13)."
+      "eval_window (optional): eval-clock duration on an entry; see HANDOFF locked decisions for the 14d/21d rule. First used on c8-prof-001 (2026-06-13).",
+      "eval_window may be a duration (14d/21d) or a cadence token; first cadence use: c8-process-003 (2026-07-19)."
     ]
   },
   "changes": [
@@ -862,6 +863,21 @@
       "hypothesis": "Retirement rationale: c4-mem-002 hardcodes 4.6>4.7 as a memory fact. c8-prof-001 produces that same answer today by rule and self-promotes when signal changes, making the hardcoded version pure liability. Same scope misplacement as c8-mem-001: a global behavior held in memory.",
       "source_signal": "Superseded by c8-prof-001 (2026-06-13).",
       "eval_status": "n/a",
+      "eval_notes": ""
+    },
+    {
+      "id": "c8-process-003",
+      "date": "2026-07-19",
+      "cycle": 13,
+      "type": "pipeline_change",
+      "action": "add",
+      "scope": "process",
+      "target": "Assembler - source-URL suppression flag against change_log source_signal",
+      "summary": "Assembler suppression compares each candidate's source URL(s) against change_log source_signal fields. A match raises SOURCE_ALREADY_PROCESSED, routes the candidate to suppressed_candidates with the matching change_log IDs attached, combined with (not replacing) the 0.85 semantic score. Flag-and-adjudicate, never drop - one source may motivate multiple distinct changes (HN/47043484 -> c5-prof-004 AND c6-prof-002).",
+      "hypothesis": "Change_log shows HN/47043484 produced two distinct applied changes, c5-prof-004 (vendor procurement methodology) and c6-prof-002 (shadow-IT recognition), which are not paraphrases. A shared source therefore does not imply a duplicate candidate, so suppression must flag for adjudication, never drop. I expect source-URL matching to flag re-surfaced candidates from already-processed posts and route them to suppressed_candidates with the matching change_log IDs attached. Each flag obligates a human read of the candidate against the cited IDs; the flag is a pointer, not a verdict, because the matcher cannot distinguish re-synthesis of the same change from a genuine second change off the same source. Success is measured by recall, not flag-precision: each cycle I hand-count Track A candidates that are source-duplicates of applied changes (the true population), then check how many the matcher caught; a matcher that flags cleanly but misses unparseable source citations is theater. Revert trigger: a flagged candidate I would have applied indicates the rule is eating signal, which requires that I read suppressed_candidates every cycle as a standing step, or the trigger never fires. Evaluable per source-duplicate occurrence, not on a fixed day count; first assessment at the first cycle a flag fires.",
+      "source_signal": "CLAIRE-A engine notes, Cycle 8 digest 2026-06-14. SKIP on duplicate of c5-prof-004/c6-prof-002, both citing HN/47043484. Prior flags: friction 2026-05-10, 2026-05-21, 2026-06-02. Code shipped commit 2d75cd3 (prior session); entry written 2026-07-19 with recovered ratified hypothesis.",
+      "eval_status": "pending",
+      "eval_window": "per source-duplicate occurrence; first assessment at first flag fire",
       "eval_notes": ""
     }
   ]
