@@ -98,19 +98,12 @@ jobs:
           git push
 
       - name: Notify via Pushover
+        env:
+          PUSHOVER_APP_TOKEN: ${{ secrets.PUSHOVER_APP_TOKEN }}
+          PUSHOVER_USER_KEY:  ${{ secrets.PUSHOVER_USER_KEY }}
         run: |
-          PDF=$(ls output/claire_digest_*.pdf 2>/dev/null | sort | tail -1)
-          if [ -z "$PDF" ]; then
-            echo "No digest PDF found -- skipping notification"
-            exit 0
-          fi
-          curl -s -o /dev/null -w "%{http_code}" \
-            --form-string "token=${{ secrets.PUSHOVER_APP_TOKEN }}" \
-            --form-string "user=${{ secrets.PUSHOVER_USER_KEY }}" \
-            --form-string "message=CLAIRE digest ready -- $(date -u +%Y-%m-%d)" \
-            --form-string "title=CLAIRE" \
-            --form "attachment=@$PDF;type=application/pdf" \
-            https://api.pushover.net/1/messages.json
+          export DIGEST_DATE=$(date -u +%Y-%m-%d)
+          python claire_notify.py
 
       - name: Add workflow to git if new
         run: |

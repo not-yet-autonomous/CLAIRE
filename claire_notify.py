@@ -1,17 +1,17 @@
 # Copyright (c) 2026 James Cole. Licensed under the MIT License.
 """
-CLAIRE — Build 8: Pushover Notification
+CLAIRE - Build 8: Pushover Notification
 Reads pipeline artifacts from the current run and sends a Pushover
 notification with PDF digest attached (or a text fallback if the PDF
 is missing or oversized).
 
 Environment variables consumed:
-  DIGEST_DATE         — date string matching the PDF filename (YYYY-MM-DD)
-  PUSHOVER_APP_TOKEN  — Pushover application token
-  PUSHOVER_USER_KEY   — Pushover user/group key
-  GITHUB_SHA          — commit SHA (set automatically by GHA)
-  GITHUB_REPOSITORY   — owner/repo (set automatically by GHA)
-  GITHUB_SERVER_URL   — e.g. https://github.com (set automatically by GHA)
+  DIGEST_DATE         - date string matching the PDF filename (YYYY-MM-DD)
+  PUSHOVER_APP_TOKEN  - Pushover application token
+  PUSHOVER_USER_KEY   - Pushover user/group key
+  GITHUB_SHA          - commit SHA (set automatically by GHA)
+  GITHUB_REPOSITORY   - owner/repo (set automatically by GHA)
+  GITHUB_SERVER_URL   - e.g. https://github.com (set automatically by GHA)
 
 Run (GitHub Actions): called by claire_weekly.yml notify step
 Run (local test):     set env vars manually then python claire_notify.py
@@ -33,14 +33,15 @@ BASE_DIR         = Path(__file__).parent
 DATA_DIR         = BASE_DIR / "data"
 OUTPUT_DIR       = BASE_DIR / "output"
 CONFIG_PATH      = BASE_DIR / "config.json"
+CYCLE_STATE_PATH = BASE_DIR / "data" / "cycle_state.json"
 
 PUSHOVER_API_URL = "https://api.pushover.net/1/messages.json"
-PDF_SIZE_LIMIT   = 2_500_000   # 2.5 MB — Pushover attachment ceiling
+PDF_SIZE_LIMIT   = 2_500_000   # 2.5 MB - Pushover attachment ceiling
 
-# Cycle identity is owned by config (config.pipeline.current_cycle), never the
-# change log. The applied-count queries change_log only for the count, scoped
-# to that cycle. APPLIED_ACTIONS are actions executed against live config;
-# 'queued' (proposed, not applied) is excluded.
+# Cycle identity is owned by cycle_state.json (last_completed_cycle), never
+# config or the change log (Counter Fix A, 2026-07-19). The applied-count
+# queries change_log only for the count, scoped to that cycle. APPLIED_ACTIONS
+# are actions executed against live config; 'queued' is excluded.
 APPLIED_ACTIONS  = frozenset({"add", "apply", "modify", "retire"})
 
 logging.basicConfig(
@@ -60,7 +61,7 @@ def read_latest_run_cost() -> float:
     """Return total_cost_usd from the most recent cost_log.json entry."""
     path = DATA_DIR / "cost_log.json"
     if not path.exists():
-        log.warning("cost_log.json not found — cost will show as 0.000")
+        log.warning("cost_log.json not found - cost will show as 0.000")
         return 0.0
     try:
         with open(path, encoding="utf-8") as f:
@@ -76,20 +77,22 @@ def read_latest_run_cost() -> float:
 
 
 def read_cycle_number() -> int:
-    """Return cycle identity from config.pipeline.current_cycle — the sole
-    source of cycle identity. Never derived from change_log.
+    """Return cycle identity from cycle_state.json (last_completed_cycle).
 
-    Cycle identity is owned by config. If the key is missing or unreadable,
-    fail loudly rather than fall back to a change_log-derived value: a silent
-    wrong cycle title is the exact failure this removes.
+    Cycle identity is owned by cycle_state.json (Counter Fix A, 2026-07-19).
+    config.pipeline.current_cycle was orphaned - it froze silently for four
+    cycles. Notify runs AFTER the digest step, which writes the completed
+    cycle to cycle_state, so last_completed_cycle already equals this run's
+    cycle: read it straight, no +1. If missing or unreadable, fail loudly
+    rather than send a mistitled notification.
     """
     try:
-        with open(CONFIG_PATH, encoding="utf-8") as f:
-            cfg = json.load(f)
-        return int(cfg["pipeline"]["current_cycle"])
+        with open(CYCLE_STATE_PATH, encoding="utf-8") as f:
+            state = json.load(f)
+        return int(state["last_completed_cycle"])
     except (FileNotFoundError, json.JSONDecodeError, KeyError, TypeError, ValueError) as e:
         log.error(
-            f"Cannot read config.pipeline.current_cycle — cycle identity "
+            f"Cannot read cycle_state.last_completed_cycle - cycle identity "
             f"unavailable, refusing to send a mistitled notification: {e}"
         )
         raise SystemExit(1)
@@ -101,11 +104,11 @@ def read_graduation_run_count() -> int:
     Session history is a flat dict keyed by candidate fingerprint. Each
     value includes a 'sessions' list of session UUIDs for that fingerprint.
     The graduation run count is the number of unique session IDs across all
-    fingerprints — each session represents one full engine run.
+    fingerprints - each session represents one full engine run.
     """
     path = DATA_DIR / "claire_a_session_history.json"
     if not path.exists():
-        log.warning("claire_a_session_history.json not found — A-runs will show as 0")
+        log.warning("claire_a_session_history.json not found - A-runs will show as 0")
         return 0
     try:
         with open(path, encoding="utf-8") as f:
@@ -127,7 +130,7 @@ def count_candidates(cycle: int) -> tuple[int, int]:
     `cycle` is the identity from read_cycle_number() (config-owned). The applied
     count queries change_log ONLY for the count, scoped to that cycle and to
     actions executed against live config (APPLIED_ACTIONS). Zero is a legal
-    result — a cycle with no applied entries returns 0, never a fallback.
+    result - a cycle with no applied entries returns 0, never a fallback.
     """
     total    = 0
     applied  = 0
@@ -180,7 +183,7 @@ def build_message(
     commit_url: str,
 ) -> tuple[str, str]:
     """Return (title, body) for the Pushover message."""
-    title = f"CLAIRE Cycle {cycle} — {date_str}"
+    title = f"CLAIRE Cycle {cycle} - {date_str}"
     body  = (
         f"Candidates: {candidates} | Applied: {applied} | "
         f"Cost: ${cost:.3f} | A-runs: {a_runs}/6\n"
@@ -269,13 +272,13 @@ def main():
         )
         sys.exit(1)
 
-    log.info(f"claire_notify starting — digest_date={digest_date}")
+    log.info(f"claire_notify starting - digest_date={digest_date}")
 
     # ── Build commit URL ──────────────────────────────────────────────────────
     if github_repo and github_sha != "local":
         commit_url = f"{github_server}/{github_repo}/commit/{github_sha}"
     else:
-        commit_url = f"local run — sha={github_sha}"
+        commit_url = f"local run - sha={github_sha}"
 
     # ── Collect stats ─────────────────────────────────────────────────────────
     cost      = read_latest_run_cost()
@@ -284,7 +287,7 @@ def main():
     total_c, applied_c = count_candidates(cycle)
 
     log.info(
-        f"Stats — cycle={cycle} candidates={total_c} applied={applied_c} "
+        f"Stats - cycle={cycle} candidates={total_c} applied={applied_c} "
         f"cost=${cost:.3f} a_runs={a_runs}"
     )
 
@@ -303,7 +306,11 @@ def main():
     log.info(f"Message body:  {body}")
 
     # ── Find PDF ──────────────────────────────────────────────────────────────
-    pdf_path = OUTPUT_DIR / f"claire_digest_{digest_date}.pdf"
+    # Glob the newest digest rather than reconstructing the name. The digest
+    # filename carries a _c{cycle} suffix (claire_output.py) that exact-name
+    # reconstruction missed; globbing cannot drift out of sync with the namer.
+    _digests = sorted(OUTPUT_DIR.glob("claire_digest_*.pdf"))
+    pdf_path = _digests[-1] if _digests else OUTPUT_DIR / f"claire_digest_{digest_date}.pdf"
     use_attachment = False
 
     if pdf_path.exists():
@@ -313,11 +320,11 @@ def main():
             log.info(f"PDF found and within size limit ({size:,} bytes)")
         else:
             log.warning(
-                f"PDF exceeds {PDF_SIZE_LIMIT:,} bytes ({size:,}) — "
+                f"PDF exceeds {PDF_SIZE_LIMIT:,} bytes ({size:,}) - "
                 f"sending text-only notification"
             )
     else:
-        log.warning(f"PDF not found at {pdf_path} — sending text-only notification")
+        log.warning(f"PDF not found at {pdf_path} - sending text-only notification")
 
     # ── Send ──────────────────────────────────────────────────────────────────
     try:
