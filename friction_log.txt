@@ -494,3 +494,37 @@ Engine also reported 73 change_log entries; canonical count is 59. Pattern:
 CLAIRE-A fabricates schema defects and miscounts entries when candidate batch
 is empty. Consistent across cycle 10 empty digest and this run. Not a
 pipeline failure — a CLAIRE-A hallucination pattern on zero-input batches.
+# === CYCLE 13 (2026-07-19) ===
+
+2026-07-19 | cycle audit | config.pipeline.current_cycle frozen | HIGH
+current_cycle stuck at 10 across four consecutive runs (06-28, 07-05, 07-12,
+07-19). True cycle by cadence is 13 (change_log max cycle 8 = 06-14, weekly, no
+skips). Manual pre-Sunday increment failed silently every week since it last
+moved for 06-28. cycle_state.json last_completed_cycle was a config mirror
+(claire_output.py wrote current_cycle verbatim into it), so the intended
+independent witness inherited the freeze and read 10 too. The comment block
+above the write site documented a separation-of-concerns safeguard the code did
+not implement. Caught only by a human subtracting dates against digest filenames
+(_c10 x4). Fix (Counter Fix A, commit 88a7808): claire_output.py derives the run
+cycle from cycle_state.last_completed_cycle + 1; cycle_state becomes the sole
+output-path cycle owner; one-time correction 10->13. config.pipeline.current_cycle
+orphaned at 10, retire next session. Notify path (commit 1282c37) repointed to
+cycle_state to match.
+
+2026-07-19 | digest review | cross-run dedup failed within a single cycle | MEDIUM
+07-19 digest promoted three HIGH profile candidates from five distinct source
+posts; HN 48875494 was load-bearing in all three, and three of five (48677917,
+48538686, 48875494) were recycled from 07-05/07-12 cycles already dispositioned.
+All four CLAIRE-A candidates tagged SOURCE_NEW with zero prior appearances. The
+dedup soft spot (raw_posts.json / actions/cache@v4) now fires inside one digest,
+not just across weeks. c8-process-003 (source-URL suppression, code shipped
+2d75cd3, entry written this cycle 85d9444) addresses the cross-cycle case; the
+within-cycle case may need the same suppression applied at synthesis, not just
+assembler. Also this cycle: CLAIRE-A cited c7-prof-001 as the harm-threshold
+basis; that ID does not exist (live change_log has only c7-process-001; the
+harm-threshold language is c6-prof-003). Confabulated citation - same CLAIRE-A
+fabrication pattern logged 2026-06-28 (invented schema defect, miscounted entries
+73 vs 59) and 2026-06-02 (ALREADY_APPLIED over-generalization). Pattern now three
+cycles deep: engine fabricates plausible-but-false artifacts (citations, schema
+claims, counts); treat as confabulation-prone on any self-referential claim not
+verified against the live file.
