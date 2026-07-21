@@ -74,13 +74,25 @@ CAPABILITY_DELTA_PATH = DATA_DIR / "candidates_capability_delta.json"
 # Pipeline config
 with open(BASE_DIR / "config.json", encoding="utf-8") as _f:
     _config = json.load(_f)
-current_cycle = _config.get("pipeline", {}).get("current_cycle", 0)
+# current_cycle is NO LONGER read from config here (Counter Fix A, 2026-07-19).
+# config.pipeline.current_cycle froze at 10 for four cycles; it is orphaned.
+# The run cycle is derived from cycle_state.json below, after CYCLE_STATE_PATH is defined.
 
 # Machine-written runtime state (v2.1.2). last_completed_cycle is written here
 # after a successful digest build — kept separate from config.json, whose
 # current_cycle is human-incremented in the pre-Sunday ritual. Mixing
 # human-authored and pipeline-written values in one object invites drift.
 CYCLE_STATE_PATH = DATA_DIR / "cycle_state.json"
+
+# Counter Fix A (2026-07-19): cycle_state.json is the sole owner of output-path
+# cycle identity. Run cycle is last_completed + 1. config.pipeline.current_cycle
+# is no longer consulted; it was a human-incremented field that froze silently.
+try:
+    with open(CYCLE_STATE_PATH, encoding='utf-8') as _csf:
+        _prior_state = json.load(_csf)
+    current_cycle = int(_prior_state['last_completed_cycle']) + 1
+except (FileNotFoundError, KeyError, ValueError) as _e:
+    raise SystemExit(f'cycle_state.json unreadable or missing last_completed_cycle: {_e}')
 
 # Waterton brand colors
 NAVY        = RGBColor(0x1E, 0x3A, 0x5F)
