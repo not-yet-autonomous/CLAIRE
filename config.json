@@ -4,7 +4,7 @@
     "version": "0.1.0",
     "run_schedule": "weekly",
     "run_day": "sunday",
-    "current_cycle": 10
+    "_current_cycle_retired": "current_cycle removed 2026-07-26. Orphaned at 10 since the four-week freeze; unread by any code path since Counter Fix A (88a7808, 2026-07-19). Cycle identity is owned by data/cycle_state.json (last_completed_cycle + 1), self-incremented by claire_output.py. Do not re-add this field or re-derive cycle identity from config."
   },
   "ingestion": {
     "comments_per_post": 10,
