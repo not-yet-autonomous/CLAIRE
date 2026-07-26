@@ -629,3 +629,17 @@ one-liners, or put them in a .py file and call it. Note which one broke: every r
 command executed cleanly and the check behind them was the fragile part. Reverse that
 ordering once and the file is modified with no way to confirm what happened.
 
+2026-07-26 | design session | reviewer asserted file contents from partial reads | MEDIUM
+Two instances in one session from the browser-side reviewer, not CLAIRE-A. (1) Claimed
+two drafted friction entries were missing without grepping; one was already present at
+line 588. (2) Read the first 200 characters of a 3234-character data/session_notes.txt
+and concluded the cycle 14 content was absent; the file contained it, appended at the
+end after an unchanged cycle 10 header. Both were caught within one turn by running an
+actual measurement, a grep and a byte count, rather than reading a preview. Distinct
+from the CLAIRE-A confabulation pattern: those claims cite artifacts that do not exist,
+these were claims about real files not read to the end. Same output shape to the
+operator either way. Full file access existed in both cases; a truncated read was
+chosen. Existing hallucination-guard tiering governs sourced claims and citations, not
+assertions about artifacts already in hand. Watch for a third instance before treating
+as a profile-level gap.
+
