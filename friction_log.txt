@@ -584,3 +584,48 @@ only in the claude.ai Settings profile field, single copy, no backup, no version
 history the repo can read. profile_snapshot.txt refresh addresses local runs only;
 GHA placeholder substitution leaves the automated path blind. Structural fix remains
 Open Proposal 2.
+
+2026-07-26 | session close | worked ahead of GHA commit-back, push rejected | LOW
+Six local commits accumulated between the 14:00 UTC cron and the evening session
+close without a prior pull. HANDOFF locked rule 1 requires pulling before editing
+change_log.json or friction_log.txt because GHA commits both back every run. Push
+rejected non-fast-forward. No conflict resulted: the bot commit touched only data/
+state, logs/, and output/. Harmless this time because the run produced no applied
+changes and therefore no change_log write. A cycle with applied entries would have
+conflicted on the file the session spent the most time editing. Also confirmed from
+the incoming diff: claire_a_source_reliability.json absent from the cycle 14
+commit-back, independently corroborating the ledger finding above.
+
+2026-07-26 | session close | commit carried entries its message did not name | LOW
+d927dd4 was staged as an encoding repair plus duplicate-block removal and committed
+with that message, but two uncommitted cycle-14 friction entries were sitting in the
+working file and rode along. The diff read 39 insertions / 34 deletions after
+deleting a fifteen-line block, which only balances because of the passengers.
+Single-variable discipline is enforced on code commits and was not applied to a
+canonical-file commit. Second time in one session a commit carried more than its
+message claimed; the first was CRLF normalization churn, which is unavoidable. This
+one was not. Check git diff --cached before committing a file edited by hand during
+a session.
+
+2026-07-26 | cycle 14 verification | c8-process-003 has never fired | MEDIUM
+data/suppressed_candidates_20260726_150026.json is an empty array. The source-URL
+suppression rule shipped 2d75cd3 in June and has not flagged a candidate in any
+cycle since. Its eval_window is a cadence token requiring a first flag fire, so the
+entry is unevaluated and cannot be evaluated on any calendar; do not treat it as
+validated by age. The empty file also answers the cycle-14 engine note, which offered
+two hypotheses for its own empty batch (suppression working as intended, or intake
+failure upstream) and recommended a scraper-health check next cycle. Neither is
+right: the batch is empty because signal was thin at the cross-reference gate. The
+answer was a zero-length array in a file the engine had just written itself, in the
+same directory as its output. Suppressed-candidate files have been written every
+Sunday since June and none had been opened until today.
+
+2026-07-26 | session execution | multi-line python -c pastes fragment on this console | LOW
+Three multi-line python -c blocks broke mid-paste into PowerShell continuation mode
+during this session. One was a lambda definition inside a verification script;
+nothing ran and nothing changed, but the failure mode is silent partial entry rather
+than an error. Fix: write verification and repair commands as semicolon-separated
+one-liners, or put them in a .py file and call it. Note which one broke: every repair
+command executed cleanly and the check behind them was the fragile part. Reverse that
+ordering once and the file is modified with no way to confirm what happened.
+
