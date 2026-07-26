@@ -50,3 +50,10 @@ content). Fixed via actions/cache@v4 (not repo commit). gitignore negation
 removed. Cache miss expected this run; dedup effective cycle 12.
 
 Expected this run: HN stats fetched > 0 if fix holds. Cache miss on raw_posts.
+
+Cycle 14 suppression: suppressed_candidates_20260726_150026.json is empty.
+c8-process-003 did not fire. Zero-candidate batch traces to thin signal at the
+cross-reference gate, not to source-URL suppression and not to intake. Engine's
+own explanation of its empty batch was unverified and wrong. c8-process-003
+remains unevaluated: cadence token requires a first flag fire, which has not
+occurred since the code shipped 2d75cd3 in June.
