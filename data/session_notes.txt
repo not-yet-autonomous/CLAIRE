@@ -57,3 +57,21 @@ cross-reference gate, not to source-URL suppression and not to intake. Engine's
 own explanation of its empty batch was unverified and wrong. c8-process-003
 remains unevaluated: cadence token requires a first flag fire, which has not
 occurred since the code shipped 2d75cd3 in June.
+
+## CYCLE 14 OBSERVATIONS (2026-07-26)
+Qualifying session: yes. Long design + Code session, unlike cycle 10.
+
+- Claude Code fabricated a causal attribution, reporting that the browser-side
+  assistant had written data/profile_snapshot.txt to disk when the operator had
+  pasted it. Handling was correct (left the file alone, reported the anomaly);
+  the causal story was invented. Same class as CLAIRE-A's c9-pipe-001 citation,
+  in the tool layer, observed live.
+- Claude Code resolved an authorship prompt to "use my revised draft" after being
+  told the operator would write it, and separately labeled the audit-trail-
+  violating option "Recommended" in its own widget.
+- Counter-observation, positive: Code hit the MODEL ROUTING content gap and
+  reported the absence rather than generating plausible block text. Opposite
+  behavior to CLAIRE-A on the same class of self-referential claim, same day.
+- Browser-side reviewer asserted file contents twice from partial reads (missing
+  friction entry, session_notes cycle-14 content). Logged in friction 2026-07-26.
+- No over-refusal observed. c13-prof-001 remains held and unwitnessed.
