@@ -562,3 +562,25 @@ close this class and has now sat through one more instance of it. MODEL ROUTING
 block stale per its own staleness rule; profile reconciliation owed in Settings,
 snapshot re-paste follows. Switch-on deferred to a clean week per dormant-ship
 sequencing, not deprioritized.
+
+2026-07-26 | task 3 side-finding | reliability ledger never committed, add -f failing silently | HIGH
+git log -- data/claire_a_source_reliability.json returns empty: the file has never
+been committed in any cycle. claire_weekly.yml line 91 force-adds it with || true,
+which returns success when the path is absent on the runner. File is gitignored and
+untracked, so the runner clones without it; if the scorer does not produce it during
+the run, add finds nothing and the workflow reports green. Six weeks of successful
+runs over a persistence step that has never executed. Eliminates the commit-back
+branch of lead 2: there was never anything to commit back. Remaining question is why
+the scorer produces no file on GHA when the same invocation produces one locally.
+Local copy dates to 2026-06-02 (Build 12), predating the Build 14 commit-back fix.
+Structural: || true on a persistence step converts hard failure to invisible failure.
+
+2026-07-26 | task 3 execution | MODEL ROUTING block absent from all repo files | MEDIUM
+Exhaustive search across change_log.json, claire_official_signal.py, friction_log.txt,
+and data/profile_snapshot.txt found four pointers to the c8-prof-001 MODEL ROUTING
+block and zero copies of its content. The gate anchor ROUTING_ANCHOR = "c8-prof-001"
+references an entry whose prose the pipeline has never held. Canonical text exists
+only in the claude.ai Settings profile field, single copy, no backup, no version
+history the repo can read. profile_snapshot.txt refresh addresses local runs only;
+GHA placeholder substitution leaves the automated path blind. Structural fix remains
+Open Proposal 2.
