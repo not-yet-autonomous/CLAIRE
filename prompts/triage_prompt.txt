@@ -17,9 +17,6 @@ signal_type:
                         undesirable: over-hedging, ignoring instructions,
                         breaking format, being sycophantic, refusing
                         reasonable requests.
-  feature_praise      — User describes Claude doing something well,
-                        or a workflow/technique that improved their
-                        experience.
   noise               — Rants without actionable signal, pure speculation,
                         jokes, meta-discussion about AI in general,
                         off-topic threads.
@@ -72,7 +69,7 @@ Return a JSON array only. No preamble, no explanation, no markdown fences.
 [
   {
     "post_id": "string",
-    "signal_type": "workflow_gap|behavior_complaint|feature_praise|noise",
+    "signal_type": "workflow_gap|behavior_complaint|noise",
     "persona": "developer|casual|enterprise|researcher",
     "source": "claude_native|competitor_gap|cross_platform_workflow",
     "drop_flag": true,
