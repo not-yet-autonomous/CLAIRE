@@ -528,3 +528,32 @@ fabrication pattern logged 2026-06-28 (invented schema defect, miscounted entrie
 cycles deep: engine fabricates plausible-but-false artifacts (citations, schema
 claims, counts); treat as confabulation-prone on any self-referential claim not
 verified against the live file.
+
+# === CYCLE 14 (2026-07-26) ===
+
+2026-07-26 | cycle 14 run | Counter Fix A production verification | LOW
+First run under Counter Fix A. Digest auto-stamped claire_digest_2026-07-26_c14.pdf
+with matching cover subtitle. Four-week _c10 freeze closed. No manual increment
+performed or required. cycle_state self-increment confirmed on-path.
+
+2026-07-26 | digest review | CLAIRE-A confabulation, fourth consecutive cycle | HIGH
+Engine notes carried three false claims in one block: cited nonexistent c9-pipe-001
+as the source-URL suppression change (real ID c8-process-003); reported 73 applied
+changes against canonical 60; recommended scraper-health verification while its own
+digest reported 57 posts scanned and 32 past prefilter. The 73 figure is a repeat of
+the 2026-06-28 miscount against a then-canonical 59, meaning the same wrong number
+survived a change in ground truth. Pattern is no longer drift, it is a stable
+fabricated constant. Engine self-referential claims are unusable without file check.
+
+2026-07-26 | digest review | profile_snapshot staleness produces false positive | MEDIUM
+Engine flagged c8-prof-001 MODEL ROUTING as 43 days stale and overdue. Arithmetic
+correct against change_log entry date; conclusion wrong against reality, since the
+live profile block was reconciled 2026-07-23. Engine reads change_log and has no view
+of live profile state; profile_snapshot.txt is stale and placeholder-substituted on
+GHA. First concrete false positive from this debt rather than a theoretical one.
+
+2026-07-26 | digest review | feature_praise recurrence, prescribed fix unshipped | MEDIUM
+14 posts, 25% of corpus, zero candidates. Second documented recurrence after the
+2026-06-28 reappearance at 27 posts. The diagnosed fix (remove from triage prompt
+category list, not just keyword map) was carried to cycle 11 build and never shipped.
+Three cycles of quarter-corpus waste on a retired category with a known one-line fix.
