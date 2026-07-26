@@ -1,0 +1,26 @@
+{
+  "_meta": {
+    "generated_at": "2026-07-26T15:00:54.897833+00:00",
+    "session_id": "008c6a48-c559-4e13-a344-cf36c33c8d6b",
+    "model": "claude-opus-4-5",
+    "input_tokens": 25941,
+    "output_tokens": 1171,
+    "parse_success": true
+  },
+  "decision_record": {
+    "session_id": "008c6a48-c559-4e13-a344-cf36c33c8d6b",
+    "engine_version": "1.0.0",
+    "model": "claude-opus-4-5",
+    "evaluated_at": "2026-07-26T15:01:00.000000+00:00",
+    "memory_snapshot_hash": "e3f2bf4a704f0fd8d1c5dc15c4e18f874b9c8f95caf83f3647de25e965048b60",
+    "input_candidate_count": 0,
+    "decisions": [],
+    "apply_count": 0,
+    "skip_count": 0,
+    "defer_count": 0,
+    "session_notes": "Empty candidate batch - no decisions required. Pipeline ran successfully (assembler v2.0.0) with zero candidates entering intake. This is the first cycle since c9-pipe-001 (source URL suppression) was applied on 2026-07-19; an empty batch could indicate the suppression rule is working as intended on a slow signal week, or it could mask intake issues upstream of the assembler. Recommend verifying scraper health if next cycle is also empty. Secondary observation: eval_history remains empty after 73 applied changes - the hypothesis-outcome loop is not closing, which means confidence calibration has no empirical basis. Tertiary observation: model routing block c8-prof-001 is now 43 days old and references models current as of June 2026; if model releases have occurred since then, the block is overdue for review per its own stated maintenance rule.",
+    "escalation_required": false,
+    "escalation_reason": null
+  },
+  "raw_response": null
+}
