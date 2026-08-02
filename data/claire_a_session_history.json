@@ -70,5 +70,23 @@
     "sessions": [
       "da1b7201-566c-4ebe-a449-005c1aac5b45"
     ]
+  },
+  "75609f46debcec92": {
+    "appearances": 1,
+    "first_seen": "2026-08-02T14:59:34.831719+00:00",
+    "last_seen": "2026-08-02T14:59:34.831719+00:00",
+    "last_decision": "skip",
+    "sessions": [
+      "408379aa-23e7-44c2-b16a-971e7304e459"
+    ]
+  },
+  "c2bcd72c08dcabbb": {
+    "appearances": 1,
+    "first_seen": "2026-08-02T14:59:34.831719+00:00",
+    "last_seen": "2026-08-02T14:59:34.831719+00:00",
+    "last_decision": "defer",
+    "sessions": [
+      "408379aa-23e7-44c2-b16a-971e7304e459"
+    ]
   }
 }
