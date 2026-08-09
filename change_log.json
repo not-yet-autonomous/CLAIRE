@@ -891,9 +891,9 @@
       "summary": "Removed the feature_praise definition block and the feature_praise value from the signal_type output enum in prompts/triage_prompt.txt. c7-config-001 retired the category by clearing its keyword map in config.json; the triage model continued inferring it without keyword support. Keyword clearance governs deterministic matching only. The dead feature_praise+claude_native special-case in claire_triage.py and the empty keyword entry in config.json are left in place as separate cleanup.",
       "hypothesis": "Logging a config change as applied does not prove effectiveness without an audit check against output to prove the change valid and functional. c7-config-001 cleared the feature_praise keyword map and was logged closed; the category continued at 27 posts (2026-06-28) and 14 posts (2026-07-26) because the triage model infers it without keyword support. The clock reset on CLAIRE-A graduation cited that retirement as a signal composition change that never occurred. This project verifies code by absence-grep and runs by artifact-read, and has no verification step for config-state changes at all, so every applied entry with a config target is a claim about intent rather than a measurement of effect. Falsification: if feature_praise appears in the cycle 15 digest signal breakdown, the prompt edit was also insufficient and the category is being inferred upstream of the prompt. Revert trigger: any nonzero feature_praise count in a post-fix digest.",
       "source_signal": "Friction 2026-06-28 (diagnosis logged, fix prescribed, carried to cycle 11 build, never shipped). Friction 2026-07-26 (second recurrence). Digest cycle 14: feature_praise 14 posts, 25% of corpus, zero candidates generated.",
-      "eval_status": "pending",
+      "eval_status": "held",
       "eval_window": "per digest; first assessment at cycle 15 signal breakdown",
-      "eval_notes": ""
+      "eval_notes": "Cycle 15 falsification run and cycle 16 both report feature_praise 0. Two consecutive post-fix zeros. Test remains structurally weak: the signal_type enum value was removed, so a zero count cannot distinguish a genuine corpus shift from a label-layer impossibility. Held on the strongest evidence the test can produce."
     }
   ]
 }
