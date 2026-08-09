@@ -88,6 +88,7 @@ cycle advanced underneath the filename. Cycle 14 is the first correct auto-stamp
 | 13 | 2026-07-19 | claire_digest_2026-07-19_c10.pdf | FROZEN (4th `_c10`); freeze diagnosed; Counter Fix A applied |
 | 14 | 2026-07-26 | claire_digest_2026-07-26_c14.pdf | VERIFIED. First correct auto-stamp. cycle_state 14, committed back at 15:00:56Z. |
 | 15 | 2026-08-02 (next) | expect claire_digest_2026-08-02_c15.pdf | Falsification run for c14-process-001 |
+| 16 | 2026-08-09 | claire_digest_2026-08-09_c16.pdf | Counter Fix A third consecutive correct auto-stamp. |
 
 Cycle 14 digest contents, read from the PDF: 57 posts scanned; behavior_complaint
 10, workflow_gap 8, feature_praise 14, competitor_gap 0, cross_platform 0, noise
@@ -233,12 +234,12 @@ CLAIRE\
 | **Frozen cycle counter** | **CLOSED AND VERIFIED.** Cycle 14 auto-stamped from cycle_state; value read off the bot commit-back, not local state. |
 | **CLAIRE-A reliability ledger dead** | **OPEN, HIGH, root cause narrowed.** `git log -- data/claire_a_source_reliability.json` returns empty: the file has never been committed in any cycle. Workflow line 91 force-adds it with `|| true`, which returns success when the path is absent on the runner. The commit-back branch of the diagnosis is eliminated; there was never anything to commit back. Remaining question is why the scorer produces no file on GHA when the same invocation produces one locally. Cycle 14 confirmed it again: the incoming bot diff carried decisions, suppressed candidates, cost log, and cycle state, and no ledger. |
 | **`\|\| true` on persistence steps** | **OPEN, structural.** Converts hard failure into invisible failure. Other force-adds on the same line share the pattern and are masked because those files do land. Grep every `\|\| true` in the workflow. |
-| **CLAIRE-A confabulation** | **STANDING, four cycles deep.** 2026-06-02 ALREADY_APPLIED over-generalization; 2026-06-28 invented schema defect + 73-vs-59 miscount; 2026-07-19 cited nonexistent c7-prof-001; 2026-07-26 cited nonexistent c9-pipe-001, reported 73 applied changes against canonical 60, and recommended scraper-health verification contradicted by its own digest. The 73 figure is now a stable fabricated constant surviving a change in ground truth. Treat every engine self-referential claim as unverified. |
+| **CLAIRE-A confabulation** | **STANDING, six cycles deep.** 2026-06-02 ALREADY_APPLIED over-generalization; 2026-06-28 invented schema defect + 73-vs-59 miscount; 2026-07-19 cited nonexistent c7-prof-001; 2026-07-26 cited nonexistent c9-pipe-001, reported 73 applied changes against canonical 60, and recommended scraper-health verification contradicted by its own digest; 2026-08-09 (cycle 16) cited c9-pipe-001 again, verbatim rather than drifted — a second stable fabricated constant alongside the 73 count. Treat every engine self-referential claim as unverified. |
 | **Engine has no view of live profile state** | **OPEN.** The cycle-14 engine flagged the MODEL ROUTING block stale by dating it from the c8-prof-001 change_log entry (2026-06-13). Its reasoning is invalid; it cannot read the profile. Its conclusion happened to be correct because Opus 5 launched 2026-07-24, two days before the run. Right conclusion, wrong basis. Structural fix is Open Proposal 2. |
 | **MODEL ROUTING block exists in exactly one place** | **OPEN, MEDIUM.** Search across change_log.json, claire_official_signal.py, friction_log.txt, and profile_snapshot.txt found four pointers and zero copies of the content. `ROUTING_ANCHOR = "c8-prof-001"` anchors gate logic to an entry whose prose the pipeline has never held. Canonical text lives only in the claude.ai Settings profile field. No backup, no version history the repo can read. |
 | **Model-event detection 0/4** | **OPEN.** Missed: Opus 4.8 launch, Fable 5 launch, Fable 5 suspension, Opus 5 launch (2026-07-24). Opus 5 was detected by the operator noticing which model a session was running on. The official-signal lane was built for exactly this class and has now sat dormant through one more instance. |
 | **c8-process-003 has never fired** | **OPEN.** Cycle-14 `suppressed_candidates_20260726_150026.json` is an empty array. The eval_window is a cadence token requiring a first flag fire, so the entry is unevaluated and cannot be evaluated on any calendar. Do not treat it as validated by age. The cycle-14 empty batch traces to thin signal at the cross-reference gate, not to suppression and not to intake. |
-| **feature_praise** | **FIX SHIPPED, unverified.** f26c81b removed it from the triage prompt definition block and signal_type enum. Keyword clearance at c7-config-001 was insufficient because the triage model infers the category without keyword support. Downstream grep confirmed no hard-index KeyError risk. Falsification at cycle 15: any nonzero count is a revert trigger. |
+| **feature_praise** | **FIX VERIFIED, two consecutive zeros.** f26c81b removed it from the triage prompt definition block and signal_type enum. Cycle 15 and cycle 16 both report feature_praise 0. c14-process-001 held, not closed: the signal_type enum value was removed, so a zero count cannot distinguish a genuine corpus shift from a label-layer impossibility. |
 | **c5-prof-003 observation gate** | **OVERDUE, four cycles.** The 3-cycle staleness rule (c7-process-001) required retire-or-apply at cycle 13. It was already flagged as hitting the limit in the cycle-10 session notes. The rule fired, was recorded, and nothing acted on it. Decision owed, not investigation. |
 | cost_log upsert not merging | OPEN, MEDIUM. One row per stage; cost total correct, `total_runs` overcounts. Verify claire_utils append_cost_log. |
 | within-cycle dedup failure | OPEN, MEDIUM. 07-19 case. c8-process-003 addresses the cross-cycle case at the assembler; the within-cycle case may need suppression at synthesis. |
@@ -263,10 +264,16 @@ CLAIRE\
    claire_weekly.yml. The ledger has never existed on the repo, so graduation is
    measuring nothing and has been since the clock reset on 06-14.
 
-2. **c5-prof-003 retire-or-apply.** Four cycles past the staleness threshold this
+2. **Semantic-dedup GHA starvation (Proposal 5).** Two consecutive cycles (15, 16)
+   let a HIGH duplicate of c6-prof-014 reach the digest because profile_snapshot_input
+   is placeholder-substituted on GHA, starving the 0.85 semantic filter of real profile
+   content to compare against. The filter is enabled, not broken — it has nothing to
+   compare. Needs a hypothesis before build.
+
+3. **c5-prof-003 retire-or-apply.** Four cycles past the staleness threshold this
    project wrote for itself. A decision, not an investigation. Make it and log it.
 
-3. **MODEL ROUTING reconciliation.** Opus 5 launched 2026-07-24 at $5/$25 per Mtok,
+4. **MODEL ROUTING reconciliation.** Opus 5 launched 2026-07-24 at $5/$25 per Mtok,
    default on Claude Max, positioned near Fable 5 at half the price, with a May 2026
    training cutoff against January 2026 for Fable 5 and Opus 4.8. The block is stale
    by its own staleness rule. Reconcile in Settings, re-stamp, then re-paste the
@@ -275,7 +282,7 @@ CLAIRE\
    evidence the model exists and is default, not evidence it is better on the
    doc-quality axis. That axis stays provisional until community signal arrives.
 
-4. **Official-signal lane switch-on.** No blocker remains except sequencing; flip on
+5. **Official-signal lane switch-on.** No blocker remains except sequencing; flip on
    a clean week. At switch-on: paste the ratified c8-process-002 hypothesis
    (operator-authored, held from the 2026-06-13 design session, do not re-derive),
    write the c8-process-002 entry (pipeline_change, scope process, eval_window
@@ -323,7 +330,14 @@ CLAIRE\
    c7-config-001 and workflow line 91 are two instances that ran for weeks. Candidates
    with an observable digest signature, checkable in one pass: `exclude_keywords`, the
    noise prefilter thresholds, the dev.to tag list. Needs a hypothesis before build.
-4. **Skill-marketplace monitoring (Proposal 3, lowest urgency).** First-party Anthropic
+4. **Semantic-dedup GHA starvation (Proposal 5, NEEDS HYPOTHESIS).**
+   assembler.memory_filter_enabled is true, but profile_snapshot_input is
+   placeholder-substituted on GHA, so the 0.85 semantic filter runs with no real
+   profile content to compare against. Two consecutive cycles (15, 16) let a HIGH
+   duplicate of c6-prof-014 reach the digest as a result. Cycle 16 engine notes
+   compounded the gap by asserting dedup is not performed at all — false; the
+   correct diagnosis is starvation, not absence. Needs a hypothesis before build.
+5. **Skill-marketplace monitoring (Proposal 3, lowest urgency).** First-party Anthropic
    directory only. Third-party aggregators are vet-only leads, never install sources.
 
 ---
