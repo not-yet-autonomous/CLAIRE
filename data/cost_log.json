@@ -1,8 +1,8 @@
 {
   "meta": {
-    "total_runs": 27,
-    "cumulative_cost_usd": 0.7145,
-    "last_updated": "2026-08-02T14:57:52.002785+00:00"
+    "total_runs": 30,
+    "cumulative_cost_usd": 0.833,
+    "last_updated": "2026-08-09T14:28:33.489753+00:00"
   },
   "runs": [
     {
@@ -301,6 +301,39 @@
       "track_a_alert": false,
       "posts_processed": 0,
       "last_updated": "2026-08-02T14:57:52.002785+00:00"
+    },
+    {
+      "run_id": "2026-08-09T14:28:06.923031+00:00",
+      "_match_key": "20260809",
+      "triage_cost_usd": 0.086,
+      "synthesis_cost_usd": 0.0,
+      "assembler_cost_usd": 0.0,
+      "total_cost_usd": 0.086,
+      "track_a_alert": false,
+      "posts_processed": 122,
+      "last_updated": "2026-08-09T14:28:06.923031+00:00"
+    },
+    {
+      "run_id": "2026-08-09T14:28:32.757338+00:00",
+      "_match_key": "20260809",
+      "triage_cost_usd": 0.0,
+      "synthesis_cost_usd": 0.0325,
+      "assembler_cost_usd": 0.0,
+      "total_cost_usd": 0.0325,
+      "track_a_alert": false,
+      "posts_processed": 13,
+      "last_updated": "2026-08-09T14:28:32.757338+00:00"
+    },
+    {
+      "run_id": "2026-08-09T14:28:33.489753+00:00",
+      "_match_key": "20260809",
+      "triage_cost_usd": 0.0,
+      "synthesis_cost_usd": 0.0,
+      "assembler_cost_usd": 0.0,
+      "total_cost_usd": 0.0,
+      "track_a_alert": false,
+      "posts_processed": 0,
+      "last_updated": "2026-08-09T14:28:33.489753+00:00"
     }
   ]
 }

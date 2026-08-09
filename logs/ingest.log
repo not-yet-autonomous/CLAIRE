@@ -775,3 +775,64 @@
 14:56:24  INFO      CLAIRE ingest complete.
 14:56:24  INFO      Run summary: {'run_at': '2026-08-02T14:54:00.396212+00:00', 'source': 'gha', 'dry_run': False, 'existing_posts': 63, 'new_posts': 42, 'total_posts': 105, 'hn_new': 37, 'forum_new': 5}
 14:56:24  INFO      Lock released.
+14:24:44  INFO      Lock acquired — PID 2314
+14:24:44  INFO      CLAIRE ingest started — source=gha dry_run=False
+14:24:44  INFO      Loaded 105 existing posts from cache
+14:24:44  INFO      HackerNews search: 'Claude AI'
+14:24:45  INFO      HackerNews search: 'Anthropic Claude'
+14:24:46  INFO      HackerNews search: 'Claude assistant'
+14:24:47  INFO      HackerNews search: 'Claude vs ChatGPT'
+14:24:48  INFO      HackerNews search: 'Claude model'
+14:24:49  INFO      HackerNews stats: {'fetched': 150, 'prefiltered': 78, 'deduplicated': 48, 'new': 24}
+14:24:49  INFO      HN comments [1/24] hn_49230276
+14:24:49  INFO      HN comments [2/24] hn_49210416
+14:24:50  INFO      HN comments [3/24] hn_49209087
+14:24:51  INFO      HN comments [4/24] hn_49207397
+14:24:51  INFO      HN comments [5/24] hn_49203707
+14:24:52  INFO      HN comments [6/24] hn_49197665
+14:24:53  INFO      HN comments [7/24] hn_49186116
+14:24:54  INFO      HN comments [8/24] hn_49173799
+14:24:54  INFO      HN comments [9/24] hn_49168496
+14:24:55  INFO      HN comments [10/24] hn_49168002
+14:24:56  INFO      Burst protection — sleeping 15s after 10 comment fetches.
+14:25:11  INFO      HN comments [11/24] hn_49157997
+14:25:12  INFO      HN comments [12/24] hn_49151751
+14:25:13  INFO      HN comments [13/24] hn_49148070
+14:25:13  INFO      HN comments [14/24] hn_49147270
+14:25:14  INFO      HN comments [15/24] hn_49182903
+14:25:15  INFO      HN comments [16/24] hn_49147271
+14:25:16  INFO      HN comments [17/24] hn_49157807
+14:25:16  INFO      HN comments [18/24] hn_46935573
+14:25:17  INFO      HN comments [19/24] hn_49227253
+14:25:18  INFO      HN comments [20/24] hn_49220827
+14:25:19  INFO      Burst protection — sleeping 15s after 20 comment fetches.
+14:25:34  INFO      HN comments [21/24] hn_49214994
+14:25:35  INFO      HN comments [22/24] hn_49209747
+14:25:35  INFO      HN comments [23/24] hn_49198472
+14:25:36  INFO      HN comments [24/24] hn_49157983
+14:25:37  INFO      HackerNews: 24 new posts
+14:25:39  INFO      dev.to tag=anthropic page=1: 30 articles
+14:25:43  INFO      dev.to tag=anthropic page=2: 30 articles
+14:25:46  INFO      dev.to tag=claudeai page=1: 30 articles
+14:25:50  INFO      dev.to tag=claudeai page=2: 30 articles
+14:25:54  INFO      dev.to tag=claude page=1: 30 articles
+14:25:57  INFO      dev.to tag=claude page=2: 30 articles
+14:26:01  INFO      dev.to tag=llm page=1: 30 articles
+14:26:04  INFO      dev.to tag=llm page=2: 30 articles
+14:26:08  INFO      dev.to tag=aitools page=1: 30 articles
+14:26:12  INFO      dev.to tag=aitools page=2: 30 articles
+14:26:15  INFO      dev.to tag=machinelearning page=1: 30 articles
+14:26:19  INFO      dev.to tag=machinelearning page=2: 30 articles
+14:26:23  INFO      dev.to tag=ai page=1: 30 articles
+14:26:26  INFO      dev.to tag=ai page=2: 30 articles
+14:26:30  INFO      dev.to tag=chatgpt page=1: 30 articles
+14:26:34  INFO      dev.to tag=chatgpt page=2: 30 articles
+14:26:37  INFO      dev.to tag=productivity page=1: 30 articles
+14:26:41  INFO      dev.to tag=productivity page=2: 30 articles
+14:26:42  INFO      dev.to stats: {'fetched': 540, 'prefiltered': 464, 'deduplicated': 70, 'new': 6}
+14:26:42  INFO      dev.to: 6 new posts
+14:26:42  INFO      dev.to: 6 new posts
+14:26:42  INFO      Saved 135 posts → /home/runner/work/CLAIRE/CLAIRE/data/raw_posts.json
+14:26:42  INFO      CLAIRE ingest complete.
+14:26:42  INFO      Run summary: {'run_at': '2026-08-09T14:24:44.696183+00:00', 'source': 'gha', 'dry_run': False, 'existing_posts': 105, 'new_posts': 30, 'total_posts': 135, 'hn_new': 24, 'forum_new': 6}
+14:26:42  INFO      Lock released.
