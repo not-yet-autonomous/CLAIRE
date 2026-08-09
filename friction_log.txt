@@ -643,3 +643,36 @@ chosen. Existing hallucination-guard tiering governs sourced claims and citation
 assertions about artifacts already in hand. Watch for a third instance before treating
 as a profile-level gap.
 
+# === CYCLE 16 (2026-08-09) ===
+
+2026-08-09 | digest review | CLAIRE-A confabulation, sixth cycle | HIGH
+Fabricated ID c9-pipe-001 cited again after cycle 14. Second stable fabricated
+constant alongside the 73 count, now repeating verbatim rather than drifting.
+Sixth consecutive cycle of self-referential fabrication (2026-06-02, 2026-06-28,
+2026-07-19, 2026-07-26 x2 counted as one instance class, now 2026-08-09). Treat
+every engine self-referential claim as unverified until checked against the live
+file.
+
+2026-08-09 | digest review | CLAIRE-A wrong-real-ID citation, distinct failure class | MEDIUM
+Engine cited c6-prof-017 (Opus 4.6 preference, superseded by c8-prof-001) for a
+candidate whose real match is c6-prof-014. Same entry the cycle 15 engine also
+failed to name correctly. Wrong-real-ID is distinct from fabricated-ID: the cited
+ID exists in change_log.json but is not the correct match, versus citing an ID
+that does not exist at all. Recording both failure classes separately rather than
+folding this into the confabulation entry above.
+
+2026-08-09 | digest review | CLAIRE-A false claim on semantic dedup, second consecutive HIGH duplicate reaching digest | HIGH
+Engine asserted semantic dedup is not performed. False against config.json
+assembler.memory_filter_enabled, which is true. The filter runs blind on GHA
+because profile_snapshot_input is placeholder-substituted there, not because it
+is disabled. Second consecutive cycle a HIGH duplicate of c6-prof-014 reached the
+digest as a result. The engine's claim about its own pipeline is wrong in the
+opposite direction from a confabulated ID: here it denies a real, enabled feature
+rather than inventing one.
+
+2026-08-09 | digest review | developer-filter denominator, third consecutive cycle | LOW
+Repeat of the cycle-14 finding: 59 filtered against 48 survivors, measured
+pre-prefilter. Third consecutive cycle the digest does not state which stage each
+count is measured at. Documentation owed, not a fix — the numbers are internally
+consistent once the measurement point is known, they are just not labeled.
+
