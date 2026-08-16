@@ -109,3 +109,15 @@
 14:29:42  INFO      CLAIRE output complete.
 14:29:42  INFO      PDF digest: /home/runner/work/CLAIRE/CLAIRE/output/claire_digest_2026-08-09_c16.pdf
 14:29:42  INFO      Track C: no candidates this cycle — techniques PDF skipped
+14:19:27  INFO      CLAIRE output started — date=2026-08-16  format=pdf
+14:19:27  INFO      Track A candidates loaded from candidates_track_a.json
+14:19:27  INFO      Track B candidates loaded from candidates_track_b.json
+14:19:27  INFO      Track C candidates loaded from candidates_track_c.json
+14:19:27  INFO      CLAIRE-A decisions loaded from claire_a_decisions_20260816_141925.json
+14:19:27  INFO      PDF digest saved → /home/runner/work/CLAIRE/CLAIRE/output/claire_digest_2026-08-16_c17.pdf
+14:19:27  INFO      cycle_state.json updated → last_completed_cycle=17
+14:19:27  INFO      ════════════════════════════════════════════════════════════
+14:19:27  INFO      CLAIRE output complete.
+14:19:27  INFO      PDF digest: /home/runner/work/CLAIRE/CLAIRE/output/claire_digest_2026-08-16_c17.pdf
+14:19:27  INFO      Track C techniques PDF saved → claire_techniques_20260816_141927_c17.pdf
+14:19:27  INFO      Track C techniques PDF: claire_techniques_20260816_141927_c17.pdf
