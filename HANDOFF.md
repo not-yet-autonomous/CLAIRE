@@ -1,9 +1,10 @@
 ---
 > Read this first. Every session. No exceptions.
-> State as of the 2026-07-26 cycle-14 review session (design + Code, seven local
-> commits plus a merge, pushed).
-> Cycle 14 completed on the 2026-07-26 GHA run. Next live event:
-> Sun 2026-08-02 14:00 UTC GHA run = cycle 15.
+> State as of the 2026-08-17 read-only verification session, current through
+> cycle 17. Cycle 15 (2026-08-02) ran unattended, no session review at the time.
+> Cycle 16 (2026-08-09) partial: friction logged (93dc46b), HANDOFF not
+> restamped. Cycle 17 (2026-08-16) ran unattended; this session is its first
+> review. Next live event: Sun 2026-08-23 14:00 UTC GHA run = cycle 18.
 >
 > Verified against git and artifacts this session: a974b74 (retire current_cycle),
 > b84287b (cycle-14 friction block), f26c81b (feature_praise triage fix +
@@ -87,8 +88,9 @@ cycle advanced underneath the filename. Cycle 14 is the first correct auto-stamp
 | 12 | 2026-07-12 | claire_digest_2026-07-12_c10.pdf | FROZEN |
 | 13 | 2026-07-19 | claire_digest_2026-07-19_c10.pdf | FROZEN (4th `_c10`); freeze diagnosed; Counter Fix A applied |
 | 14 | 2026-07-26 | claire_digest_2026-07-26_c14.pdf | VERIFIED. First correct auto-stamp. cycle_state 14, committed back at 15:00:56Z. |
-| 15 | 2026-08-02 (next) | expect claire_digest_2026-08-02_c15.pdf | Falsification run for c14-process-001 |
-| 16 | 2026-08-09 | claire_digest_2026-08-09_c16.pdf | Counter Fix A third consecutive correct auto-stamp. |
+| 15 | 2026-08-02 | claire_digest_2026-08-02_c15.pdf | Falsification run for c14-process-001: feature_praise 0. Unattended cron, no session review at the time. |
+| 16 | 2026-08-09 | claire_digest_2026-08-09_c16.pdf | Counter Fix A third consecutive correct auto-stamp. feature_praise 0, second consecutive zero -- c14-process-001 closed held. Partial session: friction logged, HANDOFF not restamped. |
+| 17 | 2026-08-16 | claire_digest_2026-08-16_c17.pdf | Unattended cron. 159 posts scanned; feature_praise 0 (third consecutive). 90 dev-persona filtered. 0 memory candidates, 1 profile candidate (MEDIUM, output-layer AI-detection-evasion proposal). CLAIRE-A: 2 evaluated, 0 apply / 2 skip. cycle_state last_completed_cycle 17, committed back at 14:19:27Z. |
 
 Cycle 14 digest contents, read from the PDF: 57 posts scanned; behavior_complaint
 10, workflow_gap 8, feature_praise 14, competitor_gap 0, cross_platform 0, noise
