@@ -643,6 +643,7 @@ chosen. Existing hallucination-guard tiering governs sourced claims and citation
 assertions about artifacts already in hand. Watch for a third instance before treating
 as a profile-level gap.
 
+# === CYCLE 15 (2026-08-02) - no review session; unattended cron ===
 # === CYCLE 16 (2026-08-09) ===
 
 2026-08-09 | digest review | CLAIRE-A confabulation, sixth cycle | HIGH
