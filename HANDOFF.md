@@ -1,3 +1,43 @@
+# === CLAIRE — TERMINAL STATE ===
+> This project has concluded. There is no weekly cycle. Do not resume the cron.
+> [CONFIRM NEXT PASS: "concluded" language is provisional; dispositions below are firm.]
+>
+> Final state: cycle 17 (2026-08-16 GHA run) was the last review cycle.
+> Synthesis mission complete: 18 profile revisions shipped, behavioral corpus
+> saturated against available sources, last behavioral change c8-prof-001
+> (2026-06-13). The pipeline achieved its purpose. See README for the full record.
+>
+> COMPONENT DISPOSITIONS (firm, decided 2026-08-17):
+>
+> Official-signal lane: ABANDONED. Built dormant (9ce68da), never switched on.
+>   Closes c8-process-002 and all downstream (hypothesis recovery, v2.2.0 tag,
+>   README lane doc, cadence-token consumer audit). Model-event detection remains
+>   0/4, accepted as permanent won't-fix. Dormant code stays in repo as
+>   abandoned-in-place. If model-event monitoring is ever wanted it moves to the
+>   governance effort; it is not a CLAIRE obligation.
+>
+> CLAIRE-A: FROZEN. Shadow engine never graduated. Reliability ledger was never
+>   committed in any cycle (root cause of non-graduation). Arm frozen, not fixed,
+>   because method-graduation removed its forward purpose. Closes the graduation
+>   clock, the ledger-write bug, the "|| true" persistence-mask obligation, and
+>   the four-cycle confabulation-watch. Code stays; nothing runs it.
+>
+> Monitors: FOLDED INTO GRADUATION. Platform-reliability watch and skill-security
+>   posture migrate to the infrastructure-governance effort as vendor-due-diligence
+>   inputs. Not abandoned; carried forward to the successor work.
+>
+> GHA cron: DISABLED as of this wrap-up. A concluded project does not fire a
+>   weekly job into an unreviewed repo. workflow_dispatch retained for manual runs.
+>
+> SUCCESSOR: The methodology graduates into a governance bundle (three skills:
+>   verification, audit-trail, lifecycle primitives; self-application and
+>   review-desk modes) for the operator's own builds and for reviewing builder
+>   work as the org moves Teams to Enterprise. Authored in its own context, not
+>   here. The method proved portable en route: CLAIRE, then the MSA news scraper
+>   (live), then the governance bundle.
+>
+> Everything below this block is historical record. It describes a running
+> pipeline that no longer runs. Read it as archive, not as instructions.
 ---
 > Read this first. Every session. No exceptions.
 > State as of the 2026-08-17 read-only verification session, current through
