@@ -676,3 +676,29 @@ pre-prefilter. Third consecutive cycle the digest does not state which stage eac
 count is measured at. Documentation owed, not a fix — the numbers are internally
 consistent once the measurement point is known, they are just not labeled.
 
+# === CYCLE 17 (2026-08-16) ===
+
+2026-08-16 | cycle 17 digest review | Track A candidate 1 rejected | MEDIUM
+Sole Track A profile candidate (Output Layer, MEDIUM) proposed producing formal-review
+and external documents to avoid detectable AI stylistic signatures. Rejected: engineering
+output to defeat AI-detection in documents entering SEC review works against disclosure
+and audit-trail integrity. Legitimate kernel (no generic low-variance LLM output in
+deliverables) already covered by c4-prof-002 and c5-prof-001. CLAIRE-A reached the same
+SKIP independently at 75%, CONTRADICTS_MEMORY / HIGH_VARIANCE; its claim that existing
+profile language covers the concern was checked against profile and holds.
+
+2026-08-16 | cycle 17 digest review | CLAIRE-A clean run | MEDIUM
+Engine ran 2 candidates, 0 apply / 2 skip / 0 defer, no confabulation: no invented
+reference IDs, no miscount, no stable-73 artifact, no fabricated schema defect. Breaks the
+four-cycle confabulation streak (06-02, 06-28, 07-19, 07-26). Caveat: the confabulation
+pattern fired hardest on zero-input batches; this was a two-candidate batch, so not a clean
+test of that failure mode. Confidence magnitudes (82/75) still generated against an empty
+reliability ledger. Direction is signal; magnitudes are not.
+
+2026-08-16 | cycle 17 digest review | developer-filter denominator recurrence | LOW
+Digest reports 90 developer-persona posts filtered against 58 non-noise survivors
+(27+28+3). 90 cannot be a subset of 58. Same shape as the cycle-14 finding (34 vs 32). The
+digest does not label which stage each count is measured at. Second documented instance,
+reporting layer not pipeline correctness. Also: Track B prose reads "below evidence
+threshold of 3" beside a competitor_gap count of exactly 3, digest-template wording bug.
+
