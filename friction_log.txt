@@ -1,11 +1,11 @@
-﻿# CLAIRE — Friction Log
+# CLAIRE , Friction Log
 # Human-maintained. Update weekly. 2-4 entries per cycle minimum.
 # Format: YYYY-MM-DD | [context] | [component] | [severity: LOW/MEDIUM/HIGH]
 # Severity: LOW = cosmetic/minor, MEDIUM = precision/quality impact, HIGH = correctness risk
-# Blank weeks score everything MEDIUM next cycle — cross-reference gate loses precision.
+# Blank weeks score everything MEDIUM next cycle , cross-reference gate loses precision.
 # -----------------------------------------------------------------------
 
-# === CYCLE 1 (pipeline validation — no digest review session) ===
+# === CYCLE 1 (pipeline validation , no digest review session) ===
 # No friction entries. Cycle 1 was pipeline build validation only.
 # If behavioral friction was observed during Build 1-4 development, backfill here.
 
@@ -21,56 +21,56 @@ Em dash suppression added as memory edit after profile-level instruction alone p
 CLAIRE-A completed first decision cycle but had no eval history to calibrate against. All confidence scores are first-cycle estimates with no reliability ledger backing. Applied candidates carry higher uncertainty than the confidence numbers suggest. Score hypotheses across next 5 cycles before treating CLAIRE-A confidence tiers as reliable signal.
 
 2026-05-05 | profile update | Audit mode scope | LOW
-Audit mode added as new named mode in profile. Scope defined as artifact-level completeness gate. Boundary with Frenemy and Steelman modes is clear in definition but may blur in practice — user may invoke wrong mode for hallucination-checking tasks. Monitor for mode confusion before next profile revision.
+Audit mode added as new named mode in profile. Scope defined as artifact-level completeness gate. Boundary with Frenemy and Steelman modes is clear in definition but may blur in practice , user may invoke wrong mode for hallucination-checking tasks. Monitor for mode confusion before next profile revision.
 
 # === CYCLE 3 (2026-05-10) ===
 
 2026-05-10 | digest review session | CLAIRE-A candidate redundancy | MEDIUM
-CLAIRE-A engine flagged its own redundancy: 5 of 15 candidates in this cycle duplicated same-day memory entries already applied or clearly present in memory state. Cross-reference gate is not currently filtering against live memory_state before generating candidates. Precision loss is real — engine deferred legitimate candidates and burned cycles on already-applied ones. Investigate memory_state injection into triage stage before Build 8.
+CLAIRE-A engine flagged its own redundancy: 5 of 15 candidates in this cycle duplicated same-day memory entries already applied or clearly present in memory state. Cross-reference gate is not currently filtering against live memory_state before generating candidates. Precision loss is real , engine deferred legitimate candidates and burned cycles on already-applied ones. Investigate memory_state injection into triage stage before Build 8.
 
 2026-05-10 | digest review session | technique candidate routing | LOW
 Three Track C technique candidates (framework-request, portable context file, tool specialization splitting) are categorically user-behavior advice, not profile or memory config changes. They routed through the same output stream as config candidates and required manual triage during review. CLAIRE-A noted this in engine session notes. Separate output stream or category tag warranted before signal volume increases in Build 8.
 
 2026-05-10 | hallucination-guard skill build | skill naming convention | LOW
-Packager requires kebab-case skill names. SKILL.md was initially drafted with underscore (hallucination_guard) matching CLAIRE-A's internal candidate reference. Caught at validation — minor delay. Add kebab-case naming convention to CLAIRE skill draft template and skill_drafts/ README to prevent repeat.
+Packager requires kebab-case skill names. SKILL.md was initially drafted with underscore (hallucination_guard) matching CLAIRE-A's internal candidate reference. Caught at validation , minor delay. Add kebab-case naming convention to CLAIRE skill draft template and skill_drafts/ README to prevent repeat.
 
 2026-05-10 | digest review session | feature_praise signal utilization | MEDIUM
 74 feature_praise signals ingested this cycle, 0 candidates generated from that category. No visibility into whether praise signal feeds cross-reference gate weighting or is simply dropped after triage. If dropped, it represents ~15% of signal volume with zero pipeline value. Confirm whether praise category contributes to cross-reference scoring. If not, consider reducing ingest scope or repurposing the category as a baseline confidence modifier for behavior_complaint signals about the same features.
 
 # === CYCLE 4 (2026-05-19) ===
 
-2026-05-19 | file audit | claire_triage.py — friction_log path | HIGH
-FRICTION_LOG_PATH was hardcoded to data/friction_log.txt. The actual live log lives at root. All three live cycles (2, 3, 4) ran the cross-reference gate against the original April 26 example template. No real friction context was ever injected. Confidence scores for all applied changes are understated where friction log corroboration existed. Fix applied 2026-05-19 — takes effect Cycle 5. Historical scores not retroactively adjusted.
+2026-05-19 | file audit | claire_triage.py , friction_log path | HIGH
+FRICTION_LOG_PATH was hardcoded to data/friction_log.txt. The actual live log lives at root. All three live cycles (2, 3, 4) ran the cross-reference gate against the original April 26 example template. No real friction context was ever injected. Confidence scores for all applied changes are understated where friction log corroboration existed. Fix applied 2026-05-19 , takes effect Cycle 5. Historical scores not retroactively adjusted.
 
-2026-05-19 | file audit | change_log.json — canonical path and truncation | HIGH
-change_log.json canonical was documented in HANDOFF as data/change_log.json. Actual canonical (v1.1 schema, Cycles 2-4) lives at root. Root file was truncated mid-write after c3-prof-003 — Cycle 4 entries documented in HANDOFF but never written to file. Repaired 2026-05-19. data/change_log.json renamed to data/change_log_v1_legacy.json.
+2026-05-19 | file audit | change_log.json , canonical path and truncation | HIGH
+change_log.json canonical was documented in HANDOFF as data/change_log.json. Actual canonical (v1.1 schema, Cycles 2-4) lives at root. Root file was truncated mid-write after c3-prof-003 , Cycle 4 entries documented in HANDOFF but never written to file. Repaired 2026-05-19. data/change_log.json renamed to data/change_log_v1_legacy.json.
 
-2026-05-19 | file audit | HANDOFF.md — undocumented operational files | MEDIUM
-claire_utils.py, cost_log.json, candidates_track_a/b/c.json, synthesis.log, output.log, skills/user/ directory all present on disk but absent from HANDOFF directory tree. HANDOFF corrected. No functional impact — files were operational, just undocumented.
+2026-05-19 | file audit | HANDOFF.md , undocumented operational files | MEDIUM
+claire_utils.py, cost_log.json, candidates_track_a/b/c.json, synthesis.log, output.log, skills/user/ directory all present on disk but absent from HANDOFF directory tree. HANDOFF corrected. No functional impact , files were operational, just undocumented.
 
 2026-05-19 | file audit | synthesis/candidate JSON corruption | MEDIUM
-synthesis_queue_track_a/b/c.json and candidates_track_a/c.json have parse errors from truncated writes. Regenerated outputs — re-running triage and synthesis will overwrite cleanly. Deferred to Cycle 5 first run.
+synthesis_queue_track_a/b/c.json and candidates_track_a/c.json have parse errors from truncated writes. Regenerated outputs , re-running triage and synthesis will overwrite cleanly. Deferred to Cycle 5 first run.
 
 # === CYCLE 4 (2026-05-21) ===
 2026-05-21 | GHA migration | reddit ingest | HIGH
-Reddit public JSON endpoints return 403 from GHA datacenter IPs. RSS feeds attempted as fallback — return valid Atom XML with zero entries from GHA IPs despite working locally. Reddit ingestion permanently moved to manual-and-commit. GHA pipeline runs HN + dev.to only (--source forum). Raw_posts.json committed locally after each Reddit ingest run; GHA picks up from triage onward. No automated Reddit signal until a residential proxy or third-party Reddit API solution is evaluated in a future build.
+Reddit public JSON endpoints return 403 from GHA datacenter IPs. RSS feeds attempted as fallback , return valid Atom XML with zero entries from GHA IPs despite working locally. Reddit ingestion permanently moved to manual-and-commit. GHA pipeline runs HN + dev.to only (--source forum). Raw_posts.json committed locally after each Reddit ingest run; GHA picks up from triage onward. No automated Reddit signal until a residential proxy or third-party Reddit API solution is evaluated in a future build.
 
 2026-05-21 | GHA migration | requirements | MEDIUM
-python-dotenv missing from requirements.txt — caused immediate ModuleNotFoundError on first GHA run at ingest step. Was present in local venv from manual install, never added to requirements.txt. Fixed in Build 8 patch. Add dep audit (pip freeze vs requirements.txt diff) to pre-push checklist for future builds.
+python-dotenv missing from requirements.txt , caused immediate ModuleNotFoundError on first GHA run at ingest step. Was present in local venv from manual install, never added to requirements.txt. Fixed in Build 8 patch. Add dep audit (pip freeze vs requirements.txt diff) to pre-push checklist for future builds.
 
 2026-05-21 | GHA migration | claire_a_scorer stdin | MEDIUM
-claire_a_scorer.py reads session notes interactively via stdin when --notes is not provided. Incompatible with unattended GHA execution — exits with error code 1. Fixed by passing --notes data/session_notes.txt in workflow. Session notes file is now a required manual step before each Sunday run: update data/session_notes.txt with weekly behavioral observations, commit, push before cron fires. Blank or placeholder content will produce low-quality scorer output — not a pipeline failure but a signal quality failure.
+claire_a_scorer.py reads session notes interactively via stdin when --notes is not provided. Incompatible with unattended GHA execution , exits with error code 1. Fixed by passing --notes data/session_notes.txt in workflow. Session notes file is now a required manual step before each Sunday run: update data/session_notes.txt with weekly behavioral observations, commit, push before cron fires. Blank or placeholder content will produce low-quality scorer output , not a pipeline failure but a signal quality failure.
 
 2026-05-21 | GHA migration | secrets count | LOW
-Build 8 spec named 8 GitHub Secrets including five Reddit credentials. Correct count is 4 — Reddit ingest was always unauthenticated public JSON, no OAuth credentials ever required. Secrets table corrected in HANDOFF.md. No credentials were unnecessarily exposed; the error was in documentation only.
+Build 8 spec named 8 GitHub Secrets including five Reddit credentials. Correct count is 4 , Reddit ingest was always unauthenticated public JSON, no OAuth credentials ever required. Secrets table corrected in HANDOFF.md. No credentials were unnecessarily exposed; the error was in documentation only.
 
-# === CYCLE 4 — Build 9 session (2026-05-21) ===
+# === CYCLE 4 , Build 9 session (2026-05-21) ===
 
 2026-05-21 | Build 9 execution | OneDrive FUSE mount | HIGH
-Silently truncated large file writes — caused two failed config.json writes before workaround (bash heredoc / Windows-side write). Also appended null-byte padding to HANDOFF.md (1,045 bytes), .git/config (62 bytes), .git/index (130 bytes). Null-byte strip added to session start checklist. Any file written through Cowork file tools on this mount should be treated as suspect until verified.
+Silently truncated large file writes , caused two failed config.json writes before workaround (bash heredoc / Windows-side write). Also appended null-byte padding to HANDOFF.md (1,045 bytes), .git/config (62 bytes), .git/index (130 bytes). Null-byte strip added to session start checklist. Any file written through Cowork file tools on this mount should be treated as suspect until verified.
 
 2026-05-21 | Build 9 execution | git index.lock | MEDIUM
-index.lock held across sessions — likely OneDrive sync, VS Code, or backgrounded git process. Required manual Remove-Item before every commit this session. Check Task Manager for lingering git.exe before future Cowork sessions.
+index.lock held across sessions , likely OneDrive sync, VS Code, or backgrounded git process. Required manual Remove-Item before every commit this session. Check Task Manager for lingering git.exe before future Cowork sessions.
 
 # === CLAIRE GIT SANITIZATION SESSION (2026-05-22) ===
 
@@ -82,12 +82,12 @@ Cowork sandbox .git copy attempt partially wrote refs pointing to sanitized comm
 2026-05-21 | digest review session | feature_praise utilization | HIGH
 Second consecutive cycle with 409 feature_praise signals and zero candidates
 generated. Confirmed dead weight at ~27% of corpus volume. Build 9 must
-resolve — either repurpose as baseline confidence modifier for
+resolve , either repurpose as baseline confidence modifier for
 behavior_complaint signals about same features, or reduce ingest scope.
 
 2026-05-21 | digest review session | c5-mem-003 redundant | LOW
 c5-mem-003 (prompt injection flagging) was proposed as a new memory edit but
-memory entry 22 already covers it. CLAIRE-A did not catch the duplicate —
+memory entry 22 already covers it. CLAIRE-A did not catch the duplicate ,
 cross-reference gate does not check against live memory state before generating
 candidates. Same gap flagged in Cycle 3 (same-day memory filtering). Build 9
 priority confirmed.
@@ -101,10 +101,10 @@ Fan-out prompting pattern (outline + parallel section completions) for long-form
 feature_praise at 47 posts (Cycle 5), 0 candidates generated - second consecutive zero-yield cycle (47 posts in Cycle 3 also produced nothing). Pattern is now confirmed, not a single-cycle anomaly. Design decision pending: reduce ingest scope, or implement as baseline confidence modifier for behavior_complaint signals on the same features. Candidate for Build 8 scope.
 
 2026-05-23 | pre-publish scan | claire_weekly.ps1 | MEDIUM
-Unresolved merge conflict markers (<<<<<<< HEAD / >>>>>>> 236a62f) present in claire_weekly.ps1 at lines 5-16. Not detected until pre-publish sanitization scan. Both sides were functionally identical — only a comment block differed — so runtime behavior was unaffected, but markers would have broken the script and were visible in the public repo. Resolved by keeping the 236a62f version with the .env comment. Add conflict marker check to pre-publish checklist.
+Unresolved merge conflict markers (<<<<<<< HEAD / >>>>>>> 236a62f) present in claire_weekly.ps1 at lines 5-16. Not detected until pre-publish sanitization scan. Both sides were functionally identical , only a comment block differed , so runtime behavior was unaffected, but markers would have broken the script and were visible in the public repo. Resolved by keeping the 236a62f version with the .env comment. Add conflict marker check to pre-publish checklist.
 
 2026-05-23 | pre-publish scan | claire_output.py + claire_weekly.ps1 | MEDIUM
-PDF was specified as the digest output format in architecture documentation since Build 8 reportlab migration, but claire_weekly.ps1 was calling claire_output.py without --format pdf, and the argparse default remained "docx". Pipeline produced .docx digests for every cycle since Build 8 without detection. Fixed by setting default="pdf" in claire_output.py and adding --format pdf to claire_weekly.ps1. Spec/behavior mismatch persisted across multiple cycles — add output format verification to post-run checklist.
+PDF was specified as the digest output format in architecture documentation since Build 8 reportlab migration, but claire_weekly.ps1 was calling claire_output.py without --format pdf, and the argparse default remained "docx". Pipeline produced .docx digests for every cycle since Build 8 without detection. Fixed by setting default="pdf" in claire_output.py and adding --format pdf to claire_weekly.ps1. Spec/behavior mismatch persisted across multiple cycles , add output format verification to post-run checklist.
 
 2026-05-24 | pre-publish scan | README encoding | MEDIUM
 Three encoding corruptions (em dash U+2014, en dash U+2013, arrow U+2192)
@@ -153,7 +153,7 @@ claire_a_runner.py had no dotenv loading -- relied on process-level env var that
 
 # === BUILD 10 (2026-05-31) ===
 2026-05-31 | reddit ingest | source retirement | HIGH
-Reddit RSS feeds began returning 0 entries from residential IPs — previously
+Reddit RSS feeds began returning 0 entries from residential IPs , previously
 only GHA datacenter IPs were blocked. Search JSON endpoints returning 403
 locally. New Reddit app registration blocked. Reddit ingest retired permanently
 in Build 10. Replacement: dev.to tag expansion (ai/25, chatgpt/10,
@@ -163,7 +163,7 @@ productivity/10). Substack previously evaluat
 load_dotenv absent from claire_a_assembler.py. All candidates passed through
 silently on local runs since Build 8. Filter appeared active (no errors raised)
 because AuthenticationError was caught by per-candidate except block and treated
-as pass-through. Suppressed log showed zero entries — indistinguishable from
+as pass-through. Suppressed log showed zero entries , indistinguishable from
 "no duplicates found." Fixed Build 11. Add load_dotenv presence to build
 integration checklist for any script that instantiates an Anthropic client.
 
@@ -185,14 +185,14 @@ All Build 12 items closed cleanly.
 r/JEEAdv26dailyupdates and r/VAClaims appearing as corroborating sources for
 technique candidates. Posts are topically adjacent (AI tool usage) but source
 communities have no relevance to Claude power user or RIA context. Triage
-classifying on topic match only — community context not filtered. All 5
+classifying on topic match only , community context not filtered. All 5
 Track C candidates this cycle are already-implemented or inapplicable. Source
 quality is degrading candidate quality before synthesis even runs. Evaluate
 subreddit allowlist or community relevance filter for Build 10.
 
 2026-06-02 | digest review session | Track C novelty rate | LOW
 0 of 5 technique candidates this cycle actionable against current profile/memory
-state. All either already implemented or too generic. Single-cycle observation —
+state. All either already implemented or too generic. Single-cycle observation ,
 not a threshold trigger yet. Watch next cycle before logging as structural.
 
 2026-06-02 | digest review | corpus contamination | HIGH
@@ -218,7 +218,7 @@ signal. Watch for pattern across cycles.
 # === CYCLE 7 (2026-06-08) ===
 
 2026-06-08 | cycle 7 review | eval baseline tracking | MEDIUM
-No cycle manifest existed — reconstructing which digest
+No cycle manifest existed , reconstructing which digest
 corresponded to which cycle required git log archaeology.
 Eval hypotheses referencing "Cycle 5/6 baseline" were not
 verifiable without it. Fixed: cycle log added to HANDOFF.md
@@ -231,13 +231,13 @@ c3-prof-002 and c3-prof-003 sat queued for 7 cycles with
 observation gates that never triggered. No staleness
 threshold existed to force a decision. Retired this session
 as superseded by profile v13. Lesson: observation gates
-need a 3-cycle staleness limit — force retire-or-apply
+need a 3-cycle staleness limit , force retire-or-apply
 decision at that threshold.
 
 2026-06-08 | cycle 7 review | dead-weight signal category | HIGH
 feature_praise carried at 27-37% corpus volume across 4
 cycles with zero candidates generated. Decision to retire
-was deferred one cycle too long — the threshold should be
+was deferred one cycle too long , the threshold should be
 3 consecutive zero-yield cycles, not 4. Retired as
 c7-config-001. CLAIRE-A graduation clock reset to 10 runs
 from June 14 due to signal composition change.
@@ -250,7 +250,7 @@ via doc cleanup task and memory edit. Root cause: retirement
 was documented in friction_log and locked decisions but not
 scrubbed from procedural sections at time of decision.
 
-# === CYCLE 7 — Build 14 session (2026-06-09) ===
+# === CYCLE 7 , Build 14 session (2026-06-09) ===
 
 2026-06-09 | Fable 5 code audit | GHA commit-back scope | HIGH
 Confirmed: GHA workflow committed only PDF digests. All CLAIRE-A state
@@ -259,7 +259,7 @@ suppressed candidates) were discarded at job end. Compounding consequence:
 scorer auto-selects the just-created decisions file whose eval windows have
 not elapsed, scores nothing, and older eligible files never existed on the
 runner. Reliability ledger structurally unable to grow from GHA runs. Fix
-applied Build 14 — explicit force-adds for enumerated state files in
+applied Build 14 , explicit force-adds for enumerated state files in
 claire_weekly.yml. Takes effect June 14 run.
 
 2026-06-09 | Fable 5 code audit | atomic write pattern | HIGH
@@ -279,10 +279,10 @@ path also never grew the reliability ledger. --notes data/session_notes.txt
 added to local wrapper, matching GHA invocation. Fix applied Build 14.
 
 2026-06-09 | Fable 5 code audit | archive deduplication | MEDIUM
-archive.json accumulated duplicates every run — full historical corpus
+archive.json accumulated duplicates every run , full historical corpus
 re-entered synthesis queues weekly. Clear bug driving gradual synthesis
 cost increase. Dedup by post_id on write applied Build 14. Queue routing
-age window question deferred — requires hypothesis before touching.
+age window question deferred , requires hypothesis before touching.
 
 # === CYCLE 8 (2026-06-13) ===
  
@@ -305,14 +305,14 @@ zero applied entries pre-run, so the June 14 GHA run will title "CLAIRE Cycle 7"
 and count "applied this cycle" against cycle 7 while the run is actually cycle 8.
 Structural, not transient: the two sources only agree in weeks where a change was
 applied before the run. Last session's cycle-reporting fixes aligned config-reading
-consumers but missed this deriving consumer. Fix is Build 10 priority — must land
+consumers but missed this deriving consumer. Fix is Build 10 priority , must land
 before Sunday or the notification ships wrong again.
  
 2026-06-13 | doc sync | CLAUDE.md schema/enum drift | MEDIUM
 CLAUDE.md documented change_log as v1.1 (live is v1.2 with scope field), described
 cycle as a flat config field (live is nested config.pipeline.current_cycle), and
 listed stale enum sets for action/type/scope. First sync attempt this session was
-itself incomplete — fixed schema version and scope/eval_window but left three enum
+itself incomplete , fixed schema version and scope/eval_window but left three enum
 lists stale (action modify/retire, type pipeline_change, scope process). Second pass
 read the live distinct values directly rather than from recall and reconciled fully
 (0d0fc96). Lesson: documenting drift from memory reproduces the drift. Read live
@@ -322,7 +322,7 @@ checklist.
 2026-06-13 | memory audit | generated-summary fabrication | MEDIUM
 The generated Claude memory summary recorded an NVDA Jan 2027 $185 put (entry
 $16.10, full four-part thesis) as a live holding. Operator confirmed the position
-was never held — it was a worked analytical example promoted to a recorded holding
+was never held , it was a worked analytical example promoted to a recorded holding
 during summarization, formatted identically to real positions. Structured memory
 edits were clean; the fabrication lived only in the generated summary layer.
 Guarded by memory edit 20 (narrow: excludes NVDA holdings, preserves NVDA as
@@ -358,7 +358,7 @@ Meta-lesson: gate-decision rationale belongs in canonical files, not the tool's 
 produced four un-noted decisions recovered from chat, and one recorded decision (the WITHDRAW scope) was found wrong
 against the code at write time. Record decisions in friction_log/HANDOFF at decision time.
 
-# === CYCLE 8 — Build 14 / wrap session owed writes (2026-06-13) ===
+# === CYCLE 8 , Build 14 / wrap session owed writes (2026-06-13) ===
 
 2026-06-13 | wrap session | index.lock harness-guard conflict | MEDIUM
 The documented session-start prefix `Remove-Item .git\index.lock
@@ -384,7 +384,7 @@ not invoke -- see 2026-06-14 notify path divergence. The fix is correct and
 unreached in production; cycle_state.json (claire_output.py) is where it proves
 out on-path.
 
-# === CYCLE 8 — June 14 run verification (2026-06-14) ===
+# === CYCLE 8 , June 14 run verification (2026-06-14) ===
 
 2026-06-14 | cycle 8 verification | notify path divergence | HIGH
 GHA "Notify via Pushover" step is an inline curl with hardcoded title=CLAIRE
@@ -432,19 +432,19 @@ applies to checklists, not only to digests.
 
 
 
-2026-06-28 | cycle 10 run | HN ingest — 400 on numericFilters encoding | HIGH
+2026-06-28 | cycle 10 run | HN ingest , 400 on numericFilters encoding | HIGH
 requests.get(params=...) encodes > as %3E; Algolia HN API rejects encoded form.
 Fixed: numericFilters removed from fetch_hn_search (points gating retained via
 noise_prefilter downstream); switched to search_by_date endpoint. safe_get now
 logs response body on non-200. Fix unverified until cycle 11 run.
 
-2026-06-28 | cycle 10 run | raw_posts.json — cross-run dedup never working on GHA | MEDIUM
+2026-06-28 | cycle 10 run | raw_posts.json , cross-run dedup never working on GHA | MEDIUM
 GHA commit-back comment explicitly excluded raw_posts.json (scraped content,
 public repo). gitignore negation from 2026-05-24 was present but unused on GHA
 path. Fixed: GHA cache via actions/cache@v4, negation removed from .gitignore.
 Cache miss expected cycle 11; dedup effective cycle 12. Commit dfdd88a.
 
-2026-06-28 | verification dispatch | claire_ingest.py — fix not in initial commit | MEDIUM
+2026-06-28 | verification dispatch | claire_ingest.py , fix not in initial commit | MEDIUM
 The ingest fix (numericFilters removal, search_by_date switch) was applied and
 tested offline but not staged in the pre-run commit (1773a52). First verification
 dispatch ran against unfixed code, returned 400s identically to cycle 10. Caught
@@ -460,25 +460,25 @@ raw-posts-Linux-28331796118). Cross-run dedup effective from cycle 12.
 
 2026-06-28 | verification dispatch | actions/cache Node 20 deprecation | LOW
 actions/cache@v4 uses Node 20 internally; GHA now runs Node 24 by default.
-Warning logged on every run. Not a failure — cache step completed successfully.
+Warning logged on every run. Not a failure , cache step completed successfully.
 Fix: bump actions/cache@v4 to actions/cache@v5 in claire_weekly.yml. Low
 urgency; will become an error when GitHub retires Node 20 support.
 
 2026-06-28 | verification dispatch digest | feature_praise reappearance | MEDIUM
 feature_praise retired c7-config-001 by clearing keywords to []. Category
 reappears at 27 posts (46% of corpus) in verification dispatch digest.
-Triage model infers the category without keyword matches — keyword clearance
+Triage model infers the category without keyword matches , keyword clearance
 is insufficient. Fix: remove feature_praise from triage prompt category list
 entirely, not just keyword map. Carry to cycle 11 build.
 
 2026-06-28 | verification dispatch digest | CLAIRE-A schema gap fabrication (repeat) | MEDIUM
 Engine reported "memory_edit entries lack summary field, using hypothesis as
-proxy" on second consecutive empty-candidate batch. Claim is false — all
+proxy" on second consecutive empty-candidate batch. Claim is false , all
 memory_edit entries have summary fields (confirmed against change_log.json).
 Engine also reported 73 change_log entries; canonical count is 59. Pattern:
 CLAIRE-A fabricates schema defects and miscounts entries when candidate batch
 is empty. Consistent across cycle 10 empty digest and this run. Not a
-pipeline failure — a CLAIRE-A hallucination pattern on zero-input batches.
+pipeline failure , a CLAIRE-A hallucination pattern on zero-input batches.
 # === CYCLE 13 (2026-07-19) ===
 
 2026-07-19 | cycle audit | config.pipeline.current_cycle frozen | HIGH
@@ -674,7 +674,7 @@ rather than inventing one.
 2026-08-09 | digest review | developer-filter denominator, third consecutive cycle | LOW
 Repeat of the cycle-14 finding: 59 filtered against 48 survivors, measured
 pre-prefilter. Third consecutive cycle the digest does not state which stage each
-count is measured at. Documentation owed, not a fix — the numbers are internally
+count is measured at. Documentation owed, not a fix , the numbers are internally
 consistent once the measurement point is known, they are just not labeled.
 
 # === CYCLE 17 (2026-08-16) ===
@@ -703,3 +703,16 @@ digest does not label which stage each count is measured at. Second documented i
 reporting layer not pipeline correctness. Also: Track B prose reads "below evidence
 threshold of 3" beside a competitor_gap count of exactly 3, digest-template wording bug.
 
+
+# === CLAIRE CONCLUDED (2026-08-17) ===
+
+2026-08-17 | project conclusion | synthesis mission | HIGH
+Behavioral corpus saturated against available sources; last behavioral change
+c8-prof-001 (2026-06-13). Two probes this session for a second act (new ingest
+lane; skill-supersession lane) both resolved to governance-not-synthesis, and at
+actual intake volumes to manual-with-discipline rather than a pipeline. Synthesis
+mission recorded complete. Official-signal lane abandoned (0/4 model events, permanent
+won't-fix). CLAIRE-A frozen (reliability ledger never committed, graduation measured
+nothing). Monitors folded into the successor governance effort. GHA cron disabled.
+Method graduates to an infrastructure-governance bundle. The system correctly
+concluding it was done is itself the final finding.

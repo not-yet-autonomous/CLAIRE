@@ -6,8 +6,8 @@
 A personal AI optimization pipeline. Mines community signal from HackerNews
 and dev.to. Filters it against your behavioral friction patterns.
 Synthesizes configuration candidates across three output types: profile
-diffs (global — apply in claude.ai Settings, take effect across all sessions),
-memory edits (project-scoped — CLAIRE sessions only), and skill installs
+diffs (global , apply in claude.ai Settings, take effect across all sessions),
+memory edits (project-scoped , CLAIRE sessions only), and skill installs
 (scoped to sessions where skills are loaded). Profile diffs are the primary
 output type for behavioral improvement intended to work everywhere. Delivers
 a weekly PDF digest via GitHub Actions with Pushover notification.
@@ -66,7 +66,7 @@ CLAIRE produces three candidate types with different scope:
 | `skill_install` | Sessions where the skill file is loaded | `skills/user/` directory |
 
 **Profile diffs are the primary mechanism for global behavioral improvement.**
-Memory edits are for CLAIRE-specific operational context only — pipeline state,
+Memory edits are for CLAIRE-specific operational context only , pipeline state,
 session protocol, build awareness. If a behavioral change is intended to work
 outside this project, it must be a profile diff.
 
@@ -201,7 +201,7 @@ GHA is the canonical production path.
    `data/profile_snapshot.txt` to match the current profile content,
    commit, and push. The cross-reference gate uses this file to suppress
    candidates already covered by your profile. Running on a stale snapshot
-   produces redundant candidates — not a pipeline failure, a precision failure.
+   produces redundant candidates , not a pipeline failure, a precision failure.
 
 **Sunday 14:00 UTC** (automatic, GitHub Actions)
 
@@ -377,3 +377,30 @@ candidates. One enthusiastic post does not make a configuration change.
 These are not preferences. They are the difference between an optimization
 system and a pipeline that randomly edits your AI configuration based on
 whatever the loudest voices in the corpus were complaining about this week.
+
+
+---
+
+## Project Status: Concluded (2026-08-17)
+
+CLAIRE achieved its purpose and has concluded. Over 17 cycles it produced 18
+profile revisions that measurably changed how Claude behaves in an SEC-registered
+RIA CIO/CTO context: audit and verification modes, an installed hallucination-guard
+skill, functional-equivalent tic suppression, surgical-edit defaults, deliverable
+hygiene rules, a vendor-due-diligence lens, session-handoff tooling, numerical
+self-consistency gates, and a dated self-maintaining model-routing block that
+retired a whole class of version-rot.
+
+The closed loop worked, repeatedly, for months: community signal, triage,
+synthesis, human review, applied change, observed behavior, next cycle. It reached
+saturation against its available sources, which is the signature of a successful
+extraction rather than a failure.
+
+The durable output was the methodology as much as the profile: read-live-write-once,
+single-variable commits, absence-grep before trusting a diff, verify effect against
+intent, human-authored rationale, receipt-before-purchase sequencing. That method
+proved portable , it was carried forward into the live MSA news scraper and now
+graduates into an infrastructure-governance bundle for managing AI builders as the
+organization moves from Teams to Enterprise.
+
+The pipeline is retired. The discipline it forged continues.
